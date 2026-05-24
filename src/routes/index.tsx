@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award, Users, Video, ShoppingBag, CheckCircle, Scissors } from "lucide-react";
+import { Award, Users, Video, ShoppingBag, CheckCircle, Scissors, Star } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -16,16 +17,20 @@ function Index() {
   return (
     <div style={{ backgroundColor: "#fafafa", minHeight: "100vh", color: "#1a1a1a", fontFamily: "sans-serif", margin: 0, padding: 0 }}>
       {/* Hero Section */}
-      <section style={{ backgroundColor: "#d82298", color: "white", padding: "80px 20px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)", fontWeight: "900", marginBottom: "20px", textTransform: "uppercase", lineHeight: "1.1" }}>Curso Cabeleireira Profissional</h1>
-        <p style={{ fontSize: "1.2rem", maxWidth: "800px", margin: "0 auto 30px", opacity: 0.9 }}>
-          Domine Alisamento, Corte e Tonalização com 60 aulas reais gravadas de cursos físicos.
-        </p>
-        <button style={{ backgroundColor: "white", color: "#d82298", padding: "18px 36px", border: "none", borderRadius: "50px", fontSize: "1.1rem", fontWeight: "bold", cursor: "pointer", marginBottom: "50px", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}>
-          GARANTIR MINHA VAGA - R$ 47
-        </button>
-        <div style={{ maxWidth: "850px", margin: "0 auto" }}>
-           <img src={images.hero} alt="Curso Profissional" style={{ width: "100%", height: "auto", borderRadius: "20px", border: "6px solid rgba(255,255,255,0.2)", display: "block", boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }} />
+      <section style={{ backgroundColor: "#d82298", color: "white", padding: "80px 20px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 10 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <h1 style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)", fontWeight: "900", marginBottom: "20px", textTransform: "uppercase", lineHeight: "1.1" }}>Curso Cabeleireira Profissional</h1>
+            <p style={{ fontSize: "1.2rem", maxWidth: "800px", margin: "0 auto 30px", opacity: 0.9 }}>
+              Domine Alisamento, Corte e Tonalização com 60 aulas reais gravadas de cursos físicos.
+            </p>
+            <button style={{ backgroundColor: "white", color: "#d82298", padding: "18px 36px", border: "none", borderRadius: "50px", fontSize: "1.1rem", fontWeight: "bold", cursor: "pointer", marginBottom: "50px", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}>
+              GARANTIR MINHA VAGA - R$ 47
+            </button>
+            <div style={{ maxWidth: "850px", margin: "0 auto" }}>
+               <img src={images.hero} alt="Curso Profissional" style={{ width: "100%", height: "auto", borderRadius: "20px", border: "6px solid rgba(255,255,255,0.2)", display: "block", boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }} />
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -72,7 +77,6 @@ function Index() {
             ))}
           </div>
           <p style={{ marginTop: "50px", fontSize: "1.6rem", fontWeight: "900" }}>Acesso Vitalício: <span style={{ color: "#d82298" }}>R$ 47,00</span></p>
-          <button style={{ marginTop: "30px", backgroundColor: "#d82298", color: "white", padding: "18px 45px", border: "none", borderRadius: "50px", fontSize: "1.2rem", fontWeight: "bold", cursor: "pointer", textTransform: "uppercase" }}>Matricule-se Agora</button>
         </div>
       </section>
 
