@@ -15,7 +15,8 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans relative overflow-x-hidden">
+    <div style={{ position: 'relative', zIndex: 1 }} className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans overflow-x-hidden">
+
       {/* Dynamic Animated Scissors - Professional Floating Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div
