@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Zap, Paintbrush } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.jpg";
 import heroImg from "@/assets/hero-alessandra.jpg";
 
@@ -144,7 +144,7 @@ function Index() {
         </div>
         <div className="grid md:grid-cols-3 gap-12">
           {[
-            { icon: Zap, title: "Alisamento", tag: "Expert", desc: "Progressivas e selagens com brilho real." },
+            { icon: Sparkles, title: "Alisamento", tag: "Expert", desc: "Progressivas e selagens com brilho real." },
             { icon: Scissors, title: "Corte", tag: "Moderno", desc: "Técnicas de corte e visagismo avançado." },
             { icon: Paintbrush, title: "Colorimetria", tag: "Elite", desc: "Domine as cores sem erros de salão." }
           ].map((item, i) => (
