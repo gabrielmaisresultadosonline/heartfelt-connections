@@ -4,7 +4,9 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
-  ssr: {
-    noExternal: ["lucide-react", "framer-motion"]
+  vite: {
+    ssr: {
+      noExternal: ["lucide-react", "framer-motion"]
+    }
   }
 });
