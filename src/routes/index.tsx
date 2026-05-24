@@ -15,69 +15,56 @@ function Index() {
   return (
     <div style={{ backgroundColor: "#fafafa", minHeight: "100vh", color: "#1a1a1a", fontFamily: "sans-serif" }}>
       {/* Hero Section */}
-      <section style={{ backgroundColor: "#d82298", color: "white", padding: "100px 20px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "3.5rem", fontWeight: "900", marginBottom: "20px", textTransform: "uppercase" }}>Curso Cabeleireira Profissional</h1>
-        <p style={{ fontSize: "1.5rem", maxWidth: "800px", margin: "0 auto 40px", opacity: 0.9 }}>
+      <section style={{ backgroundColor: "#d82298", color: "white", padding: "80px 20px", textAlign: "center" }}>
+        <h1 style={{ fontSize: "3rem", fontWeight: "900", marginBottom: "20px", textTransform: "uppercase" }}>Curso Cabeleireira Profissional</h1>
+        <p style={{ fontSize: "1.2rem", maxWidth: "800px", margin: "0 auto 30px" }}>
           Domine Alisamento, Corte e Tonalização com 60 aulas reais gravadas de cursos físicos.
         </p>
-        <button style={{ backgroundColor: "white", color: "#d82298", padding: "20px 40px", border: "none", borderRadius: "50px", fontSize: "1.5rem", fontWeight: "bold", cursor: "pointer", marginBottom: "60px" }}>
+        <button style={{ backgroundColor: "white", color: "#d82298", padding: "15px 30px", border: "none", borderRadius: "30px", fontSize: "1.2rem", fontWeight: "bold", cursor: "pointer", marginBottom: "40px" }}>
           GARANTIR MINHA VAGA - R$ 47
         </button>
-        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-           <img src={images.hero} alt="Hair" style={{ width: "100%", height: "auto", borderRadius: "24px", border: "8px solid rgba(255,255,255,0.2)" }} />
+        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+           <img src={images.hero} alt="Curso de Cabelo" style={{ width: "100%", height: "auto", borderRadius: "20px", border: "4px solid rgba(255,255,255,0.2)" }} />
         </div>
       </section>
 
       {/* Modules */}
-      <section style={{ padding: "80px 20px", maxWidth: "1200px", margin: "0 auto" }}>
-        <h2 style={{ textAlign: "center", fontSize: "2.5rem", color: "#d82298", marginBottom: "60px", fontWeight: "900" }}>O QUE VOCÊ VAI DOMINAR</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "30px" }}>
+      <section style={{ padding: "60px 20px", maxWidth: "1100px", margin: "0 auto" }}>
+        <h2 style={{ textAlign: "center", fontSize: "2rem", color: "#d82298", marginBottom: "40px", fontWeight: "900" }}>O QUE VOCÊ VAI DOMINAR</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "25px" }}>
           {[
-            { title: "Alisamento", img: images.lisos, desc: "Técnicas de progressiva e selagem profissional." },
-            { title: "Cortes", img: images.corte, desc: "Cortes modernos e tendências atuais." },
-            { title: "Tonalização", img: images.tonalizacao, desc: "Colorimetria avançada para resultados incríveis." }
+            { title: "Alisamento", img: images.lisos, desc: "Técnicas de progressiva e selagem." },
+            { title: "Cortes", img: images.corte, desc: "Cortes modernos e tendências." },
+            { title: "Tonalização", img: images.tonalizacao, desc: "Colorimetria avançada profissional." }
           ].map((item, i) => (
-            <div key={i} style={{ backgroundColor: "white", borderRadius: "24px", overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", display: "flex", flexDirection: "column" }}>
-              <img src={item.img} alt={item.title} style={{ width: "100%", height: "300px", objectFit: "cover" }} />
-              <div style={{ padding: "30px", flexGrow: 1, display: "flex", flexDirection: "column" }}>
-                <h3 style={{ fontSize: "1.8rem", fontWeight: "bold", marginBottom: "15px" }}>{item.title}</h3>
-                <p style={{ color: "#666", marginBottom: "20px" }}>{item.desc}</p>
-                <div style={{ marginTop: "auto", color: "#d82298", fontWeight: "bold", fontSize: "0.9rem" }}>
-                  <span>PRÁTICA REAL</span>
-                </div>
+            <div key={i} style={{ backgroundColor: "white", borderRadius: "20px", overflow: "hidden", boxShadow: "0 5px 20px rgba(0,0,0,0.05)", border: "1px solid #eee" }}>
+              <img src={item.img} alt={item.title} style={{ width: "100%", height: "250px", objectFit: "cover" }} />
+              <div style={{ padding: "25px" }}>
+                <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "10px" }}>{item.title}</h3>
+                <p style={{ color: "#666", fontSize: "0.95rem" }}>{item.desc}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Bonus Section */}
-      <section style={{ backgroundColor: "#111", color: "white", padding: "100px 20px", textAlign: "center" }}>
-        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-          <h2 style={{ fontSize: "3rem", marginBottom: "50px", fontWeight: "900" }}>BÔNUS <span style={{ color: "#d82298" }}>EXCLUSIVOS</span></h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px" }}>
-            {[
-              { title: "Certificado MEC" },
-              { title: "Comunidade VIP" },
-              { title: "Fornecedores" },
-              { title: "Aulas Extras" }
-            ].map((bonus, i) => (
-              <div key={i} style={{ padding: "30px", background: "rgba(255,255,255,0.05)", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <div style={{ backgroundColor: "#d82298", width: "60px", height: "60px", borderRadius: "15px", margin: "0 auto 20px" }}></div>
-                <h4 style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{bonus.title}</h4>
-              </div>
-            ))}
-          </div>
-          <p style={{ marginTop: "60px", fontSize: "1.8rem", fontWeight: "bold" }}>Tudo isso com Acesso Vitalício por apenas <span style={{ color: "#d82298" }}>R$ 47,00</span></p>
+      {/* Bonus */}
+      <section style={{ backgroundColor: "#111", color: "white", padding: "60px 20px", textAlign: "center" }}>
+        <h2 style={{ fontSize: "2.5rem", marginBottom: "40px", fontWeight: "900" }}>BÔNUS EXCLUSIVOS</h2>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px", maxWidth: "1000px", margin: "0 auto" }}>
+          {["Certificado MEC", "Grupo VIP", "Fornecedores", "Aulas Extras"].map((bonus, i) => (
+            <div key={i} style={{ padding: "20px", background: "rgba(255,255,255,0.05)", borderRadius: "15px", flex: "1 1 200px" }}>
+              <h4 style={{ fontSize: "1.1rem", fontWeight: "bold", color: "#d82298" }}>{bonus}</h4>
+            </div>
+          ))}
         </div>
+        <p style={{ marginTop: "40px", fontSize: "1.4rem", fontWeight: "bold" }}>Acesso Vitalício: <span style={{ color: "#d82298" }}>R$ 47,00</span></p>
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: "60px 20px", textAlign: "center", color: "#aaa", borderTop: "1px solid #eee" }}>
-        <div style={{ marginBottom: "20px", color: "#d82298", fontWeight: "bold", fontSize: "1.5rem" }}>
-          <span>PROFESSIONAL HAIR</span>
-        </div>
-        <p>&copy; 2026 Professional Hair Course - Todos os direitos reservados</p>
+      <footer style={{ padding: "40px 20px", textAlign: "center", color: "#aaa", fontSize: "0.9rem" }}>
+        <p style={{ color: "#d82298", fontWeight: "bold", fontSize: "1.2rem", marginBottom: "10px" }}>PROFESSIONAL HAIR</p>
+        <p>&copy; 2026 Professional Hair Course</p>
       </footer>
     </div>
   );
