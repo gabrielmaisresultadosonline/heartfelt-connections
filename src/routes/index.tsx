@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { Scissors, Award, Users, Video, ShoppingBag, Gift, CheckCircle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -13,72 +15,84 @@ function Index() {
   };
 
   return (
-    <div style={{ backgroundColor: '#fafafa', minHeight: '100vh', color: '#1a1a1a', fontFamily: 'sans-serif', margin: 0 }}>
+    <div className="bg-[#fafafa] min-h-screen text-gray-900 font-sans">
       {/* Hero Section */}
-      <section style={{ backgroundColor: '#d82298', color: 'white', padding: '100px 20px', textAlign: 'center' }}>
-        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: '900', marginBottom: '20px', textTransform: 'uppercase' }}>CURSO CABELEIREIRA PROFISSIONAL</h1>
-        <p style={{ fontSize: '1.25rem', maxWidth: '800px', margin: '0 auto 40px', opacity: 0.9 }}>
-          Domine Alisamento, Corte e Tonalização com 60 aulas reais gravadas de cursos físicos.
-        </p>
-        <div style={{ marginBottom: '50px' }}>
-          <button style={{ backgroundColor: 'white', color: '#d82298', padding: '20px 40px', border: 'none', borderRadius: '50px', fontSize: '1.25rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}>
-            GARANTIR MINHA VAGA - R$ 47
-          </button>
-        </div>
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-           <img src={images.hero} alt="Hair" style={{ width: '100%', height: 'auto', borderRadius: '30px', boxShadow: '0 30px 60px rgba(0,0,0,0.4)' }} />
+      <section className="bg-[#d82298] text-white py-24 px-6 text-center overflow-hidden">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter italic">CURSO CABELEIREIRA PROFISSIONAL</h1>
+            <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto">
+              Domine Alisamento, Corte e Tonalização com 60 aulas reais gravadas de cursos físicos.
+            </p>
+            <button className="bg-white text-[#d82298] py-6 px-12 rounded-full font-black text-2xl shadow-2xl hover:scale-105 transition-all uppercase mb-16">
+              GARANTIR MINHA VAGA - R$ 47
+            </button>
+            <div className="max-w-4xl mx-auto">
+               <img src={images.hero} alt="Hair" className="rounded-3xl shadow-2xl w-full border-8 border-white/20" />
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Modules */}
-      <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '2.5rem', color: '#d82298', marginBottom: '60px', fontWeight: '900' }}>MÓDULOS DO CURSO</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px' }}>
+      <section className="py-32 px-6 container mx-auto">
+        <h2 className="text-center text-4xl md:text-6xl font-black text-[#d82298] mb-20 uppercase tracking-tighter italic">O QUE VOCÊ VAI DOMINAR</h2>
+        <div className="grid md:grid-cols-3 gap-12">
           {[
-            { title: 'Alisamento Perfeito', img: images.lisos, desc: 'Técnicas de progressiva e selagem profissional.' },
-            { title: 'Cortes Geométricos', img: images.corte, desc: 'Cortes modernos e tendências atuais.' },
-            { title: 'Tonalização Expert', img: images.tonalizacao, desc: 'Colorimetria avançada para resultados incríveis.' }
+            { title: 'Alisamento', img: images.lisos, desc: 'Técnicas de progressiva e selagem profissional.' },
+            { title: 'Cortes', img: images.corte, desc: 'Cortes modernos e tendências atuais.' },
+            { title: 'Tonalização', img: images.tonalizacao, desc: 'Colorimetria avançada para resultados incríveis.' }
           ].map((item, i) => (
-            <div key={i} style={{ backgroundColor: 'white', borderRadius: '30px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.05)', border: '1px solid #eee' }}>
-              <img src={item.img} alt={item.title} style={{ width: '100%', height: '350px', objectFit: 'cover' }} />
-              <div style={{ padding: '40px' }}>
-                <h3 style={{ fontSize: '1.75rem', fontWeight: '900', marginBottom: '15px' }}>{item.title}</h3>
-                <p style={{ color: '#666', lineHeight: '1.6' }}>{item.desc}</p>
+            <motion.div 
+              key={i} 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.2 }}
+              className="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 flex flex-col h-full"
+            >
+              <img src={item.img} alt={item.title} className="w-full h-80 object-cover" />
+              <div className="p-10 flex flex-col flex-grow">
+                <h3 className="text-3xl font-black mb-4 uppercase italic tracking-tighter">{item.title}</h3>
+                <p className="text-gray-500 mb-8">{item.desc}</p>
+                <div className="mt-auto flex items-center gap-2 text-[#d82298] font-bold uppercase text-xs">
+                  <CheckCircle size={16} /> <span>Prática Real</span>
+                </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Bonus / Benefits */}
-      <section style={{ backgroundColor: '#111', color: 'white', padding: '100px 20px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '3rem', marginBottom: '50px', fontWeight: '900' }}>BÔNUS EXCLUSIVOS</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-            <div style={{ padding: '30px', background: 'rgba(255,255,255,0.05)', borderRadius: '20px' }}>
-              <h4 style={{ fontSize: '1.5rem', color: '#d82298' }}>CERTIFICADO</h4>
-              <p>Reconhecido pelo MEC</p>
-            </div>
-            <div style={{ padding: '30px', background: 'rgba(255,255,255,0.05)', borderRadius: '20px' }}>
-              <h4 style={{ fontSize: '1.5rem', color: '#d82298' }}>GRUPO VIP</h4>
-              <p>Com Fornecedores</p>
-            </div>
-            <div style={{ padding: '30px', background: 'rgba(255,255,255,0.05)', borderRadius: '20px' }}>
-              <h4 style={{ fontSize: '1.5rem', color: '#d82298' }}>SUPORTE</h4>
-              <p>Direto com instrutor</p>
-            </div>
+      {/* Bonus Section */}
+      <section className="bg-black text-white py-32 px-6 overflow-hidden">
+        <div className="container mx-auto text-center">
+          <h2 className="text-5xl md:text-7xl font-black mb-20 uppercase tracking-tighter italic">BÔNUS <span className="text-[#d82298]">EXCLUSIVOS</span></h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: Award, title: "Certificado MEC" },
+              { icon: Users, title: "Comunidade VIP" },
+              { icon: ShoppingBag, title: "Fornecedores" },
+              { icon: Gift, title: "Dicas Vendas" }
+            ].map((bonus, i) => (
+              <div key={i} className="bg-white/5 p-10 rounded-3xl border border-white/5 flex flex-col items-center">
+                <div className="bg-[#d82298] p-4 rounded-2xl mb-6">
+                  <bonus.icon size={32} />
+                </div>
+                <h4 className="text-xl font-black uppercase tracking-tighter">{bonus.title}</h4>
+              </div>
+            ))}
           </div>
-          <p style={{ marginTop: '60px', fontSize: '1.5rem', fontWeight: 'bold' }}>Tudo isso com Acesso Vitalício por apenas <span style={{ color: '#d82298' }}>R$ 47,00</span></p>
-          <button style={{ marginTop: '30px', backgroundColor: '#d82298', color: 'white', padding: '20px 50px', border: 'none', borderRadius: '50px', fontSize: '1.5rem', fontWeight: 'bold', cursor: 'pointer' }}>
-            QUERO COMEÇAR HOJE
-          </button>
+          <p className="text-3xl font-black mt-20 uppercase italic tracking-tighter">Acesso Vitalício por apenas <span className="text-[#d82298]">R$ 47,00</span></p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '60px 20px', textAlign: 'center', color: '#aaa', backgroundColor: '#fafafa', borderTop: '1px solid #eee' }}>
-        <p style={{ fontWeight: 'bold', marginBottom: '10px' }}>&copy; 2026 PROFESSIONAL HAIR COURSE</p>
-        <p style={{ fontSize: '0.8rem' }}>Todos os direitos reservados.</p>
+      <footer className="py-20 px-6 text-center border-t border-gray-100">
+        <p className="text-xs text-gray-400 font-black uppercase tracking-[0.4em]">&copy; 2026 Professional Hair Course - Todos os direitos reservados</p>
       </footer>
     </div>
   );
