@@ -15,11 +15,11 @@ function Index() {
         <motion.div
           animate={{ 
             rotate: [0, 360], 
-            x: ["-10vw", "110vw"],
+            x: ["-10vw", "100vw"],
             y: ["10vh", "30vh", "10vh"] 
           }}
           transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-          className="absolute top-0 left-0 opacity-20 z-0 pointer-events-none"
+          className="fixed top-0 left-0 opacity-20 z-0 pointer-events-none"
         >
           <Scissors size={80} />
         </motion.div>
@@ -27,11 +27,11 @@ function Index() {
         <motion.div
           animate={{ 
             rotate: [360, 0], 
-            x: ["110vw", "-10vw"],
+            x: ["90vw", "-10vw"],
             y: ["70vh", "50vh", "70vh"] 
           }}
           transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
-          className="absolute top-0 left-0 opacity-20 z-0 pointer-events-none"
+          className="fixed top-0 left-0 opacity-20 z-0 pointer-events-none"
         >
           <Scissors size={100} />
         </motion.div>
