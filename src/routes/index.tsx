@@ -14,24 +14,24 @@ function Index() {
         {/* Animated Flying Scissors */}
         <motion.div
           animate={{ 
-            rotate: [0, 45, -45, 0], 
+            rotate: [0, 360], 
             x: ["-10vw", "110vw"],
-            y: ["0vh", "20vh", "-10vh", "5vh"] 
+            y: ["10vh", "30vh", "10vh"] 
           }}
-          transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
-          className="absolute top-1/4 left-0 opacity-40 z-0 pointer-events-none"
+          transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+          className="absolute top-0 left-0 opacity-20 z-0 pointer-events-none"
         >
           <Scissors size={80} />
         </motion.div>
 
         <motion.div
           animate={{ 
-            rotate: [0, -45, 45, 0], 
+            rotate: [360, 0], 
             x: ["110vw", "-10vw"],
-            y: ["60vh", "40vh", "80vh", "60vh"] 
+            y: ["70vh", "50vh", "70vh"] 
           }}
-          transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
-          className="absolute bottom-1/4 right-0 opacity-40 z-0 pointer-events-none"
+          transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
+          className="absolute top-0 left-0 opacity-20 z-0 pointer-events-none"
         >
           <Scissors size={100} />
         </motion.div>
