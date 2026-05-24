@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion } from "framer-motion";
-import { Scissors, Award, Users, Video, ShoppingBag, Gift, CheckCircle } from "lucide-react";
+import { Scissors, Award, Users, Video, ShoppingBag, CheckCircle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -14,85 +13,90 @@ function Index() {
     hero: "https://images.unsplash.com/photo-1560869713-7d0a29430039?auto=format&fit=crop&q=80&w=1200",
   };
 
+  const sectionStyle = {
+    padding: '80px 20px',
+    maxWidth: '1200px',
+    margin: '0 auto'
+  };
+
+  const cardStyle = {
+    backgroundColor: 'white',
+    borderRadius: '24px',
+    overflow: 'hidden',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+    display: 'flex',
+    flexDirection: 'column' as const
+  };
+
   return (
-    <div className="bg-[#fafafa] min-h-screen text-gray-900 font-sans">
+    <div style={{ backgroundColor: '#fafafa', minHeight: '100vh', color: '#1a1a1a', fontFamily: 'sans-serif' }}>
       {/* Hero Section */}
-      <section className="bg-[#d82298] text-white py-24 px-6 text-center overflow-hidden">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter italic">CURSO CABELEIREIRA PROFISSIONAL</h1>
-            <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto">
-              Domine Alisamento, Corte e Tonalização com 60 aulas reais gravadas de cursos físicos.
-            </p>
-            <button className="bg-white text-[#d82298] py-6 px-12 rounded-full font-black text-2xl shadow-2xl hover:scale-105 transition-all uppercase mb-16">
-              GARANTIR MINHA VAGA - R$ 47
-            </button>
-            <div className="max-w-4xl mx-auto">
-               <img src={images.hero} alt="Hair" className="rounded-3xl shadow-2xl w-full border-8 border-white/20" />
-            </div>
-          </motion.div>
+      <section style={{ backgroundColor: '#d82298', color: 'white', padding: '100px 20px', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '3.5rem', fontWeight: '900', marginBottom: '20px', textTransform: 'uppercase' }}>Curso Cabeleireira Profissional</h1>
+        <p style={{ fontSize: '1.5rem', maxWidth: '800px', margin: '0 auto 40px', opacity: 0.9 }}>
+          Domine Alisamento, Corte e Tonalização com 60 aulas reais gravadas de cursos físicos.
+        </p>
+        <button style={{ backgroundColor: 'white', color: '#d82298', padding: '20px 40px', border: 'none', borderRadius: '50px', fontSize: '1.5rem', fontWeight: 'bold', cursor: 'pointer', marginBottom: '60px' }}>
+          GARANTIR MINHA VAGA - R$ 47
+        </button>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+           <img src={images.hero} alt="Hair" style={{ width: '100%', height: 'auto', borderRadius: '24px', border: '8px solid rgba(255,255,255,0.2)' }} />
         </div>
       </section>
 
       {/* Modules */}
-      <section className="py-32 px-6 container mx-auto">
-        <h2 className="text-center text-4xl md:text-6xl font-black text-[#d82298] mb-20 uppercase tracking-tighter italic">O QUE VOCÊ VAI DOMINAR</h2>
-        <div className="grid md:grid-cols-3 gap-12">
+      <section style={sectionStyle}>
+        <h2 style={{ textAlign: 'center', fontSize: '2.5rem', color: '#d82298', marginBottom: '60px', fontWeight: '900' }}>O QUE VOCÊ VAI DOMINAR</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
           {[
             { title: 'Alisamento', img: images.lisos, desc: 'Técnicas de progressiva e selagem profissional.' },
             { title: 'Cortes', img: images.corte, desc: 'Cortes modernos e tendências atuais.' },
             { title: 'Tonalização', img: images.tonalizacao, desc: 'Colorimetria avançada para resultados incríveis.' }
           ].map((item, i) => (
-            <motion.div 
-              key={i} 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.2 }}
-              className="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 flex flex-col h-full"
-            >
-              <img src={item.img} alt={item.title} className="w-full h-80 object-cover" />
-              <div className="p-10 flex flex-col flex-grow">
-                <h3 className="text-3xl font-black mb-4 uppercase italic tracking-tighter">{item.title}</h3>
-                <p className="text-gray-500 mb-8">{item.desc}</p>
-                <div className="mt-auto flex items-center gap-2 text-[#d82298] font-bold uppercase text-xs">
-                  <CheckCircle size={16} /> <span>Prática Real</span>
+            <div key={i} style={cardStyle}>
+              <img src={item.img} alt={item.title} style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+              <div style={{ padding: '30px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '15px' }}>{item.title}</h3>
+                <p style={{ color: '#666', marginBottom: '20px' }}>{item.desc}</p>
+                <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: '8px', color: '#d82298', fontWeight: 'bold', fontSize: '0.9rem' }}>
+                  <CheckCircle size={18} /> <span>PRÁTICA REAL</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
 
       {/* Bonus Section */}
-      <section className="bg-black text-white py-32 px-6 overflow-hidden">
-        <div className="container mx-auto text-center">
-          <h2 className="text-5xl md:text-7xl font-black mb-20 uppercase tracking-tighter italic">BÔNUS <span className="text-[#d82298]">EXCLUSIVOS</span></h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <section style={{ backgroundColor: '#111', color: 'white', padding: '100px 20px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: '3rem', marginBottom: '50px', fontWeight: '900' }}>BÔNUS <span style={{ color: '#d82298' }}>EXCLUSIVOS</span></h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
             {[
               { icon: Award, title: "Certificado MEC" },
               { icon: Users, title: "Comunidade VIP" },
               { icon: ShoppingBag, title: "Fornecedores" },
-              { icon: Gift, title: "Dicas Vendas" }
+              { icon: Video, title: "Aulas Extras" }
             ].map((bonus, i) => (
-              <div key={i} className="bg-white/5 p-10 rounded-3xl border border-white/5 flex flex-col items-center">
-                <div className="bg-[#d82298] p-4 rounded-2xl mb-6">
-                  <bonus.icon size={32} />
+              <div key={i} style={{ padding: '30px', background: 'rgba(255,255,255,0.05)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ backgroundColor: '#d82298', width: '60px', height: '60px', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+                  <bonus.icon size={30} />
                 </div>
-                <h4 className="text-xl font-black uppercase tracking-tighter">{bonus.title}</h4>
+                <h4 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{bonus.title}</h4>
               </div>
             ))}
           </div>
-          <p className="text-3xl font-black mt-20 uppercase italic tracking-tighter">Acesso Vitalício por apenas <span className="text-[#d82298]">R$ 47,00</span></p>
+          <p style={{ marginTop: '60px', fontSize: '1.8rem', fontWeight: 'bold' }}>Tudo isso com Acesso Vitalício por apenas <span style={{ color: '#d82298' }}>R$ 47,00</span></p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-20 px-6 text-center border-t border-gray-100">
-        <p className="text-xs text-gray-400 font-black uppercase tracking-[0.4em]">&copy; 2026 Professional Hair Course - Todos os direitos reservados</p>
+      <footer style={{ padding: '60px 20px', textAlign: 'center', color: '#aaa', borderTop: '1px solid #eee' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px', color: '#d82298' }}>
+          <Scissors size={24} />
+          <span style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>PROFESSIONAL HAIR</span>
+        </div>
+        <p>&copy; 2026 Professional Hair Course - Todos os direitos reservados</p>
       </footer>
     </div>
   );
