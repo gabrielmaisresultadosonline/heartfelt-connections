@@ -33,7 +33,7 @@ function Index() {
       </motion.div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[100vh] flex items-center justify-center pt-32 pb-12 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a] z-50">
+      <section className="relative min-h-screen flex items-center justify-center pt-32 pb-12 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a]">
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
         
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
@@ -96,7 +96,7 @@ function Index() {
       </section>
 
       {/* Showcase Grid */}
-      <section className="py-24 px-6 container mx-auto">
+      <section className="py-24 px-6 container mx-auto bg-white">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-4xl md:text-5xl font-black mb-6 text-gray-900 uppercase">Técnicas de Alto Padrão</h2>
           <p className="text-lg text-gray-500">Veja a qualidade do que você vai aprender. Resultados reais e técnicas de vanguarda.</p>
@@ -111,7 +111,7 @@ function Index() {
             <motion.div 
               key={i}
               whileHover={{ y: -10 }}
-              className="bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 group"
+              className="bg-[#fafafa] rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 group"
             >
               <div className="h-80 overflow-hidden relative">
                 <img src={item.img} alt={item.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-110" />
