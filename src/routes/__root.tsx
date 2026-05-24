@@ -31,9 +31,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <HeadContent />
-      <div id="app-root">
-        <Outlet />
-      </div>
+      <Outlet />
+
       <Scripts />
     </QueryClientProvider>
   );
