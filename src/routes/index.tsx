@@ -7,58 +7,89 @@ export const Route = createFileRoute("/")({
 // IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
 // create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
 
+import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { Scissors, Award, Users, Video, Zap, CheckCircle } from "lucide-react";
+
+export const Route = createFileRoute("/")({
+  component: Index,
+});
+
 function Index() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
       {/* Hero Section */}
-      <section className="bg-[#d82298] text-white py-20 px-6 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">Curso de Cabeleireira Profissional</h1>
-        <p className="text-xl md:text-2xl mb-8">Domine Alisamento, Corte e Tonalização. 60 aulas em Full HD para você lucrar muito.</p>
-        <div className="bg-white text-[#d82298] p-8 rounded-lg shadow-xl inline-block">
-          <p className="text-2xl font-bold mb-2">Apenas R$ 47,00</p>
-          <p className="text-sm font-semibold mb-6">Acesso Vitalício</p>
-          <button className="bg-[#d82298] text-white py-3 px-8 rounded-full font-bold text-lg hover:bg-[#a61a73] transition">
-            Quero Me Inscrever Agora!
-          </button>
-        </div>
+      <section className="relative bg-[#d82298] text-white py-24 px-6 text-center overflow-hidden">
+        <motion.div
+          animate={{ rotate: [0, 20, 0], x: [0, 100, 0], y: [0, -100, 0] }}
+          transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+          className="absolute top-20 left-10 opacity-30"
+        >
+          <Scissors size={120} />
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">Curso de Cabeleireira Profissional</h1>
+          <p className="text-xl md:text-2xl mb-12 max-w-2xl mx-auto">Domine Alisamento, Corte e Tonalização. 60 aulas em Full HD para você lucrar muito.</p>
+          
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="bg-white text-[#d82298] p-8 rounded-2xl shadow-2xl inline-block border-8 border-[#f4a9d0]"
+          >
+            <p className="text-3xl font-black mb-2">Apenas R$ 47,00</p>
+            <p className="text-lg font-bold mb-6 uppercase tracking-wider">Acesso Vitalício</p>
+            <button className="bg-[#d82298] text-white py-4 px-10 rounded-full font-bold text-xl hover:bg-black transition shadow-lg">
+              Quero Me Inscrever Agora!
+            </button>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 px-6 container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-16 text-[#d82298]">Por que escolher nosso curso?</h2>
-        <div className="grid md:grid-cols-3 gap-10">
+      {/* Features Grid */}
+      <section className="py-24 px-6 container mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-20 text-[#d82298]">O que você vai conquistar</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
-            { title: "60 Aulas em Full HD", desc: "Conteúdo completo e detalhado passo a passo." },
-            { title: "Certificado MEC", desc: "Valorize seu currículo com certificado reconhecido pelo MEC." },
-            { title: "Suporte VIP", desc: "Grupo exclusivo com fornecedores, dicas e estratégias de vendas." }
-          ].map((b, i) => (
-            <div key={i} className="text-center p-6 border rounded-lg hover:shadow-lg transition">
-              <h3 className="text-xl font-bold mb-3">{b.title}</h3>
-              <p>{b.desc}</p>
-            </div>
+            { icon: Video, title: "60 Aulas", desc: "Conteúdo completo em Full HD." },
+            { icon: Award, title: "Certificado MEC", desc: "Reconhecido em todo Brasil." },
+            { icon: Users, title: "Comunidade VIP", desc: "Fornecedores e estratégias." },
+            { icon: Zap, title: "Vitalício", desc: "Acesse para sempre." }
+          ].map((item, i) => (
+            <motion.div 
+              key={i}
+              whileHover={{ y: -10 }}
+              className="p-8 border-2 border-gray-100 rounded-3xl hover:border-[#d82298] transition-all bg-gray-50 text-center"
+            >
+              <item.icon className="mx-auto mb-6 text-[#d82298]" size={48} />
+              <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+              <p className="text-gray-600">{item.desc}</p>
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Modules Section */}
-      <section className="py-20 px-6 bg-gray-50">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16 text-[#d82298]">O que você vai aprender</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {["Alisamento", "Corte", "Tonalização"].map((m, i) => (
-              <div key={i} className="bg-white p-8 rounded-lg shadow-md border-b-4 border-[#d82298]">
-                <h3 className="text-2xl font-bold text-[#d82298] mb-4">{m}</h3>
-                <p>Domine todas as técnicas essenciais para se destacar no mercado da beleza.</p>
-              </div>
+      {/* Highlights */}
+      <section className="py-24 px-6 bg-[#fdf2f8]">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-4xl font-bold text-center mb-16">Técnicas que você dominará</h2>
+          <ul className="space-y-6">
+            {["Alisamentos modernos e saudáveis", "Cortes com geometria precisa", "Tonalização e colorimetria avançada"].map((item, i) => (
+              <motion.li 
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="flex items-center gap-4 text-2xl font-medium bg-white p-6 rounded-2xl shadow-sm"
+              >
+                <CheckCircle className="text-[#d82298]" /> {item}
+              </motion.li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-10 text-center text-gray-500 text-sm">
-        <p>&copy; 2026 Curso de Cabeleireira. Todos os direitos reservados.</p>
-      </footer>
     </div>
   );
 }
