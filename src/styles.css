@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
-@layer base {
-  body {
-    background-color: #fafafa !important;
-  }
+#app-root {
+  background-color: #fafafa;
+  min-height: 100vh;
 }
+
+
+
 
