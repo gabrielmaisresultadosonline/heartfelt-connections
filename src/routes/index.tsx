@@ -186,9 +186,9 @@ function Index() {
       {/* Final CTA */}
       <footer className="py-40 px-6 text-center bg-[#fafafa] relative z-30">
         <h2 className="text-6xl md:text-[10rem] font-black mb-16 uppercase tracking-tighter leading-[0.8] italic text-[#1a1a1a]">MUDE SUA <br/> <span className="text-[#d82298]">VIDA AGORA.</span></h2>
-        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className="bg-[#d82298] text-white py-10 px-20 rounded-[3.5rem] font-black text-3xl md:text-5xl shadow-[0_40px_80px_rgba(216,34,152,0.5)] uppercase italic tracking-tighter inline-block">
+        <PulseButton className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(21,128,61,0.5)]">
           QUERO MINHA VAGA!
-        </motion.button>
+        </PulseButton>
         <p className="mt-20 text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">&copy; 2026 TODOS OS DIREITOS RESERVADOS</p>
       </footer>
     </div>
