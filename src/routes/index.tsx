@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Sparkles, Gift, Zap, ShieldCheck } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Sparkles, Gift, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -16,7 +16,7 @@ function Index() {
 
   return (
     <div className="bg-[#fafafa] text-[#1a1a1a] font-sans relative overflow-x-hidden min-h-screen">
-      {/* Background Animated Elements - The "Professional Effects" */}
+      {/* Dynamic Animated Scissors Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div
           animate={{ rotate: 360, x: ["-10vw", "110vw"], y: ["10vh", "40vh", "10vh"] }}
@@ -46,12 +46,12 @@ function Index() {
               <Star size={16} className="text-yellow-300 fill-yellow-300" />
               <span className="text-xs font-black uppercase tracking-widest text-white">Formação Profissional de Elite</span>
             </div>
-            <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[0.95] tracking-tighter text-white">
+            <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[0.95] tracking-tighter text-white drop-shadow-xl">
               DOMINE A ARTE <br/>
               <span className="text-white/80 uppercase italic">DAS TESOURAS</span>
             </h1>
             <p className="text-xl md:text-2xl mb-12 opacity-95 max-w-xl font-light mx-auto lg:mx-0">
-              60 aulas reais gravadas de cursos físicos presenciais. Aprenda tudo na prática.
+              60 aulas reais gravadas de cursos físicos presenciais. Domine Alisamento, Corte e Tonalização.
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
             </p>
             
@@ -59,13 +59,13 @@ function Index() {
               <motion.button 
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-[#d82298] py-6 px-12 rounded-[2.5rem] font-black text-2xl shadow-2xl transition-all uppercase italic tracking-tighter"
+                className="bg-white text-[#d82298] py-6 px-12 rounded-[2.5rem] font-black text-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:bg-gray-50 transition-all uppercase italic tracking-tighter"
               >
                 Garantir Minha Vaga
               </motion.button>
-              <div className="text-center lg:text-left">
-                <p className="text-4xl font-black tracking-tighter leading-none">R$ 47</p>
-                <p className="text-[10px] uppercase font-black tracking-widest opacity-60 mt-1">Acesso Vitalício</p>
+              <div className="bg-black/20 backdrop-blur-md p-6 rounded-3xl border border-white/10">
+                <p className="text-4xl font-black tracking-tighter leading-none text-white">R$ 47</p>
+                <p className="text-[10px] uppercase font-black tracking-widest opacity-60 mt-1 text-white">Acesso Vitalício</p>
               </div>
             </div>
           </motion.div>
@@ -76,7 +76,8 @@ function Index() {
             transition={{ duration: 1, delay: 0.2 }}
             className="relative hidden lg:block"
           >
-            <img src={images.hero} alt="Curso" className="rounded-[4rem] border-[12px] border-white/20 shadow-2xl w-full object-cover aspect-[4/5]" />
+            <img src={images.hero} alt="Curso Profissional" className="rounded-[4rem] border-[12px] border-white/20 shadow-[0_50px_100px_rgba(0,0,0,0.4)] w-full object-cover aspect-[4/5]" />
+            <div className="absolute -top-10 -right-10 w-60 h-60 bg-pink-400 rounded-full blur-[100px] opacity-40 animate-pulse"></div>
           </motion.div>
         </div>
       </section>
@@ -84,7 +85,7 @@ function Index() {
       {/* Modules Showcase */}
       <section className="py-32 px-6 container mx-auto bg-white relative z-30 -mt-10 rounded-[5rem] shadow-2xl mb-20 border border-gray-100">
         <div className="text-center max-w-3xl mx-auto mb-24">
-          <h2 className="text-4xl md:text-7xl font-black mb-6 text-gray-900 uppercase italic tracking-tighter italic">O QUE VOCÊ VAI <span className="text-[#d82298]">DOMINAR</span></h2>
+          <h2 className="text-4xl md:text-7xl font-black mb-6 text-gray-900 uppercase italic tracking-tighter">O QUE VOCÊ VAI <span className="text-[#d82298]">DOMINAR</span></h2>
           <p className="text-xl text-gray-500 font-light tracking-tight">Técnicas profissionais explicadas passo a passo em alta definição.</p>
         </div>
         
@@ -104,9 +105,9 @@ function Index() {
                 <div className="absolute top-8 left-8 bg-[#d82298] text-white text-[10px] font-black uppercase px-4 py-2 rounded-full shadow-lg">{item.tag}</div>
               </div>
               <div className="p-10 flex flex-col flex-grow">
-                <h3 className="text-3xl font-black mb-4 tracking-tighter uppercase italic">{item.title}</h3>
+                <h3 className="text-3xl font-black mb-4 uppercase italic tracking-tighter text-[#1a1a1a]">{item.title}</h3>
                 <p className="text-gray-500 leading-relaxed mb-8 flex-grow">{item.desc}</p>
-                <div className="flex items-center gap-3 text-[#d82298] font-black uppercase text-xs tracking-widest border-t border-gray-100 pt-6">
+                <div className="flex items-center gap-3 text-[#d82298] font-black uppercase text-xs tracking-widest border-t border-gray-100 pt-8">
                   <CheckCircle size={20} /> <span>Prática Real</span>
                 </div>
               </div>
@@ -127,14 +128,14 @@ function Index() {
               { icon: Gift, title: "Dicas Vendas" }
             ].map((bonus, i) => (
               <motion.div key={i} whileHover={{ scale: 1.05 }} className="bg-white/5 p-10 rounded-[3rem] border border-white/5 flex flex-col items-center">
-                <div className="bg-[#d82298] p-5 rounded-2xl mb-8">
-                  <bonus.icon size={36} />
+                <div className="bg-[#d82298] p-5 rounded-2xl mb-8 shadow-[0_0_30px_rgba(216,34,152,0.3)]">
+                  <bonus.icon size={36} className="text-white" />
                 </div>
-                <h4 className="text-2xl font-black uppercase tracking-tighter">{bonus.title}</h4>
+                <h4 className="text-2xl font-black uppercase tracking-tighter text-white">{bonus.title}</h4>
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício por apenas <span className="text-[#d82298]">R$ 47,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício por <span className="text-[#d82298]">R$ 47,00</span></p>
         </div>
       </section>
 
