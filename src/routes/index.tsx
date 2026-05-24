@@ -66,10 +66,11 @@ function Index() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a] z-10">
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a] z-[50]">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
         
-        <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-20">
+        <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-[60]">
+
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
