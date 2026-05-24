@@ -16,7 +16,8 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-900 font-sans relative">
+    <div className="bg-[#fafafa] text-gray-900 font-sans relative overflow-hidden">
+
       {/* Floating Animated Scissors - Fixed Position Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div
