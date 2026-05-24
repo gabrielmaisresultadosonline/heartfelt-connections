@@ -18,6 +18,43 @@ function Index() {
     alessandra: alessandraImg,
   };
 
+  const checkoutUrl = "https://pay.kiwify.com.br/AFMNBej";
+
+  const PulseButton = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+    <motion.a
+      href={checkoutUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      animate={{
+        boxShadow: [
+          "0 0 0 0px rgba(21, 128, 61, 0.4)",
+          "0 0 0 20px rgba(21, 128, 61, 0)",
+        ],
+        backgroundColor: ["#15803d", "#16a34a", "#15803d"],
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      whileHover={{ 
+        scale: 1.05,
+        backgroundImage: "linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%)",
+        backgroundSize: "200% 100%",
+      }}
+      whileTap={{ scale: 0.95 }}
+      className={`bg-[#15803d] text-white font-black shadow-2xl uppercase italic tracking-tighter text-center transition-all duration-300 relative overflow-hidden group ${className}`}
+    >
+      <span className="relative z-10">{children}</span>
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer"
+        initial={{ x: "-100%" }}
+        animate={{ x: "100%" }}
+        transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+      />
+    </motion.a>
+  );
+
   return (
     <div className="bg-[#fafafa] text-[#1a1a1a] font-sans relative overflow-x-hidden min-h-screen">
       {/* Background Animated Elements */}
@@ -55,9 +92,9 @@ function Index() {
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-white text-[#d82298] py-6 px-12 rounded-[2.5rem] font-black text-2xl shadow-2xl uppercase italic tracking-tighter">
+              <PulseButton className="py-6 px-12 rounded-[2.5rem] text-2xl">
                 Garantir Minha Vaga
-              </motion.button>
+              </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-4xl font-black tracking-tighter text-white">R$ 47</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
@@ -149,9 +186,9 @@ function Index() {
       {/* Final CTA */}
       <footer className="py-40 px-6 text-center bg-[#fafafa] relative z-30">
         <h2 className="text-6xl md:text-[10rem] font-black mb-16 uppercase tracking-tighter leading-[0.8] italic text-[#1a1a1a]">MUDE SUA <br/> <span className="text-[#d82298]">VIDA AGORA.</span></h2>
-        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className="bg-[#d82298] text-white py-10 px-20 rounded-[3.5rem] font-black text-3xl md:text-5xl shadow-[0_40px_80px_rgba(216,34,152,0.5)] uppercase italic tracking-tighter inline-block">
+        <PulseButton className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(21,128,61,0.5)]">
           QUERO MINHA VAGA!
-        </motion.button>
+        </PulseButton>
         <p className="mt-20 text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">&copy; 2026 TODOS OS DIREITOS RESERVADOS</p>
       </footer>
     </div>
