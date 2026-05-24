@@ -87,7 +87,7 @@ function Index() {
                 <div className="flex gap-2 mb-2">
                   {[1,2,3,4,5].map(i => <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />)}
                 </div>
-                <p className="text-sm font-medium italic">"Técnicas realistas geradas por IA para o seu sucesso."</p>
+                <p className="text-sm font-medium italic">"Técnicas profissionais e práticas para o seu sucesso."</p>
               </div>
             </div>
             {/* Decorative colored blobs */}
