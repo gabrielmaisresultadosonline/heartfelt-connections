@@ -125,23 +125,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Bonus Section */}
-      <section className="bg-black text-white py-32 px-6 relative overflow-hidden z-20">
-        <div className="container mx-auto text-center">
-          <h2 className="text-5xl md:text-8xl font-black mb-20 uppercase tracking-tighter italic">BÔNUS <span className="text-[#d82298]">EXCLUSIVOS</span></h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[{ icon: Award, title: "Certificado MEC" }, { icon: Users, title: "Grupo VIP" }, { icon: ShoppingBag, title: "Fornecedores" }, { icon: Heart, title: "Dicas de Venda" }].map((bonus, i) => (
-              <motion.div key={i} whileHover={{ scale: 1.05 }} className="bg-white/5 p-10 rounded-[3rem] border border-white/5 flex flex-col items-center">
-                <div className="bg-[#d82298] p-5 rounded-2xl mb-8 shadow-[0_0_30px_rgba(216,34,152,0.3)]">
-                  <bonus.icon size={36} className="text-white" />
-                </div>
-                <h4 className="text-2xl font-black uppercase tracking-tighter text-white">{bonus.title}</h4>
-              </motion.div>
-            ))}
-          </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="text-[#d82298]">R$ 47,00</span></p>
-        </div>
-      </section>
 
       {/* Final CTA */}
       <footer className="py-40 px-6 text-center bg-[#fafafa] relative z-30">
