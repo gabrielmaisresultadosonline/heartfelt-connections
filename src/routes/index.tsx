@@ -55,7 +55,7 @@ function Index() {
             </h1>
             <p className="text-xl md:text-2xl mb-10 opacity-90 max-w-xl font-light leading-relaxed">
               Aprenda Alisamento, Corte e Tonalização com o método que já transformou mais de 5.000 vidas. 
-              <span className="font-bold block mt-2 text-white">60 aulas gravadas em Full HD com IA avançada.</span>
+              <span className="font-bold block mt-2 text-white">60 aulas gravadas de cursos físicos reais em Full HD.</span>
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -87,7 +87,7 @@ function Index() {
                 <div className="flex gap-2 mb-2">
                   {[1,2,3,4,5].map(i => <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />)}
                 </div>
-                <p className="text-sm font-medium italic">"Técnicas realistas geradas por IA para o seu sucesso."</p>
+                <p className="text-sm font-medium italic">"Técnicas profissionais e práticas para o seu sucesso."</p>
               </div>
             </div>
             {/* Decorative colored blobs */}
@@ -106,7 +106,7 @@ function Index() {
         
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { img: images.lisos, title: "Alisamento Espelhado", tag: "Técnica IA" },
+            { img: images.lisos, title: "Alisamento Espelhado", tag: "Prática Real" },
             { img: images.corte, title: "Corte Geométrico", tag: "Moderno" },
             { img: images.tonalizacao, title: "Tonalização Expert", tag: "Colorimetria" }
           ].map((item, i) => (
