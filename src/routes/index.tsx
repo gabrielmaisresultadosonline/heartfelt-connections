@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart } from "lucide-react";
+import alessandraImg from "@/assets/alessandra.jpg";
+
 
 export const Route = createFileRoute("/")({
   component: Index,
