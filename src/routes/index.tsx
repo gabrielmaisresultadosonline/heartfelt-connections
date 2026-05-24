@@ -44,9 +44,10 @@ function Index() {
               <span className="text-xs font-black uppercase tracking-widest text-white">Formação de Elite</span>
             </div>
             <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[0.95] tracking-tighter text-white uppercase italic">
-              Domine as <br/>
-              <span className="text-white/80">Tesouras</span>
+              Curso de <br/>
+              <span className="text-white/80">Cabeleireira Completo</span>
             </h1>
+
             <p className="text-xl md:text-2xl mb-12 opacity-95 max-w-xl font-light mx-auto lg:mx-0 leading-relaxed">
               60 aulas reais gravadas de cursos físicos. Aprenda Alisamento, Corte e Tonalização com quem vive o salão.
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
