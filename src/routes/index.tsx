@@ -16,7 +16,7 @@ function Index() {
   return (
     <div style={{ backgroundColor: "#fafafa", minHeight: "100vh", color: "#1a1a1a", fontFamily: "sans-serif", margin: 0, padding: 0 }}>
       {/* Hero Section */}
-      <section style={{ backgroundColor: "#d82298", color: "white", padding: "60px 20px", textAlign: "center" }}>
+      <section style={{ backgroundColor: "#d82298", color: "white", padding: "80px 20px", textAlign: "center" }}>
         <h1 style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)", fontWeight: "900", marginBottom: "20px", textTransform: "uppercase", lineHeight: "1.1" }}>Curso Cabeleireira Profissional</h1>
         <p style={{ fontSize: "1.2rem", maxWidth: "800px", margin: "0 auto 30px", opacity: 0.9 }}>
           Domine Alisamento, Corte e Tonalização com 60 aulas reais gravadas de cursos físicos.
