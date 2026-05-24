@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.jpg";
+import heroImg from "@/assets/hero-alessandra.jpg";
 
 
 export const Route = createFileRoute("/")({
@@ -13,7 +14,7 @@ function Index() {
     lisos: "https://images.pexels.com/photos/973401/pexels-photo-973401.jpeg?auto=compress&cs=tinysrgb&w=800",
     corte: "https://images.pexels.com/photos/3319333/pexels-photo-3319333.jpeg?auto=compress&cs=tinysrgb&w=800",
     tonalizacao: "https://images.pexels.com/photos/3738339/pexels-photo-3738339.jpeg?auto=compress&cs=tinysrgb&w=800",
-    hero: "https://images.pexels.com/photos/3065209/pexels-photo-3065209.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    hero: heroImg,
     alessandra: alessandraImg,
   };
 
