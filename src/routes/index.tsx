@@ -15,28 +15,28 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-900 overflow-x-hidden font-sans">
-      {/* Floating Elements */}
+    <div className="min-h-screen bg-[#fafafa] text-gray-900 overflow-x-hidden font-sans relative">
+      {/* Floating Elements with lower z-index */}
       <motion.div
         animate={{ rotate: 360, x: ["-10vw", "110vw"], y: ["20vh", "80vh", "20vh"] }}
         transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
-        className="fixed top-0 left-0 opacity-10 z-[100] pointer-events-none text-[#d82298]"
+        className="fixed top-0 left-0 opacity-10 z-[1] pointer-events-none text-[#d82298]"
       >
         <Scissors size={40} />
       </motion.div>
       <motion.div
         animate={{ rotate: -360, x: ["110vw", "-10vw"], y: ["70vh", "10vh", "70vh"] }}
         transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
-        className="fixed top-0 left-0 opacity-10 z-[100] pointer-events-none text-[#d82298]"
+        className="fixed top-0 left-0 opacity-10 z-[1] pointer-events-none text-[#d82298]"
       >
         <Sparkles size={35} />
       </motion.div>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-32 pb-12 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a] z-[1]">
+      {/* Hero Section with higher z-index */}
+      <section className="relative min-h-screen flex items-center justify-center pt-32 pb-12 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a] z-10">
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
         
-        <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-20">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -96,7 +96,7 @@ function Index() {
       </section>
 
       {/* Showcase Grid */}
-      <section className="py-24 px-6 container mx-auto bg-white">
+      <section className="py-24 px-6 container mx-auto bg-white relative z-20">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-4xl md:text-5xl font-black mb-6 text-gray-900 uppercase">Técnicas de Alto Padrão</h2>
           <p className="text-lg text-gray-500">Veja a qualidade do que você vai aprender. Resultados reais e técnicas de vanguarda.</p>
@@ -129,7 +129,7 @@ function Index() {
       </section>
 
       {/* Bonus Section */}
-      <section className="py-24 px-6 bg-gray-900 text-white relative overflow-hidden">
+      <section className="py-24 px-6 bg-gray-900 text-white relative overflow-hidden z-20">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#d82298] skew-x-[-15deg] translate-x-1/4 opacity-10"></div>
         <div className="container mx-auto relative z-10">
           <h2 className="text-4xl md:text-6xl font-black mb-20 text-center uppercase tracking-tighter">Bônus <span className="text-[#d82298]">Exclusivos</span></h2>
@@ -161,7 +161,7 @@ function Index() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 px-6 text-center bg-white relative">
+      <section className="py-32 px-6 text-center bg-white relative z-20">
         <motion.div
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ repeat: Infinity, duration: 4 }}
@@ -186,7 +186,7 @@ function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 bg-gray-50 text-center border-t border-gray-100">
+      <footer className="py-16 bg-gray-50 text-center border-t border-gray-100 relative z-20">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
             <h4 className="text-2xl font-black text-[#d82298] italic uppercase tracking-tighter">Professional Hair</h4>
