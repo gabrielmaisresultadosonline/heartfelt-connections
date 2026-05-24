@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 body {
-  background-color: #fafafa !important;
   margin: 0;
   padding: 0;
 }
+
+
 
 
 
