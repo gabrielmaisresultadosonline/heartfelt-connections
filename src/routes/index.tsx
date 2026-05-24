@@ -111,7 +111,7 @@ function Index() {
       {/* Quem Somos - Alessandra Linhares */}
       <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100">
         <div className="grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
-          <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="relative mx-auto lg:mx-0">
+          <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="relative mx-auto lg:mx-0">
             <div className="rounded-[3rem] overflow-hidden shadow-2xl border-8 border-[#fafafa] max-w-[500px]">
               <img src={images.alessandra} alt="Alessandra Linhares" className="w-full aspect-square object-cover" />
             </div>
@@ -120,7 +120,7 @@ function Index() {
               <p className="text-xs uppercase font-bold tracking-widest mt-2">Experiência Real</p>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="max-w-2xl mx-auto lg:mx-0">
+          <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="max-w-2xl mx-auto lg:mx-0">
             <div className="flex items-center justify-center lg:justify-start gap-2 text-[#d82298] mb-6">
               <Heart className="fill-[#d82298]" size={24} />
               <span className="font-black uppercase tracking-widest text-sm">Legado de Família</span>
