@@ -50,7 +50,7 @@ function Index() {
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer"
         initial={{ x: "-100%" }}
         animate={{ x: "100%" }}
-        transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+        transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
       />
     </motion.a>
   );
