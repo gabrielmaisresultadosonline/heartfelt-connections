@@ -138,6 +138,34 @@ function Index() {
         </div>
       </section>
 
+            <div className="inline-flex items-center gap-2 text-[#d82298] mb-6">
+              <Heart className="fill-[#d82298]" size={20} />
+              <span className="font-black uppercase tracking-widest text-sm text-[#d82298]">De Mãe para Filha</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 uppercase italic tracking-tighter leading-none">
+              QUEM É <br/> <span className="text-[#d82298]">ALESSANDRA LINHARES</span>
+            </h2>
+            <div className="space-y-6 text-lg text-gray-600 font-light leading-relaxed">
+              <p>
+                Olá! Sou <strong>Alessandra Linhares</strong>, fundadora do <span className="text-[#d82298] font-bold underline decoration-2 underline-offset-4">Salão de Beleza AL</span>. 
+                Minha história com as tesouras começou antes mesmo de eu nascer.
+              </p>
+              <p>
+                Cresci vendo minha mãe transformar vidas através do autocuidado e da beleza. Essa paixão foi passada <strong>de mãe para filha</strong>, 
+                e hoje carrego um legado de mais de 10 anos de experiência prática no dia a dia de um salão de sucesso.
+              </p>
+              <p>
+                Neste curso, eu não apenas ensino técnicas; eu entrego a vivência real que aprendi no "chão de fábrica". 
+                Quero que você também sinta o orgulho de ser uma profissional de elite, transformando a sua vida e a da sua família.
+              </p>
+            </div>
+            <div className="mt-10 p-6 bg-[#fafafa] rounded-2xl border-l-4 border-[#d82298] italic text-gray-500">
+              "A beleza é um legado que se constrói com amor e técnica."
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Modules Showcase */}
       <section className="py-32 px-6 container mx-auto bg-white relative z-20">
         <div className="text-center max-w-3xl mx-auto mb-24">
