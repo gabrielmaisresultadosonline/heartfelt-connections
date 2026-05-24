@@ -15,7 +15,13 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-900 font-sans relative">
+    <div id="root-container" className="min-h-screen bg-[#fafafa] text-gray-900 font-sans relative">
+      <style>{`
+        #root-container {
+          background-color: #fafafa !important;
+        }
+      `}</style>
+
       {/* Floating Elements */}
       <motion.div
         animate={{ rotate: 360, x: ["-10vw", "110vw"], y: ["20vh", "80vh", "20vh"] }}
