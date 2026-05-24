@@ -15,12 +15,8 @@ function Index() {
   };
 
   return (
-    <div id="root-container" className="min-h-screen bg-[#fafafa] text-gray-900 font-sans relative">
-      <style>{`
-        #root-container {
-          background-color: #fafafa !important;
-        }
-      `}</style>
+    <div className="min-h-screen bg-[#fafafa] text-gray-900 font-sans relative">
+
 
       {/* Floating Elements */}
       <motion.div
