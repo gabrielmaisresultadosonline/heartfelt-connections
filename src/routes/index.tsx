@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Zap, Paintbrush } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.jpg";
 import heroImg from "@/assets/hero-alessandra.jpg";
 
@@ -144,13 +144,28 @@ function Index() {
         </div>
         <div className="grid md:grid-cols-3 gap-12">
           {[
-            { img: images.lisos, title: "Alisamento", tag: "Expert", desc: "Progressivas e selagens com brilho real." },
-            { img: images.corte, title: "Corte", tag: "Moderno", desc: "Técnicas de corte e visagismo avançado." },
-            { img: images.tonalizacao, title: "Colorimetria", tag: "Elite", desc: "Domine as cores sem erros de salão." }
+            { icon: Zap, title: "Alisamento", tag: "Expert", desc: "Progressivas e selagens com brilho real." },
+            { icon: Scissors, title: "Corte", tag: "Moderno", desc: "Técnicas de corte e visagismo avançado." },
+            { icon: Paintbrush, title: "Colorimetria", tag: "Elite", desc: "Domine as cores sem erros de salão." }
           ].map((item, i) => (
             <motion.div key={i} whileHover={{ y: -15 }} className="bg-[#fafafa] rounded-[3.5rem] overflow-hidden shadow-xl border border-gray-100 h-full flex flex-col group">
-              <div className="h-80 overflow-hidden relative">
-                <img src={item.img} alt={item.title} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+              <div className="h-80 overflow-hidden relative flex items-center justify-center bg-gradient-to-br from-[#d82298]/5 to-transparent">
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 10, -10, 0],
+                    y: [0, -20, 0]
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.5
+                  }}
+                  className="text-[#d82298]"
+                >
+                  <item.icon size={120} strokeWidth={1.5} />
+                </motion.div>
                 <div className="absolute top-8 left-8 bg-[#d82298] text-white text-[10px] font-black uppercase px-4 py-2 rounded-full shadow-lg">{item.tag}</div>
               </div>
               <div className="p-10 flex flex-col flex-grow">
