@@ -15,8 +15,8 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-900 overflow-x-hidden font-sans relative">
-      {/* Floating Elements with lower z-index */}
+    <div className="min-h-screen bg-[#fafafa] text-gray-900 font-sans relative">
+      {/* Floating Elements */}
       <motion.div
         animate={{ rotate: 360, x: ["-10vw", "110vw"], y: ["20vh", "80vh", "20vh"] }}
         transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
@@ -32,8 +32,8 @@ function Index() {
         <Sparkles size={35} />
       </motion.div>
 
-      {/* Hero Section with higher z-index */}
-      <section className="relative min-h-screen flex items-center justify-center pt-32 pb-12 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a] z-10">
+      {/* Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-12 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a] z-10">
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
         
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-20">
