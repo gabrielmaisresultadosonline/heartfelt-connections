@@ -70,24 +70,68 @@ function Index() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative hidden lg:block"
+      {/* About Section - Alessandra Linhares */}
+      <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100 overflow-hidden">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative"
           >
-            <img src={images.hero} alt="Curso Profissional" className="rounded-[4rem] border-[12px] border-white/20 shadow-[0_50px_100px_rgba(0,0,0,0.4)] w-full object-cover aspect-[4/5]" />
-            <div className="absolute -top-10 -right-10 w-60 h-60 bg-pink-400 rounded-full blur-[100px] opacity-40 animate-pulse"></div>
+            <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-[#fafafa]">
+              <img 
+                src="https://images.pexels.com/photos/3993444/pexels-photo-3993444.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                alt="Alessandra Linhares" 
+                className="w-full aspect-square object-cover"
+              />
+            </div>
+            <div className="absolute -bottom-6 -right-6 bg-[#d82298] text-white p-8 rounded-3xl shadow-xl z-20 hidden md:block">
+              <p className="text-4xl font-black italic tracking-tighter leading-none">10+ ANOS</p>
+              <p className="text-xs uppercase font-bold tracking-widest mt-2">De Experiência Real</p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="inline-flex items-center gap-2 text-[#d82298] mb-6">
+              <Heart className="fill-[#d82298]" size={20} />
+              <span className="font-black uppercase tracking-widest text-sm text-[#d82298]">De Mãe para Filha</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 uppercase italic tracking-tighter leading-none">
+              QUEM É <br/> <span className="text-[#d82298]">ALESSANDRA LINHARES</span>
+            </h2>
+            <div className="space-y-6 text-lg text-gray-600 font-light leading-relaxed">
+              <p>
+                Olá! Sou <strong>Alessandra Linhares</strong>, fundadora do <span className="text-[#d82298] font-bold underline decoration-2 underline-offset-4">Salão de Beleza AL</span>. 
+                Minha história com as tesouras começou antes mesmo de eu nascer.
+              </p>
+              <p>
+                Cresci vendo minha mãe transformar vidas através do autocuidado e da beleza. Essa paixão foi passada <strong>de mãe para filha</strong>, 
+                e hoje carrego um legado de mais de 10 anos de experiência prática no dia a dia de um salão de sucesso.
+              </p>
+              <p>
+                Neste curso, eu não apenas ensino técnicas; eu entrego a vivência real que aprendi no "chão de fábrica". 
+                Quero que você também sinta o orgulho de ser uma profissional de elite, transformando a sua vida e a da sua família.
+              </p>
+            </div>
+            <div className="mt-10 p-6 bg-[#fafafa] rounded-2xl border-l-4 border-[#d82298] italic text-gray-500">
+              "A beleza é um legado que se constrói com amor e técnica."
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* Modules Showcase */}
-      <section className="py-32 px-6 container mx-auto bg-white relative z-30 -mt-10 rounded-[5rem] shadow-2xl mb-20 border border-gray-100">
+      <section className="py-32 px-6 container mx-auto relative z-20">
         <div className="text-center max-w-3xl mx-auto mb-24">
           <h2 className="text-4xl md:text-7xl font-black mb-6 text-gray-900 uppercase italic tracking-tighter">O QUE VOCÊ VAI <span className="text-[#d82298]">DOMINAR</span></h2>
           <p className="text-xl text-gray-500 font-light tracking-tight">Técnicas profissionais explicadas passo a passo em alta definição.</p>
         </div>
+
         
         <div className="grid md:grid-cols-3 gap-12">
           {[
