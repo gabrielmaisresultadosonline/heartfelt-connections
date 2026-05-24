@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
 #app-root {
-  background-color: #fafafa;
-  min-height: 100vh;
+  background-color: transparent !important;
 }
+
+body {
+  background-color: #fafafa !important;
+  margin: 0;
+  padding: 0;
+}
+
 
 
 
