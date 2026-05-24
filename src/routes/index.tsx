@@ -18,6 +18,43 @@ function Index() {
     alessandra: alessandraImg,
   };
 
+  const checkoutUrl = "https://pay.kiwify.com.br/AFMNBej";
+
+  const PulseButton = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+    <motion.a
+      href={checkoutUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      animate={{
+        boxShadow: [
+          "0 0 0 0px rgba(21, 128, 61, 0.4)",
+          "0 0 0 20px rgba(21, 128, 61, 0)",
+        ],
+        backgroundColor: ["#15803d", "#16a34a", "#15803d"],
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      whileHover={{ 
+        scale: 1.05,
+        backgroundImage: "linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%)",
+        backgroundSize: "200% 100%",
+      }}
+      whileTap={{ scale: 0.95 }}
+      className={`bg-[#15803d] text-white font-black shadow-2xl uppercase italic tracking-tighter text-center transition-all duration-300 relative overflow-hidden group ${className}`}
+    >
+      <span className="relative z-10">{children}</span>
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"
+        initial={{ x: "-100%" }}
+        animate={{ x: "100%" }}
+        transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+      />
+    </motion.a>
+  );
+
   return (
     <div className="bg-[#fafafa] text-[#1a1a1a] font-sans relative overflow-x-hidden min-h-screen">
       {/* Background Animated Elements */}
