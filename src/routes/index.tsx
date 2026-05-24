@@ -42,7 +42,7 @@ function Index() {
               <div style={{ padding: "30px", flexGrow: 1 }}>
                 <h3 style={{ fontSize: "1.6rem", fontWeight: "900", marginBottom: "12px", color: "#1a1a1a" }}>{item.title}</h3>
                 <p style={{ color: "#555", fontSize: "1rem", lineHeight: "1.5" }}>{item.desc}</p>
-                <div style={{ marginTop: "20px", color: "#d82298", fontWeight: "bold", fontSize: "0.85rem", textTransform: "uppercase", trackingSpacing: "1px" }}>
+                <div style={{ marginTop: "20px", color: "#d82298", fontWeight: "bold", fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "1px" }}>
                    ✓ Prática Real em Salão
                 </div>
               </div>
