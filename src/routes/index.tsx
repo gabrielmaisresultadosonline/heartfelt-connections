@@ -12,7 +12,7 @@ function Index() {
     corte: "https://images.pexels.com/photos/3319333/pexels-photo-3319333.jpeg?auto=compress&cs=tinysrgb&w=800",
     tonalizacao: "https://images.pexels.com/photos/3738339/pexels-photo-3738339.jpeg?auto=compress&cs=tinysrgb&w=800",
     hero: "https://images.pexels.com/photos/3065209/pexels-photo-3065209.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    alessandra: "https://images.pexels.com/photos/3993444/pexels-photo-3993444.jpeg?auto=compress&cs=tinysrgb&w=800",
+    alessandra: "https://lovable-project.s3.amazonaws.com/uploads/3a0937a0-0b61-4623-881c-9273c518881b/cabeleireira.jpg",
   };
 
   return (
@@ -27,7 +27,7 @@ function Index() {
           <Scissors size={100} />
         </motion.div>
         <motion.div
-          animate={{ rotate: -360, x: ["110vw", "-10vw"], y: ["70vh", "20vh", "70vh"] }}
+          animate={{ rotate: -360, x: ["110vw", "-10vw"], y: ["70vh", "10vh", "70vh"] }}
           transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
           className="absolute opacity-10 text-pink-400"
         >
@@ -47,7 +47,6 @@ function Index() {
               Curso de <br/>
               <span className="text-white/80">Cabeleireira Completo</span>
             </h1>
-
             <p className="text-xl md:text-2xl mb-12 opacity-95 max-w-xl font-light mx-auto lg:mx-0 leading-relaxed">
               60 aulas reais gravadas de cursos físicos. Aprenda Alisamento, Corte e Tonalização com quem vive o salão.
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
