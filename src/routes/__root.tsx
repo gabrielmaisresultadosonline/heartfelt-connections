@@ -113,9 +113,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="bg-[#fafafa] min-h-screen">
-        <Outlet />
-      </div>
+      <Outlet />
     </QueryClientProvider>
   );
 }
