@@ -78,7 +78,7 @@ function Index() {
       {/* Hero Section */}
       <section className="relative pt-24 pb-20 px-6 bg-[#d82298] overflow-hidden min-h-[90vh] flex items-center z-10 text-white text-center lg:text-left shadow-2xl">
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-20">
-          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+          <motion.div initial={{ opacity: 1, x: 0 }} animate={{ opacity: 1, x: 0 }}>
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full mb-8 border border-white/30 mx-auto lg:mx-0">
               <Star size={16} className="text-yellow-300 fill-yellow-300" />
               <span className="text-xs font-black uppercase tracking-widest text-white">Formação de Elite</span>
@@ -101,7 +101,7 @@ function Index() {
               </div>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} className="relative hidden lg:block">
+          <motion.div initial={{ opacity: 1, scale: 1 }} animate={{ opacity: 1, scale: 1 }} className="relative hidden lg:block">
             <img src={images.hero} alt="Curso" className="rounded-[4rem] border-[12px] border-white/20 shadow-2xl w-full aspect-[4/5] object-cover" />
             <div className="absolute -top-10 -right-10 w-60 h-60 bg-pink-400 rounded-full blur-[100px] opacity-40 animate-pulse"></div>
           </motion.div>
@@ -111,7 +111,7 @@ function Index() {
       {/* Quem Somos - Alessandra Linhares */}
       <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100">
         <div className="grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
-          <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="relative mx-auto lg:mx-0">
+          <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="relative mx-auto lg:mx-0">
             <div className="rounded-[3rem] overflow-hidden shadow-2xl border-8 border-[#fafafa] max-w-[500px]">
               <img src={images.alessandra} alt="Alessandra Linhares" className="w-full aspect-square object-cover" />
             </div>
@@ -120,7 +120,7 @@ function Index() {
               <p className="text-xs uppercase font-bold tracking-widest mt-2">Experiência Real</p>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="max-w-2xl mx-auto lg:mx-0">
+          <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="max-w-2xl mx-auto lg:mx-0">
             <div className="flex items-center justify-center lg:justify-start gap-2 text-[#d82298] mb-6">
               <Heart className="fill-[#d82298]" size={24} />
               <span className="font-black uppercase tracking-widest text-sm">Legado de Família</span>
