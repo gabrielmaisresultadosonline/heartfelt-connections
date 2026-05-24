@@ -33,7 +33,7 @@ function Index() {
       </motion.div>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-32 pb-12 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a]">
+      <section className="relative min-h-[100vh] flex items-center justify-center pt-32 pb-12 px-6 overflow-hidden bg-gradient-to-br from-[#d82298] via-[#e945a9] to-[#b01b7a] z-50">
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
         
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
