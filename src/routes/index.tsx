@@ -20,11 +20,18 @@ function Index() {
 
   const checkoutUrl = "https://pay.kiwify.com.br/AFMNBej";
 
+  const trackAddToCart = () => {
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq("track", "AddToCart");
+    }
+  };
+
   const PulseButton = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
     <motion.a
       href={checkoutUrl}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={trackAddToCart}
       animate={{
         boxShadow: [
           "0 0 0 0px rgba(21, 128, 61, 0.4)",
@@ -54,6 +61,7 @@ function Index() {
       />
     </motion.a>
   );
+
 
   return (
     <div className="bg-[#fafafa] text-[#1a1a1a] font-sans relative overflow-x-hidden min-h-screen">
