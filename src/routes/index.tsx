@@ -106,7 +106,7 @@ function Index() {
         
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { img: images.lisos, title: "Alisamento Espelhado", tag: "Técnica IA" },
+            { img: images.lisos, title: "Alisamento Espelhado", tag: "Prática Real" },
             { img: images.corte, title: "Corte Geométrico", tag: "Moderno" },
             { img: images.tonalizacao, title: "Tonalização Expert", tag: "Colorimetria" }
           ].map((item, i) => (
