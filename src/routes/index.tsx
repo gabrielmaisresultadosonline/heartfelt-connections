@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award, Users, Video, ShoppingBag, CheckCircle, Scissors, Star } from "lucide-react";
+import { Award, Users, Video, ShoppingBag, CheckCircle, Scissors } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/")({
@@ -17,8 +17,8 @@ function Index() {
   return (
     <div style={{ backgroundColor: "#fafafa", minHeight: "100vh", color: "#1a1a1a", fontFamily: "sans-serif", margin: 0, padding: 0 }}>
       {/* Hero Section */}
-      <section style={{ backgroundColor: "#d82298", color: "white", padding: "80px 20px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 10 }}>
+      <section style={{ backgroundColor: "#d82298", color: "white", padding: "80px 20px", textAlign: "center" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <h1 style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)", fontWeight: "900", marginBottom: "20px", textTransform: "uppercase", lineHeight: "1.1" }}>Curso Cabeleireira Profissional</h1>
             <p style={{ fontSize: "1.2rem", maxWidth: "800px", margin: "0 auto 30px", opacity: 0.9 }}>
