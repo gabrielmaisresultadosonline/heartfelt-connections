@@ -55,7 +55,7 @@ function Index() {
             </h1>
             <p className="text-xl md:text-2xl mb-10 opacity-90 max-w-xl font-light leading-relaxed">
               Aprenda Alisamento, Corte e Tonalização com o método que já transformou mais de 5.000 vidas. 
-              <span className="font-bold block mt-2 text-white">60 aulas gravadas em Full HD com IA avançada.</span>
+              <span className="font-bold block mt-2 text-white">60 aulas gravadas de cursos físicos reais em Full HD.</span>
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
