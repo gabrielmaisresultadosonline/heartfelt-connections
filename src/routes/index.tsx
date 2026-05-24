@@ -14,7 +14,7 @@ function Index() {
     corte: "https://images.pexels.com/photos/3319333/pexels-photo-3319333.jpeg?auto=compress&cs=tinysrgb&w=800",
     tonalizacao: "https://images.pexels.com/photos/3738339/pexels-photo-3738339.jpeg?auto=compress&cs=tinysrgb&w=800",
     hero: "https://images.pexels.com/photos/3065209/pexels-photo-3065209.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    alessandra: "https://lovable-project.s3.amazonaws.com/uploads/3a0937a0-0b61-4623-881c-9273c518881b/cabeleireira.jpg",
+    alessandra: alessandraImg,
   };
 
   return (
