@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Sparkles, Gift } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Sparkles, Gift, Heart } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -12,6 +12,7 @@ function Index() {
     corte: "https://images.pexels.com/photos/3319333/pexels-photo-3319333.jpeg?auto=compress&cs=tinysrgb&w=800",
     tonalizacao: "https://images.pexels.com/photos/3738339/pexels-photo-3738339.jpeg?auto=compress&cs=tinysrgb&w=800",
     hero: "https://images.pexels.com/photos/3065209/pexels-photo-3065209.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    alessandra: "https://images.pexels.com/photos/3993444/pexels-photo-3993444.jpeg?auto=compress&cs=tinysrgb&w=800",
   };
 
   return (
@@ -51,8 +52,8 @@ function Index() {
               <span className="text-white/80 uppercase italic">DAS TESOURAS</span>
             </h1>
             <p className="text-xl md:text-2xl mb-12 opacity-95 max-w-xl font-light mx-auto lg:mx-0">
-              60 aulas reais gravadas de cursos físicos presenciais. Domine Alisamento, Corte e Tonalização.
-              <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
+              60 aulas reais gravadas de cursos físicos presenciais. Domine Alisamento, Corte e Tonalização com quem vive o salão todos os dias.
+              <span className="font-black block mt-4 text-white text-3xl italic">Certificado MEC Incluso.</span>
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
@@ -70,6 +71,18 @@ function Index() {
             </div>
           </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="relative hidden lg:block"
+          >
+            <img src={images.hero} alt="Curso Profissional" className="rounded-[4rem] border-[12px] border-white/20 shadow-[0_50px_100px_rgba(0,0,0,0.4)] w-full object-cover aspect-[4/5]" />
+            <div className="absolute -top-10 -right-10 w-60 h-60 bg-pink-400 rounded-full blur-[100px] opacity-40 animate-pulse"></div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* About Section - Alessandra Linhares */}
       <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100 overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -81,7 +94,7 @@ function Index() {
           >
             <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-[#fafafa]">
               <img 
-                src="https://images.pexels.com/photos/3993444/pexels-photo-3993444.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                src={images.alessandra} 
                 alt="Alessandra Linhares" 
                 className="w-full aspect-square object-cover"
               />
@@ -126,16 +139,15 @@ function Index() {
       </section>
 
       {/* Modules Showcase */}
-      <section className="py-32 px-6 container mx-auto relative z-20">
+      <section className="py-32 px-6 container mx-auto bg-white relative z-20">
         <div className="text-center max-w-3xl mx-auto mb-24">
           <h2 className="text-4xl md:text-7xl font-black mb-6 text-gray-900 uppercase italic tracking-tighter">O QUE VOCÊ VAI <span className="text-[#d82298]">DOMINAR</span></h2>
           <p className="text-xl text-gray-500 font-light tracking-tight">Técnicas profissionais explicadas passo a passo em alta definição.</p>
         </div>
-
         
         <div className="grid md:grid-cols-3 gap-12">
           {[
-            { img: images.lisos, title: "Alisamento", tag: "Mais Vendido", desc: "Técnicas profissionais de progressiva e selagem." },
+            { img: images.lisos, title: "Alisamento", tag: "Mais Vendido", desc: "Técnicas profissionais de progressiva e selagem profissional." },
             { img: images.corte, title: "Cortes", tag: "Expert", desc: "Cortes modernos, camadas e tendências atuais." },
             { img: images.tonalizacao, title: "Tonalização", tag: "Exclusivo", desc: "Colorimetria avançada profissional." }
           ].map((item, i) => (
@@ -146,7 +158,7 @@ function Index() {
             >
               <div className="h-96 overflow-hidden relative">
                 <img src={item.img} alt={item.title} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
-                <div className="absolute top-8 left-8 bg-[#d82298] text-white text-[10px] font-black uppercase px-4 py-2 rounded-full shadow-lg">{item.tag}</div>
+                <div className="absolute top-8 left-8 bg-[#d82298] text-white text-[10px] font-black uppercase px-4 py-2 rounded-full shadow-lg tracking-widest">{item.tag}</div>
               </div>
               <div className="p-10 flex flex-col flex-grow">
                 <h3 className="text-3xl font-black mb-4 uppercase italic tracking-tighter text-[#1a1a1a]">{item.title}</h3>
