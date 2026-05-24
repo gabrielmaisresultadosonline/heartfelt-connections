@@ -92,9 +92,9 @@ function Index() {
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-white text-[#d82298] py-6 px-12 rounded-[2.5rem] font-black text-2xl shadow-2xl uppercase italic tracking-tighter">
+              <PulseButton className="py-6 px-12 rounded-[2.5rem] text-2xl">
                 Garantir Minha Vaga
-              </motion.button>
+              </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-4xl font-black tracking-tighter text-white">R$ 47</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
