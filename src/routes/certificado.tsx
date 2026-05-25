@@ -306,7 +306,7 @@ function CertificadoPage() {
                         src={photoUrl}
                         alt="sua foto"
                         draggable={false}
-                        onPointerDown={onPointerDown}
+                        onPointerDown={startDrag("photo")}
                         onPointerMove={onPointerMove}
                         onPointerUp={onPointerUp}
                         className="absolute cursor-move"
@@ -328,22 +328,42 @@ function CertificadoPage() {
                       className="absolute inset-0 pointer-events-none"
                       style={{ width: stageW, height: stageH }}
                     />
-                    {/* nome */}
-                    {fullName && (
-                      <div
-                        className="absolute pointer-events-none font-bold text-center whitespace-nowrap"
-                        style={{
-                          left: cfg.name_x * scale,
-                          top: cfg.name_y * scale,
-                          transform: "translate(-50%, -100%)",
-                          fontSize: cfg.name_font_size * scale,
-                          color: cfg.name_color,
-                          fontFamily: "Helvetica, Arial, sans-serif",
-                        }}
-                      >
-                        {fullName}
-                      </div>
-                    )}
+                    {/* nome arrastável */}
+                    <div
+                      onPointerDown={startDrag("name")}
+                      onPointerMove={onPointerMove}
+                      onPointerUp={onPointerUp}
+                      className="absolute font-bold text-center whitespace-nowrap cursor-move px-2 rounded hover:bg-amber-100/40"
+                      style={{
+                        left: namePos.x * scale,
+                        top: namePos.y * scale,
+                        transform: "translate(-50%, -100%)",
+                        fontSize: namePos.size * scale,
+                        color: cfg.name_color,
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        touchAction: "none",
+                      }}
+                    >
+                      {fullName || "SEU NOME"}
+                    </div>
+                    {/* data arrastável */}
+                    <div
+                      onPointerDown={startDrag("date")}
+                      onPointerMove={onPointerMove}
+                      onPointerUp={onPointerUp}
+                      className="absolute whitespace-nowrap cursor-move px-2 rounded hover:bg-amber-100/40"
+                      style={{
+                        left: datePos.x * scale,
+                        top: datePos.y * scale,
+                        transform: "translate(-50%, -100%)",
+                        fontSize: datePos.size * scale,
+                        color: cfg.date_color,
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        touchAction: "none",
+                      }}
+                    >
+                      {dateText}
+                    </div>
                     {/* placeholder quando não tem foto */}
                     {!photoUrl && (
                       <div
