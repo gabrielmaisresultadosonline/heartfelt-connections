@@ -175,6 +175,17 @@ export const generateCertificate = createServerFn({ method: "POST" })
     let pageW: number;
     let pageH: number;
 
+    // Helper: encaixa imagem dentro da caixa preservando proporção (modo "contain"),
+    // centralizando horizontal e alinhando a base verticalmente (parece mais natural pra retrato).
+    function fitContain(imgW: number, imgH: number, boxW: number, boxH: number) {
+      const r = Math.min(boxW / imgW, boxH / imgH);
+      const w = imgW * r;
+      const h = imgH * r;
+      const dx = (boxW - w) / 2; // centraliza X
+      const dy = boxH - h; // base alinhada (foto fica "em pé" na caixa)
+      return { w, h, dx, dy };
+    }
+
     if (templateBytes && templateIsPdf) {
       const tplDoc = await PDFDocument.load(templateBytes);
       const [copied] = await pdf.copyPages(tplDoc, [0]);
@@ -188,11 +199,12 @@ export const generateCertificate = createServerFn({ method: "POST" })
         enhancedMime === "image/jpeg"
           ? await pdf.embedJpg(enhancedBytes)
           : await pdf.embedPng(enhancedBytes);
+      const fit = fitContain(photoImg.width, photoImg.height, photoW, photoH);
       page.drawImage(photoImg, {
-        x: photoX,
-        y: pageH - photoY - photoH,
-        width: photoW,
-        height: photoH,
+        x: photoX + fit.dx,
+        y: pageH - photoY - photoH + fit.dy,
+        width: fit.w,
+        height: fit.h,
       });
       // overlay (PDF template) por cima
       const embedded = await pdf.embedPage(copied);
@@ -210,11 +222,12 @@ export const generateCertificate = createServerFn({ method: "POST" })
         enhancedMime === "image/jpeg"
           ? await pdf.embedJpg(enhancedBytes)
           : await pdf.embedPng(enhancedBytes);
+      const fit = fitContain(photoImg.width, photoImg.height, photoW, photoH);
       page.drawImage(photoImg, {
-        x: photoX,
-        y: pageH - photoY - photoH,
-        width: photoW,
-        height: photoH,
+        x: photoX + fit.dx,
+        y: pageH - photoY - photoH + fit.dy,
+        width: fit.w,
+        height: fit.h,
       });
       // overlay PNG (com transparência) por cima
       page.drawImage(tplImg, { x: 0, y: 0, width: pageW, height: pageH });
@@ -227,11 +240,12 @@ export const generateCertificate = createServerFn({ method: "POST" })
         enhancedMime === "image/jpeg"
           ? await pdf.embedJpg(enhancedBytes)
           : await pdf.embedPng(enhancedBytes);
+      const fit = fitContain(photoImg.width, photoImg.height, photoW, photoH);
       page.drawImage(photoImg, {
-        x: photoX,
-        y: pageH - photoY - photoH,
-        width: photoW,
-        height: photoH,
+        x: photoX + fit.dx,
+        y: pageH - photoY - photoH + fit.dy,
+        width: fit.w,
+        height: fit.h,
       });
     }
 
