@@ -37,10 +37,15 @@ export type TemplateConfig = {
   name_color: string;
 };
 
+export type Settings = {
+  openai_api_key: string | null;
+};
+
 type DB = {
   certificates: Certificate[];
   admins: AdminUser[];
   template_config: TemplateConfig;
+  settings: Settings;
 };
 
 const DEFAULT_DB: DB = {
@@ -58,6 +63,7 @@ const DEFAULT_DB: DB = {
     name_font_size: 48,
     name_color: "#000000",
   },
+  settings: { openai_api_key: null },
 };
 
 let writeChain: Promise<unknown> = Promise.resolve();
@@ -75,6 +81,7 @@ export async function readDB(): Promise<DB> {
       certificates: parsed.certificates ?? [],
       admins: parsed.admins ?? [],
       template_config: { ...DEFAULT_DB.template_config, ...(parsed.template_config ?? {}) },
+      settings: { ...DEFAULT_DB.settings, ...(parsed.settings ?? {}) },
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {

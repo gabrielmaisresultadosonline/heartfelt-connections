@@ -1,10 +1,12 @@
 // Server-only: chama OpenAI para profissionalizar foto (gpt-image-1 edits)
+import { readDB } from "./store.server";
 
 const OPENAI_URL = "https://api.openai.com/v1/images/edits";
 
 export async function professionalizePhoto(photoBytes: Uint8Array, mime: string): Promise<Uint8Array> {
-  const key = process.env.OPENAI_API_KEY;
-  if (!key) throw new Error("OPENAI_API_KEY ausente");
+  const db = await readDB();
+  const key = db.settings.openai_api_key || process.env.OPENAI_API_KEY;
+  if (!key) throw new Error("OpenAI API key não configurada (admin → Configurações)");
 
   const form = new FormData();
   form.append("model", "gpt-image-1");
