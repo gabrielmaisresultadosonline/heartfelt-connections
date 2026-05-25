@@ -45,11 +45,22 @@ export type Settings = {
   openai_api_key: string | null;
 };
 
+export type KiwifyBuyer = {
+  email: string; // lowercase
+  name: string | null;
+  order_id: string | null;
+  product_id: string | null;
+  status: "paid" | "refunded" | "chargeback" | "waiting_payment" | "other";
+  purchased_at: string;
+  updated_at: string;
+};
+
 type DB = {
   certificates: Certificate[];
   admins: AdminUser[];
   template_config: TemplateConfig;
   settings: Settings;
+  kiwify_buyers: KiwifyBuyer[];
 };
 
 const DEFAULT_DB: DB = {
@@ -72,6 +83,7 @@ const DEFAULT_DB: DB = {
     date_color: "#000000",
   },
   settings: { openai_api_key: null },
+  kiwify_buyers: [],
 };
 
 let writeChain: Promise<unknown> = Promise.resolve();
