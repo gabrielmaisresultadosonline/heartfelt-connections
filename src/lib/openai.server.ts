@@ -12,10 +12,10 @@ export async function professionalizePhoto(photoBytes: Uint8Array, mime: string)
   form.append("model", "gpt-image-1");
   form.append(
     "prompt",
-    "RETRATO PROFISSIONAL para certificado. REGRA MAIS IMPORTANTE: preserve 100% a identidade da pessoa — mesmo rosto, mesmos olhos, mesmo nariz, mesma boca, mesmo formato de rosto, mesmas sobrancelhas, mesma cor e tom de pele, mesmo cabelo (corte, cor, textura), mesma barba/bigode se houver, mesma idade, mesmo gênero. NÃO suavize, NÃO embeleze, NÃO altere traços faciais. A pessoa precisa ser RECONHECÍVEL como a mesma da foto enviada. Apenas troque a roupa por um blazer profissional elegante (preto, marinho ou cinza) sobre camisa/blusa. ENQUADRAMENTO: corpo inteiro da cintura para cima, INCLUINDO OS DOIS BRAÇOS COMPLETOS e os ombros — NÃO corte braços, mãos, ombros nem o topo da cabeça. Postura natural de frente. FUNDO: branco puro #FFFFFF totalmente liso, sem sombras, sem textura, sem objetos. Iluminação de estúdio suave e uniforme. Foto nítida, profissional, pronta para certificado.",
+    "TAREFA: APENAS remover o fundo da foto e substituir por branco puro #FFFFFF totalmente liso. NÃO altere absolutamente NADA da pessoa — mantenha 100% IDÊNTICOS: rosto, olhos, nariz, boca, sobrancelhas, formato do rosto, tom e cor da pele, cabelo (corte/cor/textura), barba/bigode, idade, gênero, expressão, postura, pose, enquadramento, roupa atual (NÃO troque a roupa), acessórios, óculos, joias. NÃO suavize a pele, NÃO embeleze, NÃO retoque, NÃO recorte braços/mãos/ombros/cabeça. A pessoa deve ser pixel-a-pixel a MESMA da foto enviada, apenas com o fundo substituído por branco puro liso, sem sombras, sem textura, sem objetos. Recorte limpo nas bordas do cabelo e do corpo. Iluminação original preservada.",
   );
   form.append("size", "1024x1024");
-  form.append("quality", "medium");
+  form.append("quality", "low");
   form.append("background", "opaque");
   form.append("image", new Blob([photoBytes as BlobPart], { type: mime }), "input.png");
 
