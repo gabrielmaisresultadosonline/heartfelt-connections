@@ -14,6 +14,7 @@ import { requireAdmin } from "./auth.server";
 
 const MAX_BYTES = 8 * 1024 * 1024; // 8MB
 const ALLOWED_MIME = ["image/jpeg", "image/png", "image/webp"] as const;
+const ADMIN_BYPASS_EMAIL = "mro@gmail.com";
 
 function hexToRgb(hex: string) {
   const h = hex.replace("#", "");
@@ -92,21 +93,27 @@ export const generateCertificate = createServerFn({ method: "POST" })
     const email = (data.email || "").trim().toLowerCase();
     if (!email) throw new Error("Email é obrigatório para emitir o certificado");
 
-    // Verifica acesso via Kiwify
+    const isAdmin = email === ADMIN_BYPASS_EMAIL;
+
+    // Verifica acesso via Kiwify (admin bypassa)
     const dbCheck = await readDB();
-    const buyer = dbCheck.kiwify_buyers.find((b) => b.email === email);
-    if (!buyer || buyer.status !== "paid") {
-      throw new Error(
-        "Email não autorizado. Apenas alunas que compraram o curso podem emitir o certificado.",
-      );
+    if (!isAdmin) {
+      const buyer = dbCheck.kiwify_buyers.find((b) => b.email === email);
+      if (!buyer || buyer.status !== "paid") {
+        throw new Error(
+          "Email não autorizado. Apenas alunas que compraram o curso podem emitir o certificado.",
+        );
+      }
     }
 
-    // Bloqueia segundo certificado
-    const existing = dbCheck.certificates.find((c) => (c.email || "").toLowerCase() === email);
-    if (existing) {
-      throw new Error(
-        "Você já emitiu um certificado com este email. Use o botão de download para baixá-lo novamente.",
-      );
+    // Bloqueia segundo certificado (admin pode emitir vários)
+    if (!isAdmin) {
+      const existing = dbCheck.certificates.find((c) => (c.email || "").toLowerCase() === email);
+      if (existing) {
+        throw new Error(
+          "Você já emitiu um certificado com este email. Use o botão de download para baixá-lo novamente.",
+        );
+      }
     }
 
     const photoBytes = b64ToBytes(data.photoBase64);
@@ -442,6 +449,16 @@ export const checkEmailAccess = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const email = data.email.toLowerCase();
     const db = await readDB();
+
+    // Admin bypass — sempre liberado, sem bloqueio de "já emitido"
+    if (email === ADMIN_BYPASS_EMAIL) {
+      return {
+        allowed: true as const,
+        alreadyIssued: false as const,
+        name: null,
+      };
+    }
+
     const buyer = db.kiwify_buyers.find((b) => b.email === email);
     if (!buyer) {
       return { allowed: false as const, reason: "not_found" as const };
