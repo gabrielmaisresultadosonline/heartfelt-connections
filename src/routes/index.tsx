@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.jpg";
 import heroImg from "@/assets/hero-alessandra.jpg";
 
@@ -203,6 +203,56 @@ function Index() {
             ))}
           </div>
           <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="text-[#d82298]">R$ 47,00</span></p>
+        </div>
+      </section>
+
+      {/* Certificate Release Info */}
+      <section className="py-24 px-6 relative z-20 bg-gradient-to-br from-[#fafafa] via-white to-[#fdf2f8]">
+        <div className="container mx-auto max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative bg-white rounded-[3.5rem] shadow-2xl border-2 border-[#d82298]/10 p-10 md:p-16 overflow-hidden"
+          >
+            <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#d82298]/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-pink-300/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative grid md:grid-cols-[auto_1fr] gap-10 items-center text-center md:text-left">
+              <motion.div
+                animate={{ rotate: [0, -5, 5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="mx-auto md:mx-0 bg-gradient-to-br from-[#d82298] to-pink-500 p-8 rounded-[2rem] shadow-xl shadow-[#d82298]/30"
+              >
+                <FileCheck size={72} className="text-white" strokeWidth={1.8} />
+              </motion.div>
+
+              <div>
+                <div className="inline-flex items-center gap-2 bg-[#d82298]/10 text-[#d82298] px-4 py-2 rounded-full mb-5 font-black uppercase text-xs tracking-widest">
+                  <Calendar size={14} />
+                  <span>Certificado Oficial</span>
+                </div>
+                <h3 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-gray-900 mb-5 leading-[0.95]">
+                  Seu certificado liberado em <span className="text-[#d82298]">até 8 dias</span> após finalizar o curso
+                </h3>
+                <p className="text-lg text-gray-600 font-light leading-relaxed">
+                  Assim que você concluir todas as aulas, em até <strong className="text-gray-900">8 dias úteis</strong> seu certificado reconhecido é emitido com seu nome e foto, pronto para baixar e imprimir.
+                </p>
+                <div className="flex flex-wrap gap-3 mt-7 justify-center md:justify-start">
+                  <span className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm font-bold text-gray-700">
+                    <CheckCircle size={16} className="text-[#15803d]" /> Reconhecido
+                  </span>
+                  <span className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm font-bold text-gray-700">
+                    <CheckCircle size={16} className="text-[#15803d]" /> Com seu nome e foto
+                  </span>
+                  <span className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm font-bold text-gray-700">
+                    <CheckCircle size={16} className="text-[#15803d]" /> Download imediato
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
