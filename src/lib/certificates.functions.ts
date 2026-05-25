@@ -36,6 +36,11 @@ export const generateCertificate = createServerFn({ method: "POST" })
         email: z.string().email().optional().or(z.literal("")),
         photoBase64: z.string().min(100),
         photoMime: z.enum(ALLOWED_MIME),
+        useAI: z.boolean().optional().default(false),
+        photoX: z.number().optional(),
+        photoY: z.number().optional(),
+        photoW: z.number().positive().optional(),
+        photoH: z.number().positive().optional(),
       })
       .parse(input),
   )
@@ -50,15 +55,21 @@ export const generateCertificate = createServerFn({ method: "POST" })
     // 1) Original
     const origRel = await saveFile(`${ts}-${safeName}-original.${ext}`, photoBytes);
 
-    // 2) IA
-    let enhancedBytes: Uint8Array;
-    try {
-      enhancedBytes = await professionalizePhoto(photoBytes, data.photoMime);
-    } catch (e) {
-      console.error("OpenAI falhou, usando original:", e);
-      enhancedBytes = photoBytes;
+    // 2) IA (opcional)
+    let enhancedBytes: Uint8Array = photoBytes;
+    let enhancedMime: string = data.photoMime;
+    if (data.useAI) {
+      try {
+        enhancedBytes = await professionalizePhoto(photoBytes, data.photoMime);
+        enhancedMime = "image/png";
+      } catch (e) {
+        console.error("OpenAI falhou, usando original:", e);
+        enhancedBytes = photoBytes;
+        enhancedMime = data.photoMime;
+      }
     }
-    const enhRel = await saveFile(`${ts}-${safeName}-enhanced.png`, enhancedBytes);
+    const enhExt = enhancedMime === "image/png" ? "png" : enhancedMime === "image/jpeg" ? "jpg" : "webp";
+    const enhRel = await saveFile(`${ts}-${safeName}-enhanced.${enhExt}`, enhancedBytes);
 
     // 3) Template
     const db = await readDB();
@@ -75,37 +86,76 @@ export const generateCertificate = createServerFn({ method: "POST" })
       templateIsPdf = (cfg.template_mime ?? "").includes("pdf") || cfg.template_file.toLowerCase().endsWith(".pdf");
     }
 
-    // 4) Compor PDF
+    // Posição final (override do usuário ou config padrão)
+    const photoX = data.photoX ?? cfg.photo_x;
+    const photoY = data.photoY ?? cfg.photo_y;
+    const photoW = data.photoW ?? cfg.photo_w;
+    const photoH = data.photoH ?? cfg.photo_h;
+
+    // 4) Compor PDF — fundo branco → foto → overlay por cima
     const pdf = await PDFDocument.create();
     let page;
+    let pageW: number;
+    let pageH: number;
+
     if (templateBytes && templateIsPdf) {
       const tplDoc = await PDFDocument.load(templateBytes);
       const [copied] = await pdf.copyPages(tplDoc, [0]);
-      page = pdf.addPage([copied.getWidth(), copied.getHeight()]);
+      pageW = copied.getWidth();
+      pageH = copied.getHeight();
+      page = pdf.addPage([pageW, pageH]);
+      // fundo branco
+      page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: rgb(1, 1, 1) });
+      // foto
+      const photoImg = enhancedMime === "image/jpeg"
+        ? await pdf.embedJpg(enhancedBytes)
+        : await pdf.embedPng(enhancedBytes);
+      page.drawImage(photoImg, {
+        x: photoX,
+        y: pageH - photoY - photoH,
+        width: photoW,
+        height: photoH,
+      });
+      // overlay (PDF template) por cima
       const embedded = await pdf.embedPage(copied);
       page.drawPage(embedded, { x: 0, y: 0 });
     } else if (templateBytes) {
-      const img = templateBytes[0] === 0xff
-        ? await pdf.embedJpg(templateBytes)
-        : await pdf.embedPng(templateBytes);
-      page = pdf.addPage([img.width, img.height]);
-      page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+      const isJpg = templateBytes[0] === 0xff;
+      const tplImg = isJpg ? await pdf.embedJpg(templateBytes) : await pdf.embedPng(templateBytes);
+      pageW = tplImg.width;
+      pageH = tplImg.height;
+      page = pdf.addPage([pageW, pageH]);
+      // fundo branco
+      page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: rgb(1, 1, 1) });
+      // foto entre fundo e overlay
+      const photoImg = enhancedMime === "image/jpeg"
+        ? await pdf.embedJpg(enhancedBytes)
+        : await pdf.embedPng(enhancedBytes);
+      page.drawImage(photoImg, {
+        x: photoX,
+        y: pageH - photoY - photoH,
+        width: photoW,
+        height: photoH,
+      });
+      // overlay PNG (com transparência) por cima
+      page.drawImage(tplImg, { x: 0, y: 0, width: pageW, height: pageH });
     } else {
-      page = pdf.addPage([842, 595]);
-      page.drawRectangle({ x: 0, y: 0, width: 842, height: 595, color: rgb(0.98, 0.96, 0.9) });
+      pageW = 842;
+      pageH = 595;
+      page = pdf.addPage([pageW, pageH]);
+      page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: rgb(0.98, 0.96, 0.9) });
+      const photoImg = enhancedMime === "image/jpeg"
+        ? await pdf.embedJpg(enhancedBytes)
+        : await pdf.embedPng(enhancedBytes);
+      page.drawImage(photoImg, {
+        x: photoX,
+        y: pageH - photoY - photoH,
+        width: photoW,
+        height: photoH,
+      });
     }
 
-    const pageH = page.getHeight();
-
-    const photoImg = await pdf.embedPng(enhancedBytes);
-    const photoYBottom = pageH - cfg.photo_y - cfg.photo_h;
-    page.drawImage(photoImg, {
-      x: cfg.photo_x,
-      y: photoYBottom,
-      width: cfg.photo_w,
-      height: cfg.photo_h,
-    });
-
+    // Nome (sempre por cima)
     const font = await pdf.embedFont(StandardFonts.HelveticaBold);
     const color = hexToRgb(cfg.name_color || "#000000");
     const textWidth = font.widthOfTextAtSize(data.fullName, cfg.name_font_size);
