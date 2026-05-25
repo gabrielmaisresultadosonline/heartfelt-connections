@@ -43,6 +43,10 @@ function CertificadoPage() {
 
   // posição da foto em coordenadas do template (px do PNG original)
   const [pos, setPos] = useState({ x: 0, y: 0, w: 0, h: 0 });
+  // posição do nome e data (px do template)
+  const [namePos, setNamePos] = useState({ x: 0, y: 0, size: 48 });
+  const [datePos, setDatePos] = useState({ x: 0, y: 0, size: 24 });
+  const [dateText, setDateText] = useState(() => new Date().toLocaleDateString("pt-BR"));
   const [tplSize, setTplSize] = useState<{ w: number; h: number } | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -56,6 +60,8 @@ function CertificadoPage() {
   useEffect(() => {
     if (cfg && pos.w === 0) {
       setPos({ x: cfg.photo_x, y: cfg.photo_y, w: cfg.photo_w, h: cfg.photo_h });
+      setNamePos({ x: cfg.name_x, y: cfg.name_y, size: cfg.name_font_size });
+      setDatePos({ x: cfg.date_x, y: cfg.date_y, size: cfg.date_font_size });
     }
   }, [cfg, pos.w]);
 
