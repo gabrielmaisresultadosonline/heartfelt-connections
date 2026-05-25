@@ -15,6 +15,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTemplateRouteImport } from './routes/admin.template'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
 
 const CertificadoRoute = CertificadoRouteImport.update({
@@ -47,6 +48,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicKiwifyWebhookRoute = ApiPublicKiwifyWebhookRouteImport.update({
+  id: '/api/public/kiwify-webhook',
+  path: '/api/public/kiwify-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
   id: '/api/files/$',
   path: '/api/files/$',
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
+  '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/admin/template': typeof AdminTemplateRoute
   '/admin': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
+  '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
+  '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin/'
     | '/api/files/$'
+    | '/api/public/kiwify-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin'
     | '/api/files/$'
+    | '/api/public/kiwify-webhook'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin/'
     | '/api/files/$'
+    | '/api/public/kiwify-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   AdminTemplateRoute: typeof AdminTemplateRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiFilesSplatRoute: typeof ApiFilesSplatRoute
+  ApiPublicKiwifyWebhookRoute: typeof ApiPublicKiwifyWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/kiwify-webhook': {
+      id: '/api/public/kiwify-webhook'
+      path: '/api/public/kiwify-webhook'
+      fullPath: '/api/public/kiwify-webhook'
+      preLoaderRoute: typeof ApiPublicKiwifyWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/files/$': {
       id: '/api/files/$'
       path: '/api/files/$'
@@ -183,7 +203,18 @@ const rootRouteChildren: RootRouteChildren = {
   AdminTemplateRoute: AdminTemplateRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiFilesSplatRoute: ApiFilesSplatRoute,
+  ApiPublicKiwifyWebhookRoute: ApiPublicKiwifyWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
