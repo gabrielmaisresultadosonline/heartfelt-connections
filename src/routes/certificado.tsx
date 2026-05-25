@@ -272,15 +272,8 @@ function CertificadoPage() {
                 </div>
               )}
               {!photoUrl && (
-                <p className="text-xs text-gray-500">Dica: arraste o nome e a data no preview pra ajustar a posição.</p>
+                <p className="text-xs text-gray-500">Dica: depois de subir a foto, arraste foto, nome e data no preview.</p>
               )}
-              <div className="hidden">
-                {/* spacer */}
-              </div>
-              <div className="-mt-2" />
-              <span className="sr-only">end drag hint</span>
-              <span className="sr-only">{ /* keep structure */ }</span>
-              <span className="sr-only" />
 
               <label className="flex items-start gap-2 p-3 border rounded-lg cursor-pointer hover:bg-amber-50">
                 <input
