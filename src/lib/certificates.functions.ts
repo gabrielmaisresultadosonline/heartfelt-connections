@@ -270,10 +270,37 @@ export const getPublicTemplateConfig = createServerFn({ method: "GET" }).handler
     name_y: c.name_y,
     name_font_size: c.name_font_size,
     name_color: c.name_color,
+    date_x: c.date_x,
+    date_y: c.date_y,
+    date_font_size: c.date_font_size,
+    date_color: c.date_color,
     template_url: c.template_file ? `/api/files/${c.template_file}` : null,
     template_is_pdf: ((c.template_mime ?? "").includes("pdf") || (c.template_file ?? "").toLowerCase().endsWith(".pdf")),
   };
 });
+
+export const updateTemplateConfig = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        photo_x: z.number().int(),
+        photo_y: z.number().int(),
+        photo_w: z.number().int().positive(),
+        photo_h: z.number().int().positive(),
+        name_x: z.number().int(),
+        name_y: z.number().int(),
+        name_font_size: z.number().int().min(6).max(300),
+        name_color: z.string().regex(/^#[0-9a-fA-F]{3,6}$/),
+        date_x: z.number().int(),
+        date_y: z.number().int(),
+        date_font_size: z.number().int().min(6).max(300),
+        date_color: z.string().regex(/^#[0-9a-fA-F]{3,6}$/),
+        templateBase64: z.string().optional().nullable(),
+        templateMime: z.string().optional().nullable(),
+        templateExt: z.string().optional().nullable(),
+      })
+      .parse(input),
+  )
 
 export const updateTemplateConfig = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>
