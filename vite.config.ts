@@ -7,6 +7,22 @@ export default defineConfig({
   vite: {
     ssr: {
       noExternal: ["lucide-react", "framer-motion"]
-    }
+    },
+    server: {
+      host: true,
+      allowedHosts: [
+        "belezalisoperfeito.online",
+        "www.belezalisoperfeito.online",
+        ".lovable.app",
+        "localhost",
+      ],
+    },
+    preview: {
+      host: true,
+      allowedHosts: [
+        "belezalisoperfeito.online",
+        "www.belezalisoperfeito.online",
+      ],
+    },
   }
 });
