@@ -59,13 +59,15 @@ function Index() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const PulseButton = ({ children, className = "", asCheckout = false, variant }: { children: React.ReactNode; className?: string; asCheckout?: boolean; variant?: "pink" | "black" | "green" }) => {
+  const PulseButton = ({ children, className = "", asCheckout = false, variant }: { children: React.ReactNode; className?: string; asCheckout?: boolean; variant?: "pink" | "black" | "green" | "yellow" }) => {
     const palette = variant ?? (asCheckout ? "green" : "pink");
     const colors = {
       green: { bg: "#15803d", bgMid: "#16a34a", ring: "rgba(21,128,61,0.4)" },
       pink: { bg: "#d82298", bgMid: "#ff3ea5", ring: "rgba(216,34,152,0.4)" },
       black: { bg: "#0a0a0a", bgMid: "#1a1a1a", ring: "rgba(0,0,0,0.45)" },
+      yellow: { bg: "#b8860b", bgMid: "#d4a017", ring: "rgba(184,134,11,0.4)" },
     }[palette];
+
     return (
       <motion.a
         href={asCheckout ? checkoutUrl : "#oferta"}
@@ -134,7 +136,7 @@ function Index() {
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
-              <PulseButton className="py-6 px-12 rounded-[2.5rem] text-2xl">
+              <PulseButton variant="yellow" className="py-6 px-12 rounded-[2.5rem] text-2xl">
                 Garantir Minha Vaga
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
