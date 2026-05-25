@@ -41,6 +41,13 @@ export const generateCertificate = createServerFn({ method: "POST" })
         photoY: z.number().optional(),
         photoW: z.number().positive().optional(),
         photoH: z.number().positive().optional(),
+        nameX: z.number().optional(),
+        nameY: z.number().optional(),
+        nameFontSize: z.number().positive().optional(),
+        dateText: z.string().max(40).optional(),
+        dateX: z.number().optional(),
+        dateY: z.number().optional(),
+        dateFontSize: z.number().positive().optional(),
       })
       .parse(input),
   )
