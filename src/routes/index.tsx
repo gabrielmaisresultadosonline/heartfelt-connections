@@ -44,12 +44,18 @@ function Index() {
     }
   };
 
-  const PulseButton = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  const scrollToOferta = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.getElementById("oferta");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const PulseButton = ({ children, className = "", asCheckout = false }: { children: React.ReactNode; className?: string; asCheckout?: boolean }) => (
     <motion.a
-      href={checkoutUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={trackAddToCart}
+      href={asCheckout ? checkoutUrl : "#oferta"}
+      target={asCheckout ? "_blank" : undefined}
+      rel={asCheckout ? "noopener noreferrer" : undefined}
+      onClick={asCheckout ? trackAddToCart : scrollToOferta}
       animate={{
         boxShadow: [
           "0 0 0 0px rgba(21, 128, 61, 0.4)",
@@ -68,7 +74,7 @@ function Index() {
         backgroundSize: "200% 100%",
       }}
       whileTap={{ scale: 0.95 }}
-      className={`bg-[#15803d] text-white font-black shadow-2xl uppercase italic tracking-tighter text-center transition-all duration-300 relative overflow-hidden group ${className}`}
+      className={`bg-[#15803d] text-white font-black shadow-2xl uppercase italic tracking-tighter text-center transition-all duration-300 relative overflow-hidden group cursor-pointer ${className}`}
     >
       <span className="relative z-10">{children}</span>
       <motion.div
