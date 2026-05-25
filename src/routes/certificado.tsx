@@ -126,7 +126,7 @@ function CertificadoPage() {
           setEnhanceProgress((p) => (p < 94 ? p + 1 : p));
         }, 900);
 
-        const { createPhotoCutout } = await import("@/lib/photo-cutout.client");
+        const { createPhotoCutout } = await import("@/lib/photo-cutout");
         const res = await createPhotoCutout(file, ({ progress, message }: { progress: number; message: string }) => {
           if (cancelled) return;
           setEnhanceProgress((current) => Math.max(current, progress));
