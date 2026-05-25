@@ -95,16 +95,59 @@ function CertificadoPage() {
   const scale = useMemo(() => (tplSize ? stageW / tplSize.w : 1), [tplSize, stageW]);
   const stageH = useMemo(() => (tplSize ? tplSize.h * scale : 400), [tplSize, scale]);
 
-  // preview do arquivo
+  // preview do arquivo + auto-enhance via IA
   useEffect(() => {
     if (!file) {
       setPhotoUrl(null);
+      setEnhancedB64(null);
+      setEnhanceError(null);
+      setEnhanceProgress(0);
       return;
     }
     const url = URL.createObjectURL(file);
     setPhotoUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+
+    let cancelled = false;
+    let progressTimer: ReturnType<typeof setInterval> | null = null;
+
+    (async () => {
+      try {
+        setEnhancedB64(null);
+        setEnhanceError(null);
+        setEnhancing(true);
+        setEnhanceProgress(5);
+
+        // simulação de progresso (a chamada real demora ~15-25s)
+        progressTimer = setInterval(() => {
+          setEnhanceProgress((p) => (p < 90 ? p + Math.max(1, Math.round((92 - p) / 14)) : p));
+        }, 700);
+
+        const b64 = await fileToBase64(file);
+        const res = await enhance({
+          data: {
+            photoBase64: b64,
+            photoMime: file.type as "image/jpeg" | "image/png" | "image/webp",
+          },
+        });
+        if (cancelled) return;
+        setEnhancedB64(res.base64);
+        setEnhanceProgress(100);
+      } catch (err) {
+        if (cancelled) return;
+        setEnhanceError(err instanceof Error ? err.message : "Falha ao gerar foto profissional");
+        setEnhanceProgress(0);
+      } finally {
+        if (progressTimer) clearInterval(progressTimer);
+        if (!cancelled) setEnhancing(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      if (progressTimer) clearInterval(progressTimer);
+      URL.revokeObjectURL(url);
+    };
+  }, [file, enhance]);
 
   // drag genérico (foto, nome, data)
   type DragTarget = "photo" | "name" | "date";
