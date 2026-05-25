@@ -569,6 +569,67 @@ function Index() {
         </div>
       </section>
 
+      {/* Certificado na hora */}
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-br from-[#fdf2f8] via-white to-[#fce7f3] relative z-20 overflow-hidden">
+        <div className="container mx-auto max-w-5xl text-center">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#d82298]/10 border border-[#d82298]/30 rounded-full text-[#d82298] text-sm font-bold tracking-widest uppercase mb-6"
+          >
+            <FileCheck className="w-4 h-4" /> Certificado oficial
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-6xl font-black text-gray-900 mb-4 leading-tight"
+          >
+            Seu certificado <span className="text-[#d82298]">gerado na hora</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-12"
+          >
+            Assim que você finalizar o curso, é só preencher seus dados e o seu <span className="font-bold text-[#d82298]">certificado de conclusão</span> é emitido na hora, pronto pra imprimir e usar profissionalmente.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative rounded-3xl overflow-hidden mx-auto max-w-3xl"
+            style={{
+              border: "6px solid transparent",
+              backgroundImage:
+                "linear-gradient(#fff, #fff), linear-gradient(135deg, #d82298, #ff7ac4, #d82298)",
+              backgroundOrigin: "border-box",
+              backgroundClip: "padding-box, border-box",
+              boxShadow: "0 30px 80px -20px rgba(216,34,152,0.45)",
+            }}
+          >
+            <video
+              src="/videos/certificado-gerado.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-auto block"
+            />
+          </motion.div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 text-sm md:text-base text-gray-700 font-semibold">
+            <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Emissão imediata</span>
+            <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Válido em todo Brasil</span>
+            <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Reconhecimento profissional</span>
+          </div>
+        </div>
+      </section>
+
       {/* Oferta / Preço */}
       <section id="oferta" className="py-24 md:py-32 px-6 bg-gradient-to-br from-[#fdf2f8] via-white to-[#fce7f3] relative z-30 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
