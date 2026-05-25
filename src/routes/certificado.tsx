@@ -753,6 +753,7 @@ function CertificadoPage() {
               </p>
             </div>
           </form>
+          </>
         )}
       </div>
     </div>
