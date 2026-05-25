@@ -314,7 +314,58 @@ function CertificadoPage() {
           </p>
         </div>
 
-        {result ? (
+        {!accessGranted ? (
+          <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/30 ring-1 ring-pink-200 p-8 md:p-10 max-w-xl mx-auto">
+            <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
+            <h2 className="text-xl md:text-2xl font-extrabold mb-2 text-center bg-gradient-to-r from-pink-600 to-fuchsia-600 bg-clip-text text-transparent">
+              Acesso exclusivo para alunas
+            </h2>
+            <p className="text-sm text-rose-900/70 text-center mb-6">
+              Digite o <strong>mesmo email</strong> usado na compra do curso na Kiwify para liberar
+              seu certificado.
+            </p>
+            <form onSubmit={onCheckAccess} className="space-y-4">
+              <input
+                type="email"
+                value={gateEmail}
+                onChange={(e) => setGateEmail(e.target.value)}
+                placeholder="seu-email@exemplo.com"
+                required
+                className="w-full border border-pink-200 bg-white/80 rounded-xl px-4 py-3 focus:ring-2 focus:ring-pink-400 focus:border-pink-400 outline-none transition"
+              />
+              {gateError && (
+                <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                  {gateError}
+                </div>
+              )}
+              <button
+                type="submit"
+                disabled={gateChecking}
+                className="w-full bg-gradient-to-r from-pink-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 text-white font-bold py-3 rounded-full shadow-lg shadow-pink-400/40 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {gateChecking ? "Verificando..." : "Acessar"}
+              </button>
+            </form>
+          </div>
+        ) : existingPdfUrl ? (
+          <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/30 ring-1 ring-pink-200 p-8 md:p-10 text-center max-w-xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-extrabold mb-3 bg-gradient-to-r from-pink-600 to-fuchsia-600 bg-clip-text text-transparent">
+              Seu certificado já foi emitido 🎉
+            </h2>
+            <p className="text-sm text-rose-900/70 mb-6">
+              Você já gerou seu certificado anteriormente. Cada aluna pode emitir apenas 1
+              certificado. Use o botão abaixo para baixá-lo novamente.
+            </p>
+            <a
+              href={existingPdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-gradient-to-r from-pink-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-pink-400/40 transition-all hover:scale-[1.03] active:scale-100"
+            >
+              Baixar meu Certificado
+            </a>
+          </div>
+        ) : result ? (
           <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/30 ring-1 ring-pink-200 p-8 md:p-10 text-center max-w-xl mx-auto">
             <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
             <h2 className="text-2xl md:text-3xl font-extrabold mb-4 bg-gradient-to-r from-pink-600 to-fuchsia-600 bg-clip-text text-transparent">
