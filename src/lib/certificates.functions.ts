@@ -301,25 +301,6 @@ export const updateTemplateConfig = createServerFn({ method: "POST" })
       })
       .parse(input),
   )
-
-export const updateTemplateConfig = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) =>
-    z
-      .object({
-        photo_x: z.number().int(),
-        photo_y: z.number().int(),
-        photo_w: z.number().int().positive(),
-        photo_h: z.number().int().positive(),
-        name_x: z.number().int(),
-        name_y: z.number().int(),
-        name_font_size: z.number().int().min(6).max(300),
-        name_color: z.string().regex(/^#[0-9a-fA-F]{3,6}$/),
-        templateBase64: z.string().optional().nullable(),
-        templateMime: z.string().optional().nullable(),
-        templateExt: z.string().optional().nullable(),
-      })
-      .parse(input),
-  )
   .handler(async ({ data }) => {
     requireAdmin();
     let templateFile: string | undefined;
@@ -341,6 +322,10 @@ export const updateTemplateConfig = createServerFn({ method: "POST" })
         name_y: data.name_y,
         name_font_size: data.name_font_size,
         name_color: data.name_color,
+        date_x: data.date_x,
+        date_y: data.date_y,
+        date_font_size: data.date_font_size,
+        date_color: data.date_color,
       };
       if (templateFile) {
         // remove o template antigo
