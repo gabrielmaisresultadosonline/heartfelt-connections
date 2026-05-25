@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { generateCertificate, getPublicTemplateConfig } from "@/lib/certificates.functions";
+import { enhancePhoto, generateCertificate, getPublicTemplateConfig } from "@/lib/certificates.functions";
 
 export const Route = createFileRoute("/certificado")({
   head: () => ({
@@ -28,6 +28,7 @@ function fileToBase64(file: File): Promise<string> {
 
 function CertificadoPage() {
   const generate = useServerFn(generateCertificate);
+  const enhance = useServerFn(enhancePhoto);
   const fetchCfg = useServerFn(getPublicTemplateConfig);
 
   const { data: cfg } = useQuery({
@@ -39,7 +40,12 @@ function CertificadoPage() {
   const [email, setEmail] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
-  const [useAI, setUseAI] = useState(false);
+
+  // foto profissionalizada pela IA (base64 PNG)
+  const [enhancedB64, setEnhancedB64] = useState<string | null>(null);
+  const [enhancing, setEnhancing] = useState(false);
+  const [enhanceProgress, setEnhanceProgress] = useState(0);
+  const [enhanceError, setEnhanceError] = useState<string | null>(null);
 
   // posição da foto em coordenadas do template (px do PNG original)
   const [pos, setPos] = useState({ x: 0, y: 0, w: 0, h: 0 });
