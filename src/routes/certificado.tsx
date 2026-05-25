@@ -411,7 +411,55 @@ function CertificadoPage() {
             </button>
           </div>
         ) : (
-          <form onSubmit={onSubmit} className="grid md:grid-cols-2 gap-6">
+          <>
+            <div className="max-w-5xl mx-auto mb-8 grid md:grid-cols-2 gap-6 items-stretch">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-pink-300/30 ring-2 ring-pink-300 bg-black">
+                <video
+                  src="/videos/tutorial-certificado.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover block"
+                />
+              </div>
+              <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/20 ring-1 ring-pink-200 p-6 md:p-7">
+                <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
+                <h2 className="text-2xl md:text-3xl font-extrabold mb-4 bg-gradient-to-r from-pink-600 to-fuchsia-600 bg-clip-text text-transparent">
+                  Gere seu certificado
+                </h2>
+                <p className="text-sm text-rose-900/70 mb-5">
+                  Siga o passo a passo abaixo. É rapidinho 💖
+                </p>
+                <ol className="space-y-4">
+                  <li className="flex gap-3">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-600 text-white font-black flex items-center justify-center shadow-md">1</span>
+                    <p className="text-sm text-rose-900 leading-relaxed">
+                      Preencha seu <strong>nome completo</strong> e a <strong>data</strong> em que deseja gerar o certificado.
+                    </p>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-600 text-white font-black flex items-center justify-center shadow-md">2</span>
+                    <p className="text-sm text-rose-900 leading-relaxed">
+                      Envie uma <strong>foto sua da cintura pra cima</strong>, mostrando o rosto olhando pra frente.
+                      <span className="block mt-1 text-rose-700/80">
+                        ⚠️ Não pode ser foto em frente ao espelho — precisa ser uma foto de perfil. Nosso gerador vai recortar somente você da foto e incluir no certificado.
+                      </span>
+                    </p>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-600 text-white font-black flex items-center justify-center shadow-md">3</span>
+                    <p className="text-sm text-rose-900 leading-relaxed">
+                      Depois disso é só clicar em <strong>Gerar Certificado</strong> e imprimir 🎓
+                    </p>
+                  </li>
+                </ol>
+                <p className="mt-6 pt-4 border-t border-pink-100 text-center text-sm font-semibold text-pink-700">
+                  Obrigada pela confiança de sempre! 💕
+                </p>
+              </div>
+            </div>
+            <form onSubmit={onSubmit} className="grid md:grid-cols-2 gap-6">
             {/* COLUNA 1: formulário */}
             <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/20 ring-1 ring-pink-200 p-6 md:p-7 space-y-4 order-2 md:order-1">
               <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
@@ -705,6 +753,7 @@ function CertificadoPage() {
               </p>
             </div>
           </form>
+          </>
         )}
       </div>
     </div>
