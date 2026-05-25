@@ -643,6 +643,11 @@ function Index() {
             <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Válido em todo Brasil</span>
             <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Reconhecimento profissional</span>
           </div>
+          <div className="mt-10">
+            <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+              QUERO MEU CERTIFICADO →
+            </PulseButton>
+          </div>
         </div>
       </section>
 
@@ -737,7 +742,7 @@ function Index() {
       {/* Final CTA */}
       <footer className="py-40 px-6 text-center bg-[#fafafa] relative z-30">
         <h2 className="text-6xl md:text-[10rem] font-black mb-16 uppercase tracking-tighter leading-[0.8] italic text-[#1a1a1a]">MUDE SUA <br/> <span className="text-[#d82298]">VIDA AGORA.</span></h2>
-        <PulseButton className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(21,128,61,0.5)]">
+        <PulseButton className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(216,34,152,0.5)]">
           QUERO MINHA VAGA!
         </PulseButton>
         <p className="mt-20 text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">&copy; 2026 TODOS OS DIREITOS RESERVADOS</p>
