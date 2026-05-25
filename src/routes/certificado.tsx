@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { generateCertificate, getPublicTemplateConfig } from "@/lib/certificates.functions";
-import { createPhotoCutout } from "@/lib/photo-cutout.client";
+
 
 export const Route = createFileRoute("/certificado")({
   head: () => ({
@@ -126,7 +126,8 @@ function CertificadoPage() {
           setEnhanceProgress((p) => (p < 94 ? p + 1 : p));
         }, 900);
 
-        const res = await createPhotoCutout(file, ({ progress, message }) => {
+        const { createPhotoCutout } = await import("@/lib/photo-cutout.client");
+        const res = await createPhotoCutout(file, ({ progress, message }: { progress: number; message: string }) => {
           if (cancelled) return;
           setEnhanceProgress((current) => Math.max(current, progress));
           setEnhanceMessage(message);
