@@ -44,6 +44,7 @@ function TemplatePage() {
   const [form, setForm] = useState({
     photo_x: 100, photo_y: 100, photo_w: 300, photo_h: 300,
     name_x: 400, name_y: 500, name_font_size: 48, name_color: "#000000",
+    date_x: 400, date_y: 560, date_font_size: 24, date_color: "#000000",
   });
   const [file, setFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
@@ -54,6 +55,7 @@ function TemplatePage() {
       setForm({
         photo_x: data.photo_x, photo_y: data.photo_y, photo_w: data.photo_w, photo_h: data.photo_h,
         name_x: data.name_x, name_y: data.name_y, name_font_size: data.name_font_size, name_color: data.name_color,
+        date_x: data.date_x, date_y: data.date_y, date_font_size: data.date_font_size, date_color: data.date_color,
       });
     }
   }, [data]);
@@ -102,6 +104,7 @@ function TemplatePage() {
       const payload: {
         photo_x: number; photo_y: number; photo_w: number; photo_h: number;
         name_x: number; name_y: number; name_font_size: number; name_color: string;
+        date_x: number; date_y: number; date_font_size: number; date_color: string;
         templateBase64?: string; templateMime?: string; templateExt?: string;
       } = { ...form };
       if (file) {
@@ -189,6 +192,32 @@ function TemplatePage() {
               </div>
             </fieldset>
 
+            <fieldset className="border rounded-lg p-4">
+              <legend className="text-sm font-semibold px-2">Data (x = centro, y = base)</legend>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {(["date_x", "date_y", "date_font_size"] as const).map((k) => (
+                  <label key={k} className="text-xs">
+                    {k}
+                    <input
+                      type="number"
+                      value={form[k]}
+                      onChange={(e) => setForm({ ...form, [k]: Number(e.target.value) })}
+                      className="w-full border rounded px-2 py-1 mt-1"
+                    />
+                  </label>
+                ))}
+                <label className="text-xs">
+                  date_color
+                  <input
+                    type="color"
+                    value={form.date_color}
+                    onChange={(e) => setForm({ ...form, date_color: e.target.value })}
+                    className="w-full h-9 border rounded mt-1"
+                  />
+                </label>
+              </div>
+            </fieldset>
+
             {msg && <p className="text-sm">{msg}</p>}
             <button
               type="submit"
@@ -242,6 +271,20 @@ function TemplatePage() {
                     }}
                   >
                     NOME DO ALUNO
+                  </div>
+                  {/* data */}
+                  <div
+                    className="absolute pointer-events-none whitespace-nowrap"
+                    style={{
+                      left: form.date_x * scale,
+                      top: form.date_y * scale,
+                      transform: "translate(-50%, -100%)",
+                      fontSize: form.date_font_size * scale,
+                      color: form.date_color,
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                    }}
+                  >
+                    {new Date().toLocaleDateString("pt-BR")}
                   </div>
                 </div>
               ) : (

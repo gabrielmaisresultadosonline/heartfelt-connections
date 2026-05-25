@@ -41,6 +41,13 @@ export const generateCertificate = createServerFn({ method: "POST" })
         photoY: z.number().optional(),
         photoW: z.number().positive().optional(),
         photoH: z.number().positive().optional(),
+        nameX: z.number().optional(),
+        nameY: z.number().optional(),
+        nameFontSize: z.number().positive().optional(),
+        dateText: z.string().max(40).optional(),
+        dateX: z.number().optional(),
+        dateY: z.number().optional(),
+        dateFontSize: z.number().positive().optional(),
       })
       .parse(input),
   )
@@ -157,14 +164,33 @@ export const generateCertificate = createServerFn({ method: "POST" })
 
     // Nome (sempre por cima)
     const font = await pdf.embedFont(StandardFonts.HelveticaBold);
-    const color = hexToRgb(cfg.name_color || "#000000");
-    const textWidth = font.widthOfTextAtSize(data.fullName, cfg.name_font_size);
+    const nameColor = hexToRgb(cfg.name_color || "#000000");
+    const nameFontSize = data.nameFontSize ?? cfg.name_font_size;
+    const nameX = data.nameX ?? cfg.name_x;
+    const nameY = data.nameY ?? cfg.name_y;
+    const textWidth = font.widthOfTextAtSize(data.fullName, nameFontSize);
     page.drawText(data.fullName, {
-      x: cfg.name_x - textWidth / 2,
-      y: pageH - cfg.name_y,
-      size: cfg.name_font_size,
+      x: nameX - textWidth / 2,
+      y: pageH - nameY,
+      size: nameFontSize,
       font,
-      color,
+      color: nameColor,
+    });
+
+    // Data
+    const dateText = (data.dateText && data.dateText.trim()) ||
+      new Date().toLocaleDateString("pt-BR");
+    const dateFontSize = data.dateFontSize ?? cfg.date_font_size;
+    const dateX = data.dateX ?? cfg.date_x;
+    const dateY = data.dateY ?? cfg.date_y;
+    const dateColor = hexToRgb(cfg.date_color || "#000000");
+    const dateWidth = font.widthOfTextAtSize(dateText, dateFontSize);
+    page.drawText(dateText, {
+      x: dateX - dateWidth / 2,
+      y: pageH - dateY,
+      size: dateFontSize,
+      font,
+      color: dateColor,
     });
 
     const pdfBytes = await pdf.save();
@@ -244,6 +270,10 @@ export const getPublicTemplateConfig = createServerFn({ method: "GET" }).handler
     name_y: c.name_y,
     name_font_size: c.name_font_size,
     name_color: c.name_color,
+    date_x: c.date_x,
+    date_y: c.date_y,
+    date_font_size: c.date_font_size,
+    date_color: c.date_color,
     template_url: c.template_file ? `/api/files/${c.template_file}` : null,
     template_is_pdf: ((c.template_mime ?? "").includes("pdf") || (c.template_file ?? "").toLowerCase().endsWith(".pdf")),
   };
@@ -261,6 +291,10 @@ export const updateTemplateConfig = createServerFn({ method: "POST" })
         name_y: z.number().int(),
         name_font_size: z.number().int().min(6).max(300),
         name_color: z.string().regex(/^#[0-9a-fA-F]{3,6}$/),
+        date_x: z.number().int(),
+        date_y: z.number().int(),
+        date_font_size: z.number().int().min(6).max(300),
+        date_color: z.string().regex(/^#[0-9a-fA-F]{3,6}$/),
         templateBase64: z.string().optional().nullable(),
         templateMime: z.string().optional().nullable(),
         templateExt: z.string().optional().nullable(),
@@ -288,6 +322,10 @@ export const updateTemplateConfig = createServerFn({ method: "POST" })
         name_y: data.name_y,
         name_font_size: data.name_font_size,
         name_color: data.name_color,
+        date_x: data.date_x,
+        date_y: data.date_y,
+        date_font_size: data.date_font_size,
+        date_color: data.date_color,
       };
       if (templateFile) {
         // remove o template antigo

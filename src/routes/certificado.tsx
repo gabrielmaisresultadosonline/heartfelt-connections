@@ -43,6 +43,10 @@ function CertificadoPage() {
 
   // posição da foto em coordenadas do template (px do PNG original)
   const [pos, setPos] = useState({ x: 0, y: 0, w: 0, h: 0 });
+  // posição do nome e data (px do template)
+  const [namePos, setNamePos] = useState({ x: 0, y: 0, size: 48 });
+  const [datePos, setDatePos] = useState({ x: 0, y: 0, size: 24 });
+  const [dateText, setDateText] = useState(() => new Date().toLocaleDateString("pt-BR"));
   const [tplSize, setTplSize] = useState<{ w: number; h: number } | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -56,6 +60,8 @@ function CertificadoPage() {
   useEffect(() => {
     if (cfg && pos.w === 0) {
       setPos({ x: cfg.photo_x, y: cfg.photo_y, w: cfg.photo_w, h: cfg.photo_h });
+      setNamePos({ x: cfg.name_x, y: cfg.name_y, size: cfg.name_font_size });
+      setDatePos({ x: cfg.date_x, y: cfg.date_y, size: cfg.date_font_size });
     }
   }, [cfg, pos.w]);
 
@@ -94,18 +100,24 @@ function CertificadoPage() {
     return () => URL.revokeObjectURL(url);
   }, [file]);
 
-  // drag da foto
-  const dragRef = useRef<{ startX: number; startY: number; posX: number; posY: number } | null>(null);
-  function onPointerDown(e: React.PointerEvent) {
-    if (!photoUrl) return;
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    dragRef.current = { startX: e.clientX, startY: e.clientY, posX: pos.x, posY: pos.y };
+  // drag genérico (foto, nome, data)
+  type DragTarget = "photo" | "name" | "date";
+  const dragRef = useRef<{ target: DragTarget; startX: number; startY: number; posX: number; posY: number } | null>(null);
+  function startDrag(target: DragTarget) {
+    return (e: React.PointerEvent) => {
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      const cur = target === "photo" ? pos : target === "name" ? namePos : datePos;
+      dragRef.current = { target, startX: e.clientX, startY: e.clientY, posX: cur.x, posY: cur.y };
+    };
   }
   function onPointerMove(e: React.PointerEvent) {
     if (!dragRef.current) return;
-    const dx = (e.clientX - dragRef.current.startX) / scale;
-    const dy = (e.clientY - dragRef.current.startY) / scale;
-    setPos((p) => ({ ...p, x: dragRef.current!.posX + dx, y: dragRef.current!.posY + dy }));
+    const d = dragRef.current;
+    const dx = (e.clientX - d.startX) / scale;
+    const dy = (e.clientY - d.startY) / scale;
+    if (d.target === "photo") setPos((p) => ({ ...p, x: d.posX + dx, y: d.posY + dy }));
+    else if (d.target === "name") setNamePos((p) => ({ ...p, x: d.posX + dx, y: d.posY + dy }));
+    else setDatePos((p) => ({ ...p, x: d.posX + dx, y: d.posY + dy }));
   }
   function onPointerUp(e: React.PointerEvent) {
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
@@ -123,7 +135,11 @@ function CertificadoPage() {
   }
 
   function resetPos() {
-    if (cfg) setPos({ x: cfg.photo_x, y: cfg.photo_y, w: cfg.photo_w, h: cfg.photo_h });
+    if (cfg) {
+      setPos({ x: cfg.photo_x, y: cfg.photo_y, w: cfg.photo_w, h: cfg.photo_h });
+      setNamePos({ x: cfg.name_x, y: cfg.name_y, size: cfg.name_font_size });
+      setDatePos({ x: cfg.date_x, y: cfg.date_y, size: cfg.date_font_size });
+    }
   }
 
   async function onSubmit(e: React.FormEvent) {
@@ -150,6 +166,13 @@ function CertificadoPage() {
           photoY: Math.round(pos.y),
           photoW: Math.round(pos.w),
           photoH: Math.round(pos.h),
+          nameX: Math.round(namePos.x),
+          nameY: Math.round(namePos.y),
+          nameFontSize: Math.round(namePos.size),
+          dateText: dateText.trim() || undefined,
+          dateX: Math.round(datePos.x),
+          dateY: Math.round(datePos.y),
+          dateFontSize: Math.round(datePos.size),
         },
       });
       setResult({ pdfUrl: res.pdfUrl, enhancedPhotoUrl: res.enhancedPhotoUrl });
@@ -216,6 +239,16 @@ function CertificadoPage() {
                 />
               </div>
               <div>
+                <label className="block text-sm font-medium mb-1">Data de conclusão</label>
+                <input
+                  type="text"
+                  value={dateText}
+                  onChange={(e) => setDateText(e.target.value)}
+                  maxLength={40}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-amber-400 outline-none"
+                />
+              </div>
+              <div>
                 <label className="block text-sm font-medium mb-1">Sua foto *</label>
                 <input
                   type="file"
@@ -235,8 +268,11 @@ function CertificadoPage() {
                     <button type="button" onClick={() => scalePhoto(0.9)} className="px-3 py-1 bg-white border rounded text-sm">– Zoom</button>
                     <button type="button" onClick={resetPos} className="px-3 py-1 bg-white border rounded text-sm">Resetar</button>
                   </div>
-                  <p className="text-xs text-gray-500">Arraste a foto no preview pra mover.</p>
+                  <p className="text-xs text-gray-500">Arraste foto, nome e data no preview pra posicionar.</p>
                 </div>
+              )}
+              {!photoUrl && (
+                <p className="text-xs text-gray-500">Dica: depois de subir a foto, arraste foto, nome e data no preview.</p>
               )}
 
               <label className="flex items-start gap-2 p-3 border rounded-lg cursor-pointer hover:bg-amber-50">
@@ -283,7 +319,7 @@ function CertificadoPage() {
                         src={photoUrl}
                         alt="sua foto"
                         draggable={false}
-                        onPointerDown={onPointerDown}
+                        onPointerDown={startDrag("photo")}
                         onPointerMove={onPointerMove}
                         onPointerUp={onPointerUp}
                         className="absolute cursor-move"
@@ -305,22 +341,42 @@ function CertificadoPage() {
                       className="absolute inset-0 pointer-events-none"
                       style={{ width: stageW, height: stageH }}
                     />
-                    {/* nome */}
-                    {fullName && (
-                      <div
-                        className="absolute pointer-events-none font-bold text-center whitespace-nowrap"
-                        style={{
-                          left: cfg.name_x * scale,
-                          top: cfg.name_y * scale,
-                          transform: "translate(-50%, -100%)",
-                          fontSize: cfg.name_font_size * scale,
-                          color: cfg.name_color,
-                          fontFamily: "Helvetica, Arial, sans-serif",
-                        }}
-                      >
-                        {fullName}
-                      </div>
-                    )}
+                    {/* nome arrastável */}
+                    <div
+                      onPointerDown={startDrag("name")}
+                      onPointerMove={onPointerMove}
+                      onPointerUp={onPointerUp}
+                      className="absolute font-bold text-center whitespace-nowrap cursor-move px-2 rounded hover:bg-amber-100/40"
+                      style={{
+                        left: namePos.x * scale,
+                        top: namePos.y * scale,
+                        transform: "translate(-50%, -100%)",
+                        fontSize: namePos.size * scale,
+                        color: cfg.name_color,
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        touchAction: "none",
+                      }}
+                    >
+                      {fullName || "SEU NOME"}
+                    </div>
+                    {/* data arrastável */}
+                    <div
+                      onPointerDown={startDrag("date")}
+                      onPointerMove={onPointerMove}
+                      onPointerUp={onPointerUp}
+                      className="absolute whitespace-nowrap cursor-move px-2 rounded hover:bg-amber-100/40"
+                      style={{
+                        left: datePos.x * scale,
+                        top: datePos.y * scale,
+                        transform: "translate(-50%, -100%)",
+                        fontSize: datePos.size * scale,
+                        color: cfg.date_color,
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        touchAction: "none",
+                      }}
+                    >
+                      {dateText}
+                    </div>
                     {/* placeholder quando não tem foto */}
                     {!photoUrl && (
                       <div
