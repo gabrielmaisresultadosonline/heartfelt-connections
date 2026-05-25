@@ -528,54 +528,6 @@ function Index() {
             />
           </motion.div>
 
-          <div className="text-center mb-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-block px-6 py-2 bg-gradient-to-r from-[#d82298] to-[#ff7ac4] rounded-full text-white text-sm font-black tracking-widest uppercase mb-6 shadow-lg"
-            >
-              🎁 Bônus exclusivos comprando hoje
-            </motion.div>
-            <h3 className="text-3xl md:text-5xl font-black text-white mb-3">
-              Tudo isso <span className="text-[#ff7ac4]">incluso</span> sem pagar a mais
-            </h3>
-            <p className="text-white/70 text-lg">6 cursos completos somados ao curso principal</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[
-              { title: "Designer de Sobrancelhas", icon: Sparkles },
-              { title: "Micropigmentação", icon: Paintbrush },
-              { title: "Tratamentos de Saúde Capilar", icon: Heart },
-              { title: "Manicure e Pedicure Tradicionais", icon: Flower2 },
-              { title: "Automaquiagem", icon: Star },
-              { title: "Make Social", icon: Award },
-            ].map((bonus, i) => (
-              <motion.div
-                key={bonus.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur border border-[#d82298]/30 rounded-2xl p-6 hover:border-[#ff7ac4] hover:scale-105 transition-all duration-300"
-              >
-                <div className="absolute top-3 right-3 text-xs font-black text-[#ff7ac4] bg-[#d82298]/20 px-2 py-1 rounded-full">
-                  BÔNUS
-                </div>
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#d82298] to-[#ff7ac4] flex items-center justify-center mb-4 shadow-lg">
-                  <bonus.icon className="w-7 h-7 text-white" />
-                </div>
-                <h4 className="text-xl font-black text-white leading-tight">
-                  {bonus.title}
-                </h4>
-                <div className="mt-3 flex items-center gap-2 text-sm text-[#ff7ac4] font-semibold">
-                  <CheckCircle className="w-4 h-4" />
-                  Acesso vitalício incluso
-                </div>
-              </motion.div>
-            ))}
-          </div>
 
           <div className="text-center mt-14">
             <PulseButton className="inline-block px-10 py-5 rounded-full text-white text-lg md:text-xl font-black shadow-2xl">
