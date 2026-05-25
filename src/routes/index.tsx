@@ -465,6 +465,110 @@ function Index() {
         </AnimatePresence>
       </section>
 
+      {/* Área de Membros + Bônus */}
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-br from-black via-[#1a0a14] to-[#2a0a1f] relative z-20 overflow-hidden">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-block px-4 py-2 bg-[#d82298]/20 border border-[#d82298]/40 rounded-full text-[#ff7ac4] text-sm font-bold tracking-widest uppercase mb-6"
+            >
+              Veja por dentro
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-6xl font-black text-white mb-4 leading-tight"
+            >
+              A sua <span className="text-[#ff7ac4]">área de membros</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto"
+            >
+              Mais de <span className="text-[#ff7ac4] font-bold">60 aulas gravadas</span> dos cursos presenciais da Alessandra, organizadas em módulos para você assistir quando e onde quiser.
+            </motion.p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(216,34,152,0.5)] border-4 border-[#d82298]/40 mb-16 bg-black"
+          >
+            <video
+              src="/videos/area-membros.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-auto block"
+            />
+          </motion.div>
+
+          <div className="text-center mb-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-block px-6 py-2 bg-gradient-to-r from-[#d82298] to-[#ff7ac4] rounded-full text-white text-sm font-black tracking-widest uppercase mb-6 shadow-lg"
+            >
+              🎁 Bônus exclusivos comprando hoje
+            </motion.div>
+            <h3 className="text-3xl md:text-5xl font-black text-white mb-3">
+              Tudo isso <span className="text-[#ff7ac4]">incluso</span> sem pagar a mais
+            </h3>
+            <p className="text-white/70 text-lg">6 cursos completos somados ao curso principal</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { title: "Designer de Sobrancelhas", icon: Sparkles },
+              { title: "Micropigmentação", icon: Paintbrush },
+              { title: "Tratamentos de Saúde Capilar", icon: Heart },
+              { title: "Manicure e Pedicure Tradicionais", icon: Flower2 },
+              { title: "Automaquiagem", icon: Star },
+              { title: "Make Social", icon: Award },
+            ].map((bonus, i) => (
+              <motion.div
+                key={bonus.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur border border-[#d82298]/30 rounded-2xl p-6 hover:border-[#ff7ac4] hover:scale-105 transition-all duration-300"
+              >
+                <div className="absolute top-3 right-3 text-xs font-black text-[#ff7ac4] bg-[#d82298]/20 px-2 py-1 rounded-full">
+                  BÔNUS
+                </div>
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#d82298] to-[#ff7ac4] flex items-center justify-center mb-4 shadow-lg">
+                  <bonus.icon className="w-7 h-7 text-white" />
+                </div>
+                <h4 className="text-xl font-black text-white leading-tight">
+                  {bonus.title}
+                </h4>
+                <div className="mt-3 flex items-center gap-2 text-sm text-[#ff7ac4] font-semibold">
+                  <CheckCircle className="w-4 h-4" />
+                  Acesso vitalício incluso
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center mt-14">
+            <PulseButton className="inline-block px-10 py-5 rounded-full text-white text-lg md:text-xl font-black shadow-2xl">
+              QUERO TUDO ISSO AGORA →
+            </PulseButton>
+          </div>
+        </div>
+      </section>
+
       {/* Oferta / Preço */}
       <section id="oferta" className="py-24 md:py-32 px-6 bg-gradient-to-br from-[#fdf2f8] via-white to-[#fce7f3] relative z-30 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
