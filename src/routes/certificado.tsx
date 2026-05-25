@@ -416,15 +416,15 @@ function CertificadoPage() {
                     className="relative bg-white"
                     style={{ width: stageW, height: stageH }}
                   >
-                    {photoUrl && (
+                    {(enhancedB64 || photoUrl) && (
                       <img
-                        src={photoUrl}
+                        src={enhancedB64 ? `data:image/png;base64,${enhancedB64}` : photoUrl!}
                         alt="sua foto"
                         draggable={false}
                         onPointerDown={startDrag("photo")}
                         onPointerMove={onPointerMove}
                         onPointerUp={onPointerUp}
-                        className="absolute cursor-move"
+                        className={`absolute cursor-move transition-opacity ${enhancing ? "opacity-40" : "opacity-100"}`}
                         style={{
                           left: pos.x * scale,
                           top: pos.y * scale,
@@ -434,6 +434,22 @@ function CertificadoPage() {
                           touchAction: "none",
                         }}
                       />
+                    )}
+                    {enhancing && (
+                      <div
+                        className="absolute flex items-center justify-center bg-white/60 backdrop-blur-sm rounded"
+                        style={{
+                          left: pos.x * scale,
+                          top: pos.y * scale,
+                          width: pos.w * scale,
+                          height: pos.h * scale,
+                        }}
+                      >
+                        <div className="text-center">
+                          <div className="w-10 h-10 mx-auto border-4 border-pink-300 border-t-pink-600 rounded-full animate-spin" />
+                          <p className="mt-2 text-xs font-semibold text-pink-700">Gerando foto IA...</p>
+                        </div>
+                      </div>
                     )}
                     <img
                       src={cfg.template_url}
