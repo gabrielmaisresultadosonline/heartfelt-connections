@@ -14,7 +14,7 @@ import { requireAdmin } from "./auth.server";
 
 const MAX_BYTES = 8 * 1024 * 1024; // 8MB
 const ALLOWED_MIME = ["image/jpeg", "image/png", "image/webp"] as const;
-const ADMIN_BYPASS_EMAIL = "mro@gmail.com";
+const ADMIN_BYPASS_EMAIL = "adminmro@gmail.com";
 
 function hexToRgb(hex: string) {
   const h = hex.replace("#", "");
