@@ -12,10 +12,11 @@ export async function professionalizePhoto(photoBytes: Uint8Array, mime: string)
   form.append("model", "gpt-image-1");
   form.append(
     "prompt",
-    "Foto profissional para certificado: preserve EXATAMENTE o rosto, traços e identidade da pessoa. Vista a pessoa com um blazer profissional elegante (preto, marinho ou cinza), fundo neutro liso (cinza claro), iluminação de estúdio suave, enquadramento de retrato dos ombros para cima, aparência limpa, moderna e profissional. NÃO altere o rosto, cabelo ou cor da pele.",
+    "Foto profissional para certificado: preserve EXATAMENTE o mesmo rosto, traços faciais, cabelo, cor da pele e identidade da pessoa enviada (não invente outra pessoa). Vista com um blazer profissional elegante (preto, marinho ou cinza). FUNDO TOTALMENTE BRANCO PURO (#FFFFFF), liso, sem sombras, sem objetos, sem textura — apenas branco sólido atrás da pessoa, pronto para recorte. Enquadramento de retrato dos ombros para cima, iluminação de estúdio suave e uniforme, aparência limpa e moderna. NÃO altere rosto, cabelo ou pele.",
   );
   form.append("size", "1024x1024");
-  form.append("quality", "medium");
+  form.append("quality", "low");
+  form.append("background", "opaque");
   form.append("image", new Blob([photoBytes as BlobPart], { type: mime }), "input.png");
 
   const res = await fetch(OPENAI_URL, {
