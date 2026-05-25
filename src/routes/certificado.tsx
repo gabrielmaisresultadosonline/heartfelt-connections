@@ -13,6 +13,9 @@ export const Route = createFileRoute("/certificado")({
         name: "description",
         content: "Envie sua foto, posicione e receba seu certificado oficial.",
       },
+      { httpEquiv: "Cache-Control", content: "no-cache, no-store, must-revalidate" },
+      { httpEquiv: "Pragma", content: "no-cache" },
+      { httpEquiv: "Expires", content: "0" },
     ],
   }),
   component: CertificadoPage,
@@ -104,6 +107,16 @@ function CertificadoPage() {
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
+  }, []);
+
+  // Se a página voltar do bfcache (back/forward), recarrega do servidor
+  // para garantir que o gate de email seja sempre exibido.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) window.location.reload();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
   }, []);
 
   const scale = useMemo(() => (tplSize ? stageW / tplSize.w : 1), [tplSize, stageW]);
@@ -417,14 +430,18 @@ function CertificadoPage() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-rose-900 mb-1">
-                  Email (opcional)
+                  Email da compra
                 </label>
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-pink-200 bg-white/80 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-pink-400 focus:border-pink-400 outline-none transition"
+                  readOnly
+                  disabled
+                  className="w-full border border-pink-200 bg-pink-50/60 text-rose-900/80 rounded-xl px-4 py-2.5 outline-none cursor-not-allowed"
                 />
+                <p className="text-[11px] text-rose-900/60 mt-1">
+                  Travado: é o mesmo email usado para acessar esta página.
+                </p>
               </div>
               <div>
                 <label className="block text-sm font-semibold text-rose-900 mb-1">
