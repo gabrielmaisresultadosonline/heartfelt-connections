@@ -102,6 +102,7 @@ export async function readDB(): Promise<DB> {
       admins: parsed.admins ?? [],
       template_config: { ...DEFAULT_DB.template_config, ...(parsed.template_config ?? {}) },
       settings: { ...DEFAULT_DB.settings, ...(parsed.settings ?? {}) },
+      kiwify_buyers: parsed.kiwify_buyers ?? [],
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {
