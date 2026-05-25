@@ -8,12 +8,9 @@ import cert1 from "@/assets/cert-1.jpeg";
 import cert2 from "@/assets/cert-2.jpeg";
 import cert3 from "@/assets/cert-3.jpeg";
 import cert4 from "@/assets/cert-4.jpeg";
-
-
 export const Route = createFileRoute("/")({
   component: Index,
 });
-
 function Index() {
   const images = {
     lisos: "https://images.pexels.com/photos/973401/pexels-photo-973401.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -22,21 +19,17 @@ function Index() {
     hero: heroImg,
     alessandra: alessandraImg,
   };
-
   const certificates = [
     { src: cert1, name: "Lidione Aparecido Rodrigues Gomes" },
     { src: cert2, name: "Sandra Aparecida Antunes de Oliveira" },
     { src: cert3, name: "Alanna Torres de Araújo" },
     { src: cert4, name: "Ingrid Zilli Monge" },
   ];
-
   const [activeCert, setActiveCert] = useState(0);
   const [openCert, setOpenCert] = useState<number | null>(null);
   const [autoPlay, setAutoPlay] = useState(true);
-
   const nextCert = () => setActiveCert((p) => (p + 1) % certificates.length);
   const prevCert = () => setActiveCert((p) => (p - 1 + certificates.length) % certificates.length);
-
   useEffect(() => {
     if (!autoPlay || openCert !== null) return;
     const id = setInterval(() => {
@@ -44,21 +37,17 @@ function Index() {
     }, 2000);
     return () => clearInterval(id);
   }, [autoPlay, openCert, certificates.length]);
-
   const checkoutUrl = "https://pay.kiwify.com.br/AFMNBej";
-
   const trackAddToCart = () => {
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "AddToCart");
     }
   };
-
   const scrollToOferta = (e: React.MouseEvent) => {
     e.preventDefault();
     const el = document.getElementById("oferta");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
   const PulseButton = ({ children, className = "", asCheckout = false, variant }: { children: React.ReactNode; className?: string; asCheckout?: boolean; variant?: "pink" | "black" | "green" | "yellow" }) => {
     const palette = variant ?? (asCheckout ? "green" : "pink");
     const colors = {
@@ -67,7 +56,6 @@ function Index() {
       black: { bg: "#0a0a0a", bgMid: "#1a1a1a", ring: "rgba(0,0,0,0.45)" },
       yellow: { bg: "#b8860b", bgMid: "#d4a017", ring: "rgba(184,134,11,0.4)" },
     }[palette];
-
     return (
       <motion.a
         href={asCheckout ? checkoutUrl : "#oferta"}
@@ -97,8 +85,6 @@ function Index() {
       </motion.a>
     );
   };
-
-
   return (
     <div className="bg-[#fafafa] text-[#1a1a1a] font-sans relative overflow-x-hidden min-h-screen">
       {/* Background Animated Elements */}
@@ -118,7 +104,6 @@ function Index() {
           <Scissors size={140} />
         </motion.div>
       </div>
-
       {/* Hero Section */}
       <section className="relative pt-24 pb-20 px-6 bg-[#d82298] overflow-hidden min-h-[90vh] flex items-center z-10 text-white text-center lg:text-left shadow-2xl">
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-20">
@@ -151,7 +136,6 @@ function Index() {
           </motion.div>
         </div>
       </section>
-
       {/* Quem Somos - Alessandra Linhares */}
       <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100">
         <div className="grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
@@ -184,7 +168,6 @@ function Index() {
           </PulseButton>
         </div>
       </section>
-
       {/* Modules Showcase */}
       <section className="py-32 px-6 container mx-auto bg-white relative z-20">
         <div className="text-center max-w-3xl mx-auto mb-24">
@@ -233,7 +216,6 @@ function Index() {
           </PulseButton>
         </div>
       </section>
-
       {/* Bonus Section */}
       <section className="bg-black text-white py-32 px-6 overflow-hidden relative z-20">
         <div className="container mx-auto text-center">
@@ -256,7 +238,6 @@ function Index() {
           </div>
         </div>
       </section>
-
       {/* Certificate Release Info */}
       <section className="py-24 px-6 relative z-20 bg-gradient-to-br from-[#fafafa] via-white to-[#fdf2f8]">
         <div className="container mx-auto max-w-5xl">
@@ -269,7 +250,6 @@ function Index() {
           >
             <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#d82298]/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-pink-300/20 rounded-full blur-3xl pointer-events-none" />
-
             <div className="relative grid md:grid-cols-[auto_1fr] gap-10 items-center text-center md:text-left">
               <motion.div
                 animate={{ rotate: [0, -5, 5, 0] }}
@@ -278,7 +258,6 @@ function Index() {
               >
                 <FileCheck size={72} className="text-white" strokeWidth={1.8} />
               </motion.div>
-
               <div>
                 <div className="inline-flex items-center gap-2 bg-[#d82298]/10 text-[#d82298] px-4 py-2 rounded-full mb-5 font-black uppercase text-xs tracking-widest">
                   <Calendar size={14} />
@@ -303,7 +282,6 @@ function Index() {
                 </div>
               </div>
             </div>
-
             {/* Certificate Carousel inside the container */}
             <div className="relative mt-12 pt-10 border-t border-[#d82298]/10">
               {/* floating petals */}
@@ -325,10 +303,8 @@ function Index() {
                   </motion.div>
                 ))}
               </div>
-
               <p className="text-center text-[#d82298] font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-2">Veja como ele é</p>
               <p className="text-center text-gray-500 text-xs md:text-sm mb-8">Toque na flor para abrir o certificado ✨</p>
-
               {/* Carousel stage */}
               <div
                 className="relative h-[360px] md:h-[520px] flex items-center justify-center select-none"
@@ -397,7 +373,6 @@ function Index() {
                     );
                   })}
                 </AnimatePresence>
-
                 <button
                   onClick={prevCert}
                   aria-label="Anterior"
@@ -413,7 +388,6 @@ function Index() {
                   <ChevronRight size={22} />
                 </button>
               </div>
-
               {/* Dots */}
               <div className="flex justify-center gap-2 mt-6">
                 {certificates.map((_, i) => (
@@ -428,7 +402,6 @@ function Index() {
             </div>
           </motion.div>
         </div>
-
         {/* Lightbox */}
         <AnimatePresence>
           {openCert !== null && (
@@ -482,7 +455,6 @@ function Index() {
           )}
         </AnimatePresence>
       </section>
-
       {/* Área de Membros + Bônus */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-br from-black via-[#1a0a14] to-[#2a0a1f] relative z-20 overflow-hidden">
         <div className="container mx-auto max-w-6xl">
@@ -512,7 +484,6 @@ function Index() {
               Mais de <span className="text-[#ff7ac4] font-bold">60 aulas gravadas</span> dos cursos presenciais da Alessandra, organizadas em módulos para você assistir quando e onde quiser.
             </motion.p>
           </div>
-
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -526,14 +497,11 @@ function Index() {
               autoPlay
               loop
               muted
-              defaultMuted
               playsInline
               disableRemotePlayback
               className="w-full h-auto block"
             />
           </motion.div>
-
-
           <div className="text-center mt-14">
             <PulseButton className="inline-block px-10 py-5 rounded-full text-white text-lg md:text-xl font-black shadow-2xl">
               QUERO TUDO ISSO AGORA →
@@ -541,7 +509,6 @@ function Index() {
           </div>
         </div>
       </section>
-
       {/* Certificado na hora */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-br from-[#fdf2f8] via-white to-[#fce7f3] relative z-20 overflow-hidden">
         <div className="container mx-auto max-w-5xl text-center">
@@ -569,7 +536,6 @@ function Index() {
           >
             Assim que você finalizar o curso, é só preencher seus dados e o seu <span className="font-bold text-[#d82298]">certificado de conclusão</span> é emitido na hora, pronto pra imprimir e usar profissionalmente.
           </motion.p>
-
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -591,13 +557,11 @@ function Index() {
               autoPlay
               loop
               muted
-              defaultMuted
               playsInline
               disableRemotePlayback
               className="w-full h-auto block"
             />
           </motion.div>
-
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4 text-sm md:text-base text-gray-700 font-semibold">
             <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Emissão imediata</span>
             <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Válido em todo Brasil</span>
@@ -610,7 +574,6 @@ function Index() {
           </div>
         </div>
       </section>
-
       {/* Oferta / Preço */}
       <section id="oferta" className="py-24 md:py-32 px-6 bg-gradient-to-br from-[#fdf2f8] via-white to-[#fce7f3] relative z-30 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
@@ -629,7 +592,6 @@ function Index() {
             <Flower2 size={400} />
           </motion.div>
         </div>
-
         <div className="container mx-auto max-w-3xl relative z-10">
           <div className="text-center mb-10">
             <span className="inline-block bg-[#d82298] text-white text-xs md:text-sm font-black uppercase tracking-widest px-5 py-2 rounded-full mb-6">
@@ -639,7 +601,6 @@ function Index() {
               Garanta sua <span className="text-[#d82298]">vaga hoje</span>
             </h2>
           </div>
-
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -650,11 +611,9 @@ function Index() {
             <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-yellow-400 text-[#1a1a1a] text-[10px] md:text-xs font-black uppercase tracking-widest px-5 py-2 rounded-full shadow-lg">
               Acesso Imediato
             </div>
-
             <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-center text-[#1a1a1a] mb-6">
               Curso Completo de Cabeleireira Profissional
             </h3>
-
             <ul className="space-y-3 mb-8 max-w-md mx-auto">
               {[
                 "Aulas práticas passo a passo",
@@ -669,7 +628,6 @@ function Index() {
                 </li>
               ))}
             </ul>
-
             <div className="text-center mb-8">
               <p className="text-gray-400 line-through text-lg md:text-xl font-bold">De R$ 497,00</p>
               <p className="text-sm md:text-base font-bold text-[#1a1a1a] uppercase tracking-wider mt-2">Por apenas <span className="text-[#d82298]">(acesso vitalício)</span></p>
@@ -682,14 +640,12 @@ function Index() {
                 ou 11x de <span className="font-black text-[#1a1a1a]">R$ 5,00</span> no cartão
               </p>
             </div>
-
             <PulseButton
               asCheckout
               className="w-full py-7 md:py-8 px-6 rounded-2xl text-xl md:text-3xl flex items-center justify-center shadow-[0_20px_50px_rgba(21,128,61,0.4)]"
             >
               COMPRAR AGORA
             </PulseButton>
-
             <div className="flex flex-wrap justify-center items-center gap-4 mt-6 text-xs md:text-sm text-gray-600 font-semibold">
               <span className="flex items-center gap-1"><CheckCircle size={14} className="text-green-600" /> Pagamento Seguro</span>
               <span className="flex items-center gap-1"><CheckCircle size={14} className="text-green-600" /> Garantia 7 dias</span>
@@ -698,7 +654,6 @@ function Index() {
           </motion.div>
         </div>
       </section>
-
       {/* Final CTA */}
       <footer className="py-40 px-6 text-center bg-[#fafafa] relative z-30">
         <h2 className="text-6xl md:text-[10rem] font-black mb-16 uppercase tracking-tighter leading-[0.8] italic text-[#1a1a1a]">MUDE SUA <br/> <span className="text-[#d82298]">VIDA AGORA.</span></h2>
