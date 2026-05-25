@@ -266,7 +266,7 @@ export const generateCertificate = createServerFn({ method: "POST" })
       id: crypto.randomUUID(),
       created_at: new Date().toISOString(),
       full_name: data.fullName,
-      email: data.email || null,
+      email: email || null,
       original_file: origRel,
       enhanced_file: enhRel,
       pdf_file: pdfRel,
