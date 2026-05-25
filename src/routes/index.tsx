@@ -276,131 +276,109 @@ function Index() {
                 </div>
               </div>
             </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Alunas Certificadas - Carousel */}
-      <section className="py-24 px-4 md:px-6 relative z-20 overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a0a1f] to-[#1a1a1a]">
-        {/* floating petals */}
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute pointer-events-none text-[#d82298]/30"
-            initial={{ x: `${(i * 37) % 100}%`, y: -50, rotate: 0, opacity: 0 }}
-            animate={{
-              y: ["0vh", "110vh"],
-              rotate: [0, 360],
-              opacity: [0, 0.8, 0.8, 0],
-              x: `${((i * 37) % 100) + (i % 2 === 0 ? 10 : -10)}%`,
-            }}
-            transition={{ duration: 12 + (i % 5), repeat: Infinity, delay: i * 0.8, ease: "linear" }}
-            style={{ left: `${(i * 8) % 100}%` }}
-          >
-            <Flower2 size={28 + (i % 3) * 8} fill="currentColor" />
-          </motion.div>
-        ))}
-
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="text-center mb-14">
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              whileInView={{ scale: 1, rotate: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 120 }}
-              className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-[#d82298] to-pink-400 mb-6 shadow-2xl shadow-[#d82298]/50"
-            >
-              <Flower2 size={40} className="text-white" />
-            </motion.div>
-            <p className="text-[#d82298] font-black uppercase tracking-[0.3em] text-xs md:text-sm mb-3">Mais uma profissional no mercado</p>
-            <h2 className="text-4xl md:text-7xl font-black uppercase italic tracking-tighter text-white leading-[0.9]">
-              Certificados <span className="text-[#d82298]">Entregues</span>
-            </h2>
-            <p className="text-gray-400 mt-4 text-sm md:text-base">Toque na flor para abrir o certificado ✨</p>
-          </div>
-
-          {/* Carousel stage */}
-          <div className="relative h-[480px] md:h-[600px] flex items-center justify-center">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {certificates.map((cert, i) => {
-                const offset = i - activeCert;
-                const isActive = offset === 0;
-                const abs = Math.abs(offset);
-                if (abs > 2) return null;
-                return (
+            {/* Certificate Carousel inside the container */}
+            <div className="relative mt-12 pt-10 border-t border-[#d82298]/10">
+              {/* floating petals */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {[...Array(6)].map((_, i) => (
                   <motion.div
                     key={i}
-                    layout
-                    initial={{ opacity: 0, scale: 0.6, rotateY: 60 }}
+                    className="absolute text-[#d82298]/20"
+                    initial={{ y: -30, rotate: 0, opacity: 0 }}
                     animate={{
-                      opacity: abs === 0 ? 1 : abs === 1 ? 0.55 : 0.2,
-                      scale: abs === 0 ? 1 : abs === 1 ? 0.78 : 0.6,
-                      x: offset * (typeof window !== "undefined" && window.innerWidth < 768 ? 120 : 280),
-                      rotateY: offset * -18,
-                      zIndex: 10 - abs,
+                      y: ["0%", "120%"],
+                      rotate: [0, 360],
+                      opacity: [0, 0.7, 0.7, 0],
                     }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    transition={{ type: "spring", stiffness: 110, damping: 18 }}
-                    className="absolute w-[280px] md:w-[460px] cursor-pointer"
-                    onClick={() => isActive ? setOpenCert(i) : setActiveCert(i)}
+                    transition={{ duration: 10 + (i % 4), repeat: Infinity, delay: i * 1.2, ease: "linear" }}
+                    style={{ left: `${15 + i * 14}%` }}
                   >
-                    <motion.div
-                      whileHover={isActive ? { scale: 1.03, y: -8 } : {}}
-                      className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(216,34,152,0.4)] border-4 border-white/10"
-                    >
-                      <img src={cert.src} alt={`Certificado ${cert.name}`} className="w-full h-auto block" loading="lazy" />
-                      {isActive && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur px-5 py-2.5 rounded-full shadow-xl flex items-center gap-2 whitespace-nowrap"
-                        >
-                          <motion.div animate={{ rotate: 360 }} transition={{ duration: 6, repeat: Infinity, ease: "linear" }}>
-                            <Flower2 size={18} className="text-[#d82298]" fill="currentColor" />
-                          </motion.div>
-                          <span className="text-[10px] md:text-xs font-black uppercase tracking-wider text-gray-900">Abrir certificado</span>
-                        </motion.div>
-                      )}
-                    </motion.div>
+                    <Flower2 size={22 + (i % 3) * 6} fill="currentColor" />
                   </motion.div>
-                );
-              })}
-            </AnimatePresence>
+                ))}
+              </div>
 
-            <button
-              onClick={prevCert}
-              aria-label="Anterior"
-              className="absolute left-2 md:left-8 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 hover:bg-[#d82298] backdrop-blur border border-white/20 text-white flex items-center justify-center transition-all"
-            >
-              <ChevronLeft size={26} />
-            </button>
-            <button
-              onClick={nextCert}
-              aria-label="Próximo"
-              className="absolute right-2 md:right-8 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 hover:bg-[#d82298] backdrop-blur border border-white/20 text-white flex items-center justify-center transition-all"
-            >
-              <ChevronRight size={26} />
-            </button>
-          </div>
+              <p className="text-center text-[#d82298] font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-2">Veja como ele é</p>
+              <p className="text-center text-gray-500 text-xs md:text-sm mb-8">Toque na flor para abrir o certificado ✨</p>
 
-          {/* Dots */}
-          <div className="flex justify-center gap-3 mt-8">
-            {certificates.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveCert(i)}
-                aria-label={`Ir para ${i + 1}`}
-                className={`h-2.5 rounded-full transition-all ${i === activeCert ? "w-10 bg-[#d82298]" : "w-2.5 bg-white/30 hover:bg-white/60"}`}
-              />
-            ))}
-          </div>
+              {/* Carousel stage */}
+              <div className="relative h-[360px] md:h-[520px] flex items-center justify-center" style={{ perspective: "1200px" }}>
+                <AnimatePresence mode="popLayout" initial={false}>
+                  {certificates.map((cert, i) => {
+                    const offset = i - activeCert;
+                    const isActive = offset === 0;
+                    const abs = Math.abs(offset);
+                    if (abs > 2) return null;
+                    return (
+                      <motion.div
+                        key={i}
+                        layout
+                        initial={{ opacity: 0, scale: 0.6, rotateY: 60 }}
+                        animate={{
+                          opacity: abs === 0 ? 1 : abs === 1 ? 0.5 : 0.18,
+                          scale: abs === 0 ? 1 : abs === 1 ? 0.78 : 0.6,
+                          x: offset * (typeof window !== "undefined" && window.innerWidth < 768 ? 100 : 240),
+                          rotateY: offset * -18,
+                          zIndex: 10 - abs,
+                        }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        transition={{ type: "spring", stiffness: 110, damping: 18 }}
+                        className="absolute w-[220px] md:w-[400px] cursor-pointer"
+                        onClick={() => isActive ? setOpenCert(i) : setActiveCert(i)}
+                      >
+                        <motion.div
+                          whileHover={isActive ? { scale: 1.03, y: -6 } : {}}
+                          className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(216,34,152,0.3)] border-4 border-white"
+                        >
+                          <img src={cert.src} alt={`Certificado ${cert.name}`} className="w-full h-auto block" loading="lazy" />
+                          {isActive && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur px-4 py-2 rounded-full shadow-xl flex items-center gap-2 whitespace-nowrap"
+                            >
+                              <motion.div animate={{ rotate: 360 }} transition={{ duration: 6, repeat: Infinity, ease: "linear" }}>
+                                <Flower2 size={16} className="text-[#d82298]" fill="currentColor" />
+                              </motion.div>
+                              <span className="text-[10px] md:text-xs font-black uppercase tracking-wider text-gray-900">Abrir</span>
+                            </motion.div>
+                          )}
+                        </motion.div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
 
-          <div className="flex justify-center mt-6 gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={20} className="text-yellow-400" fill="currentColor" />
-            ))}
-          </div>
-          <p className="text-center text-white font-black uppercase tracking-[0.3em] text-xs mt-3">CONCLUÍDO</p>
+                <button
+                  onClick={prevCert}
+                  aria-label="Anterior"
+                  className="absolute left-0 md:left-2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white hover:bg-[#d82298] hover:text-white shadow-lg border border-gray-200 text-gray-700 flex items-center justify-center transition-all"
+                >
+                  <ChevronLeft size={22} />
+                </button>
+                <button
+                  onClick={nextCert}
+                  aria-label="Próximo"
+                  className="absolute right-0 md:right-2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white hover:bg-[#d82298] hover:text-white shadow-lg border border-gray-200 text-gray-700 flex items-center justify-center transition-all"
+                >
+                  <ChevronRight size={22} />
+                </button>
+              </div>
+
+              {/* Dots */}
+              <div className="flex justify-center gap-2 mt-6">
+                {certificates.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveCert(i)}
+                    aria-label={`Ir para ${i + 1}`}
+                    className={`h-2 rounded-full transition-all ${i === activeCert ? "w-8 bg-[#d82298]" : "w-2 bg-gray-300 hover:bg-gray-400"}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Lightbox */}
