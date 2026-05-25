@@ -66,6 +66,10 @@ const DEFAULT_DB: DB = {
     name_y: 500,
     name_font_size: 48,
     name_color: "#000000",
+    date_x: 400,
+    date_y: 560,
+    date_font_size: 24,
+    date_color: "#000000",
   },
   settings: { openai_api_key: null },
 };
