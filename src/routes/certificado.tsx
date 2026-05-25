@@ -33,11 +33,21 @@ function fileToBase64(file: File): Promise<string> {
 function CertificadoPage() {
   const generate = useServerFn(generateCertificate);
   const fetchCfg = useServerFn(getPublicTemplateConfig);
+  const checkAccess = useServerFn(checkEmailAccess);
 
   const { data: cfg } = useQuery({
     queryKey: ["public-template-cfg"],
     queryFn: () => fetchCfg(),
   });
+
+  // Gate de acesso por email (Kiwify)
+  const [gateEmail, setGateEmail] = useState("");
+  const [gateChecking, setGateChecking] = useState(false);
+  const [gateError, setGateError] = useState<string | null>(null);
+  const [accessGranted, setAccessGranted] = useState(false);
+  const [existingPdfUrl, setExistingPdfUrl] = useState<string | null>(null);
+
+
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
