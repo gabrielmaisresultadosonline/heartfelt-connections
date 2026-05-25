@@ -239,6 +239,16 @@ function CertificadoPage() {
                 />
               </div>
               <div>
+                <label className="block text-sm font-medium mb-1">Data de conclusão</label>
+                <input
+                  type="text"
+                  value={dateText}
+                  onChange={(e) => setDateText(e.target.value)}
+                  maxLength={40}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-amber-400 outline-none"
+                />
+              </div>
+              <div>
                 <label className="block text-sm font-medium mb-1">Sua foto *</label>
                 <input
                   type="file"
