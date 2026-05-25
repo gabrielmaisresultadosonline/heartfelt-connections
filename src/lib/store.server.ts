@@ -35,6 +35,10 @@ export type TemplateConfig = {
   name_y: number;
   name_font_size: number;
   name_color: string;
+  date_x: number;
+  date_y: number;
+  date_font_size: number;
+  date_color: string;
 };
 
 export type Settings = {
