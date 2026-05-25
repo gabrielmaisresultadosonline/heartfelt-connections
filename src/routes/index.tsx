@@ -23,6 +23,19 @@ function Index() {
     alessandra: alessandraImg,
   };
 
+  const certificates = [
+    { src: cert1, name: "Lidione Aparecido Rodrigues Gomes" },
+    { src: cert2, name: "Sandra Aparecida Antunes de Oliveira" },
+    { src: cert3, name: "Alanna Torres de Araújo" },
+    { src: cert4, name: "Ingrid Zilli Monge" },
+  ];
+
+  const [activeCert, setActiveCert] = useState(0);
+  const [openCert, setOpenCert] = useState<number | null>(null);
+
+  const nextCert = () => setActiveCert((p) => (p + 1) % certificates.length);
+  const prevCert = () => setActiveCert((p) => (p - 1 + certificates.length) % certificates.length);
+
   const checkoutUrl = "https://pay.kiwify.com.br/AFMNBej";
 
   const trackAddToCart = () => {
