@@ -2,14 +2,21 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { enhancePhoto, generateCertificate, getPublicTemplateConfig } from "@/lib/certificates.functions";
+import {
+  enhancePhoto,
+  generateCertificate,
+  getPublicTemplateConfig,
+} from "@/lib/certificates.functions";
 import { createPhotoCutout } from "@/lib/photo-cutout.client";
 
 export const Route = createFileRoute("/certificado")({
   head: () => ({
     meta: [
       { title: "Receba seu Certificado" },
-      { name: "description", content: "Envie sua foto, posicione e receba seu certificado oficial." },
+      {
+        name: "description",
+        content: "Envie sua foto, posicione e receba seu certificado oficial.",
+      },
     ],
   }),
   component: CertificadoPage,
@@ -148,7 +155,9 @@ function CertificadoPage() {
           setEnhanceProgress(100);
         } catch (fallbackErr) {
           if (cancelled) return;
-          setEnhanceError(fallbackErr instanceof Error ? fallbackErr.message : "Falha ao remover o fundo da foto");
+          setEnhanceError(
+            fallbackErr instanceof Error ? fallbackErr.message : "Falha ao remover o fundo da foto",
+          );
           setEnhanceProgress(0);
         }
       } finally {
@@ -166,7 +175,13 @@ function CertificadoPage() {
 
   // drag genérico (foto, nome, data)
   type DragTarget = "photo" | "name" | "date";
-  const dragRef = useRef<{ target: DragTarget; startX: number; startY: number; posX: number; posY: number } | null>(null);
+  const dragRef = useRef<{
+    target: DragTarget;
+    startX: number;
+    startY: number;
+    posX: number;
+    posY: number;
+  } | null>(null);
   function startDrag(target: DragTarget) {
     return (e: React.PointerEvent) => {
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
@@ -213,7 +228,8 @@ function CertificadoPage() {
     if (!file) return setError("Selecione uma foto");
     if (fullName.trim().length < 2) return setError("Informe seu nome completo");
     if (enhancing) return setError("Aguarde a remoção de fundo terminar");
-    if (!enhancedB64) return setError("A foto sem fundo ainda não foi gerada. Tente subir a foto novamente.");
+    if (!enhancedB64)
+      return setError("A foto sem fundo ainda não foi gerada. Tente subir a foto novamente.");
     setLoading(true);
     try {
       const res = await generate({
@@ -247,9 +263,18 @@ function CertificadoPage() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-fuchsia-100 py-8 px-4">
       {/* blobs decorativos */}
-      <div aria-hidden className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 rounded-full bg-pink-300/40 blur-3xl" />
-      <div aria-hidden className="pointer-events-none absolute -bottom-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-fuchsia-300/40 blur-3xl" />
-      <div aria-hidden className="pointer-events-none absolute top-1/3 right-1/4 w-72 h-72 rounded-full bg-rose-200/50 blur-3xl" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 rounded-full bg-pink-300/40 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-fuchsia-300/40 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/3 right-1/4 w-72 h-72 rounded-full bg-rose-200/50 blur-3xl"
+      />
 
       <div className="relative mx-auto max-w-5xl">
         <div className="text-center mb-8">
@@ -287,7 +312,10 @@ function CertificadoPage() {
               Baixar Certificado PDF
             </a>
             <button
-              onClick={() => { setResult(null); setFile(null); }}
+              onClick={() => {
+                setResult(null);
+                setFile(null);
+              }}
               className="block mx-auto mt-4 text-sm text-rose-700/70 hover:text-pink-700 hover:underline"
             >
               Gerar outro
@@ -299,7 +327,9 @@ function CertificadoPage() {
             <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/20 ring-1 ring-pink-200 p-6 md:p-7 space-y-4 order-2 md:order-1">
               <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
               <div>
-                <label className="block text-sm font-semibold text-rose-900 mb-1">Nome completo *</label>
+                <label className="block text-sm font-semibold text-rose-900 mb-1">
+                  Nome completo *
+                </label>
                 <input
                   type="text"
                   value={fullName}
@@ -310,7 +340,9 @@ function CertificadoPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-rose-900 mb-1">Email (opcional)</label>
+                <label className="block text-sm font-semibold text-rose-900 mb-1">
+                  Email (opcional)
+                </label>
                 <input
                   type="email"
                   value={email}
@@ -319,7 +351,9 @@ function CertificadoPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-rose-900 mb-1">Data de conclusão</label>
+                <label className="block text-sm font-semibold text-rose-900 mb-1">
+                  Data de conclusão
+                </label>
                 <input
                   type="text"
                   value={dateText}
@@ -341,11 +375,19 @@ function CertificadoPage() {
 
                 {/* Dicas de qualidade da foto */}
                 <div className="mt-3 border border-pink-200 rounded-xl p-3 bg-gradient-to-br from-pink-50 to-fuchsia-50">
-                  <p className="text-xs font-semibold text-rose-900 mb-1">📸 Dicas para uma foto perfeita</p>
+                  <p className="text-xs font-semibold text-rose-900 mb-1">
+                    📸 Dicas para uma foto perfeita
+                  </p>
                   <ul className="text-xs text-rose-800/80 space-y-0.5 list-disc list-inside">
-                    <li>Foto <strong>de frente</strong>, mostrando bem o rosto</li>
-                    <li>Da <strong>cintura para cima</strong>, com boa iluminação</li>
-                    <li><strong>Não use selfie de espelho</strong> nem foto borrada</li>
+                    <li>
+                      Foto <strong>de frente</strong>, mostrando bem o rosto
+                    </li>
+                    <li>
+                      Da <strong>cintura para cima</strong>, com boa iluminação
+                    </li>
+                    <li>
+                      <strong>Não use selfie de espelho</strong> nem foto borrada
+                    </li>
                     <li>Fundo simples; o sistema troca por fundo branco automaticamente</li>
                   </ul>
                 </div>
@@ -373,10 +415,14 @@ function CertificadoPage() {
 
               {enhanceError && !enhancing && (
                 <div className="border border-red-300 rounded-xl p-3 bg-red-50 space-y-2">
-                  <p className="text-sm text-red-700"><strong>Erro ao preparar a foto:</strong> {enhanceError}</p>
+                  <p className="text-sm text-red-700">
+                    <strong>Erro ao preparar a foto:</strong> {enhanceError}
+                  </p>
                   <button
                     type="button"
-                    onClick={() => setFile((f) => (f ? new File([f], f.name, { type: f.type }) : null))}
+                    onClick={() =>
+                      setFile((f) => (f ? new File([f], f.name, { type: f.type }) : null))
+                    }
                     className="text-xs bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700"
                   >
                     Tentar novamente
@@ -386,18 +432,42 @@ function CertificadoPage() {
 
               {enhancedB64 && !enhancing && (
                 <div className="border border-pink-200 rounded-xl p-3 bg-pink-50/60 space-y-2">
-                  <p className="text-xs font-semibold text-rose-900">✨ Foto pronta sem fundo! Ajustar no preview →</p>
+                  <p className="text-xs font-semibold text-rose-900">
+                    ✨ Foto pronta sem fundo! Ajustar no preview →
+                  </p>
                   <div className="flex gap-2 flex-wrap">
-                    <button type="button" onClick={() => scalePhoto(1.1)} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">+ Zoom</button>
-                    <button type="button" onClick={() => scalePhoto(0.9)} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">– Zoom</button>
-                    <button type="button" onClick={resetPos} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">Resetar</button>
+                    <button
+                      type="button"
+                      onClick={() => scalePhoto(1.1)}
+                      className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition"
+                    >
+                      + Zoom
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scalePhoto(0.9)}
+                      className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition"
+                    >
+                      – Zoom
+                    </button>
+                    <button
+                      type="button"
+                      onClick={resetPos}
+                      className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition"
+                    >
+                      Resetar
+                    </button>
                   </div>
-                  <p className="text-xs text-rose-700/60">Arraste foto, nome e data no preview pra posicionar.</p>
+                  <p className="text-xs text-rose-700/60">
+                    Arraste foto, nome e data no preview pra posicionar.
+                  </p>
                 </div>
               )}
 
               {error && (
-                <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>
+                <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                  {error}
+                </p>
               )}
               <button
                 type="submit"
@@ -405,10 +475,19 @@ function CertificadoPage() {
                 className="relative w-full overflow-hidden bg-gradient-to-r from-pink-500 via-rose-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-full shadow-lg shadow-pink-400/40 transition-all hover:scale-[1.02] active:scale-100"
               >
                 <span className="relative z-10">
-                  {loading ? "Gerando certificado..." : enhancing ? "Removendo fundo da foto..." : !enhancedB64 ? "Envie sua foto primeiro" : "Gerar meu Certificado ✨"}
+                  {loading
+                    ? "Gerando certificado..."
+                    : enhancing
+                      ? "Removendo fundo da foto..."
+                      : !enhancedB64
+                        ? "Envie sua foto primeiro"
+                        : "Gerar meu Certificado ✨"}
                 </span>
                 {!loading && !enhancing && enhancedB64 && (
-                  <span aria-hidden className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"
+                  />
                 )}
               </button>
             </div>
@@ -425,10 +504,7 @@ function CertificadoPage() {
                 style={{ touchAction: "none" }}
               >
                 {cfg?.template_url && tplSize ? (
-                  <div
-                    className="relative bg-white"
-                    style={{ width: stageW, height: stageH }}
-                  >
+                  <div className="relative bg-white" style={{ width: stageW, height: stageH }}>
                     {(enhancedB64 || photoUrl) && (
                       <img
                         src={enhancedB64 ? `data:image/png;base64,${enhancedB64}` : photoUrl!}
@@ -460,7 +536,9 @@ function CertificadoPage() {
                       >
                         <div className="text-center">
                           <div className="w-10 h-10 mx-auto border-4 border-pink-300 border-t-pink-600 rounded-full animate-spin" />
-                          <p className="mt-2 text-xs font-semibold text-pink-700">Removendo fundo...</p>
+                          <p className="mt-2 text-xs font-semibold text-pink-700">
+                            Removendo fundo...
+                          </p>
                         </div>
                       </div>
                     )}
@@ -521,13 +599,15 @@ function CertificadoPage() {
                   </div>
                 ) : (
                   <div className="aspect-[3/2] flex items-center justify-center text-sm text-rose-700/60 p-6 text-center">
-                    {cfg?.template_url ? "Carregando template..." : "Template ainda não configurado pelo admin."}
+                    {cfg?.template_url
+                      ? "Carregando template..."
+                      : "Template ainda não configurado pelo admin."}
                   </div>
                 )}
               </div>
               <p className="text-xs text-rose-700/60 mt-2 px-1">
-                A foto fica <strong>atrás</strong> do template (que é transparente nas áreas certas).
-                Arraste pra posicionar, use os botões de zoom pra ajustar.
+                A foto fica <strong>atrás</strong> do template (que é transparente nas áreas
+                certas). Arraste pra posicionar, use os botões de zoom pra ajustar.
               </p>
             </div>
           </form>

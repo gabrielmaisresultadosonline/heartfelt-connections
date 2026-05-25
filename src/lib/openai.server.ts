@@ -3,7 +3,10 @@ import { readDB } from "./store.server";
 
 const OPENAI_URL = "https://api.openai.com/v1/images/edits";
 
-export async function professionalizePhoto(photoBytes: Uint8Array, mime: string): Promise<Uint8Array> {
+export async function professionalizePhoto(
+  photoBytes: Uint8Array,
+  mime: string,
+): Promise<Uint8Array> {
   const db = await readDB();
   const key = db.settings.openai_api_key || process.env.OPENAI_API_KEY;
   if (!key) throw new Error("OpenAI API key não configurada (admin → Configurações)");
