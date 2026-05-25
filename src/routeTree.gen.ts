@@ -13,6 +13,7 @@ import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTemplateRouteImport } from './routes/admin.template'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
 
@@ -36,6 +37,11 @@ const AdminTemplateRoute = AdminTemplateRouteImport.update({
   path: '/admin/template',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/certificado'
     | '/admin/login'
+    | '/admin/settings'
     | '/admin/template'
     | '/admin/'
     | '/api/files/$'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/certificado'
     | '/admin/login'
+    | '/admin/settings'
     | '/admin/template'
     | '/admin'
     | '/api/files/$'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/certificado'
     | '/admin/login'
+    | '/admin/settings'
     | '/admin/template'
     | '/admin/'
     | '/api/files/$'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CertificadoRoute: typeof CertificadoRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
   AdminTemplateRoute: typeof AdminTemplateRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiFilesSplatRoute: typeof ApiFilesSplatRoute
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTemplateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CertificadoRoute: CertificadoRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
   AdminTemplateRoute: AdminTemplateRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiFilesSplatRoute: ApiFilesSplatRoute,
@@ -166,3 +187,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

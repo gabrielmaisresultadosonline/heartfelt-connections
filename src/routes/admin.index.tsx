@@ -45,7 +45,10 @@ function AdminDashboard() {
           <h1 className="text-3xl font-bold">Certificados gerados</h1>
           <div className="flex gap-3 items-center">
             <a href="/admin/template" className="text-sm text-blue-600 hover:underline">
-              Configurar template
+              Template
+            </a>
+            <a href="/admin/settings" className="text-sm text-blue-600 hover:underline">
+              Configurações
             </a>
             <button
               onClick={async () => {
