@@ -109,6 +109,16 @@ function CertificadoPage() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  // Se a página voltar do bfcache (back/forward), recarrega do servidor
+  // para garantir que o gate de email seja sempre exibido.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) window.location.reload();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
   const scale = useMemo(() => (tplSize ? stageW / tplSize.w : 1), [tplSize, stageW]);
   const stageH = useMemo(() => (tplSize ? tplSize.h * scale : 400), [tplSize, scale]);
 
