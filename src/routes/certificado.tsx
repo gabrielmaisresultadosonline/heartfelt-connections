@@ -3,7 +3,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  enhancePhoto,
   generateCertificate,
   getPublicTemplateConfig,
 } from "@/lib/certificates.functions";
@@ -36,7 +35,6 @@ function fileToBase64(file: File): Promise<string> {
 
 function CertificadoPage() {
   const generate = useServerFn(generateCertificate);
-  const enhance = useServerFn(enhancePhoto);
   const fetchCfg = useServerFn(getPublicTemplateConfig);
 
   const { data: cfg } = useQuery({
@@ -141,25 +139,8 @@ function CertificadoPage() {
         setEnhanceProgress(100);
       } catch (err) {
         if (cancelled) return;
-        try {
-          setEnhanceMessage("Tentando um recorte alternativo...");
-          const b64 = await fileToBase64(file);
-          const res = await enhance({
-            data: {
-              photoBase64: b64,
-              photoMime: file.type as "image/jpeg" | "image/png" | "image/webp",
-            },
-          });
-          if (cancelled) return;
-          setEnhancedB64(res.base64);
-          setEnhanceProgress(100);
-        } catch (fallbackErr) {
-          if (cancelled) return;
-          setEnhanceError(
-            fallbackErr instanceof Error ? fallbackErr.message : "Falha ao remover o fundo da foto",
-          );
-          setEnhanceProgress(0);
-        }
+        setEnhanceError(err instanceof Error ? err.message : "Falha ao remover o fundo da foto");
+        setEnhanceProgress(0);
       } finally {
         if (progressTimer) clearInterval(progressTimer);
         if (!cancelled) setEnhancing(false);
@@ -171,7 +152,7 @@ function CertificadoPage() {
       if (progressTimer) clearInterval(progressTimer);
       URL.revokeObjectURL(url);
     };
-  }, [file, enhance]);
+  }, [file]);
 
   // drag genérico (foto, nome, data)
   type DragTarget = "photo" | "name" | "date";
