@@ -42,7 +42,7 @@ function CertificadoPage() {
   const [file, setFile] = useState<File | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
-  // foto profissionalizada pela IA (base64 PNG)
+  // foto recortada sem fundo (base64 PNG)
   const [enhancedB64, setEnhancedB64] = useState<string | null>(null);
   const [enhancing, setEnhancing] = useState(false);
   const [enhanceProgress, setEnhanceProgress] = useState(0);
@@ -212,8 +212,8 @@ function CertificadoPage() {
     setResult(null);
     if (!file) return setError("Selecione uma foto");
     if (fullName.trim().length < 2) return setError("Informe seu nome completo");
-    if (enhancing) return setError("Aguarde a foto profissional terminar de ser gerada");
-    if (!enhancedB64) return setError("Foto profissional ainda não foi gerada. Tente subir a foto novamente.");
+    if (enhancing) return setError("Aguarde a remoção de fundo terminar");
+    if (!enhancedB64) return setError("A foto sem fundo ainda não foi gerada. Tente subir a foto novamente.");
     setLoading(true);
     try {
       const res = await generate({
