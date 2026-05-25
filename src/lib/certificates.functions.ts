@@ -232,6 +232,23 @@ export const getTemplateConfig = createServerFn({ method: "GET" }).handler(async
   };
 });
 
+export const getPublicTemplateConfig = createServerFn({ method: "GET" }).handler(async () => {
+  const db = await readDB();
+  const c = db.template_config;
+  return {
+    photo_x: c.photo_x,
+    photo_y: c.photo_y,
+    photo_w: c.photo_w,
+    photo_h: c.photo_h,
+    name_x: c.name_x,
+    name_y: c.name_y,
+    name_font_size: c.name_font_size,
+    name_color: c.name_color,
+    template_url: c.template_file ? `/api/files/${c.template_file}` : null,
+    template_is_pdf: ((c.template_mime ?? "").includes("pdf") || (c.template_file ?? "").toLowerCase().endsWith(".pdf")),
+  };
+});
+
 export const updateTemplateConfig = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>
     z
