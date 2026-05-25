@@ -434,3 +434,33 @@ export const updateSettings = createServerFn({ method: "POST" })
     });
     return { ok: true };
   });
+
+export const checkEmailAccess = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ email: z.string().trim().email().max(255) }).parse(input),
+  )
+  .handler(async ({ data }) => {
+    const email = data.email.toLowerCase();
+    const db = await readDB();
+    const buyer = db.kiwify_buyers.find((b) => b.email === email);
+    if (!buyer) {
+      return { allowed: false as const, reason: "not_found" as const };
+    }
+    if (buyer.status !== "paid") {
+      return { allowed: false as const, reason: buyer.status };
+    }
+    const existing = db.certificates.find((c) => (c.email || "").toLowerCase() === email);
+    if (existing) {
+      return {
+        allowed: true as const,
+        alreadyIssued: true as const,
+        name: buyer.name,
+        pdfUrl: `/api/files/${existing.pdf_file}`,
+      };
+    }
+    return {
+      allowed: true as const,
+      alreadyIssued: false as const,
+      name: buyer.name,
+    };
+  });
