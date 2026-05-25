@@ -764,6 +764,33 @@ function CertificadoPage() {
           </>
         )}
       </div>
+      {videoOpen && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setVideoOpen(false)}
+        >
+          <button
+            type="button"
+            onClick={() => setVideoOpen(false)}
+            className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white w-10 h-10 rounded-full flex items-center justify-center text-2xl"
+            aria-label="Fechar"
+          >
+            ×
+          </button>
+          <div
+            className="relative w-full max-w-5xl aspect-video"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video
+              src="/videos/tutorial-certificado.mp4"
+              controls
+              autoPlay
+              playsInline
+              className="w-full h-full object-contain rounded-2xl bg-black"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
