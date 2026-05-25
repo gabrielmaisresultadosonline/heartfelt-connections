@@ -59,41 +59,42 @@ function Index() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const PulseButton = ({ children, className = "", asCheckout = false }: { children: React.ReactNode; className?: string; asCheckout?: boolean }) => (
-    <motion.a
-      href={asCheckout ? checkoutUrl : "#oferta"}
-      target={asCheckout ? "_blank" : undefined}
-      rel={asCheckout ? "noopener noreferrer" : undefined}
-      onClick={asCheckout ? trackAddToCart : scrollToOferta}
-      animate={{
-        boxShadow: [
-          "0 0 0 0px rgba(21, 128, 61, 0.4)",
-          "0 0 0 20px rgba(21, 128, 61, 0)",
-        ],
-        backgroundColor: ["#15803d", "#16a34a", "#15803d"],
-      }}
-      transition={{
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      whileHover={{ 
-        scale: 1.05,
-        backgroundImage: "linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%)",
-        backgroundSize: "200% 100%",
-      }}
-      whileTap={{ scale: 0.95 }}
-      className={`bg-[#15803d] text-white font-black shadow-2xl uppercase italic tracking-tighter text-center transition-all duration-300 relative overflow-hidden group cursor-pointer ${className}`}
-    >
-      <span className="relative z-10">{children}</span>
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer"
-        initial={{ x: "-100%" }}
-        animate={{ x: "100%" }}
-        transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-      />
-    </motion.a>
-  );
+  const PulseButton = ({ children, className = "", asCheckout = false, variant }: { children: React.ReactNode; className?: string; asCheckout?: boolean; variant?: "pink" | "black" | "green" }) => {
+    const palette = variant ?? (asCheckout ? "green" : "pink");
+    const colors = {
+      green: { bg: "#15803d", bgMid: "#16a34a", ring: "rgba(21,128,61,0.4)" },
+      pink: { bg: "#d82298", bgMid: "#ff3ea5", ring: "rgba(216,34,152,0.4)" },
+      black: { bg: "#0a0a0a", bgMid: "#1a1a1a", ring: "rgba(0,0,0,0.45)" },
+    }[palette];
+    return (
+      <motion.a
+        href={asCheckout ? checkoutUrl : "#oferta"}
+        target={asCheckout ? "_blank" : undefined}
+        rel={asCheckout ? "noopener noreferrer" : undefined}
+        onClick={asCheckout ? trackAddToCart : scrollToOferta}
+        animate={{
+          boxShadow: [
+            `0 0 0 0px ${colors.ring}`,
+            `0 0 0 20px ${colors.ring.replace(/[\d.]+\)$/, "0)")}`,
+          ],
+          backgroundColor: [colors.bg, colors.bgMid, colors.bg],
+        }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        style={{ backgroundColor: colors.bg }}
+        className={`text-white font-black shadow-2xl uppercase italic tracking-tighter text-center transition-all duration-300 relative overflow-hidden group cursor-pointer ${className}`}
+      >
+        <span className="relative z-10">{children}</span>
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+          initial={{ x: "-100%" }}
+          animate={{ x: "100%" }}
+          transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+        />
+      </motion.a>
+    );
+  };
 
 
   return (
