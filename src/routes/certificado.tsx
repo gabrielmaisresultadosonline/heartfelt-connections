@@ -78,6 +78,7 @@ function CertificadoPage() {
 
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [stageW, setStageW] = useState(700);
+  const [videoOpen, setVideoOpen] = useState(false);
 
   // inicializar posição com defaults do template
   useEffect(() => {
@@ -413,17 +414,22 @@ function CertificadoPage() {
         ) : (
           <>
             <div className="max-w-5xl mx-auto mb-8 grid md:grid-cols-2 gap-6 items-stretch">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-pink-300/30 ring-2 ring-pink-300 bg-black">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-pink-300/30 ring-2 ring-pink-300 bg-black group">
                 <video
-                  ref={(el) => { if (el) { el.muted = true; el.volume = 0; } }}
                   src="/videos/tutorial-certificado.mp4"
-                  autoPlay
-                  loop
-                  muted
+                  controls
                   playsInline
-                  disableRemotePlayback
-                  className="w-full h-full object-cover block"
+                  preload="metadata"
+                  className="w-full h-full object-contain block bg-black aspect-video"
                 />
+                <button
+                  type="button"
+                  onClick={() => setVideoOpen(true)}
+                  className="absolute top-3 right-3 z-10 bg-black/60 hover:bg-black/80 text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md transition"
+                  aria-label="Abrir vídeo em tela cheia"
+                >
+                  ⛶ Expandir
+                </button>
               </div>
               <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/20 ring-1 ring-pink-200 p-6 md:p-7">
                 <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
@@ -758,6 +764,33 @@ function CertificadoPage() {
           </>
         )}
       </div>
+      {videoOpen && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setVideoOpen(false)}
+        >
+          <button
+            type="button"
+            onClick={() => setVideoOpen(false)}
+            className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white w-10 h-10 rounded-full flex items-center justify-center text-2xl"
+            aria-label="Fechar"
+          >
+            ×
+          </button>
+          <div
+            className="relative w-full max-w-5xl aspect-video"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video
+              src="/videos/tutorial-certificado.mp4"
+              controls
+              autoPlay
+              playsInline
+              className="w-full h-full object-contain rounded-2xl bg-black"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
