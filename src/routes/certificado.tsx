@@ -612,7 +612,8 @@ function CertificadoPage() {
                           top: pos.y * scale,
                           width: pos.w * scale,
                           height: pos.h * scale,
-                          objectFit: "cover",
+                          objectFit: "contain",
+                          objectPosition: "center bottom",
                           touchAction: "none",
                         }}
                       />
