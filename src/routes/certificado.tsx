@@ -6,7 +6,7 @@ import { generateCertificate } from "@/lib/certificates.functions";
 export const Route = createFileRoute("/certificado")({
   head: () => ({
     meta: [
-      { title: "Receba seu Certificado — Curso de Cabeleireira" },
+      { title: "Receba seu Certificado" },
       { name: "description", content: "Envie sua foto e nome para receber seu certificado oficial." },
     ],
   }),
