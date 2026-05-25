@@ -89,6 +89,26 @@ export const generateCertificate = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data }) => {
+    const email = (data.email || "").trim().toLowerCase();
+    if (!email) throw new Error("Email é obrigatório para emitir o certificado");
+
+    // Verifica acesso via Kiwify
+    const dbCheck = await readDB();
+    const buyer = dbCheck.kiwify_buyers.find((b) => b.email === email);
+    if (!buyer || buyer.status !== "paid") {
+      throw new Error(
+        "Email não autorizado. Apenas alunas que compraram o curso podem emitir o certificado.",
+      );
+    }
+
+    // Bloqueia segundo certificado
+    const existing = dbCheck.certificates.find((c) => (c.email || "").toLowerCase() === email);
+    if (existing) {
+      throw new Error(
+        "Você já emitiu um certificado com este email. Use o botão de download para baixá-lo novamente.",
+      );
+    }
+
     const photoBytes = b64ToBytes(data.photoBase64);
     if (photoBytes.length > MAX_BYTES) throw new Error("Foto muito grande (máx 8MB)");
 
