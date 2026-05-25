@@ -65,14 +65,15 @@ function TemplatePage() {
     setSaving(true);
     setMsg(null);
     try {
-      let payload: Parameters<typeof save>[0]["data"] = { ...form };
+      const payload: {
+        photo_x: number; photo_y: number; photo_w: number; photo_h: number;
+        name_x: number; name_y: number; name_font_size: number; name_color: string;
+        templateBase64?: string; templateMime?: string; templateExt?: string;
+      } = { ...form };
       if (file) {
-        payload = {
-          ...payload,
-          templateBase64: await fileToB64(file),
-          templateMime: file.type,
-          templateExt: file.name.split(".").pop() || "bin",
-        };
+        payload.templateBase64 = await fileToB64(file);
+        payload.templateMime = file.type;
+        payload.templateExt = file.name.split(".").pop() || "bin";
       }
       await save({ data: payload });
       setMsg("Salvo!");

@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminTemplateRouteImport } from './routes/admin.template'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
 
 const CertificadoRoute = CertificadoRouteImport.update({
   id: '/certificado',
@@ -29,9 +31,19 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminTemplateRoute = AdminTemplateRouteImport.update({
+  id: '/admin/template',
+  path: '/admin/template',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
+  id: '/api/files/$',
+  path: '/api/files/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -39,34 +51,61 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/files/$': typeof ApiFilesSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/template': typeof AdminTemplateRoute
   '/admin': typeof AdminIndexRoute
+  '/api/files/$': typeof ApiFilesSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/files/$': typeof ApiFilesSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/certificado' | '/admin/login' | '/admin/'
+  fullPaths:
+    | '/'
+    | '/certificado'
+    | '/admin/login'
+    | '/admin/template'
+    | '/admin/'
+    | '/api/files/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/certificado' | '/admin/login' | '/admin'
-  id: '__root__' | '/' | '/certificado' | '/admin/login' | '/admin/'
+  to:
+    | '/'
+    | '/certificado'
+    | '/admin/login'
+    | '/admin/template'
+    | '/admin'
+    | '/api/files/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/certificado'
+    | '/admin/login'
+    | '/admin/template'
+    | '/admin/'
+    | '/api/files/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CertificadoRoute: typeof CertificadoRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminTemplateRoute: typeof AdminTemplateRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  ApiFilesSplatRoute: typeof ApiFilesSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,11 +131,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/template': {
+      id: '/admin/template'
+      path: '/admin/template'
+      fullPath: '/admin/template'
+      preLoaderRoute: typeof AdminTemplateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/files/$': {
+      id: '/api/files/$'
+      path: '/api/files/$'
+      fullPath: '/api/files/$'
+      preLoaderRoute: typeof ApiFilesSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -106,18 +159,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CertificadoRoute: CertificadoRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminTemplateRoute: AdminTemplateRoute,
   AdminIndexRoute: AdminIndexRoute,
+  ApiFilesSplatRoute: ApiFilesSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
