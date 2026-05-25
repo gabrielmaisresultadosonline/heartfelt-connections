@@ -18,22 +18,6 @@ export const Route = createFileRoute("/certificado")({
       { httpEquiv: "Expires", content: "0" },
     ],
   }),
-  loader: () => {
-    if (typeof Response !== "undefined") {
-      // best-effort: peça ao edge/CDN para nunca cachear esta rota
-      try {
-        const { setResponseHeaders } = require("@tanstack/react-start/server");
-        setResponseHeaders(
-          new Headers({
-            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-            Pragma: "no-cache",
-            Expires: "0",
-          }),
-        );
-      } catch {}
-    }
-    return null;
-  },
   component: CertificadoPage,
 });
 
