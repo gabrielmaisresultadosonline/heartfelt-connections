@@ -13,7 +13,7 @@ export async function professionalizePhoto(photoBytes: Uint8Array, mime: string)
     "Profissionalize esta foto para um certificado: preserve EXATAMENTE o rosto e identidade da pessoa, melhore iluminação, ajuste cor e contraste, fundo neutro suave (cinza claro ou bege), enquadramento de retrato profissional dos ombros para cima, aparência limpa e elegante. NÃO altere traços faciais.",
   );
   form.append("size", "1024x1024");
-  form.append("image", new Blob([photoBytes], { type: mime }), "input.png");
+  form.append("image", new Blob([photoBytes as BlobPart], { type: mime }), "input.png");
 
   const res = await fetch(OPENAI_URL, {
     method: "POST",
