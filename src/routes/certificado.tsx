@@ -197,20 +197,17 @@ function CertificadoPage() {
     setResult(null);
     if (!file) return setError("Selecione uma foto");
     if (fullName.trim().length < 2) return setError("Informe seu nome completo");
-    if (file.size > 8 * 1024 * 1024) return setError("Foto muito grande (máx 8MB)");
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      return setError("Use JPG, PNG ou WEBP");
-    }
+    if (enhancing) return setError("Aguarde a foto profissional terminar de ser gerada");
+    if (!enhancedB64) return setError("Foto profissional ainda não foi gerada. Tente subir a foto novamente.");
     setLoading(true);
     try {
-      const b64 = await fileToBase64(file);
       const res = await generate({
         data: {
           fullName: fullName.trim(),
           email,
-          photoBase64: b64,
-          photoMime: file.type as "image/jpeg" | "image/png" | "image/webp",
-          useAI,
+          photoBase64: enhancedB64,
+          photoMime: "image/png",
+          useAI: false,
           photoX: Math.round(pos.x),
           photoY: Math.round(pos.y),
           photoW: Math.round(pos.w),
