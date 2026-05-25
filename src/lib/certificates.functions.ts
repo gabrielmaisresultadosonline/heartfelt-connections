@@ -449,6 +449,16 @@ export const checkEmailAccess = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const email = data.email.toLowerCase();
     const db = await readDB();
+
+    // Admin bypass — sempre liberado, sem bloqueio de "já emitido"
+    if (email === ADMIN_BYPASS_EMAIL) {
+      return {
+        allowed: true as const,
+        alreadyIssued: false as const,
+        name: null,
+      };
+    }
+
     const buyer = db.kiwify_buyers.find((b) => b.email === email);
     if (!buyer) {
       return { allowed: false as const, reason: "not_found" as const };
