@@ -2,10 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  generateCertificate,
-  getPublicTemplateConfig,
-} from "@/lib/certificates.functions";
+import { generateCertificate, getPublicTemplateConfig } from "@/lib/certificates.functions";
 import { createPhotoCutout } from "@/lib/photo-cutout.client";
 
 export const Route = createFileRoute("/certificado")({
