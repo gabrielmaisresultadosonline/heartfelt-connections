@@ -104,6 +104,7 @@ function TemplatePage() {
       const payload: {
         photo_x: number; photo_y: number; photo_w: number; photo_h: number;
         name_x: number; name_y: number; name_font_size: number; name_color: string;
+        date_x: number; date_y: number; date_font_size: number; date_color: string;
         templateBase64?: string; templateMime?: string; templateExt?: string;
       } = { ...form };
       if (file) {
