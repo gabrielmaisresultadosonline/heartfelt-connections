@@ -32,9 +32,18 @@ function Index() {
 
   const [activeCert, setActiveCert] = useState(0);
   const [openCert, setOpenCert] = useState<number | null>(null);
+  const [autoPlay, setAutoPlay] = useState(true);
 
   const nextCert = () => setActiveCert((p) => (p + 1) % certificates.length);
   const prevCert = () => setActiveCert((p) => (p - 1 + certificates.length) % certificates.length);
+
+  useEffect(() => {
+    if (!autoPlay || openCert !== null) return;
+    const id = setInterval(() => {
+      setActiveCert((p) => (p + 1) % certificates.length);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [autoPlay, openCert, certificates.length]);
 
   const checkoutUrl = "https://pay.kiwify.com.br/AFMNBej";
 
