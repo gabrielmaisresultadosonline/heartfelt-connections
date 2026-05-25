@@ -272,6 +272,20 @@ function TemplatePage() {
                   >
                     NOME DO ALUNO
                   </div>
+                  {/* data */}
+                  <div
+                    className="absolute pointer-events-none whitespace-nowrap"
+                    style={{
+                      left: form.date_x * scale,
+                      top: form.date_y * scale,
+                      transform: "translate(-50%, -100%)",
+                      fontSize: form.date_font_size * scale,
+                      color: form.date_color,
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                    }}
+                  >
+                    {new Date().toLocaleDateString("pt-BR")}
+                  </div>
                 </div>
               ) : (
                 <div className="aspect-[3/2] flex items-center justify-center text-sm text-gray-400 p-6 text-center">
