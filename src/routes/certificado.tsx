@@ -100,18 +100,24 @@ function CertificadoPage() {
     return () => URL.revokeObjectURL(url);
   }, [file]);
 
-  // drag da foto
-  const dragRef = useRef<{ startX: number; startY: number; posX: number; posY: number } | null>(null);
-  function onPointerDown(e: React.PointerEvent) {
-    if (!photoUrl) return;
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    dragRef.current = { startX: e.clientX, startY: e.clientY, posX: pos.x, posY: pos.y };
+  // drag genérico (foto, nome, data)
+  type DragTarget = "photo" | "name" | "date";
+  const dragRef = useRef<{ target: DragTarget; startX: number; startY: number; posX: number; posY: number } | null>(null);
+  function startDrag(target: DragTarget) {
+    return (e: React.PointerEvent) => {
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      const cur = target === "photo" ? pos : target === "name" ? namePos : datePos;
+      dragRef.current = { target, startX: e.clientX, startY: e.clientY, posX: cur.x, posY: cur.y };
+    };
   }
   function onPointerMove(e: React.PointerEvent) {
     if (!dragRef.current) return;
-    const dx = (e.clientX - dragRef.current.startX) / scale;
-    const dy = (e.clientY - dragRef.current.startY) / scale;
-    setPos((p) => ({ ...p, x: dragRef.current!.posX + dx, y: dragRef.current!.posY + dy }));
+    const d = dragRef.current;
+    const dx = (e.clientX - d.startX) / scale;
+    const dy = (e.clientY - d.startY) / scale;
+    if (d.target === "photo") setPos((p) => ({ ...p, x: d.posX + dx, y: d.posY + dy }));
+    else if (d.target === "name") setNamePos((p) => ({ ...p, x: d.posX + dx, y: d.posY + dy }));
+    else setDatePos((p) => ({ ...p, x: d.posX + dx, y: d.posY + dy }));
   }
   function onPointerUp(e: React.PointerEvent) {
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
@@ -129,7 +135,11 @@ function CertificadoPage() {
   }
 
   function resetPos() {
-    if (cfg) setPos({ x: cfg.photo_x, y: cfg.photo_y, w: cfg.photo_w, h: cfg.photo_h });
+    if (cfg) {
+      setPos({ x: cfg.photo_x, y: cfg.photo_y, w: cfg.photo_w, h: cfg.photo_h });
+      setNamePos({ x: cfg.name_x, y: cfg.name_y, size: cfg.name_font_size });
+      setDatePos({ x: cfg.date_x, y: cfg.date_y, size: cfg.date_font_size });
+    }
   }
 
   async function onSubmit(e: React.FormEvent) {
