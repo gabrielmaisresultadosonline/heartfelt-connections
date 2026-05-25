@@ -184,32 +184,50 @@ function CertificadoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-rose-50 py-8 px-4">
-      <div className="mx-auto max-w-5xl">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-2">Receba seu Certificado</h1>
-        <p className="text-center text-gray-600 mb-6 text-sm md:text-base">
-          Envie sua foto, posicione no template e gere seu certificado.
-        </p>
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-fuchsia-100 py-8 px-4">
+      {/* blobs decorativos */}
+      <div aria-hidden className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 rounded-full bg-pink-300/40 blur-3xl" />
+      <div aria-hidden className="pointer-events-none absolute -bottom-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-fuchsia-300/40 blur-3xl" />
+      <div aria-hidden className="pointer-events-none absolute top-1/3 right-1/4 w-72 h-72 rounded-full bg-rose-200/50 blur-3xl" />
+
+      <div className="relative mx-auto max-w-5xl">
+        <div className="text-center mb-8">
+          <span className="inline-block px-4 py-1 rounded-full bg-white/70 backdrop-blur border border-pink-200 text-pink-700 text-xs font-semibold tracking-wider uppercase mb-3 shadow-sm">
+            ✨ Certificado Oficial
+          </span>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-3 bg-gradient-to-r from-pink-600 via-rose-500 to-fuchsia-600 bg-clip-text text-transparent drop-shadow-sm">
+            Receba seu Certificado
+          </h1>
+          <p className="text-center text-rose-900/70 text-sm md:text-base max-w-2xl mx-auto px-2">
+            Envie sua foto, posicione no template e gere seu certificado em alta qualidade.
+          </p>
+        </div>
 
         {result ? (
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center max-w-xl mx-auto">
-            <h2 className="text-2xl font-bold text-green-700 mb-4">Certificado pronto!</h2>
-            <img
-              src={result.enhancedPhotoUrl}
-              alt="Foto usada"
-              className="w-40 h-40 object-cover rounded-full mx-auto mb-6 border-4 border-amber-400"
-            />
+          <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/30 ring-1 ring-pink-200 p-8 md:p-10 text-center max-w-xl mx-auto">
+            <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
+            <h2 className="text-2xl md:text-3xl font-extrabold mb-4 bg-gradient-to-r from-pink-600 to-fuchsia-600 bg-clip-text text-transparent">
+              Certificado pronto! 🎉
+            </h2>
+            <div className="relative w-40 h-40 mx-auto mb-6">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-400 to-fuchsia-500 blur-md opacity-60" />
+              <img
+                src={result.enhancedPhotoUrl}
+                alt="Foto usada"
+                className="relative w-40 h-40 object-cover rounded-full mx-auto border-4 border-white shadow-xl"
+              />
+            </div>
             <a
               href={result.pdfUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg"
+              className="inline-block bg-gradient-to-r from-pink-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-pink-400/40 transition-all hover:scale-[1.03] active:scale-100"
             >
               Baixar Certificado PDF
             </a>
             <button
               onClick={() => { setResult(null); setFile(null); }}
-              className="block mx-auto mt-4 text-sm text-gray-500 hover:underline"
+              className="block mx-auto mt-4 text-sm text-rose-700/70 hover:text-pink-700 hover:underline"
             >
               Gerar outro
             </button>
@@ -217,95 +235,106 @@ function CertificadoPage() {
         ) : (
           <form onSubmit={onSubmit} className="grid md:grid-cols-2 gap-6">
             {/* COLUNA 1: formulário */}
-            <div className="bg-white rounded-xl shadow-lg p-6 space-y-4 order-2 md:order-1">
+            <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/20 ring-1 ring-pink-200 p-6 md:p-7 space-y-4 order-2 md:order-1">
+              <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
               <div>
-                <label className="block text-sm font-medium mb-1">Nome completo *</label>
+                <label className="block text-sm font-semibold text-rose-900 mb-1">Nome completo *</label>
                 <input
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
                   maxLength={120}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-amber-400 outline-none"
+                  className="w-full border border-pink-200 bg-white/80 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-pink-400 focus:border-pink-400 outline-none transition"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Email (opcional)</label>
+                <label className="block text-sm font-semibold text-rose-900 mb-1">Email (opcional)</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-amber-400 outline-none"
+                  className="w-full border border-pink-200 bg-white/80 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-pink-400 focus:border-pink-400 outline-none transition"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Data de conclusão</label>
+                <label className="block text-sm font-semibold text-rose-900 mb-1">Data de conclusão</label>
                 <input
                   type="text"
                   value={dateText}
                   onChange={(e) => setDateText(e.target.value)}
                   maxLength={40}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-amber-400 outline-none"
+                  className="w-full border border-pink-200 bg-white/80 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-pink-400 focus:border-pink-400 outline-none transition"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Sua foto *</label>
+                <label className="block text-sm font-semibold text-rose-900 mb-1">Sua foto *</label>
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
                   onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                   required
-                  className="w-full text-sm"
+                  className="w-full text-sm file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-gradient-to-r file:from-pink-500 file:to-fuchsia-600 file:text-white file:font-semibold file:cursor-pointer hover:file:opacity-90"
                 />
-                <p className="text-xs text-gray-500 mt-1">JPG, PNG ou WEBP até 8MB</p>
+                <p className="text-xs text-rose-700/60 mt-1">JPG, PNG ou WEBP até 8MB</p>
               </div>
 
               {photoUrl && (
-                <div className="border rounded-lg p-3 bg-gray-50 space-y-2">
-                  <p className="text-xs font-semibold text-gray-700">Ajustar foto no preview →</p>
+                <div className="border border-pink-200 rounded-xl p-3 bg-pink-50/60 space-y-2">
+                  <p className="text-xs font-semibold text-rose-900">Ajustar foto no preview →</p>
                   <div className="flex gap-2 flex-wrap">
-                    <button type="button" onClick={() => scalePhoto(1.1)} className="px-3 py-1 bg-white border rounded text-sm">+ Zoom</button>
-                    <button type="button" onClick={() => scalePhoto(0.9)} className="px-3 py-1 bg-white border rounded text-sm">– Zoom</button>
-                    <button type="button" onClick={resetPos} className="px-3 py-1 bg-white border rounded text-sm">Resetar</button>
+                    <button type="button" onClick={() => scalePhoto(1.1)} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">+ Zoom</button>
+                    <button type="button" onClick={() => scalePhoto(0.9)} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">– Zoom</button>
+                    <button type="button" onClick={resetPos} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">Resetar</button>
                   </div>
-                  <p className="text-xs text-gray-500">Arraste foto, nome e data no preview pra posicionar.</p>
+                  <p className="text-xs text-rose-700/60">Arraste foto, nome e data no preview pra posicionar.</p>
                 </div>
               )}
               {!photoUrl && (
-                <p className="text-xs text-gray-500">Dica: depois de subir a foto, arraste foto, nome e data no preview.</p>
+                <p className="text-xs text-rose-700/60">Dica: depois de subir a foto, arraste foto, nome e data no preview.</p>
               )}
 
-              <label className="flex items-start gap-2 p-3 border rounded-lg cursor-pointer hover:bg-amber-50">
+              <label className="flex items-start gap-2 p-3 border border-pink-200 rounded-xl cursor-pointer hover:bg-pink-50/60 transition">
                 <input
                   type="checkbox"
                   checked={useAI}
                   onChange={(e) => setUseAI(e.target.checked)}
-                  className="mt-1"
+                  className="mt-1 accent-pink-500"
                 />
                 <span className="text-sm">
-                  <span className="font-semibold">Aprimorar com IA (+blazer profissional)</span>
-                  <span className="block text-xs text-gray-500">
-                    Adiciona blazer, fundo neutro e iluminação de estúdio. Demora ~20s e gera um pequeno custo.
+                  <span className="font-semibold text-rose-900">Aprimorar com IA (+blazer profissional)</span>
+                  <span className="block text-xs text-rose-700/60">
+                    Adiciona blazer, fundo branco e iluminação de estúdio. Demora ~20s e gera um pequeno custo.
                   </span>
                 </span>
               </label>
 
-              {error && <p className="text-red-600 text-sm">{error}</p>}
+              {error && (
+                <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>
+              )}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-bold py-3 rounded-lg"
+                className="relative w-full overflow-hidden bg-gradient-to-r from-pink-500 via-rose-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-full shadow-lg shadow-pink-400/40 transition-all hover:scale-[1.02] active:scale-100"
               >
-                {loading ? (useAI ? "Processando (~30s)..." : "Gerando...") : "Gerar meu Certificado"}
+                <span className="relative z-10">
+                  {loading ? (useAI ? "Processando (~30s)..." : "Gerando...") : "Gerar meu Certificado ✨"}
+                </span>
+                {!loading && (
+                  <span aria-hidden className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+                )}
               </button>
             </div>
 
             {/* COLUNA 2: preview ao vivo */}
             <div className="order-1 md:order-2">
-              <p className="text-sm font-semibold text-gray-700 mb-2">Preview ao vivo</p>
+              <p className="text-sm font-semibold text-rose-900 mb-2 flex items-center gap-2">
+                <span className="inline-block w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
+                Preview ao vivo
+              </p>
               <div
                 ref={stageRef}
-                className="bg-white rounded-xl shadow-lg overflow-hidden select-none"
+                className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl shadow-pink-300/30 ring-1 ring-pink-200 overflow-hidden select-none"
                 style={{ touchAction: "none" }}
               >
                 {cfg?.template_url && tplSize ? (
@@ -313,7 +342,6 @@ function CertificadoPage() {
                     className="relative bg-white"
                     style={{ width: stageW, height: stageH }}
                   >
-                    {/* foto - fica atrás do overlay */}
                     {photoUrl && (
                       <img
                         src={photoUrl}
@@ -333,7 +361,6 @@ function CertificadoPage() {
                         }}
                       />
                     )}
-                    {/* overlay PNG transparente por cima */}
                     <img
                       src={cfg.template_url}
                       alt="template"
@@ -341,12 +368,11 @@ function CertificadoPage() {
                       className="absolute inset-0 pointer-events-none"
                       style={{ width: stageW, height: stageH }}
                     />
-                    {/* nome arrastável */}
                     <div
                       onPointerDown={startDrag("name")}
                       onPointerMove={onPointerMove}
                       onPointerUp={onPointerUp}
-                      className="absolute font-bold text-center whitespace-nowrap cursor-move px-2 rounded hover:bg-amber-100/40"
+                      className="absolute font-bold text-center whitespace-nowrap cursor-move px-2 rounded hover:bg-pink-100/40"
                       style={{
                         left: namePos.x * scale,
                         top: namePos.y * scale,
@@ -359,12 +385,11 @@ function CertificadoPage() {
                     >
                       {fullName || "SEU NOME"}
                     </div>
-                    {/* data arrastável */}
                     <div
                       onPointerDown={startDrag("date")}
                       onPointerMove={onPointerMove}
                       onPointerUp={onPointerUp}
-                      className="absolute whitespace-nowrap cursor-move px-2 rounded hover:bg-amber-100/40"
+                      className="absolute whitespace-nowrap cursor-move px-2 rounded hover:bg-pink-100/40"
                       style={{
                         left: datePos.x * scale,
                         top: datePos.y * scale,
@@ -377,10 +402,9 @@ function CertificadoPage() {
                     >
                       {dateText}
                     </div>
-                    {/* placeholder quando não tem foto */}
                     {!photoUrl && (
                       <div
-                        className="absolute border-2 border-dashed border-amber-400 bg-amber-50/40 flex items-center justify-center text-xs text-amber-700 text-center px-2"
+                        className="absolute border-2 border-dashed border-pink-400 bg-pink-50/50 flex items-center justify-center text-xs text-pink-700 text-center px-2 rounded"
                         style={{
                           left: pos.x * scale,
                           top: pos.y * scale,
@@ -393,12 +417,12 @@ function CertificadoPage() {
                     )}
                   </div>
                 ) : (
-                  <div className="aspect-[3/2] flex items-center justify-center text-sm text-gray-400 p-6 text-center">
+                  <div className="aspect-[3/2] flex items-center justify-center text-sm text-rose-700/60 p-6 text-center">
                     {cfg?.template_url ? "Carregando template..." : "Template ainda não configurado pelo admin."}
                   </div>
                 )}
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-rose-700/60 mt-2 px-1">
                 A foto fica <strong>atrás</strong> do template (que é transparente nas áreas certas).
                 Arraste pra posicionar, use os botões de zoom pra ajustar.
               </p>
