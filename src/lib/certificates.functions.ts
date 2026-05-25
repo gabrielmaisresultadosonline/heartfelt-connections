@@ -28,6 +28,31 @@ function b64ToBytes(b64: string): Uint8Array {
   return out;
 }
 
+function bytesToB64(bytes: Uint8Array): string {
+  let s = "";
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    s += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  }
+  return btoa(s);
+}
+
+export const enhancePhoto = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        photoBase64: z.string().min(100),
+        photoMime: z.enum(ALLOWED_MIME),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data }) => {
+    const photoBytes = b64ToBytes(data.photoBase64);
+    if (photoBytes.length > MAX_BYTES) throw new Error("Foto muito grande (máx 8MB)");
+    const out = await professionalizePhoto(photoBytes, data.photoMime);
+    return { base64: bytesToB64(out), mime: "image/png" as const };
+  });
+
 export const generateCertificate = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>
     z
