@@ -166,6 +166,13 @@ function CertificadoPage() {
           photoY: Math.round(pos.y),
           photoW: Math.round(pos.w),
           photoH: Math.round(pos.h),
+          nameX: Math.round(namePos.x),
+          nameY: Math.round(namePos.y),
+          nameFontSize: Math.round(namePos.size),
+          dateText: dateText.trim() || undefined,
+          dateX: Math.round(datePos.x),
+          dateY: Math.round(datePos.y),
+          dateFontSize: Math.round(datePos.size),
         },
       });
       setResult({ pdfUrl: res.pdfUrl, enhancedPhotoUrl: res.enhancedPhotoUrl });
