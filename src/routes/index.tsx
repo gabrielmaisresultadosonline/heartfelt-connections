@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion } from "framer-motion";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.jpg";
 import heroImg from "@/assets/hero-alessandra.jpg";
+import cert1 from "@/assets/cert-1.jpeg";
+import cert2 from "@/assets/cert-2.jpeg";
+import cert3 from "@/assets/cert-3.jpeg";
+import cert4 from "@/assets/cert-4.jpeg";
 
 
 export const Route = createFileRoute("/")({
