@@ -12,7 +12,7 @@ export async function professionalizePhoto(photoBytes: Uint8Array, mime: string)
   form.append("model", "gpt-image-1");
   form.append(
     "prompt",
-    "Foto profissional para certificado: preserve EXATAMENTE o mesmo rosto, traços faciais, cabelo, cor da pele e identidade da pessoa enviada (não invente outra pessoa). Vista com um blazer profissional elegante (preto, marinho ou cinza). FUNDO TOTALMENTE BRANCO PURO (#FFFFFF), liso, sem sombras, sem objetos, sem textura — apenas branco sólido atrás da pessoa, pronto para recorte. Enquadramento de retrato dos ombros para cima, iluminação de estúdio suave e uniforme, aparência limpa e moderna. NÃO altere rosto, cabelo ou pele.",
+    "RETRATO PROFISSIONAL para certificado. REGRA MAIS IMPORTANTE: preserve 100% a identidade da pessoa — mesmo rosto, mesmos olhos, mesmo nariz, mesma boca, mesmo formato de rosto, mesmas sobrancelhas, mesma cor e tom de pele, mesmo cabelo (corte, cor, textura), mesma barba/bigode se houver, mesma idade, mesmo gênero. NÃO suavize, NÃO embeleze, NÃO altere traços faciais. A pessoa precisa ser RECONHECÍVEL como a mesma da foto enviada. Apenas troque a roupa por um blazer profissional elegante (preto, marinho ou cinza) sobre camisa/blusa. ENQUADRAMENTO: corpo inteiro da cintura para cima, INCLUINDO OS DOIS BRAÇOS COMPLETOS e os ombros — NÃO corte braços, mãos, ombros nem o topo da cabeça. Postura natural de frente. FUNDO: branco puro #FFFFFF totalmente liso, sem sombras, sem textura, sem objetos. Iluminação de estúdio suave e uniforme. Foto nítida, profissional, pronta para certificado.",
   );
   form.append("size", "1024x1024");
   form.append("quality", "low");
