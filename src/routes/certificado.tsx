@@ -268,9 +268,19 @@ function CertificadoPage() {
                     <button type="button" onClick={() => scalePhoto(0.9)} className="px-3 py-1 bg-white border rounded text-sm">– Zoom</button>
                     <button type="button" onClick={resetPos} className="px-3 py-1 bg-white border rounded text-sm">Resetar</button>
                   </div>
-                  <p className="text-xs text-gray-500">Arraste a foto no preview pra mover.</p>
+                  <p className="text-xs text-gray-500">Arraste foto, nome e data no preview pra posicionar.</p>
                 </div>
               )}
+              {!photoUrl && (
+                <p className="text-xs text-gray-500">Dica: arraste o nome e a data no preview pra ajustar a posição.</p>
+              )}
+              <div className="hidden">
+                {/* spacer */}
+              </div>
+              <div className="-mt-2" />
+              <span className="sr-only">end drag hint</span>
+              <span className="sr-only">{ /* keep structure */ }</span>
+              <span className="sr-only" />
 
               <label className="flex items-start gap-2 p-3 border rounded-lg cursor-pointer hover:bg-amber-50">
                 <input
