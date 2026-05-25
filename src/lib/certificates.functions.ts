@@ -17,7 +17,15 @@ const ALLOWED_MIME = ["image/jpeg", "image/png", "image/webp"] as const;
 
 function hexToRgb(hex: string) {
   const h = hex.replace("#", "");
-  const n = parseInt(h.length === 3 ? h.split("").map((c) => c + c).join("") : h, 16);
+  const n = parseInt(
+    h.length === 3
+      ? h
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : h,
+    16,
+  );
   return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
 }
 
@@ -50,7 +58,11 @@ export const enhancePhoto = createServerFn({ method: "POST" })
     const photoBytes = b64ToBytes(data.photoBase64);
     if (photoBytes.length > MAX_BYTES) throw new Error("Foto muito grande (máx 8MB)");
     const out = await professionalizePhoto(photoBytes, data.photoMime);
-    return { base64: bytesToB64(out), mime: "image/png" as const };
+    return {
+      base64: bytesToB64(out),
+      mime: "image/png" as const,
+      mode: "background-removed" as const,
+    };
   });
 
 export const generateCertificate = createServerFn({ method: "POST" })
@@ -81,7 +93,10 @@ export const generateCertificate = createServerFn({ method: "POST" })
     if (photoBytes.length > MAX_BYTES) throw new Error("Foto muito grande (máx 8MB)");
 
     const ts = Date.now();
-    const safeName = data.fullName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40);
+    const safeName = data.fullName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .slice(0, 40);
     const ext = data.photoMime.split("/")[1];
 
     // 1) Original
@@ -100,7 +115,8 @@ export const generateCertificate = createServerFn({ method: "POST" })
         enhancedMime = data.photoMime;
       }
     }
-    const enhExt = enhancedMime === "image/png" ? "png" : enhancedMime === "image/jpeg" ? "jpg" : "webp";
+    const enhExt =
+      enhancedMime === "image/png" ? "png" : enhancedMime === "image/jpeg" ? "jpg" : "webp";
     const enhRel = await saveFile(`${ts}-${safeName}-enhanced.${enhExt}`, enhancedBytes);
 
     // 3) Template
@@ -115,7 +131,9 @@ export const generateCertificate = createServerFn({ method: "POST" })
       const { FILES_DIR } = await import("./store.server");
       const buf = await fs.readFile(path.join(FILES_DIR, cfg.template_file));
       templateBytes = new Uint8Array(buf);
-      templateIsPdf = (cfg.template_mime ?? "").includes("pdf") || cfg.template_file.toLowerCase().endsWith(".pdf");
+      templateIsPdf =
+        (cfg.template_mime ?? "").includes("pdf") ||
+        cfg.template_file.toLowerCase().endsWith(".pdf");
     }
 
     // Posição final (override do usuário ou config padrão)
@@ -139,9 +157,10 @@ export const generateCertificate = createServerFn({ method: "POST" })
       // fundo branco
       page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: rgb(1, 1, 1) });
       // foto
-      const photoImg = enhancedMime === "image/jpeg"
-        ? await pdf.embedJpg(enhancedBytes)
-        : await pdf.embedPng(enhancedBytes);
+      const photoImg =
+        enhancedMime === "image/jpeg"
+          ? await pdf.embedJpg(enhancedBytes)
+          : await pdf.embedPng(enhancedBytes);
       page.drawImage(photoImg, {
         x: photoX,
         y: pageH - photoY - photoH,
@@ -160,9 +179,10 @@ export const generateCertificate = createServerFn({ method: "POST" })
       // fundo branco
       page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: rgb(1, 1, 1) });
       // foto entre fundo e overlay
-      const photoImg = enhancedMime === "image/jpeg"
-        ? await pdf.embedJpg(enhancedBytes)
-        : await pdf.embedPng(enhancedBytes);
+      const photoImg =
+        enhancedMime === "image/jpeg"
+          ? await pdf.embedJpg(enhancedBytes)
+          : await pdf.embedPng(enhancedBytes);
       page.drawImage(photoImg, {
         x: photoX,
         y: pageH - photoY - photoH,
@@ -176,9 +196,10 @@ export const generateCertificate = createServerFn({ method: "POST" })
       pageH = 595;
       page = pdf.addPage([pageW, pageH]);
       page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: rgb(0.98, 0.96, 0.9) });
-      const photoImg = enhancedMime === "image/jpeg"
-        ? await pdf.embedJpg(enhancedBytes)
-        : await pdf.embedPng(enhancedBytes);
+      const photoImg =
+        enhancedMime === "image/jpeg"
+          ? await pdf.embedJpg(enhancedBytes)
+          : await pdf.embedPng(enhancedBytes);
       page.drawImage(photoImg, {
         x: photoX,
         y: pageH - photoY - photoH,
@@ -203,8 +224,8 @@ export const generateCertificate = createServerFn({ method: "POST" })
     });
 
     // Data
-    const dateText = (data.dateText && data.dateText.trim()) ||
-      new Date().toLocaleDateString("pt-BR");
+    const dateText =
+      (data.dateText && data.dateText.trim()) || new Date().toLocaleDateString("pt-BR");
     const dateFontSize = data.dateFontSize ?? cfg.date_font_size;
     const dateX = data.dateX ?? cfg.date_x;
     const dateY = data.dateY ?? cfg.date_y;
@@ -300,7 +321,9 @@ export const getPublicTemplateConfig = createServerFn({ method: "GET" }).handler
     date_font_size: c.date_font_size,
     date_color: c.date_color,
     template_url: c.template_file ? `/api/files/${c.template_file}` : null,
-    template_is_pdf: ((c.template_mime ?? "").includes("pdf") || (c.template_file ?? "").toLowerCase().endsWith(".pdf")),
+    template_is_pdf:
+      (c.template_mime ?? "").includes("pdf") ||
+      (c.template_file ?? "").toLowerCase().endsWith(".pdf"),
   };
 });
 
