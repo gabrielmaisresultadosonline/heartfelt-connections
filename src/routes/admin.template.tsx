@@ -44,6 +44,7 @@ function TemplatePage() {
   const [form, setForm] = useState({
     photo_x: 100, photo_y: 100, photo_w: 300, photo_h: 300,
     name_x: 400, name_y: 500, name_font_size: 48, name_color: "#000000",
+    date_x: 400, date_y: 560, date_font_size: 24, date_color: "#000000",
   });
   const [file, setFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
@@ -54,6 +55,7 @@ function TemplatePage() {
       setForm({
         photo_x: data.photo_x, photo_y: data.photo_y, photo_w: data.photo_w, photo_h: data.photo_h,
         name_x: data.name_x, name_y: data.name_y, name_font_size: data.name_font_size, name_color: data.name_color,
+        date_x: data.date_x, date_y: data.date_y, date_font_size: data.date_font_size, date_color: data.date_color,
       });
     }
   }, [data]);
