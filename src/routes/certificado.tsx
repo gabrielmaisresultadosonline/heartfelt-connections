@@ -415,11 +415,13 @@ function CertificadoPage() {
             <div className="max-w-5xl mx-auto mb-8 grid md:grid-cols-2 gap-6 items-stretch">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-pink-300/30 ring-2 ring-pink-300 bg-black">
                 <video
+                  ref={(el) => { if (el) { el.muted = true; el.volume = 0; } }}
                   src="/videos/tutorial-certificado.mp4"
                   autoPlay
                   loop
                   muted
                   playsInline
+                  disableRemotePlayback
                   className="w-full h-full object-cover block"
                 />
               </div>
