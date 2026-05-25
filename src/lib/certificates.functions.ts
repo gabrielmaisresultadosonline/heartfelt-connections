@@ -234,3 +234,30 @@ export const updateTemplateConfig = createServerFn({ method: "POST" })
     });
     return { ok: true };
   });
+
+export const getSettings = createServerFn({ method: "GET" }).handler(async () => {
+  requireAdmin();
+  const db = await readDB();
+  return {
+    openai_api_key_set: !!db.settings.openai_api_key,
+    openai_api_key_preview: db.settings.openai_api_key
+      ? db.settings.openai_api_key.slice(0, 7) + "..." + db.settings.openai_api_key.slice(-4)
+      : null,
+  };
+});
+
+export const updateSettings = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        openai_api_key: z.string().min(20).max(300).nullable(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data }) => {
+    requireAdmin();
+    await withDB(async (d) => {
+      d.settings.openai_api_key = data.openai_api_key;
+    });
+    return { ok: true };
+  });
