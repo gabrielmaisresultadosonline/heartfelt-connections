@@ -89,6 +89,26 @@ export const generateCertificate = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data }) => {
+    const email = (data.email || "").trim().toLowerCase();
+    if (!email) throw new Error("Email é obrigatório para emitir o certificado");
+
+    // Verifica acesso via Kiwify
+    const dbCheck = await readDB();
+    const buyer = dbCheck.kiwify_buyers.find((b) => b.email === email);
+    if (!buyer || buyer.status !== "paid") {
+      throw new Error(
+        "Email não autorizado. Apenas alunas que compraram o curso podem emitir o certificado.",
+      );
+    }
+
+    // Bloqueia segundo certificado
+    const existing = dbCheck.certificates.find((c) => (c.email || "").toLowerCase() === email);
+    if (existing) {
+      throw new Error(
+        "Você já emitiu um certificado com este email. Use o botão de download para baixá-lo novamente.",
+      );
+    }
+
     const photoBytes = b64ToBytes(data.photoBase64);
     if (photoBytes.length > MAX_BYTES) throw new Error("Foto muito grande (máx 8MB)");
 
@@ -246,7 +266,7 @@ export const generateCertificate = createServerFn({ method: "POST" })
       id: crypto.randomUUID(),
       created_at: new Date().toISOString(),
       full_name: data.fullName,
-      email: data.email || null,
+      email: email || null,
       original_file: origRel,
       enhanced_file: enhRel,
       pdf_file: pdfRel,
@@ -413,4 +433,34 @@ export const updateSettings = createServerFn({ method: "POST" })
       d.settings.openai_api_key = data.openai_api_key;
     });
     return { ok: true };
+  });
+
+export const checkEmailAccess = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ email: z.string().trim().email().max(255) }).parse(input),
+  )
+  .handler(async ({ data }) => {
+    const email = data.email.toLowerCase();
+    const db = await readDB();
+    const buyer = db.kiwify_buyers.find((b) => b.email === email);
+    if (!buyer) {
+      return { allowed: false as const, reason: "not_found" as const };
+    }
+    if (buyer.status !== "paid") {
+      return { allowed: false as const, reason: buyer.status };
+    }
+    const existing = db.certificates.find((c) => (c.email || "").toLowerCase() === email);
+    if (existing) {
+      return {
+        allowed: true as const,
+        alreadyIssued: true as const,
+        name: buyer.name,
+        pdfUrl: `/api/files/${existing.pdf_file}`,
+      };
+    }
+    return {
+      allowed: true as const,
+      alreadyIssued: false as const,
+      name: buyer.name,
+    };
   });
