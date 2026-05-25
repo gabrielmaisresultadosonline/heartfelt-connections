@@ -136,7 +136,7 @@ function Index() {
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
-              <PulseButton className="py-6 px-12 rounded-[2.5rem] text-2xl">
+              <PulseButton variant="yellow" className="py-6 px-12 rounded-[2.5rem] text-2xl">
                 Garantir Minha Vaga
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
