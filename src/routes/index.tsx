@@ -176,6 +176,11 @@ function Index() {
             </div>
           </motion.div>
         </div>
+        <div className="text-center mt-16">
+          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            QUERO APRENDER COM A ALESSANDRA →
+          </PulseButton>
+        </div>
       </section>
 
       {/* Modules Showcase */}
@@ -220,6 +225,11 @@ function Index() {
             </motion.div>
           ))}
         </div>
+        <div className="text-center mt-20">
+          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            COMEÇAR MEU CURSO AGORA →
+          </PulseButton>
+        </div>
       </section>
 
       {/* Bonus Section */}
@@ -237,6 +247,11 @@ function Index() {
             ))}
           </div>
           <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="text-[#d82298]">R$ 47,00</span></p>
+          <div className="mt-10">
+            <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+              GARANTIR MEUS BÔNUS →
+            </PulseButton>
+          </div>
         </div>
       </section>
 
