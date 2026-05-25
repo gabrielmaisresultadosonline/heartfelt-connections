@@ -312,7 +312,13 @@ function Index() {
               <p className="text-center text-gray-500 text-xs md:text-sm mb-8">Toque na flor para abrir o certificado ✨</p>
 
               {/* Carousel stage */}
-              <div className="relative h-[360px] md:h-[520px] flex items-center justify-center" style={{ perspective: "1200px" }}>
+              <div
+                className="relative h-[360px] md:h-[520px] flex items-center justify-center select-none"
+                style={{ perspective: "1200px" }}
+                onMouseEnter={() => setAutoPlay(false)}
+                onMouseLeave={() => setAutoPlay(true)}
+                onTouchStart={() => setAutoPlay(false)}
+              >
                 <AnimatePresence mode="popLayout" initial={false}>
                   {certificates.map((cert, i) => {
                     const offset = i - activeCert;
@@ -333,8 +339,23 @@ function Index() {
                         }}
                         exit={{ opacity: 0, scale: 0.5 }}
                         transition={{ type: "spring", stiffness: 110, damping: 18 }}
-                        className="absolute w-[220px] md:w-[400px] cursor-pointer"
-                        onClick={() => isActive ? setOpenCert(i) : setActiveCert(i)}
+                        className="absolute w-[220px] md:w-[400px] cursor-grab active:cursor-grabbing"
+                        drag={isActive ? "x" : false}
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0.35}
+                        onDragStart={() => setAutoPlay(false)}
+                        onDragEnd={(_, info) => {
+                          if (info.offset.x < -60 || info.velocity.x < -300) nextCert();
+                          else if (info.offset.x > 60 || info.velocity.x > 300) prevCert();
+                        }}
+                        onClick={(e) => {
+                          if (!isActive) {
+                            setActiveCert(i);
+                            return;
+                          }
+                          // Only open if it's a genuine click (not a drag)
+                          setOpenCert(i);
+                        }}
                       >
                         <motion.div
                           whileHover={isActive ? { scale: 1.03, y: -6 } : {}}
