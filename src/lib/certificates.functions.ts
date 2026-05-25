@@ -50,7 +50,11 @@ export const enhancePhoto = createServerFn({ method: "POST" })
     const photoBytes = b64ToBytes(data.photoBase64);
     if (photoBytes.length > MAX_BYTES) throw new Error("Foto muito grande (máx 8MB)");
     const out = await professionalizePhoto(photoBytes, data.photoMime);
-    return { base64: bytesToB64(out), mime: "image/png" as const };
+    return {
+      base64: bytesToB64(out),
+      mime: "image/png" as const,
+      mode: "background-removed" as const,
+    };
   });
 
 export const generateCertificate = createServerFn({ method: "POST" })
