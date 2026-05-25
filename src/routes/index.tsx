@@ -526,14 +526,14 @@ function Index() {
 
             <div className="text-center mb-8">
               <p className="text-gray-400 line-through text-lg md:text-xl font-bold">De R$ 497,00</p>
-              <p className="text-sm md:text-base font-bold text-[#1a1a1a] uppercase tracking-wider mt-2">Por apenas</p>
+              <p className="text-sm md:text-base font-bold text-[#1a1a1a] uppercase tracking-wider mt-2">Por apenas <span className="text-[#d82298]">(acesso vitalício)</span></p>
               <div className="flex items-start justify-center gap-1 mt-1">
                 <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">R$</span>
-                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">97</span>
+                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">47</span>
                 <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">,00</span>
               </div>
               <p className="text-sm md:text-base text-gray-600 font-semibold mt-2">
-                ou 12x de <span className="font-black text-[#1a1a1a]">R$ 9,70</span> no cartão
+                ou 11x de <span className="font-black text-[#1a1a1a]">R$ 5,00</span> no cartão
               </p>
             </div>
 
