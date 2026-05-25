@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { enhancePhoto, generateCertificate, getPublicTemplateConfig } from "@/lib/certificates.functions";
+import { createPhotoCutout } from "@/lib/photo-cutout.client";
 
 export const Route = createFileRoute("/certificado")({
   head: () => ({
@@ -46,6 +47,7 @@ function CertificadoPage() {
   const [enhancing, setEnhancing] = useState(false);
   const [enhanceProgress, setEnhanceProgress] = useState(0);
   const [enhanceError, setEnhanceError] = useState<string | null>(null);
+  const [enhanceMessage, setEnhanceMessage] = useState("Removendo o fundo da sua foto...");
 
   // posição da foto em coordenadas do template (px do PNG original)
   const [pos, setPos] = useState({ x: 0, y: 0, w: 0, h: 0 });
@@ -115,27 +117,40 @@ function CertificadoPage() {
         setEnhancedB64(null);
         setEnhanceError(null);
         setEnhancing(true);
-        setEnhanceProgress(5);
+        setEnhanceMessage("Removendo o fundo da sua foto...");
+        setEnhanceProgress(4);
 
-        // simulação de progresso (a chamada real demora ~15-25s)
         progressTimer = setInterval(() => {
-          setEnhanceProgress((p) => (p < 90 ? p + Math.max(1, Math.round((92 - p) / 14)) : p));
-        }, 700);
+          setEnhanceProgress((p) => (p < 94 ? p + 1 : p));
+        }, 900);
 
-        const b64 = await fileToBase64(file);
-        const res = await enhance({
-          data: {
-            photoBase64: b64,
-            photoMime: file.type as "image/jpeg" | "image/png" | "image/webp",
-          },
+        const res = await createPhotoCutout(file, ({ progress, message }) => {
+          if (cancelled) return;
+          setEnhanceProgress((current) => Math.max(current, progress));
+          setEnhanceMessage(message);
         });
         if (cancelled) return;
         setEnhancedB64(res.base64);
         setEnhanceProgress(100);
       } catch (err) {
         if (cancelled) return;
-        setEnhanceError(err instanceof Error ? err.message : "Falha ao gerar foto profissional");
-        setEnhanceProgress(0);
+        try {
+          setEnhanceMessage("Tentando um recorte alternativo...");
+          const b64 = await fileToBase64(file);
+          const res = await enhance({
+            data: {
+              photoBase64: b64,
+              photoMime: file.type as "image/jpeg" | "image/png" | "image/webp",
+            },
+          });
+          if (cancelled) return;
+          setEnhancedB64(res.base64);
+          setEnhanceProgress(100);
+        } catch (fallbackErr) {
+          if (cancelled) return;
+          setEnhanceError(fallbackErr instanceof Error ? fallbackErr.message : "Falha ao remover o fundo da foto");
+          setEnhanceProgress(0);
+        }
       } finally {
         if (progressTimer) clearInterval(progressTimer);
         if (!cancelled) setEnhancing(false);
