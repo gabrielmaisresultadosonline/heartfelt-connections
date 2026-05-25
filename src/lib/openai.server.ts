@@ -12,7 +12,7 @@ export async function professionalizePhoto(photoBytes: Uint8Array, mime: string)
   form.append("model", "gpt-image-1");
   form.append(
     "prompt",
-    "TAREFA: APENAS remover o fundo da foto e substituir por branco puro #FFFFFF totalmente liso. NÃO altere absolutamente NADA da pessoa — mantenha 100% IDÊNTICOS: rosto, olhos, nariz, boca, sobrancelhas, formato do rosto, tom e cor da pele, cabelo (corte/cor/textura), barba/bigode, idade, gênero, expressão, postura, pose, enquadramento, roupa atual (NÃO troque a roupa), acessórios, óculos, joias. NÃO suavize a pele, NÃO embeleze, NÃO retoque, NÃO recorte braços/mãos/ombros/cabeça. A pessoa deve ser pixel-a-pixel a MESMA da foto enviada, apenas com o fundo substituído por branco puro liso, sem sombras, sem textura, sem objetos. Recorte limpo nas bordas do cabelo e do corpo. Iluminação original preservada.",
+    "TAREFA: remover apenas o fundo da foto e substituir por branco puro #FFFFFF, preservando rigorosamente a mesma pessoa da imagem original. Não alterar rosto, olhos, nariz, boca, cabelo, pele, corpo, roupa, pose ou enquadramento. Não gerar uma nova pessoa, não embelezar, não retocar, não afinar, não reiluminar e não cortar braços, ombros, mãos ou cabeça. O resultado deve manter a identidade visual da pessoa o mais fiel possível e somente limpar o fundo.",
   );
   form.append("size", "1024x1024");
   form.append("quality", "low");
