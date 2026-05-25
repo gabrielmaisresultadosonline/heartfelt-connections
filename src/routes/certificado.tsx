@@ -78,6 +78,7 @@ function CertificadoPage() {
 
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [stageW, setStageW] = useState(700);
+  const [videoOpen, setVideoOpen] = useState(false);
 
   // inicializar posição com defaults do template
   useEffect(() => {
