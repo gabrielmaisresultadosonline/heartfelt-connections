@@ -521,11 +521,14 @@ function Index() {
             className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(216,34,152,0.5)] border-4 border-[#d82298]/40 mb-16 bg-black"
           >
             <video
+              ref={(el) => { if (el) { el.muted = true; el.volume = 0; } }}
               src="/videos/area-membros.mp4"
               autoPlay
               loop
               muted
+              defaultMuted
               playsInline
+              disableRemotePlayback
               className="w-full h-auto block"
             />
           </motion.div>
@@ -583,11 +586,14 @@ function Index() {
             }}
           >
             <video
+              ref={(el) => { if (el) { el.muted = true; el.volume = 0; } }}
               src="/videos/certificado-gerado.mp4"
               autoPlay
               loop
               muted
+              defaultMuted
               playsInline
+              disableRemotePlayback
               className="w-full h-auto block"
             />
           </motion.div>
