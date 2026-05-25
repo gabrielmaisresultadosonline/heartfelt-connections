@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { supabase } from "@/integrations/external-supabase/client";
+import { adminLogin } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
@@ -8,6 +9,7 @@ export const Route = createFileRoute("/admin/login")({
 
 function AdminLogin() {
   const nav = useNavigate();
+  const login = useServerFn(adminLogin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,10 +19,15 @@ function AdminLogin() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) setError(error.message);
-    else nav({ to: "/admin" });
+    try {
+      const res = await login({ data: { email, password } });
+      if (!res.ok) setError(res.error);
+      else nav({ to: "/admin" });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -51,6 +58,10 @@ function AdminLogin() {
         >
           {loading ? "Entrando..." : "Entrar"}
         </button>
+        <p className="text-xs text-gray-500">
+          Primeiro acesso: configure <code>ADMIN_EMAIL</code> e <code>ADMIN_PASSWORD</code> no
+          servidor e faça login — o admin é criado automaticamente.
+        </p>
       </form>
     </div>
   );
