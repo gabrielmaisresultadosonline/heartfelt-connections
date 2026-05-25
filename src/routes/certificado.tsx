@@ -249,6 +249,42 @@ function CertificadoPage() {
     }
   }
 
+  async function onCheckAccess(e: React.FormEvent) {
+    e.preventDefault();
+    setGateError(null);
+    const v = gateEmail.trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) {
+      setGateError("Informe um email válido.");
+      return;
+    }
+    setGateChecking(true);
+    try {
+      const res = await checkAccess({ data: { email: v } });
+      if (!res.allowed) {
+        if (res.reason === "refunded" || res.reason === "chargeback") {
+          setGateError("Sua compra foi reembolsada/contestada. Acesso indisponível.");
+        } else if (res.reason === "waiting_payment") {
+          setGateError("Sua compra ainda não foi aprovada. Aguarde a confirmação do pagamento.");
+        } else {
+          setGateError(
+            "Email não encontrado. Use o mesmo email da compra na Kiwify. Se acabou de comprar, aguarde alguns minutos.",
+          );
+        }
+        return;
+      }
+      setEmail(v);
+      if (res.name) setFullName(res.name);
+      if (res.alreadyIssued) {
+        setExistingPdfUrl(res.pdfUrl);
+      }
+      setAccessGranted(true);
+    } catch (err) {
+      setGateError(err instanceof Error ? err.message : "Erro ao verificar email");
+    } finally {
+      setGateChecking(false);
+    }
+  }
+
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-fuchsia-100 py-8 px-4">
       {/* blobs decorativos */}
