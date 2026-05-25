@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { generateCertificate, getPublicTemplateConfig } from "@/lib/certificates.functions";
+import { enhancePhoto, generateCertificate, getPublicTemplateConfig } from "@/lib/certificates.functions";
 
 export const Route = createFileRoute("/certificado")({
   head: () => ({
@@ -28,6 +28,7 @@ function fileToBase64(file: File): Promise<string> {
 
 function CertificadoPage() {
   const generate = useServerFn(generateCertificate);
+  const enhance = useServerFn(enhancePhoto);
   const fetchCfg = useServerFn(getPublicTemplateConfig);
 
   const { data: cfg } = useQuery({
@@ -39,7 +40,12 @@ function CertificadoPage() {
   const [email, setEmail] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
-  const [useAI, setUseAI] = useState(false);
+
+  // foto profissionalizada pela IA (base64 PNG)
+  const [enhancedB64, setEnhancedB64] = useState<string | null>(null);
+  const [enhancing, setEnhancing] = useState(false);
+  const [enhanceProgress, setEnhanceProgress] = useState(0);
+  const [enhanceError, setEnhanceError] = useState<string | null>(null);
 
   // posição da foto em coordenadas do template (px do PNG original)
   const [pos, setPos] = useState({ x: 0, y: 0, w: 0, h: 0 });
@@ -89,16 +95,59 @@ function CertificadoPage() {
   const scale = useMemo(() => (tplSize ? stageW / tplSize.w : 1), [tplSize, stageW]);
   const stageH = useMemo(() => (tplSize ? tplSize.h * scale : 400), [tplSize, scale]);
 
-  // preview do arquivo
+  // preview do arquivo + auto-enhance via IA
   useEffect(() => {
     if (!file) {
       setPhotoUrl(null);
+      setEnhancedB64(null);
+      setEnhanceError(null);
+      setEnhanceProgress(0);
       return;
     }
     const url = URL.createObjectURL(file);
     setPhotoUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+
+    let cancelled = false;
+    let progressTimer: ReturnType<typeof setInterval> | null = null;
+
+    (async () => {
+      try {
+        setEnhancedB64(null);
+        setEnhanceError(null);
+        setEnhancing(true);
+        setEnhanceProgress(5);
+
+        // simulação de progresso (a chamada real demora ~15-25s)
+        progressTimer = setInterval(() => {
+          setEnhanceProgress((p) => (p < 90 ? p + Math.max(1, Math.round((92 - p) / 14)) : p));
+        }, 700);
+
+        const b64 = await fileToBase64(file);
+        const res = await enhance({
+          data: {
+            photoBase64: b64,
+            photoMime: file.type as "image/jpeg" | "image/png" | "image/webp",
+          },
+        });
+        if (cancelled) return;
+        setEnhancedB64(res.base64);
+        setEnhanceProgress(100);
+      } catch (err) {
+        if (cancelled) return;
+        setEnhanceError(err instanceof Error ? err.message : "Falha ao gerar foto profissional");
+        setEnhanceProgress(0);
+      } finally {
+        if (progressTimer) clearInterval(progressTimer);
+        if (!cancelled) setEnhancing(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      if (progressTimer) clearInterval(progressTimer);
+      URL.revokeObjectURL(url);
+    };
+  }, [file, enhance]);
 
   // drag genérico (foto, nome, data)
   type DragTarget = "photo" | "name" | "date";
@@ -148,20 +197,17 @@ function CertificadoPage() {
     setResult(null);
     if (!file) return setError("Selecione uma foto");
     if (fullName.trim().length < 2) return setError("Informe seu nome completo");
-    if (file.size > 8 * 1024 * 1024) return setError("Foto muito grande (máx 8MB)");
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      return setError("Use JPG, PNG ou WEBP");
-    }
+    if (enhancing) return setError("Aguarde a foto profissional terminar de ser gerada");
+    if (!enhancedB64) return setError("Foto profissional ainda não foi gerada. Tente subir a foto novamente.");
     setLoading(true);
     try {
-      const b64 = await fileToBase64(file);
       const res = await generate({
         data: {
           fullName: fullName.trim(),
           email,
-          photoBase64: b64,
-          photoMime: file.type as "image/jpeg" | "image/png" | "image/webp",
-          useAI,
+          photoBase64: enhancedB64,
+          photoMime: "image/png",
+          useAI: false,
           photoX: Math.round(pos.x),
           photoY: Math.round(pos.y),
           photoW: Math.round(pos.w),
@@ -277,11 +323,57 @@ function CertificadoPage() {
                   className="w-full text-sm file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-gradient-to-r file:from-pink-500 file:to-fuchsia-600 file:text-white file:font-semibold file:cursor-pointer hover:file:opacity-90"
                 />
                 <p className="text-xs text-rose-700/60 mt-1">JPG, PNG ou WEBP até 8MB</p>
+
+                {/* Dicas de qualidade da foto */}
+                <div className="mt-3 border border-pink-200 rounded-xl p-3 bg-gradient-to-br from-pink-50 to-fuchsia-50">
+                  <p className="text-xs font-semibold text-rose-900 mb-1">📸 Dicas para uma foto perfeita</p>
+                  <ul className="text-xs text-rose-800/80 space-y-0.5 list-disc list-inside">
+                    <li>Foto <strong>de frente</strong>, mostrando bem o rosto</li>
+                    <li>Da <strong>cintura para cima</strong>, com boa iluminação</li>
+                    <li><strong>Não use selfie de espelho</strong> nem foto borrada</li>
+                    <li>Fundo simples; o sistema troca por fundo branco automaticamente</li>
+                  </ul>
+                </div>
               </div>
 
-              {photoUrl && (
+              {/* Barra de progresso da IA */}
+              {enhancing && (
+                <div className="border border-pink-300 rounded-xl p-4 bg-gradient-to-br from-pink-50 to-fuchsia-50 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-semibold text-rose-900 flex items-center gap-2">
+                      <span className="inline-block w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
+                      Gerando sua foto profissional...
+                    </p>
+                    <span className="text-xs font-bold text-pink-700">{enhanceProgress}%</span>
+                  </div>
+                  <div className="w-full h-2 bg-pink-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-pink-500 to-fuchsia-600 transition-all duration-500 ease-out rounded-full"
+                      style={{ width: `${enhanceProgress}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-rose-700/70">
+                    A IA está adicionando blazer profissional e fundo branco. Demora ~20s.
+                  </p>
+                </div>
+              )}
+
+              {enhanceError && !enhancing && (
+                <div className="border border-red-300 rounded-xl p-3 bg-red-50 space-y-2">
+                  <p className="text-sm text-red-700"><strong>Erro ao gerar foto profissional:</strong> {enhanceError}</p>
+                  <button
+                    type="button"
+                    onClick={() => setFile((f) => (f ? new File([f], f.name, { type: f.type }) : null))}
+                    className="text-xs bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700"
+                  >
+                    Tentar novamente
+                  </button>
+                </div>
+              )}
+
+              {enhancedB64 && !enhancing && (
                 <div className="border border-pink-200 rounded-xl p-3 bg-pink-50/60 space-y-2">
-                  <p className="text-xs font-semibold text-rose-900">Ajustar foto no preview →</p>
+                  <p className="text-xs font-semibold text-rose-900">✨ Foto pronta! Ajustar no preview →</p>
                   <div className="flex gap-2 flex-wrap">
                     <button type="button" onClick={() => scalePhoto(1.1)} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">+ Zoom</button>
                     <button type="button" onClick={() => scalePhoto(0.9)} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">– Zoom</button>
@@ -290,37 +382,19 @@ function CertificadoPage() {
                   <p className="text-xs text-rose-700/60">Arraste foto, nome e data no preview pra posicionar.</p>
                 </div>
               )}
-              {!photoUrl && (
-                <p className="text-xs text-rose-700/60">Dica: depois de subir a foto, arraste foto, nome e data no preview.</p>
-              )}
-
-              <label className="flex items-start gap-2 p-3 border border-pink-200 rounded-xl cursor-pointer hover:bg-pink-50/60 transition">
-                <input
-                  type="checkbox"
-                  checked={useAI}
-                  onChange={(e) => setUseAI(e.target.checked)}
-                  className="mt-1 accent-pink-500"
-                />
-                <span className="text-sm">
-                  <span className="font-semibold text-rose-900">Aprimorar com IA (+blazer profissional)</span>
-                  <span className="block text-xs text-rose-700/60">
-                    Adiciona blazer, fundo branco e iluminação de estúdio. Demora ~20s e gera um pequeno custo.
-                  </span>
-                </span>
-              </label>
 
               {error && (
                 <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>
               )}
               <button
                 type="submit"
-                disabled={loading}
-                className="relative w-full overflow-hidden bg-gradient-to-r from-pink-500 via-rose-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-full shadow-lg shadow-pink-400/40 transition-all hover:scale-[1.02] active:scale-100"
+                disabled={loading || enhancing || !enhancedB64}
+                className="relative w-full overflow-hidden bg-gradient-to-r from-pink-500 via-rose-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-full shadow-lg shadow-pink-400/40 transition-all hover:scale-[1.02] active:scale-100"
               >
                 <span className="relative z-10">
-                  {loading ? (useAI ? "Processando (~30s)..." : "Gerando...") : "Gerar meu Certificado ✨"}
+                  {loading ? "Gerando certificado..." : enhancing ? "Aguardando foto profissional..." : !enhancedB64 ? "Envie sua foto primeiro" : "Gerar meu Certificado ✨"}
                 </span>
-                {!loading && (
+                {!loading && !enhancing && enhancedB64 && (
                   <span aria-hidden className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
                 )}
               </button>
@@ -342,15 +416,15 @@ function CertificadoPage() {
                     className="relative bg-white"
                     style={{ width: stageW, height: stageH }}
                   >
-                    {photoUrl && (
+                    {(enhancedB64 || photoUrl) && (
                       <img
-                        src={photoUrl}
+                        src={enhancedB64 ? `data:image/png;base64,${enhancedB64}` : photoUrl!}
                         alt="sua foto"
                         draggable={false}
                         onPointerDown={startDrag("photo")}
                         onPointerMove={onPointerMove}
                         onPointerUp={onPointerUp}
-                        className="absolute cursor-move"
+                        className={`absolute cursor-move transition-opacity ${enhancing ? "opacity-40" : "opacity-100"}`}
                         style={{
                           left: pos.x * scale,
                           top: pos.y * scale,
@@ -360,6 +434,22 @@ function CertificadoPage() {
                           touchAction: "none",
                         }}
                       />
+                    )}
+                    {enhancing && (
+                      <div
+                        className="absolute flex items-center justify-center bg-white/60 backdrop-blur-sm rounded"
+                        style={{
+                          left: pos.x * scale,
+                          top: pos.y * scale,
+                          width: pos.w * scale,
+                          height: pos.h * scale,
+                        }}
+                      >
+                        <div className="text-center">
+                          <div className="w-10 h-10 mx-auto border-4 border-pink-300 border-t-pink-600 rounded-full animate-spin" />
+                          <p className="mt-2 text-xs font-semibold text-pink-700">Gerando foto IA...</p>
+                        </div>
+                      </div>
                     )}
                     <img
                       src={cfg.template_url}
