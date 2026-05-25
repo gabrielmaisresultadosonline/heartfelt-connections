@@ -357,7 +357,7 @@ function CertificadoPage() {
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-semibold text-rose-900 flex items-center gap-2">
                       <span className="inline-block w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
-                      Gerando sua foto profissional...
+                      Preparando sua foto sem fundo...
                     </p>
                     <span className="text-xs font-bold text-pink-700">{enhanceProgress}%</span>
                   </div>
@@ -367,15 +367,13 @@ function CertificadoPage() {
                       style={{ width: `${enhanceProgress}%` }}
                     />
                   </div>
-                  <p className="text-xs text-rose-700/70">
-                    A IA está adicionando blazer profissional e fundo branco. Demora ~20s.
-                  </p>
+                  <p className="text-xs text-rose-700/70">{enhanceMessage}</p>
                 </div>
               )}
 
               {enhanceError && !enhancing && (
                 <div className="border border-red-300 rounded-xl p-3 bg-red-50 space-y-2">
-                  <p className="text-sm text-red-700"><strong>Erro ao gerar foto profissional:</strong> {enhanceError}</p>
+                  <p className="text-sm text-red-700"><strong>Erro ao preparar a foto:</strong> {enhanceError}</p>
                   <button
                     type="button"
                     onClick={() => setFile((f) => (f ? new File([f], f.name, { type: f.type }) : null))}
@@ -388,7 +386,7 @@ function CertificadoPage() {
 
               {enhancedB64 && !enhancing && (
                 <div className="border border-pink-200 rounded-xl p-3 bg-pink-50/60 space-y-2">
-                  <p className="text-xs font-semibold text-rose-900">✨ Foto pronta! Ajustar no preview →</p>
+                  <p className="text-xs font-semibold text-rose-900">✨ Foto pronta sem fundo! Ajustar no preview →</p>
                   <div className="flex gap-2 flex-wrap">
                     <button type="button" onClick={() => scalePhoto(1.1)} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">+ Zoom</button>
                     <button type="button" onClick={() => scalePhoto(0.9)} className="px-3 py-1 bg-white border border-pink-200 rounded-full text-sm hover:bg-pink-50 transition">– Zoom</button>
@@ -407,7 +405,7 @@ function CertificadoPage() {
                 className="relative w-full overflow-hidden bg-gradient-to-r from-pink-500 via-rose-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-full shadow-lg shadow-pink-400/40 transition-all hover:scale-[1.02] active:scale-100"
               >
                 <span className="relative z-10">
-                  {loading ? "Gerando certificado..." : enhancing ? "Aguardando foto profissional..." : !enhancedB64 ? "Envie sua foto primeiro" : "Gerar meu Certificado ✨"}
+                  {loading ? "Gerando certificado..." : enhancing ? "Removendo fundo da foto..." : !enhancedB64 ? "Envie sua foto primeiro" : "Gerar meu Certificado ✨"}
                 </span>
                 {!loading && !enhancing && enhancedB64 && (
                   <span aria-hidden className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
