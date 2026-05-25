@@ -59,41 +59,42 @@ function Index() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const PulseButton = ({ children, className = "", asCheckout = false }: { children: React.ReactNode; className?: string; asCheckout?: boolean }) => (
-    <motion.a
-      href={asCheckout ? checkoutUrl : "#oferta"}
-      target={asCheckout ? "_blank" : undefined}
-      rel={asCheckout ? "noopener noreferrer" : undefined}
-      onClick={asCheckout ? trackAddToCart : scrollToOferta}
-      animate={{
-        boxShadow: [
-          "0 0 0 0px rgba(21, 128, 61, 0.4)",
-          "0 0 0 20px rgba(21, 128, 61, 0)",
-        ],
-        backgroundColor: ["#15803d", "#16a34a", "#15803d"],
-      }}
-      transition={{
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      whileHover={{ 
-        scale: 1.05,
-        backgroundImage: "linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%)",
-        backgroundSize: "200% 100%",
-      }}
-      whileTap={{ scale: 0.95 }}
-      className={`bg-[#15803d] text-white font-black shadow-2xl uppercase italic tracking-tighter text-center transition-all duration-300 relative overflow-hidden group cursor-pointer ${className}`}
-    >
-      <span className="relative z-10">{children}</span>
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer"
-        initial={{ x: "-100%" }}
-        animate={{ x: "100%" }}
-        transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-      />
-    </motion.a>
-  );
+  const PulseButton = ({ children, className = "", asCheckout = false, variant }: { children: React.ReactNode; className?: string; asCheckout?: boolean; variant?: "pink" | "black" | "green" }) => {
+    const palette = variant ?? (asCheckout ? "green" : "pink");
+    const colors = {
+      green: { bg: "#15803d", bgMid: "#16a34a", ring: "rgba(21,128,61,0.4)" },
+      pink: { bg: "#d82298", bgMid: "#ff3ea5", ring: "rgba(216,34,152,0.4)" },
+      black: { bg: "#0a0a0a", bgMid: "#1a1a1a", ring: "rgba(0,0,0,0.45)" },
+    }[palette];
+    return (
+      <motion.a
+        href={asCheckout ? checkoutUrl : "#oferta"}
+        target={asCheckout ? "_blank" : undefined}
+        rel={asCheckout ? "noopener noreferrer" : undefined}
+        onClick={asCheckout ? trackAddToCart : scrollToOferta}
+        animate={{
+          boxShadow: [
+            `0 0 0 0px ${colors.ring}`,
+            `0 0 0 20px ${colors.ring.replace(/[\d.]+\)$/, "0)")}`,
+          ],
+          backgroundColor: [colors.bg, colors.bgMid, colors.bg],
+        }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        style={{ backgroundColor: colors.bg }}
+        className={`text-white font-black shadow-2xl uppercase italic tracking-tighter text-center transition-all duration-300 relative overflow-hidden group cursor-pointer ${className}`}
+      >
+        <span className="relative z-10">{children}</span>
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+          initial={{ x: "-100%" }}
+          animate={{ x: "100%" }}
+          transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+        />
+      </motion.a>
+    );
+  };
 
 
   return (
@@ -175,6 +176,11 @@ function Index() {
             </div>
           </motion.div>
         </div>
+        <div className="text-center mt-16">
+          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            QUERO APRENDER COM A ALESSANDRA →
+          </PulseButton>
+        </div>
       </section>
 
       {/* Modules Showcase */}
@@ -219,6 +225,11 @@ function Index() {
             </motion.div>
           ))}
         </div>
+        <div className="text-center mt-20">
+          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            COMEÇAR MEU CURSO AGORA →
+          </PulseButton>
+        </div>
       </section>
 
       {/* Bonus Section */}
@@ -236,6 +247,11 @@ function Index() {
             ))}
           </div>
           <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="text-[#d82298]">R$ 47,00</span></p>
+          <div className="mt-10">
+            <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+              GARANTIR MEUS BÔNUS →
+            </PulseButton>
+          </div>
         </div>
       </section>
 
@@ -627,6 +643,11 @@ function Index() {
             <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Válido em todo Brasil</span>
             <span className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#d82298]" /> Reconhecimento profissional</span>
           </div>
+          <div className="mt-10">
+            <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+              QUERO MEU CERTIFICADO →
+            </PulseButton>
+          </div>
         </div>
       </section>
 
@@ -721,7 +742,7 @@ function Index() {
       {/* Final CTA */}
       <footer className="py-40 px-6 text-center bg-[#fafafa] relative z-30">
         <h2 className="text-6xl md:text-[10rem] font-black mb-16 uppercase tracking-tighter leading-[0.8] italic text-[#1a1a1a]">MUDE SUA <br/> <span className="text-[#d82298]">VIDA AGORA.</span></h2>
-        <PulseButton className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(21,128,61,0.5)]">
+        <PulseButton className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(216,34,152,0.5)]">
           QUERO MINHA VAGA!
         </PulseButton>
         <p className="mt-20 text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">&copy; 2026 TODOS OS DIREITOS RESERVADOS</p>
