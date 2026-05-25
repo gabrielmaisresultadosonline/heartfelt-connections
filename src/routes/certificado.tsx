@@ -13,8 +13,27 @@ export const Route = createFileRoute("/certificado")({
         name: "description",
         content: "Envie sua foto, posicione e receba seu certificado oficial.",
       },
+      { httpEquiv: "Cache-Control", content: "no-cache, no-store, must-revalidate" },
+      { httpEquiv: "Pragma", content: "no-cache" },
+      { httpEquiv: "Expires", content: "0" },
     ],
   }),
+  loader: () => {
+    if (typeof Response !== "undefined") {
+      // best-effort: peça ao edge/CDN para nunca cachear esta rota
+      try {
+        const { setResponseHeaders } = require("@tanstack/react-start/server");
+        setResponseHeaders(
+          new Headers({
+            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+            Pragma: "no-cache",
+            Expires: "0",
+          }),
+        );
+      } catch {}
+    }
+    return null;
+  },
   component: CertificadoPage,
 });
 
