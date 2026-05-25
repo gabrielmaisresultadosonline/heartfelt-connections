@@ -192,6 +192,32 @@ function TemplatePage() {
               </div>
             </fieldset>
 
+            <fieldset className="border rounded-lg p-4">
+              <legend className="text-sm font-semibold px-2">Data (x = centro, y = base)</legend>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {(["date_x", "date_y", "date_font_size"] as const).map((k) => (
+                  <label key={k} className="text-xs">
+                    {k}
+                    <input
+                      type="number"
+                      value={form[k]}
+                      onChange={(e) => setForm({ ...form, [k]: Number(e.target.value) })}
+                      className="w-full border rounded px-2 py-1 mt-1"
+                    />
+                  </label>
+                ))}
+                <label className="text-xs">
+                  date_color
+                  <input
+                    type="color"
+                    value={form.date_color}
+                    onChange={(e) => setForm({ ...form, date_color: e.target.value })}
+                    className="w-full h-9 border rounded mt-1"
+                  />
+                </label>
+              </div>
+            </fieldset>
+
             {msg && <p className="text-sm">{msg}</p>}
             <button
               type="submit"
