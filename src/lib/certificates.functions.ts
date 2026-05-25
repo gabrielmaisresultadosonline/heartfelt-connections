@@ -164,14 +164,33 @@ export const generateCertificate = createServerFn({ method: "POST" })
 
     // Nome (sempre por cima)
     const font = await pdf.embedFont(StandardFonts.HelveticaBold);
-    const color = hexToRgb(cfg.name_color || "#000000");
-    const textWidth = font.widthOfTextAtSize(data.fullName, cfg.name_font_size);
+    const nameColor = hexToRgb(cfg.name_color || "#000000");
+    const nameFontSize = data.nameFontSize ?? cfg.name_font_size;
+    const nameX = data.nameX ?? cfg.name_x;
+    const nameY = data.nameY ?? cfg.name_y;
+    const textWidth = font.widthOfTextAtSize(data.fullName, nameFontSize);
     page.drawText(data.fullName, {
-      x: cfg.name_x - textWidth / 2,
-      y: pageH - cfg.name_y,
-      size: cfg.name_font_size,
+      x: nameX - textWidth / 2,
+      y: pageH - nameY,
+      size: nameFontSize,
       font,
-      color,
+      color: nameColor,
+    });
+
+    // Data
+    const dateText = (data.dateText && data.dateText.trim()) ||
+      new Date().toLocaleDateString("pt-BR");
+    const dateFontSize = data.dateFontSize ?? cfg.date_font_size;
+    const dateX = data.dateX ?? cfg.date_x;
+    const dateY = data.dateY ?? cfg.date_y;
+    const dateColor = hexToRgb(cfg.date_color || "#000000");
+    const dateWidth = font.widthOfTextAtSize(dateText, dateFontSize);
+    page.drawText(dateText, {
+      x: dateX - dateWidth / 2,
+      y: pageH - dateY,
+      size: dateFontSize,
+      font,
+      color: dateColor,
     });
 
     const pdfBytes = await pdf.save();
