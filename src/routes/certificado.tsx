@@ -460,7 +460,7 @@ function CertificadoPage() {
                       >
                         <div className="text-center">
                           <div className="w-10 h-10 mx-auto border-4 border-pink-300 border-t-pink-600 rounded-full animate-spin" />
-                          <p className="mt-2 text-xs font-semibold text-pink-700">Gerando foto IA...</p>
+                          <p className="mt-2 text-xs font-semibold text-pink-700">Removendo fundo...</p>
                         </div>
                       </div>
                     )}
