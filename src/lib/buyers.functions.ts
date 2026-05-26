@@ -37,6 +37,43 @@ export const deleteBuyer = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const addBuyerManual = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        email: z.string().email().max(200),
+        name: z.string().trim().max(200).optional(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data }) => {
+    requireAdmin();
+    const email = data.email.trim().toLowerCase();
+    const name = data.name?.trim() || null;
+    const now = new Date().toISOString();
+    let created = false;
+    await withDB(async (db) => {
+      const existing = db.kiwify_buyers.find((b) => b.email === email);
+      if (existing) {
+        existing.status = "paid";
+        existing.updated_at = now;
+        if (name) existing.name = name;
+      } else {
+        db.kiwify_buyers.unshift({
+          email,
+          name,
+          order_id: "MANUAL",
+          product_id: null,
+          status: "paid",
+          purchased_at: now,
+          updated_at: now,
+        });
+        created = true;
+      }
+    });
+    return { ok: true as const, created };
+  });
+
 /**
  * Parser CSV simples (suporta vírgula, ponto-e-vírgula, tab; aspas duplas).
  */
