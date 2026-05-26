@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { adminLogout, adminMe } from "@/lib/auth.functions";
 import { deleteCertificate, listCertificates } from "@/lib/certificates.functions";
-import { deleteBuyer, importBuyersCSV, listBuyers } from "@/lib/buyers.functions";
+import { addBuyerManual, deleteBuyer, importBuyersCSV, listBuyers } from "@/lib/buyers.functions";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
@@ -22,12 +22,16 @@ function AdminDashboard() {
   const fetchBuyers = useServerFn(listBuyers);
   const importCsv = useServerFn(importBuyersCSV);
   const delBuyer = useServerFn(deleteBuyer);
+  const addManual = useServerFn(addBuyerManual);
 
   const [ready, setReady] = useState(false);
   const [tab, setTab] = useState<Tab>("certificates");
   const [search, setSearch] = useState("");
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState<string | null>(null);
+  const [manualEmail, setManualEmail] = useState("");
+  const [manualName, setManualName] = useState("");
+  const [addingManual, setAddingManual] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -80,6 +84,31 @@ function AdminDashboard() {
     } finally {
       setImporting(false);
       if (fileInput.current) fileInput.current.value = "";
+    }
+  }
+
+  async function onAddManual(e: React.FormEvent) {
+    e.preventDefault();
+    const email = manualEmail.trim().toLowerCase();
+    if (!email) return;
+    setAddingManual(true);
+    setImportMsg(null);
+    try {
+      const res = await addManual({
+        data: { email, name: manualName.trim() || undefined },
+      });
+      setImportMsg(
+        res.created
+          ? `✓ Email ${email} adicionado como pago`
+          : `✓ Email ${email} atualizado para pago`,
+      );
+      setManualEmail("");
+      setManualName("");
+      qc.invalidateQueries({ queryKey: ["admin-buyers"] });
+    } catch (err) {
+      setImportMsg(err instanceof Error ? err.message : "Erro ao adicionar email");
+    } finally {
+      setAddingManual(false);
     }
   }
 
@@ -194,6 +223,39 @@ function AdminDashboard() {
               colunas <strong>email</strong>, <strong>nome</strong> e <strong>status</strong>{" "}
               automaticamente. Sem coluna de status, todos viram <strong>pago</strong>.
             </div>
+
+            {/* Adicionar email manualmente */}
+            <form
+              onSubmit={onAddManual}
+              className="px-5 py-4 bg-amber-50/60 border-b border-amber-200 flex flex-col md:flex-row gap-2 md:items-center"
+            >
+              <div className="text-xs text-amber-900 font-semibold md:mr-2 whitespace-nowrap">
+                ➕ Adicionar email manual:
+              </div>
+              <input
+                type="email"
+                required
+                value={manualEmail}
+                onChange={(e) => setManualEmail(e.target.value)}
+                placeholder="email@cliente.com"
+                className="flex-1 min-w-[200px] border border-amber-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"
+              />
+              <input
+                type="text"
+                value={manualName}
+                onChange={(e) => setManualName(e.target.value)}
+                placeholder="Nome (opcional)"
+                className="flex-1 min-w-[160px] border border-amber-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"
+              />
+              <button
+                type="submit"
+                disabled={addingManual}
+                className="bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold px-5 py-2 rounded-full shadow disabled:opacity-60 whitespace-nowrap"
+              >
+                {addingManual ? "Adicionando..." : "Adicionar como Pago"}
+              </button>
+            </form>
+
 
             {/* Table */}
             <div className="overflow-x-auto">
