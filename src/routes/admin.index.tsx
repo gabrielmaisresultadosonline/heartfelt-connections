@@ -87,6 +87,31 @@ function AdminDashboard() {
     }
   }
 
+  async function onAddManual(e: React.FormEvent) {
+    e.preventDefault();
+    const email = manualEmail.trim().toLowerCase();
+    if (!email) return;
+    setAddingManual(true);
+    setImportMsg(null);
+    try {
+      const res = await addManual({
+        data: { email, name: manualName.trim() || undefined },
+      });
+      setImportMsg(
+        res.created
+          ? `✓ Email ${email} adicionado como pago`
+          : `✓ Email ${email} atualizado para pago`,
+      );
+      setManualEmail("");
+      setManualName("");
+      qc.invalidateQueries({ queryKey: ["admin-buyers"] });
+    } catch (err) {
+      setImportMsg(err instanceof Error ? err.message : "Erro ao adicionar email");
+    } finally {
+      setAddingManual(false);
+    }
+  }
+
   const certs = certData?.certificates ?? [];
   const buyers = (buyersData?.buyers ?? []).filter((b) => {
     if (!search.trim()) return true;
