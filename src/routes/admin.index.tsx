@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { adminLogout, adminMe } from "@/lib/auth.functions";
 import { deleteCertificate, listCertificates } from "@/lib/certificates.functions";
-import { deleteBuyer, importBuyersCSV, listBuyers } from "@/lib/buyers.functions";
+import { addBuyerManual, deleteBuyer, importBuyersCSV, listBuyers } from "@/lib/buyers.functions";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
