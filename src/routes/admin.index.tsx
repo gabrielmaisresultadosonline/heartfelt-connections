@@ -22,12 +22,16 @@ function AdminDashboard() {
   const fetchBuyers = useServerFn(listBuyers);
   const importCsv = useServerFn(importBuyersCSV);
   const delBuyer = useServerFn(deleteBuyer);
+  const addManual = useServerFn(addBuyerManual);
 
   const [ready, setReady] = useState(false);
   const [tab, setTab] = useState<Tab>("certificates");
   const [search, setSearch] = useState("");
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState<string | null>(null);
+  const [manualEmail, setManualEmail] = useState("");
+  const [manualName, setManualName] = useState("");
+  const [addingManual, setAddingManual] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
