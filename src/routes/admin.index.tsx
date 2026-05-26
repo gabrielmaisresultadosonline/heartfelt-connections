@@ -224,6 +224,39 @@ function AdminDashboard() {
               automaticamente. Sem coluna de status, todos viram <strong>pago</strong>.
             </div>
 
+            {/* Adicionar email manualmente */}
+            <form
+              onSubmit={onAddManual}
+              className="px-5 py-4 bg-amber-50/60 border-b border-amber-200 flex flex-col md:flex-row gap-2 md:items-center"
+            >
+              <div className="text-xs text-amber-900 font-semibold md:mr-2 whitespace-nowrap">
+                ➕ Adicionar email manual:
+              </div>
+              <input
+                type="email"
+                required
+                value={manualEmail}
+                onChange={(e) => setManualEmail(e.target.value)}
+                placeholder="email@cliente.com"
+                className="flex-1 min-w-[200px] border border-amber-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"
+              />
+              <input
+                type="text"
+                value={manualName}
+                onChange={(e) => setManualName(e.target.value)}
+                placeholder="Nome (opcional)"
+                className="flex-1 min-w-[160px] border border-amber-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"
+              />
+              <button
+                type="submit"
+                disabled={addingManual}
+                className="bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold px-5 py-2 rounded-full shadow disabled:opacity-60 whitespace-nowrap"
+              >
+                {addingManual ? "Adicionando..." : "Adicionar como Pago"}
+              </button>
+            </form>
+
+
             {/* Table */}
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
