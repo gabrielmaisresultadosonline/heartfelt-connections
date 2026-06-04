@@ -13,6 +13,8 @@ export default defineConfig({
       allowedHosts: [
         "belezalisoperfeito.online",
         "www.belezalisoperfeito.online",
+        "mro.bio",
+        "www.mro.bio",
         ".lovable.app",
         "localhost",
       ],
@@ -22,6 +24,8 @@ export default defineConfig({
       allowedHosts: [
         "belezalisoperfeito.online",
         "www.belezalisoperfeito.online",
+        "mro.bio",
+        "www.mro.bio",
       ],
     },
   }
