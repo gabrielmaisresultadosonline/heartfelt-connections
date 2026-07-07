@@ -37,7 +37,7 @@ function Index() {
     }, 2000);
     return () => clearInterval(id);
   }, [autoPlay, openCert, certificates.length]);
-  const checkoutUrl = "https://pay.kiwify.com.br/AFMNBej";
+  const checkoutUrl = "https://pay.kiwify.com.br/Zdfysv7";
   const trackAddToCart = () => {
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "AddToCart");
@@ -125,7 +125,8 @@ function Index() {
                 Garantir Minha Vaga
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
-                <p className="text-4xl font-black tracking-tighter text-white">R$ 47</p>
+                <p className="text-sm line-through text-white/60 font-bold">R$ 47</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 10</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
@@ -230,7 +231,7 @@ function Index() {
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="text-[#d82298]">R$ 47,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">R$ 47</span> <span className="text-[#d82298]">R$ 10,00</span></p>
           <div className="mt-10">
             <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →
@@ -630,14 +631,16 @@ function Index() {
             </ul>
             <div className="text-center mb-8">
               <p className="text-gray-400 line-through text-lg md:text-xl font-bold">De R$ 497,00</p>
-              <p className="text-sm md:text-base font-bold text-[#1a1a1a] uppercase tracking-wider mt-2">Por apenas <span className="text-[#d82298]">(acesso vitalício)</span></p>
+              <p className="text-base md:text-lg font-black text-[#1a1a1a] uppercase tracking-wider mt-2">
+                Não é <span className="line-through text-gray-400">R$ 47</span> — é apenas
+              </p>
               <div className="flex items-start justify-center gap-1 mt-1">
                 <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">R$</span>
-                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">47</span>
+                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">10</span>
                 <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">,00</span>
               </div>
-              <p className="text-sm md:text-base text-gray-600 font-semibold mt-2">
-                ou 11x de <span className="font-black text-[#1a1a1a]">R$ 5,00</span> no cartão
+              <p className="text-sm md:text-base text-gray-700 font-bold mt-2 uppercase tracking-wider">
+                Acesso Vitalício
               </p>
             </div>
             <PulseButton
