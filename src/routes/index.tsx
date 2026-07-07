@@ -37,7 +37,7 @@ function Index() {
     }, 2000);
     return () => clearInterval(id);
   }, [autoPlay, openCert, certificates.length]);
-  const checkoutUrl = "https://pay.kiwify.com.br/AFMNBej";
+  const checkoutUrl = "https://pay.kiwify.com.br/Zdfysv7";
   const trackAddToCart = () => {
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "AddToCart");
@@ -125,7 +125,8 @@ function Index() {
                 Garantir Minha Vaga
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
-                <p className="text-4xl font-black tracking-tighter text-white">R$ 47</p>
+                <p className="text-sm line-through text-white/60 font-bold">R$ 47</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 10</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
@@ -136,6 +137,81 @@ function Index() {
           </motion.div>
         </div>
       </section>
+      {/* Combo de Cursos - Oferta Relâmpago */}
+      <section className="relative z-30 py-20 px-6 bg-gradient-to-br from-[#d82298] via-[#ff3ea5] to-[#d82298] overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
+            className="absolute -top-20 -left-20 text-white"
+          >
+            <Sparkles size={280} />
+          </motion.div>
+        </div>
+        <div className="container mx-auto max-w-4xl relative z-10 text-center text-white">
+          <motion.span
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-block bg-yellow-300 text-[#1a1a1a] text-xs md:text-sm font-black uppercase tracking-widest px-6 py-2 rounded-full mb-6 shadow-xl"
+          >
+            🔥 Oferta Combo Relâmpago
+          </motion.span>
+          <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] mb-6">
+            Você pode comprar <br />
+            <span className="text-yellow-300">TODOS os cursos completos</span> <br />
+            por menos de <span className="underline decoration-yellow-300">R$ 49</span>
+          </h2>
+          <p className="text-lg md:text-xl opacity-95 mb-10 font-light max-w-2xl mx-auto">
+            Leve tudo agora e transforme sua carreira com 4 formações profissionais completas.
+          </p>
+
+          <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 md:p-12 shadow-2xl border-4 border-yellow-300 max-w-2xl mx-auto">
+            <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-6 text-[#1a1a1a]">Detalhes do Combo</h3>
+            <ul className="space-y-4 mb-8 text-left">
+              {[
+                { name: "Curso de Cabeleireira Completa", price: "R$ 10" },
+                { name: "Marketing: Seus Primeiros Clientes", price: "R$ 19" },
+                { name: "Extensão de Cílios", price: "R$ 10" },
+                { name: "Designer de Sobrancelhas", price: "R$ 10" },
+              ].map((c) => (
+                <li key={c.name} className="flex items-center justify-between border-b border-gray-100 pb-3">
+                  <span className="flex items-center gap-3 font-semibold text-base md:text-lg">
+                    <CheckCircle className="text-[#d82298] shrink-0" size={20} />
+                    {c.name}
+                  </span>
+                  <span className="font-black text-[#1a1a1a] text-base md:text-lg">{c.price}</span>
+                </li>
+              ))}
+              <li className="flex items-center justify-between pt-2">
+                <span className="font-black uppercase tracking-tight text-lg md:text-xl">Total</span>
+                <span className="font-black text-[#15803d] text-2xl md:text-3xl">R$ 49,00</span>
+              </li>
+            </ul>
+
+            <div className="flex flex-col gap-4">
+              <PulseButton
+                asCheckout
+                variant="pink"
+                className="w-full py-5 md:py-6 px-6 rounded-2xl text-lg md:text-2xl flex items-center justify-center"
+              >
+                CURSO DE CABELEREIRA COMPLETA — R$ 10
+              </PulseButton>
+              <PulseButton
+                asCheckout
+                variant="green"
+                className="w-full py-5 md:py-6 px-6 rounded-2xl text-lg md:text-2xl flex items-center justify-center"
+              >
+                LEVAR TODOS OS CURSOS — R$ 49
+              </PulseButton>
+            </div>
+            <p className="text-xs md:text-sm text-gray-500 mt-5 font-semibold">
+              Pagamento seguro • Acesso imediato • Certificado incluso
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Quem Somos - Alessandra Linhares */}
       <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100">
         <div className="grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
@@ -230,7 +306,7 @@ function Index() {
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="text-[#d82298]">R$ 47,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">R$ 47</span> <span className="text-[#d82298]">R$ 10,00</span></p>
           <div className="mt-10">
             <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →
@@ -630,14 +706,16 @@ function Index() {
             </ul>
             <div className="text-center mb-8">
               <p className="text-gray-400 line-through text-lg md:text-xl font-bold">De R$ 497,00</p>
-              <p className="text-sm md:text-base font-bold text-[#1a1a1a] uppercase tracking-wider mt-2">Por apenas <span className="text-[#d82298]">(acesso vitalício)</span></p>
+              <p className="text-base md:text-lg font-black text-[#1a1a1a] uppercase tracking-wider mt-2">
+                Não é <span className="line-through text-gray-400">R$ 47</span> — é apenas
+              </p>
               <div className="flex items-start justify-center gap-1 mt-1">
                 <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">R$</span>
-                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">47</span>
+                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">10</span>
                 <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">,00</span>
               </div>
-              <p className="text-sm md:text-base text-gray-600 font-semibold mt-2">
-                ou 11x de <span className="font-black text-[#1a1a1a]">R$ 5,00</span> no cartão
+              <p className="text-sm md:text-base text-gray-700 font-bold mt-2 uppercase tracking-wider">
+                Acesso Vitalício
               </p>
             </div>
             <PulseButton
