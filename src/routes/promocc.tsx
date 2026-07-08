@@ -166,115 +166,35 @@ function Promocc() {
             Produtos e processo completo do melhor do liso. Aulas em HD gravadas, com certificado MEC incluso.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {/* Solo */}
-            <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-white flex flex-col">
-              <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Curso de Cabeleireira Completo</h3>
-              <img loading="lazy" decoding="async" src={cabeleireiraAsset} alt="Curso de Cabeleireira Completo" className="w-full rounded-2xl mb-4 object-contain bg-black" />
+          <div className="grid md:grid-cols-1 gap-6 max-w-xl mx-auto">
+            <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-yellow-300 flex flex-col">
+              <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Curso de Alisamento Perfeito</h3>
+              <img loading="lazy" decoding="async" src={cabeleireiraAsset} alt="Curso de Alisamento Perfeito" className="w-full rounded-2xl mb-4 object-contain bg-black" />
               <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
                 {[
-                  "Aulas práticas passo a passo",
-                  "Certificado em até 8 dias",
+                  "Produtos e processo completo do liso",
+                  "Aulas em HD gravadas",
+                  "Certificado MEC incluso",
                   "Acesso vitalício ao conteúdo",
                   "Suporte direto com a Alessandra",
-                  "Bônus exclusivos de lançamento",
                 ].map((c) => (
                   <li key={c} className="flex items-center gap-2 font-semibold">
                     <CheckCircle className="text-[#d82298] shrink-0" size={18} />{c}
                   </li>
                 ))}
               </ul>
-              <div className="mb-4 text-left bg-pink-50 border border-pink-200 rounded-2xl p-3">
-                <p className="text-[11px] font-black uppercase tracking-widest text-[#d82298] mb-2">Bônus inclusos:</p>
-                <ul className="space-y-1 text-xs md:text-sm text-gray-700">
-                  {[
-                    "Aulas práticas passo a passo",
-                    "Certificado em até 8 dias",
-                    "Acesso vitalício ao conteúdo",
-                    "Suporte direto com a Alessandra",
-                    "Bônus exclusivos de lançamento",
-                  ].map((b) => (
-                    <li key={b} className="flex items-center gap-2">
-                      <Sparkles className="text-[#d82298] shrink-0" size={12} />{b}
-                    </li>
-                  ))}
-                </ul>
-              </div>
               <p className="text-gray-500 line-through font-bold">De R$ 197</p>
               <div className="flex items-start justify-center gap-1 my-3">
                 <span className="text-2xl font-black text-[#d82298] mt-2">R$</span>
                 <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">10</span>
               </div>
-              <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único</p>
+              <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único • Acesso vitalício</p>
               <PulseButton
                 asCheckout
                 variant="pink"
                 className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto"
               >
                 QUERO O CURSO — R$ 10
-              </PulseButton>
-            </div>
-
-            {/* Combo */}
-            <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-yellow-300 flex flex-col relative">
-              <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-300 text-[#1a1a1a] text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-lg">Mais Vendido</span>
-              <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Combo Completo — Todos os Cursos</h3>
-              <img loading="lazy" decoding="async" src={comboAsset} alt="Combo completo de cursos" className="w-full rounded-2xl mb-4 object-contain bg-black" />
-              <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
-                {["Cabeleireira Completo","Designer de Sobrancelha","Extensão de Cílios","Marketing p/ Primeiros Clientes"].map((c) => (
-                  <li key={c} className="flex items-center gap-2 font-semibold">
-                    <CheckCircle className="text-[#d82298] shrink-0" size={18} />{c}
-                  </li>
-                ))}
-              </ul>
-              <div className="mb-4 text-left bg-green-50 border border-green-200 rounded-2xl p-3">
-                <p className="text-[11px] font-black uppercase tracking-widest text-[#15803d] mb-2">Bônus inclusos:</p>
-                <ul className="space-y-1 text-xs md:text-sm text-gray-700">
-                  {[
-                    "Aulas práticas passo a passo",
-                    "Certificado em até 8 dias",
-                    "Acesso vitalício ao conteúdo",
-                    "Suporte direto com a Alessandra",
-                    "Bônus exclusivos de lançamento",
-                  ].map((b) => (
-                    <li key={b} className="flex items-center gap-2">
-                      <Sparkles className="text-[#15803d] shrink-0" size={12} />{b}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mb-4 text-left bg-gray-50 border border-gray-200 rounded-2xl p-4">
-                <p className="text-[11px] font-black uppercase tracking-widest text-gray-700 mb-3">Comprando tudo junto:</p>
-                <ul className="space-y-1.5 text-sm text-gray-700">
-                  {[
-                    { name: "Cabeleireira Completa — PROMO", price: "R$ 10,00" },
-                    { name: "Atualizações vitalícias", price: "R$ 8,00" },
-                    { name: "Seus primeiros Clientes", price: "R$ 19,00" },
-                    { name: "Extensão de Cílios", price: "R$ 13,00" },
-                    { name: "Designer de Sobrancelhas", price: "R$ 13,00" },
-                  ].map((i) => (
-                    <li key={i.name} className="flex items-center justify-between gap-2">
-                      <span className="font-semibold">{i.name}</span>
-                      <span className="font-black text-[#15803d]">{i.price}</span>
-                    </li>
-                  ))}
-                  <li className="flex items-center justify-between gap-2 pt-2 mt-2 border-t border-gray-300">
-                    <span className="font-black uppercase tracking-wide">Total</span>
-                    <span className="font-black text-[#15803d] text-lg">R$ 63,00</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="flex items-start justify-center gap-1 my-2">
-                <span className="text-2xl font-black text-[#15803d] mt-2">R$</span>
-                <span className="text-7xl font-black text-[#15803d] leading-none tracking-tighter">63</span>
-              </div>
-              <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único • Atualizações vitalícias</p>
-              <PulseButton
-                asCheckout
-                variant="green"
-                className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto"
-              >
-                LEVAR TODOS — R$ 63
               </PulseButton>
             </div>
           </div>
