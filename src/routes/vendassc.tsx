@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import heroImg from "@/assets/hero-alessandra.jpg";
-import alessandraImg from "@/assets/alessandra.jpg";
-import cert1 from "@/assets/cert-1.jpeg";
-import cert2 from "@/assets/cert-2.jpeg";
-import cert3 from "@/assets/cert-3.jpeg";
-import cert4 from "@/assets/cert-4.jpeg";
-import comboAsset from "@/assets/combo-cursos.png";
-import cabeleireiraAsset from "@/assets/curso-cabeleireira.png";
+import heroImg from "@/assets/hero-alessandra.webp";
+import alessandraImg from "@/assets/alessandra.webp";
+import cert1 from "@/assets/cert-1.webp";
+import cert2 from "@/assets/cert-2.webp";
+import cert3 from "@/assets/cert-3.webp";
+import cert4 from "@/assets/cert-4.webp";
+import comboAsset from "@/assets/combo-cursos.webp";
+import cabeleireiraAsset from "@/assets/curso-cabeleireira.webp";
 
 export const Route = createFileRoute("/vendassc")({
   head: () => ({
