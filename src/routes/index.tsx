@@ -38,7 +38,7 @@ function Index() {
     }, 2000);
     return () => clearInterval(id);
   }, [autoPlay, openCert, certificates.length]);
-  const checkoutUrl = "https://pay.kiwify.com.br/Zdfysv7";
+  const checkoutUrl = "https://pay.kiwify.com.br/4QUnghd";
   const trackAddToCart = () => {
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "AddToCart");
