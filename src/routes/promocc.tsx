@@ -11,9 +11,9 @@ import cert4 from "@/assets/cert-4.webp";
 import comboAsset from "@/assets/combo-cursos.webp";
 import cabeleireiraAsset from "@/assets/curso-cabeleireira.webp";
 export const Route = createFileRoute("/promocc")({
-  component: Index,
+  component: Promocc,
 });
-function Index() {
+function Promocc() {
   const images = {
     lisos: "https://images.pexels.com/photos/973401/pexels-photo-973401.jpeg?auto=compress&cs=tinysrgb&w=800",
     corte: "https://images.pexels.com/photos/3319333/pexels-photo-3319333.jpeg?auto=compress&cs=tinysrgb&w=800",
