@@ -228,6 +228,22 @@ function Index() {
                   </li>
                 ))}
               </ul>
+              <div className="mb-4 text-left bg-green-50 border border-green-200 rounded-2xl p-3">
+                <p className="text-[11px] font-black uppercase tracking-widest text-[#15803d] mb-2">Bônus inclusos:</p>
+                <ul className="space-y-1 text-xs md:text-sm text-gray-700">
+                  {[
+                    "Aulas práticas passo a passo",
+                    "Certificado em até 8 dias",
+                    "Acesso vitalício ao conteúdo",
+                    "Suporte direto com a Alessandra",
+                    "Bônus exclusivos de lançamento",
+                  ].map((b) => (
+                    <li key={b} className="flex items-center gap-2">
+                      <Sparkles className="text-[#15803d] shrink-0" size={12} />{b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <p className="text-gray-500 line-through font-bold">De R$ 497</p>
               <div className="flex items-start justify-center gap-1 my-2">
                 <span className="text-2xl font-black text-[#15803d] mt-2">R$</span>
