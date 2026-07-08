@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VendasscRouteImport } from './routes/vendassc'
 import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -18,6 +19,11 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
 
+const VendasscRoute = VendasscRouteImport.update({
+  id: '/vendassc',
+  path: '/vendassc',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CertificadoRoute = CertificadoRouteImport.update({
   id: '/certificado',
   path: '/certificado',
@@ -62,6 +68,7 @@ const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
+  '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/template': typeof AdminTemplateRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
+  '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/template': typeof AdminTemplateRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
+  '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/template': typeof AdminTemplateRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/certificado'
+    | '/vendassc'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/template'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/certificado'
+    | '/vendassc'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/template'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/certificado'
+    | '/vendassc'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/template'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CertificadoRoute: typeof CertificadoRoute
+  VendasscRoute: typeof VendasscRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminTemplateRoute: typeof AdminTemplateRoute
@@ -136,6 +149,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vendassc': {
+      id: '/vendassc'
+      path: '/vendassc'
+      fullPath: '/vendassc'
+      preLoaderRoute: typeof VendasscRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/certificado': {
       id: '/certificado'
       path: '/certificado'
@@ -198,6 +218,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CertificadoRoute: CertificadoRoute,
+  VendasscRoute: VendasscRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminTemplateRoute: AdminTemplateRoute,
