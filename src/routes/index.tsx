@@ -171,7 +171,7 @@ function Index() {
             {/* Solo */}
             <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-white flex flex-col">
               <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Curso de Cabeleireira Completo</h3>
-              <img src={cabeleireiraAsset.url} alt="Curso de Cabeleireira Completo" className="w-full rounded-2xl mb-4 object-contain bg-black" />
+              <img src={cabeleireiraAsset} alt="Curso de Cabeleireira Completo" className="w-full rounded-2xl mb-4 object-contain bg-black" />
               <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
                 {[
                   "Aulas práticas passo a passo",
@@ -220,7 +220,7 @@ function Index() {
             <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-yellow-300 flex flex-col relative">
               <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-300 text-[#1a1a1a] text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-lg">Mais Vendido</span>
               <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Combo Completo — Todos os Cursos</h3>
-              <img src={comboAsset.url} alt="Combo completo de cursos" className="w-full rounded-2xl mb-4 object-contain bg-black" />
+              <img src={comboAsset} alt="Combo completo de cursos" className="w-full rounded-2xl mb-4 object-contain bg-black" />
               <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
                 {["Cabeleireira Completo","Designer de Sobrancelha","Extensão de Cílios","Marketing p/ Primeiros Clientes"].map((c) => (
                   <li key={c} className="flex items-center gap-2 font-semibold">
