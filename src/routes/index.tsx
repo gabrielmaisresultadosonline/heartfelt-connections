@@ -2,14 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X } from "lucide-react";
-import alessandraImg from "@/assets/alessandra.jpg";
-import heroImg from "@/assets/hero-alessandra.jpg";
-import cert1 from "@/assets/cert-1.jpeg";
-import cert2 from "@/assets/cert-2.jpeg";
-import cert3 from "@/assets/cert-3.jpeg";
-import cert4 from "@/assets/cert-4.jpeg";
-import comboAsset from "@/assets/combo-cursos.png";
-import cabeleireiraAsset from "@/assets/curso-cabeleireira.png";
+import alessandraImg from "@/assets/alessandra.webp";
+import heroImg from "@/assets/hero-alessandra.webp";
+import cert1 from "@/assets/cert-1.webp";
+import cert2 from "@/assets/cert-2.webp";
+import cert3 from "@/assets/cert-3.webp";
+import cert4 from "@/assets/cert-4.webp";
+import comboAsset from "@/assets/combo-cursos.webp";
+import cabeleireiraAsset from "@/assets/curso-cabeleireira.webp";
 export const Route = createFileRoute("/")({
   component: Index,
 });
@@ -134,7 +134,7 @@ function Index() {
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 1, scale: 1 }} animate={{ opacity: 1, scale: 1 }} className="relative hidden lg:block">
-            <img src={images.hero} alt="Curso" className="rounded-[4rem] border-[12px] border-white/20 shadow-2xl w-full aspect-[4/5] object-cover" />
+            <img loading="eager" fetchpriority="high" decoding="async" src={images.hero} alt="Curso" className="rounded-[4rem] border-[12px] border-white/20 shadow-2xl w-full aspect-[4/5] object-cover" />
             <div className="absolute -top-10 -right-10 w-60 h-60 bg-pink-400 rounded-full blur-[100px] opacity-40 animate-pulse"></div>
           </motion.div>
         </div>
@@ -171,7 +171,7 @@ function Index() {
             {/* Solo */}
             <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-white flex flex-col">
               <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Curso de Cabeleireira Completo</h3>
-              <img src={cabeleireiraAsset} alt="Curso de Cabeleireira Completo" className="w-full rounded-2xl mb-4 object-contain bg-black" />
+              <img loading="lazy" decoding="async" src={cabeleireiraAsset} alt="Curso de Cabeleireira Completo" className="w-full rounded-2xl mb-4 object-contain bg-black" />
               <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
                 {[
                   "Aulas práticas passo a passo",
@@ -220,7 +220,7 @@ function Index() {
             <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-yellow-300 flex flex-col relative">
               <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-300 text-[#1a1a1a] text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-lg">Mais Vendido</span>
               <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Combo Completo — Todos os Cursos</h3>
-              <img src={comboAsset} alt="Combo completo de cursos" className="w-full rounded-2xl mb-4 object-contain bg-black" />
+              <img loading="lazy" decoding="async" src={comboAsset} alt="Combo completo de cursos" className="w-full rounded-2xl mb-4 object-contain bg-black" />
               <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
                 {["Cabeleireira Completo","Designer de Sobrancelha","Extensão de Cílios","Marketing p/ Primeiros Clientes"].map((c) => (
                   <li key={c} className="flex items-center gap-2 font-semibold">
@@ -290,7 +290,7 @@ function Index() {
         <div className="grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
           <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="relative mx-auto lg:mx-0">
             <div className="rounded-[3rem] overflow-hidden shadow-2xl border-8 border-[#fafafa] max-w-[500px]">
-              <img src={images.alessandra} alt="Alessandra Linhares" className="w-full aspect-square object-cover" />
+              <img loading="lazy" decoding="async" src={images.alessandra} alt="Alessandra Linhares" className="w-full aspect-square object-cover" />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-[#d82298] text-white p-8 rounded-3xl shadow-xl z-20 hidden md:block">
               <p className="text-4xl font-black italic tracking-tighter leading-none">10+ ANOS</p>

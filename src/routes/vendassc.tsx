@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import heroImg from "@/assets/hero-alessandra.jpg";
-import alessandraImg from "@/assets/alessandra.jpg";
-import cert1 from "@/assets/cert-1.jpeg";
-import cert2 from "@/assets/cert-2.jpeg";
-import cert3 from "@/assets/cert-3.jpeg";
-import cert4 from "@/assets/cert-4.jpeg";
-import comboAsset from "@/assets/combo-cursos.png";
-import cabeleireiraAsset from "@/assets/curso-cabeleireira.png";
+import heroImg from "@/assets/hero-alessandra.webp";
+import alessandraImg from "@/assets/alessandra.webp";
+import cert1 from "@/assets/cert-1.webp";
+import cert2 from "@/assets/cert-2.webp";
+import cert3 from "@/assets/cert-3.webp";
+import cert4 from "@/assets/cert-4.webp";
+import comboAsset from "@/assets/combo-cursos.webp";
+import cabeleireiraAsset from "@/assets/curso-cabeleireira.webp";
 
 export const Route = createFileRoute("/vendassc")({
   head: () => ({
@@ -96,7 +96,7 @@ function VendasSC() {
 
         {/* Hero image */}
         <section>
-          <img src={heroImg} alt="Alessandra Linhares" className="w-full rounded-3xl shadow-xl aspect-[4/5] object-cover" />
+          <img loading="eager" fetchpriority="high" decoding="async" src={heroImg} alt="Alessandra Linhares" className="w-full rounded-3xl shadow-xl aspect-[4/5] object-cover" />
         </section>
 
         {/* CTA 1 */}
@@ -153,7 +153,7 @@ function VendasSC() {
 
         {/* Alessandra */}
         <section className="bg-white rounded-3xl shadow p-6 border border-pink-100 flex flex-col items-center text-center gap-4">
-          <img src={alessandraImg} alt="Alessandra Linhares" className="w-32 h-32 rounded-full object-cover border-4 border-[#d82298]" />
+          <img loading="lazy" decoding="async" src={alessandraImg} alt="Alessandra Linhares" className="w-32 h-32 rounded-full object-cover border-4 border-[#d82298]" />
           <div>
             <h3 className="font-black text-xl">Alessandra Linhares</h3>
             <p className="text-sm text-gray-600 mt-2">Cabeleireira profissional com mais de 15 anos de experiência, já formou centenas de alunas em todo o Brasil.</p>
@@ -166,7 +166,7 @@ function VendasSC() {
             Alunas <span className="text-[#d82298]">certificadas</span>
           </h2>
           <div className="relative bg-white rounded-3xl shadow p-4 border border-pink-100">
-            <img src={certificates[slide].src} alt={certificates[slide].name} className="w-full rounded-2xl aspect-[4/3] object-cover" />
+            <img loading="lazy" decoding="async" src={certificates[slide].src} alt={certificates[slide].name} className="w-full rounded-2xl aspect-[4/3] object-cover" />
             <p className="text-center font-semibold mt-3 text-sm">{certificates[slide].name}</p>
             <div className="flex justify-center gap-2 mt-3">
               {certificates.map((_, i) => (
@@ -185,7 +185,7 @@ function VendasSC() {
           {/* Card COMBO — mais vendido */}
           <div className="relative bg-white rounded-3xl shadow-2xl p-6 border-4 border-yellow-300">
             <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-300 text-[#1a1a1a] text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow">⭐ Mais Vendido</span>
-            <img src={comboAsset} alt="Combo completo de cursos" className="w-full rounded-2xl bg-black object-contain mb-4" />
+            <img loading="lazy" decoding="async" src={comboAsset} alt="Combo completo de cursos" className="w-full rounded-2xl bg-black object-contain mb-4" />
             <h3 className="font-black text-lg md:text-xl uppercase">Combo Completo — Todos os Cursos</h3>
             <ul className="text-sm md:text-base mt-3 space-y-1.5">
               {["Cabeleireira Completo","Designer de Sobrancelha","Extensão de Cílios","Marketing p/ Primeiros Clientes"].map((c) => (
@@ -212,7 +212,7 @@ function VendasSC() {
           {/* Card CURSO — básico */}
           <div className="bg-white rounded-3xl shadow p-6 border-2 border-pink-100">
             <span className="inline-block bg-pink-100 text-[#d82298] text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full">Básico</span>
-            <img src={cabeleireiraAsset} alt="Curso de Cabeleireira Completo" className="w-full rounded-2xl bg-black object-contain my-4" />
+            <img loading="lazy" decoding="async" src={cabeleireiraAsset} alt="Curso de Cabeleireira Completo" className="w-full rounded-2xl bg-black object-contain my-4" />
             <h3 className="font-black text-lg uppercase">Curso de Cabeleireira Completo</h3>
             <p className="text-sm text-gray-600 mt-1">Apenas o curso de Cabeleireira, sem os bônus adicionais.</p>
             <ul className="text-sm mt-3 space-y-1.5">
