@@ -160,11 +160,10 @@ function Promocc() {
             🔥 Oferta Combo Relâmpago
           </motion.span>
           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] mb-6">
-            Escolha sua opção: <br />
-            <span className="text-yellow-300">Curso individual</span> ou <span className="underline decoration-yellow-300">Combo Completo</span>
+            Curso de <span className="text-yellow-300">Alisamento Perfeito</span>
           </h2>
           <p className="text-lg md:text-xl opacity-95 mb-10 font-light max-w-2xl mx-auto">
-            Leve apenas o Curso de Cabeleireira Completo, ou escolha o Combo com TODOS os cursos por um valor único.
+            Produtos e processo completo do melhor do liso. Aulas em HD gravadas, com certificado MEC incluso.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
