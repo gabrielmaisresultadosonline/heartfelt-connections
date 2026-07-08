@@ -223,9 +223,9 @@ function VendasSC() {
             <p className="text-gray-400 line-through mt-4 text-sm">De R$ 197</p>
             <div className="text-4xl font-black text-[#d82298] leading-none">R$25</div>
             <p className="text-xs uppercase font-bold text-gray-600 mt-1">Oferta relâmpago</p>
-            <button onClick={() => setPopup(true)} className="w-full mt-4 border-2 border-[#d82298] text-[#d82298] font-black uppercase py-3 rounded-2xl hover:bg-pink-50 transition">
-              Quero apenas o básico
-            </button>
+            <a href={CHECKOUT} onClick={track} className="block w-full mt-4 bg-gradient-to-b from-[#d82298] to-[#a4176f] text-white font-black uppercase text-center py-4 rounded-2xl shadow-lg hover:scale-[1.02] transition">
+              QUERO O CURSO — R$25
+            </a>
           </div>
         </section>
 
