@@ -10,7 +10,7 @@ import cert3 from "@/assets/cert-3.webp";
 import cert4 from "@/assets/cert-4.webp";
 import comboAsset from "@/assets/combo-cursos.webp";
 import cabeleireiraAsset from "@/assets/curso-cabeleireira.webp";
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/promocc")({
   component: Index,
 });
 function Index() {
