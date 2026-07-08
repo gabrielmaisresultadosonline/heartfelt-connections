@@ -127,7 +127,7 @@ function Index() {
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-sm line-through text-white/60 font-bold">De R$ 197</p>
-                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 10</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 25</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
