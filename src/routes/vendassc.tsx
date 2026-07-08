@@ -26,7 +26,7 @@ const CHECKOUT = "https://pay.kiwify.com.br/4QUnghd";
 function VendasSC() {
   const [timer, setTimer] = useState(9 * 60 + 57);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [popup, setPopup] = useState(false);
+  
   const [slide, setSlide] = useState(0);
 
   useEffect(() => {
