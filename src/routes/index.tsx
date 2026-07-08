@@ -717,7 +717,7 @@ function Index() {
               </p>
               <div className="flex items-start justify-center gap-1 mt-1">
                 <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">R$</span>
-                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">10</span>
+                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">25</span>
                 <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">,00</span>
               </div>
               <p className="text-sm md:text-base text-gray-700 font-bold mt-2 uppercase tracking-wider">
