@@ -96,7 +96,7 @@ function VendasSC() {
 
         {/* Hero image */}
         <section>
-          <img loading="eager" fetchpriority="high" decoding="async" src={heroImg} alt="Alessandra Linhares" className="w-full rounded-3xl shadow-xl aspect-[4/5] object-cover" />
+          <img loading="eager" fetchPriority="high" decoding="async" src={heroImg} alt="Alessandra Linhares" className="w-full rounded-3xl shadow-xl aspect-[4/5] object-cover" />
         </section>
 
         {/* CTA 1 */}
