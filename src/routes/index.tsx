@@ -312,7 +312,7 @@ function Index() {
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 10,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 25,00</span></p>
           <div className="mt-10">
             <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →
