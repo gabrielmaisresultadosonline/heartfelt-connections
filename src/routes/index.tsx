@@ -39,7 +39,7 @@ function Index() {
     }, 2000);
     return () => clearInterval(id);
   }, [autoPlay, openCert, certificates.length]);
-  const checkoutUrl = "https://pay.kiwify.com.br/4QUnghd";
+  const checkoutUrl = "https://pay.kiwify.com.br/Zdfysv7";
   const trackAddToCart = () => {
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "AddToCart");
@@ -128,7 +128,7 @@ function Index() {
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-sm line-through text-white/60 font-bold">De R$ 197</p>
-                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 25</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 10</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
@@ -204,7 +204,7 @@ function Index() {
               <p className="text-gray-500 line-through font-bold">De R$ 197</p>
               <div className="flex items-start justify-center gap-1 my-3">
                 <span className="text-2xl font-black text-[#d82298] mt-2">R$</span>
-                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">25</span>
+                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">10</span>
               </div>
               <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único</p>
               <PulseButton
@@ -212,7 +212,7 @@ function Index() {
                 variant="pink"
                 className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto"
               >
-                QUERO O CURSO — R$ 25
+                QUERO O CURSO — R$ 10
               </PulseButton>
             </div>
 
@@ -244,10 +244,30 @@ function Index() {
                   ))}
                 </ul>
               </div>
-              <p className="text-gray-500 line-through font-bold">De R$ 497</p>
+              <div className="mb-4 text-left bg-gray-50 border border-gray-200 rounded-2xl p-4">
+                <p className="text-[11px] font-black uppercase tracking-widest text-gray-700 mb-3">Comprando tudo junto:</p>
+                <ul className="space-y-1.5 text-sm text-gray-700">
+                  {[
+                    { name: "Cabeleireira Completa — PROMO", price: "R$ 10,00" },
+                    { name: "Atualizações vitalícias", price: "R$ 8,00" },
+                    { name: "Seus primeiros Clientes", price: "R$ 19,00" },
+                    { name: "Extensão de Cílios", price: "R$ 13,00" },
+                    { name: "Designer de Sobrancelhas", price: "R$ 13,00" },
+                  ].map((i) => (
+                    <li key={i.name} className="flex items-center justify-between gap-2">
+                      <span className="font-semibold">{i.name}</span>
+                      <span className="font-black text-[#15803d]">{i.price}</span>
+                    </li>
+                  ))}
+                  <li className="flex items-center justify-between gap-2 pt-2 mt-2 border-t border-gray-300">
+                    <span className="font-black uppercase tracking-wide">Total</span>
+                    <span className="font-black text-[#15803d] text-lg">R$ 63,00</span>
+                  </li>
+                </ul>
+              </div>
               <div className="flex items-start justify-center gap-1 my-2">
                 <span className="text-2xl font-black text-[#15803d] mt-2">R$</span>
-                <span className="text-7xl font-black text-[#15803d] leading-none tracking-tighter">89</span>
+                <span className="text-7xl font-black text-[#15803d] leading-none tracking-tighter">63</span>
               </div>
               <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único • Atualizações vitalícias</p>
               <PulseButton
@@ -255,7 +275,7 @@ function Index() {
                 variant="green"
                 className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto"
               >
-                LEVAR TODOS — R$ 89
+                LEVAR TODOS — R$ 63
               </PulseButton>
             </div>
           </div>
@@ -359,7 +379,7 @@ function Index() {
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 25,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 10,00</span></p>
           <div className="mt-10">
             <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →
