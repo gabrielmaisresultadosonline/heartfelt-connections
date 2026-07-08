@@ -9,6 +9,7 @@ import cert2 from "@/assets/cert-2.jpeg";
 import cert3 from "@/assets/cert-3.jpeg";
 import cert4 from "@/assets/cert-4.jpeg";
 import comboAsset from "@/assets/combo-cursos.png.asset.json";
+import cabeleireiraAsset from "@/assets/curso-cabeleireira.png.asset.json";
 export const Route = createFileRoute("/")({
   component: Index,
 });
