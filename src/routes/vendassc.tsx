@@ -281,30 +281,6 @@ function VendasSC() {
         </footer>
       </main>
 
-      {/* Popup downsell */}
-      {popup && (
-        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4" onClick={() => setPopup(false)}>
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 relative" onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setPopup(false)} className="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 text-lg font-bold">×</button>
-            <div className="inline-block bg-yellow-100 text-yellow-800 text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full">⚡ Oferta Especial</div>
-            <h2 className="text-xl md:text-2xl font-black mt-3">Espera! Antes de ir...<br/><span className="text-[#d82298]">Leve o COMBO com desconto</span></h2>
-            <p className="text-gray-400 line-through mt-3 text-sm">De R$89</p>
-            <div className="text-5xl font-black text-green-600 leading-none">R$79</div>
-            <p className="text-xs text-gray-600 mt-1">Acesso imediato aos 4 cursos + bônus</p>
-            <ul className="text-sm mt-4 space-y-1.5">
-              {["Cabeleireira Completo","Designer de Sobrancelha","Extensão de Cílios","Marketing p/ Primeiros Clientes"].map((c) => (
-                <li key={c} className="flex items-center gap-2 font-semibold"><span className="text-green-600">✓</span>{c}</li>
-              ))}
-            </ul>
-            <a href={CHECKOUT} onClick={track} className="block w-full mt-5 bg-gradient-to-b from-green-500 to-green-700 text-white font-black uppercase text-center py-4 rounded-2xl">
-              ✅ SIM, QUERO O COMBO
-            </a>
-            <button onClick={() => setPopup(false)} className="w-full mt-2 text-xs text-gray-500 py-2">
-              Não, prefiro apenas o curso de R$25
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
