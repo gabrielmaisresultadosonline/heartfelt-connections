@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VendasscRouteImport } from './routes/vendassc'
+import { Route as PromoccRouteImport } from './routes/promocc'
 import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -22,6 +23,11 @@ import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
 const VendasscRoute = VendasscRouteImport.update({
   id: '/vendassc',
   path: '/vendassc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromoccRoute = PromoccRouteImport.update({
+  id: '/promocc',
+  path: '/promocc',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CertificadoRoute = CertificadoRouteImport.update({
@@ -68,6 +74,7 @@ const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
+  '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
+  '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/certificado': typeof CertificadoRoute
+  '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/certificado'
+    | '/promocc'
     | '/vendassc'
     | '/admin/login'
     | '/admin/settings'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/certificado'
+    | '/promocc'
     | '/vendassc'
     | '/admin/login'
     | '/admin/settings'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/certificado'
+    | '/promocc'
     | '/vendassc'
     | '/admin/login'
     | '/admin/settings'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CertificadoRoute: typeof CertificadoRoute
+  PromoccRoute: typeof PromoccRoute
   VendasscRoute: typeof VendasscRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/vendassc'
       fullPath: '/vendassc'
       preLoaderRoute: typeof VendasscRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promocc': {
+      id: '/promocc'
+      path: '/promocc'
+      fullPath: '/promocc'
+      preLoaderRoute: typeof PromoccRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/certificado': {
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CertificadoRoute: CertificadoRoute,
+  PromoccRoute: PromoccRoute,
   VendasscRoute: VendasscRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminSettingsRoute: AdminSettingsRoute,
