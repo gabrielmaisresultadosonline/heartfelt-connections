@@ -130,6 +130,8 @@ type DB = {
   kiwify_buyers: KiwifyBuyer[];
   students: Student[];
   course_modules: CourseModule[];
+  courses: Course[];
+  course_assets: CourseAsset[];
 };
 
 const DEFAULT_DB: DB = {
@@ -155,6 +157,8 @@ const DEFAULT_DB: DB = {
   kiwify_buyers: [],
   students: [],
   course_modules: [],
+  courses: [],
+  course_assets: [],
 };
 
 let writeChain: Promise<unknown> = Promise.resolve();
