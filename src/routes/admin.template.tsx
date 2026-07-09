@@ -306,6 +306,93 @@ function TemplatePage() {
           </div>
         </form>
       </div>
+
+      {showModal && previewUrl && (
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 overflow-auto">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[95vh] overflow-auto">
+            <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-white z-10">
+              <h2 className="text-lg font-bold">Configurar template</h2>
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="text-gray-500 hover:text-gray-900 text-2xl leading-none"
+              >×</button>
+            </div>
+            <div className="p-4 grid lg:grid-cols-2 gap-4">
+              <div className="bg-gray-50 rounded-xl p-3 overflow-auto">
+                {tplSize ? (
+                  <div className="relative bg-white mx-auto" style={{ width: stageW, height: stageH }}>
+                    <div
+                      className="absolute border-2 border-dashed border-amber-500 bg-amber-100/40 flex items-center justify-center text-xs text-amber-800"
+                      style={{ left: form.photo_x * scale, top: form.photo_y * scale, width: form.photo_w * scale, height: form.photo_h * scale }}
+                    >foto aluno</div>
+                    <img src={previewUrl} alt="template" draggable={false} className="absolute inset-0 pointer-events-none" style={{ width: stageW, height: stageH }} />
+                    <div className="absolute pointer-events-none font-bold whitespace-nowrap" style={{ left: form.name_x * scale, top: form.name_y * scale, transform: "translate(-50%, -100%)", fontSize: form.name_font_size * scale, color: form.name_color, fontFamily: "Helvetica, Arial, sans-serif" }}>NOME DO ALUNO</div>
+                    <div className="absolute pointer-events-none whitespace-nowrap" style={{ left: form.date_x * scale, top: form.date_y * scale, transform: "translate(-50%, -100%)", fontSize: form.date_font_size * scale, color: form.date_color, fontFamily: "Helvetica, Arial, sans-serif" }}>{new Date().toLocaleDateString("pt-BR")}</div>
+                  </div>
+                ) : (
+                  <div className="p-8 text-center text-sm text-gray-500">PDF não tem preview interativo — salve e teste.</div>
+                )}
+              </div>
+              <div className="space-y-3">
+                <fieldset className="border rounded-lg p-3">
+                  <legend className="text-xs font-semibold px-2">Foto</legend>
+                  <div className="grid grid-cols-4 gap-2">
+                    {(["photo_x","photo_y","photo_w","photo_h"] as const).map((k) => (
+                      <label key={k} className="text-[10px]">{k}
+                        <input type="number" value={form[k]} onChange={(e) => setForm({ ...form, [k]: Number(e.target.value) })} className="w-full border rounded px-1 py-1 mt-1" />
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                <fieldset className="border rounded-lg p-3">
+                  <legend className="text-xs font-semibold px-2">Nome</legend>
+                  <div className="grid grid-cols-4 gap-2">
+                    {(["name_x","name_y","name_font_size"] as const).map((k) => (
+                      <label key={k} className="text-[10px]">{k}
+                        <input type="number" value={form[k]} onChange={(e) => setForm({ ...form, [k]: Number(e.target.value) })} className="w-full border rounded px-1 py-1 mt-1" />
+                      </label>
+                    ))}
+                    <label className="text-[10px]">cor
+                      <input type="color" value={form.name_color} onChange={(e) => setForm({ ...form, name_color: e.target.value })} className="w-full h-8 border rounded mt-1" />
+                    </label>
+                  </div>
+                </fieldset>
+                <fieldset className="border rounded-lg p-3">
+                  <legend className="text-xs font-semibold px-2">Data</legend>
+                  <div className="grid grid-cols-4 gap-2">
+                    {(["date_x","date_y","date_font_size"] as const).map((k) => (
+                      <label key={k} className="text-[10px]">{k}
+                        <input type="number" value={form[k]} onChange={(e) => setForm({ ...form, [k]: Number(e.target.value) })} className="w-full border rounded px-1 py-1 mt-1" />
+                      </label>
+                    ))}
+                    <label className="text-[10px]">cor
+                      <input type="color" value={form.date_color} onChange={(e) => setForm({ ...form, date_color: e.target.value })} className="w-full h-8 border rounded mt-1" />
+                    </label>
+                  </div>
+                </fieldset>
+                {msg && <p className="text-sm">{msg}</p>}
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={async () => {
+                      await onSubmit({ preventDefault: () => {} } as unknown as React.FormEvent);
+                      setShowModal(false);
+                    }}
+                    className="flex-1 bg-gray-900 text-white px-4 py-2 rounded-lg font-semibold disabled:opacity-50"
+                  >{saving ? "Salvando..." : "Salvar e fechar"}</button>
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                    className="px-4 py-2 rounded-lg border font-semibold"
+                  >Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
