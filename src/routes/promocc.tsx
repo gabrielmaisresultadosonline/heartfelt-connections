@@ -477,6 +477,57 @@ function Promocc() {
           </div>
         </div>
       </section>
+      {/* Bônus Exclusivos */}
+      <section className="relative z-20 py-20 px-6 bg-gradient-to-br from-[#1a0a14] via-[#2a0f1f] to-[#1a0a14] overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <Gift className="absolute top-10 right-10 text-yellow-300" size={200} />
+          <Sparkles className="absolute bottom-10 left-10 text-[#d82298]" size={180} />
+        </div>
+        <div className="container mx-auto max-w-6xl relative z-10 text-center">
+          <span className="inline-block bg-yellow-300 text-[#1a1a1a] text-xs md:text-sm font-black uppercase tracking-widest px-6 py-2 rounded-full mb-6 shadow-xl">
+            🎁 Bônus Exclusivos Inclusos
+          </span>
+          <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] mb-4 text-white">
+            Ganhe <span className="text-yellow-300">+ R$ 497</span> em Bônus
+          </h2>
+          <p className="text-white/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">
+            PDFs, ebooks e materiais exclusivos liberados junto com o curso — <span className="text-yellow-300 font-bold">totalmente grátis</span>.
+          </p>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 text-left">
+            {[
+              { icon: ClipboardList, title: "Ficha de Anamnese", desc: "Modelo profissional pronto para usar com suas clientes.", tag: "PDF" },
+              { icon: ClipboardList, title: "Lista de Materiais", desc: "Tudo que você precisa comprar para começar hoje.", tag: "PDF" },
+              { icon: PlayCircle, title: "Remoção de Extensão de Cílios", desc: "Aula passo a passo para remoção segura.", tag: "Vídeo" },
+              { icon: BookOpen, title: "Apostila Cílios PRO — O Mapa", desc: "Guia completo do mapeamento de cílios.", tag: "PDF" },
+              { icon: FileText, title: "Conectando-se ao Sucesso", desc: "Marketing digital para empreendedoras da beleza.", tag: "PDF" },
+              { icon: FileText, title: "Crie seu MEI Gratuitamente", desc: "Passo a passo para formalizar seu negócio.", tag: "Ebook" },
+              { icon: FileText, title: "Smart — Transformando Sonhos em Realidade", desc: "Método de metas para alavancar sua carreira.", tag: "Ebook" },
+              { icon: FileText, title: "Elevando Experiências", desc: "Como criar um serviço de luxo que fideliza clientes.", tag: "Ebook" },
+            ].map((b) => (
+              <div
+                key={b.title}
+                className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-yellow-300/30 rounded-3xl p-6 hover:border-yellow-300 hover:scale-[1.02] transition-all duration-300 shadow-xl"
+              >
+                <div className="absolute -top-3 -right-3 bg-yellow-300 text-[#1a1a1a] text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
+                  {b.tag}
+                </div>
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center mb-4 shadow-lg">
+                  <b.icon className="text-[#1a1a1a]" size={28} />
+                </div>
+                <h3 className="text-white font-black uppercase text-base md:text-lg tracking-tight mb-2 leading-tight">
+                  {b.title}
+                </h3>
+                <p className="text-white/70 text-sm leading-relaxed">{b.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-10 text-yellow-300 text-sm md:text-base font-bold uppercase tracking-widest">
+            ⚡ Todos os bônus liberados no ato da compra
+          </p>
+        </div>
+      </section>
       {/* Combo de Cursos - Oferta Relâmpago */}
       <section id="oferta" className="relative z-30 py-20 px-6 bg-gradient-to-br from-[#d82298] via-[#ff3ea5] to-[#d82298] overflow-hidden scroll-mt-24">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
