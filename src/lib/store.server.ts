@@ -72,6 +72,8 @@ export type Student = {
   created_at: string;
   updated_at: string;
   email_sent_at: string | null;
+  /** Order bumps adquiridos: "sobrancelha" | "vitalicio" */
+  bumps: string[];
 };
 
 /** Módulo/aula do curso. */
