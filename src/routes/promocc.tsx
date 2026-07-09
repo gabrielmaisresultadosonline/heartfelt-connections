@@ -496,9 +496,18 @@ function Promocc() {
           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] mb-6">
             Curso de <span className="text-yellow-300">Alisamento Perfeito</span>
           </h2>
+          <div className="max-w-2xl mx-auto mb-8">
+            <img
+              src={cursoLisoImg.url}
+              alt="Curso de Liso Perfeito com Alessandra Linhares"
+              className="w-full h-auto rounded-[2rem] shadow-2xl border-4 border-yellow-300/40"
+              loading="lazy"
+            />
+          </div>
           <p className="text-lg md:text-xl opacity-95 mb-10 font-light max-w-2xl mx-auto">
             Produtos e processo completo do melhor do liso. Aulas em HD gravadas, com certificado MEC incluso.
           </p>
+
 
           <div className="grid md:grid-cols-1 gap-6 max-w-xl mx-auto">
             <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-yellow-300 flex flex-col">
