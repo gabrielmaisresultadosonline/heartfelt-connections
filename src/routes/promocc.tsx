@@ -485,7 +485,7 @@ function Promocc() {
         </div>
       </section>
       {/* Combo de Cursos - Oferta Relâmpago */}
-      <section className="relative z-30 py-20 px-6 bg-gradient-to-br from-[#d82298] via-[#ff3ea5] to-[#d82298] overflow-hidden">
+      <section id="oferta" className="relative z-30 py-20 px-6 bg-gradient-to-br from-[#d82298] via-[#ff3ea5] to-[#d82298] overflow-hidden scroll-mt-24">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <motion.div
             animate={{ rotate: 360 }}
@@ -590,88 +590,6 @@ function Promocc() {
           <p className="text-xs md:text-sm text-white/90 mt-6 font-semibold">
             Pagamento seguro • Acesso imediato • Certificado incluso
           </p>
-        </div>
-      </section>
-      {/* Oferta / Preço */}
-      <section id="oferta" className="py-24 md:py-32 px-6 bg-gradient-to-br from-[#fdf2f8] via-white to-[#fce7f3] relative z-30 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-            className="absolute -top-20 -left-20 text-[#d82298]/5"
-          >
-            <Flower2 size={300} />
-          </motion.div>
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ repeat: Infinity, duration: 50, ease: "linear" }}
-            className="absolute -bottom-20 -right-20 text-pink-400/10"
-          >
-            <Flower2 size={400} />
-          </motion.div>
-        </div>
-        <div className="container mx-auto max-w-3xl relative z-10">
-          <div className="text-center mb-10">
-            <span className="inline-block bg-[#d82298] text-white text-xs md:text-sm font-black uppercase tracking-widest px-5 py-2 rounded-full mb-6">
-              Oferta Especial de Lançamento
-            </span>
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-[#1a1a1a] leading-none">
-              Garanta sua <span className="text-[#d82298]">vaga hoje</span>
-            </h2>
-          </div>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-white rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-14 shadow-[0_30px_80px_rgba(216,34,152,0.25)] border-2 border-[#d82298]/10 relative"
-          >
-            <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-yellow-400 text-[#1a1a1a] text-[10px] md:text-xs font-black uppercase tracking-widest px-5 py-2 rounded-full shadow-lg">
-              Acesso Imediato
-            </div>
-            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-center text-[#1a1a1a] mb-6">
-              Curso de Alisamento Perfeito
-            </h3>
-            <ul className="space-y-3 mb-8 max-w-md mx-auto">
-              {[
-                "Aulas práticas passo a passo",
-                "Certificado em até 8 dias",
-                "Acesso vitalício ao conteúdo",
-                "Suporte direto com a Alessandra",
-                "Bônus exclusivos de lançamento",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <CheckCircle className="text-green-600 shrink-0 mt-0.5" size={20} />
-                  <span className="text-[#1a1a1a] font-semibold text-base md:text-lg">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="text-center mb-8">
-              <p className="text-gray-400 line-through text-lg md:text-xl font-bold">De R$ 197,00</p>
-              <p className="text-base md:text-lg font-black text-[#1a1a1a] uppercase tracking-wider mt-2">
-                Por apenas
-              </p>
-              <div className="flex items-start justify-center gap-1 mt-1">
-                <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">R$</span>
-                <span className="text-7xl md:text-9xl font-black text-[#d82298] leading-none tracking-tighter">10</span>
-                <span className="text-2xl md:text-3xl font-black text-[#d82298] mt-3">,00</span>
-              </div>
-              <p className="text-sm md:text-base text-gray-700 font-bold mt-2 uppercase tracking-wider">
-                Acesso Vitalício
-              </p>
-            </div>
-            <PulseButton
-              asCheckout
-              className="w-full py-7 md:py-8 px-6 rounded-2xl text-xl md:text-3xl flex items-center justify-center shadow-[0_20px_50px_rgba(21,128,61,0.4)]"
-            >
-              COMPRAR AGORA
-            </PulseButton>
-            <div className="flex flex-wrap justify-center items-center gap-4 mt-6 text-xs md:text-sm text-gray-600 font-semibold">
-              <span className="flex items-center gap-1"><CheckCircle size={14} className="text-green-600" /> Pagamento Seguro</span>
-              <span className="flex items-center gap-1"><CheckCircle size={14} className="text-green-600" /> Garantia 7 dias</span>
-              <span className="flex items-center gap-1"><CheckCircle size={14} className="text-green-600" /> Acesso imediato</span>
-            </div>
-          </motion.div>
         </div>
       </section>
       {/* Final CTA */}
