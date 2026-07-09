@@ -148,7 +148,7 @@ export async function readDB(): Promise<DB> {
       settings: { ...DEFAULT_DB.settings, ...(parsed.settings ?? {}) },
       kiwify_buyers: parsed.kiwify_buyers ?? [],
       students: (parsed.students ?? []).map((s) => ({ ...s, bumps: s.bumps ?? [] })),
-      course_modules: parsed.course_modules ?? [],
+      course_modules: (parsed.course_modules ?? []).map((m) => ({ ...m, required_bump: m.required_bump ?? null })),
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {
