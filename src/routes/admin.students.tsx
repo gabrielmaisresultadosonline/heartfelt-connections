@@ -14,6 +14,7 @@ import {
 const BUMP_LABELS: Record<string, string> = {
   sobrancelha: "Sobrancelha (+R$10)",
   vitalicio: "Vitalícias (+R$9)",
+  cilios: "Extensão de Cílios",
 };
 
 export const Route = createFileRoute("/admin/students")({
