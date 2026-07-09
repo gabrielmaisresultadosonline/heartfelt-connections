@@ -727,11 +727,94 @@ function Promocc() {
       {/* Final CTA */}
       <footer className="py-40 px-6 text-center bg-[#fafafa] relative z-30">
         <h2 className="text-6xl md:text-[10rem] font-black mb-16 uppercase tracking-tighter leading-[0.8] italic text-[#1a1a1a]">MUDE SUA <br/> <span className="text-[#d82298]">VIDA AGORA.</span></h2>
-        <PulseButton className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(216,34,152,0.5)]">
+        <PulseButton asCheckout className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(216,34,152,0.5)]">
           QUERO MINHA VAGA!
         </PulseButton>
         <p className="mt-20 text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">&copy; 2026 TODOS OS DIREITOS RESERVADOS</p>
+        <p className="mt-4 text-[10px] text-gray-400"><a href="/login" className="hover:text-pink-600 underline">Já sou aluna → entrar</a></p>
       </footer>
+      <CheckoutModal open={showCheckout} onClose={() => setShowCheckout(false)} />
     </div>
+  );
+}
+
+function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const createCheckout = useServerFn(createStudentCheckout);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setErr(null);
+    setLoading(true);
+    try {
+      const r = await createCheckout({ data: { name: name.trim(), email: email.trim(), phone: phone.trim() } });
+      if (!r.ok) {
+        setErr(r.error || "Erro ao gerar checkout");
+        setLoading(false);
+        return;
+      }
+      window.location.href = r.url;
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Erro");
+      setLoading(false);
+    }
+  }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 md:p-8 relative"
+          >
+            <button onClick={onClose} className="absolute top-3 right-3 p-2 rounded-full hover:bg-gray-100" aria-label="Fechar">
+              <X size={20} />
+            </button>
+            <div className="text-center mb-5">
+              <h3 className="text-2xl md:text-3xl font-black text-[#d82298] uppercase italic tracking-tight">
+                Garantir minha vaga
+              </h3>
+              <p className="text-sm text-gray-500 mt-2">Curso de Alisamento Perfeito — <strong className="text-gray-900">R$ 10,00</strong> à vista</p>
+            </div>
+            <form onSubmit={onSubmit} className="space-y-3">
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
+                <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-pink-400 outline-none" />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">E-mail</label>
+                <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-pink-400 outline-none" />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">WhatsApp (com DDD)</label>
+                <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)}
+                  placeholder="(11) 99999-9999"
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-pink-400 outline-none" />
+              </div>
+              {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2">{err}</p>}
+              <button type="submit" disabled={loading}
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg">
+                {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : "Ir para o pagamento seguro →"}
+              </button>
+              <p className="text-center text-[11px] text-gray-500 mt-1">
+                Pagamento processado pela InfinitePay. Seu acesso é enviado por e-mail assim que confirmado.
+              </p>
+            </form>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
