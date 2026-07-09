@@ -479,9 +479,6 @@ function Promocc() {
         </div>
         <div className="container mx-auto max-w-4xl relative z-10 text-center text-white">
           <motion.span
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
             className="inline-block bg-yellow-300 text-[#1a1a1a] text-xs md:text-sm font-black uppercase tracking-widest px-6 py-2 rounded-full mb-6 shadow-xl"
           >
             🔥 Oferta Combo Relâmpago
