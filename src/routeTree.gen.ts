@@ -26,6 +26,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiPublicInfinitepayWebhookRouteImport } from './routes/api/public/infinitepay-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
+import { Route as ApiAdminCourseAssetRouteImport } from './routes/api/admin/course-asset'
 
 const VendasscRoute = VendasscRouteImport.update({
   id: '/vendassc',
@@ -113,6 +114,11 @@ const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
   path: '/api/files/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminCourseAssetRoute = ApiAdminCourseAssetRouteImport.update({
+  id: '/api/admin/course-asset',
+  path: '/api/admin/course-asset',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin': typeof AdminIndexRoute
+  '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/admin/students'
     | '/admin/template'
     | '/admin/'
+    | '/api/admin/course-asset'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/admin/students'
     | '/admin/template'
     | '/admin'
+    | '/api/admin/course-asset'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/admin/students'
     | '/admin/template'
     | '/admin/'
+    | '/api/admin/course-asset'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -247,6 +259,7 @@ export interface RootRouteChildren {
   AdminStudentsRoute: typeof AdminStudentsRoute
   AdminTemplateRoute: typeof AdminTemplateRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  ApiAdminCourseAssetRoute: typeof ApiAdminCourseAssetRoute
   ApiFilesSplatRoute: typeof ApiFilesSplatRoute
   ApiPublicInfinitepayWebhookRoute: typeof ApiPublicInfinitepayWebhookRoute
   ApiPublicKiwifyWebhookRoute: typeof ApiPublicKiwifyWebhookRoute
@@ -373,6 +386,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiFilesSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin/course-asset': {
+      id: '/api/admin/course-asset'
+      path: '/api/admin/course-asset'
+      fullPath: '/api/admin/course-asset'
+      preLoaderRoute: typeof ApiAdminCourseAssetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -391,6 +411,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminStudentsRoute: AdminStudentsRoute,
   AdminTemplateRoute: AdminTemplateRoute,
   AdminIndexRoute: AdminIndexRoute,
+  ApiAdminCourseAssetRoute: ApiAdminCourseAssetRoute,
   ApiFilesSplatRoute: ApiFilesSplatRoute,
   ApiPublicInfinitepayWebhookRoute: ApiPublicInfinitepayWebhookRoute,
   ApiPublicKiwifyWebhookRoute: ApiPublicKiwifyWebhookRoute,
