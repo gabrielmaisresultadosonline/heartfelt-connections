@@ -584,24 +584,6 @@ function Promocc() {
       {/* Área de Membros + Bônus */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-br from-black via-[#1a0a14] to-[#2a0a1f] relative z-20 overflow-hidden">
         <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(216,34,152,0.5)] border-4 border-[#d82298]/40 mb-16 bg-black"
-          >
-            <video
-              ref={(el) => { if (el) { el.muted = true; el.volume = 0; } }}
-              src="/videos/area-membros.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              disableRemotePlayback
-              className="w-full h-auto block"
-            />
-          </motion.div>
           <div className="text-center mt-14">
             <PulseButton className="inline-block px-10 py-5 rounded-full text-white text-lg md:text-xl font-black shadow-2xl">
               QUERO TUDO ISSO AGORA →
