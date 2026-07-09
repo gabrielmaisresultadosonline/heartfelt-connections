@@ -84,7 +84,16 @@ export type CourseModule = {
   video_url: string; // youtube/vimeo/mp4
   order: number;
   created_at: string;
+  /** Se null, faz parte do curso base. Se "sobrancelha" ou "vitalicio", requer bump. */
+  required_bump: string | null;
 };
+
+/** Bumps disponíveis para venda. */
+export const BUMPS = [
+  { id: "sobrancelha", label: "Curso de Sobrancelha", price_cents: 1000, description: "Curso de Sobrancelha (bônus)" },
+  { id: "vitalicio", label: "Atualizações Vitalícias", price_cents: 900, description: "Atualizações Vitalícias (bônus)" },
+] as const;
+export type BumpId = (typeof BUMPS)[number]["id"];
 
 type DB = {
   certificates: Certificate[];
