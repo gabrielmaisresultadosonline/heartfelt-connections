@@ -758,9 +758,10 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     setErr(null);
     setLoading(true);
     try {
-      const bumps: ("sobrancelha" | "vitalicio")[] = [];
+      const bumps: ("sobrancelha" | "vitalicio" | "cilios")[] = [];
       if (bumpSobrancelha) bumps.push("sobrancelha");
       if (bumpVitalicio) bumps.push("vitalicio");
+      if (bumpCilios) bumps.push("cilios");
       const r = await createCheckout({
         data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps },
       });
