@@ -543,6 +543,14 @@ function Promocc() {
 
           {/* Combo Completo com Order Bumps visíveis fora do modal */}
           <div className="mt-10 max-w-3xl mx-auto bg-white/10 backdrop-blur-md border-2 border-yellow-300/60 rounded-[2.5rem] p-6 md:p-8 text-white shadow-2xl">
+            <div className="max-w-xs sm:max-w-sm mx-auto mb-5">
+              <img
+                src={comboImg.url}
+                alt="Combo 3 Cursos - Alisamento, Sobrancelha e Extensão de Cílios"
+                className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
+                loading="lazy"
+              />
+            </div>
             <div className="inline-block bg-yellow-300 text-[#1a1a1a] text-[10px] md:text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
               💎 Combo Completo
             </div>
