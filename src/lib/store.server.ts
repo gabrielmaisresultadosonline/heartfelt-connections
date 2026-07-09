@@ -145,6 +145,17 @@ export const BUMPS = [
 ] as const;
 export type BumpId = (typeof BUMPS)[number]["id"];
 
+export type EmailSend = {
+  id: string;
+  campaign: string; // ex: "migracao-kiwify"
+  email: string;
+  name: string | null;
+  subject: string;
+  status: "sent" | "failed";
+  error: string | null;
+  sent_at: string;
+};
+
 type DB = {
   certificates: Certificate[];
   admins: AdminUser[];
