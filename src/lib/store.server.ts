@@ -206,7 +206,7 @@ export async function readDB(): Promise<DB> {
       template_config: { ...DEFAULT_DB.template_config, ...(parsed.template_config ?? {}) },
       settings: { ...DEFAULT_DB.settings, ...(parsed.settings ?? {}) },
       kiwify_buyers: parsed.kiwify_buyers ?? [],
-      students: (parsed.students ?? []).map((s) => ({ ...s, bumps: s.bumps ?? [] })),
+      students: (parsed.students ?? []).map((s) => ({ ...s, bumps: s.bumps ?? [], checkout_started_at: s.checkout_started_at ?? null })),
       course_modules: (parsed.course_modules ?? []).map((m) => ({ ...m, required_bump: m.required_bump ?? null })),
       courses: (parsed.courses ?? []).map((c) => ({ ...c, required_bump: c.required_bump ?? null, cover_file: c.cover_file ?? null })),
       course_assets: parsed.course_assets ?? [],
