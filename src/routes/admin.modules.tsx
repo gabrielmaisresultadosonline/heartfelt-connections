@@ -102,6 +102,7 @@ function ModulesPage() {
               <option value="sobrancelha">Bump: Sobrancelha (+R$10)</option>
               <option value="vitalicio">Bump: Vitalícias (+R$9)</option>
             </select>
+          </div>
           <div className="md:col-span-2">
             <label className="text-xs font-bold uppercase text-gray-600">Descrição (opcional)</label>
             <textarea value={editing.description} onChange={(e) => setEditing({ ...editing, description: e.target.value })}
