@@ -10,6 +10,8 @@ set -euo pipefail
 APP_DIR="/var/www/belezalisoperfeito.online"
 PM2_NAME="belezalisoperfeito"
 DATA_DIR="/var/lib/certificados"
+APP_PORT="8080"
+APP_HOST="127.0.0.1"
 
 cd "$APP_DIR"
 
@@ -72,19 +74,62 @@ for raw_line in env_path.read_text().splitlines():
 PY
 )"
 
-# 4) PM2: troca comandos antigos de desenvolvimento por servidor de produção.
-#    Deleta somente este app pelo nome; não interfere em outros sites/processos do VPS.
-if pm2 describe "$PM2_NAME" > /dev/null 2>&1; then
-  pm2 delete "$PM2_NAME"
-fi
+# 4) PM2: remove SOMENTE processos deste app, inclusive processos antigos que ficaram
+#    presos em `npm run dev`. Não mexe em outros sites do VPS.
+pm2 jlist | python3 - "$PM2_NAME" "$APP_DIR" <<'PY' | while read -r pm_id; do
+import json
+import sys
 
+target_name = sys.argv[1]
+target_cwd = sys.argv[2]
+
+try:
+    processes = json.load(sys.stdin)
+except json.JSONDecodeError:
+    processes = []
+
+for process in processes:
+    env = process.get("pm2_env", {})
+    name = env.get("name") or process.get("name")
+    cwd = env.get("pm_cwd") or env.get("PWD")
+    if name == target_name or cwd == target_cwd:
+        print(process.get("pm_id"))
+PY
+  if [[ -n "$pm_id" && "$pm_id" != "None" ]]; then
+    pm2 delete "$pm_id" || true
+  fi
+done
+
+pm2 flush "$PM2_NAME" || true
+
+# 5) Inicia o servidor de PRODUÇÃO gerado pelo build. Nunca usa `vite dev` no VPS.
 NODE_ENV=production \
-HOST=127.0.0.1 \
-PORT=8080 \
-pm2 start ".output/server/index.mjs" \
+HOST="$APP_HOST" \
+PORT="$APP_PORT" \
+pm2 start "$APP_DIR/.output/server/index.mjs" \
   --name "$PM2_NAME" \
+  --cwd "$APP_DIR" \
   --interpreter node \
+  --time \
   --update-env
+
+# 6) Health check local: se isto falhar, o Nginx vai retornar 502.
+echo "⏳ Verificando servidor local em http://$APP_HOST:$APP_PORT ..."
+for attempt in {1..20}; do
+  if curl -fsS "http://$APP_HOST:$APP_PORT/" > /dev/null; then
+    echo "✅ Servidor local respondeu na porta $APP_PORT"
+    break
+  fi
+
+  if [[ "$attempt" -eq 20 ]]; then
+    echo "❌ O servidor local não respondeu na porta $APP_PORT. Últimos logs:" >&2
+    pm2 status >&2 || true
+    pm2 logs "$PM2_NAME" --lines 80 --nostream >&2 || true
+    exit 1
+  fi
+
+  sleep 1
+done
 
 pm2 save
 echo "✅ Deploy concluído"
