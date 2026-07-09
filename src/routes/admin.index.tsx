@@ -184,7 +184,30 @@ function AdminDashboard() {
           <TabBtn active={tab === "buyers"} onClick={() => setTab("buyers")}>
             👥 Alunas Kiwify ({stats.total})
           </TabBtn>
+          <TabBtn active={tab === "emails"} onClick={() => setTab("emails")}>
+            📧 Emails ({sendsData?.stats.sent ?? 0})
+          </TabBtn>
         </div>
+
+        {tab === "emails" && (
+          <EmailsPanel
+            totalPaid={stats.paid}
+            sends={sendsData?.sends ?? []}
+            loading={sendsLoading}
+            stats={sendsData?.stats ?? { total: 0, sent: 0, failed: 0 }}
+            migrationSentCount={sendsData?.migration_sent_count ?? 0}
+            onSend={async (onlyNew) => {
+              const res = await sendCampaign({ data: { onlyNew } });
+              qc.invalidateQueries({ queryKey: ["admin-email-sends"] });
+              return res;
+            }}
+            onTest={async (email, name) => {
+              const res = await sendTest({ data: { email, name } });
+              qc.invalidateQueries({ queryKey: ["admin-email-sends"] });
+              return res;
+            }}
+          />
+        )}
 
         {tab === "buyers" && (
           <div className="bg-white rounded-2xl shadow-xl shadow-pink-200/40 ring-1 ring-pink-100 overflow-hidden">
