@@ -169,6 +169,7 @@ type DB = {
   course_cert_configs: CourseCertConfig[];
   student_course_access: StudentCourseAccess[];
   course_certificates: CourseCertificate[];
+  email_sends: EmailSend[];
 };
 
 const DEFAULT_DB: DB = {
