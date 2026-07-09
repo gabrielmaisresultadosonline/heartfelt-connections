@@ -520,8 +520,8 @@ function Promocc() {
               <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único • Acesso vitalício</p>
               <PulseButton
                 asCheckout
-                variant="pink"
-                className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto"
+                variant="green"
+                className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto text-white"
               >
                 QUERO O CURSO — R$ 10
               </PulseButton>
@@ -562,8 +562,8 @@ function Promocc() {
               </div>
               <PulseButton
                 asCheckout
-                variant="yellow"
-                className="py-4 px-8 rounded-full text-base md:text-lg"
+                variant="green"
+                className="py-4 px-8 rounded-full text-base md:text-lg text-white"
               >
                 QUERO O COMBO — R$ 42
               </PulseButton>
