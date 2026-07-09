@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { PlayCircle, LogOut } from "lucide-react";
+import { PlayCircle, LogOut, Lock } from "lucide-react";
 import { studentLogout, studentMe } from "@/lib/students.functions";
 import { listModulesStudent } from "@/lib/modules.functions";
 
