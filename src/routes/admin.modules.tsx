@@ -113,7 +113,7 @@ function ModulesPage() {
             {msg && <span className="text-sm text-green-700">{msg}</span>}
             <div className="flex gap-2 ml-auto">
               {editing.id && (
-                <button type="button" onClick={() => setEditing({ title: "", description: "", video_url: "", order: 0 })}
+                <button type="button" onClick={() => setEditing({ title: "", description: "", video_url: "", order: 0, required_bump: null })}
                   className="px-4 py-2 text-sm font-bold rounded-full bg-gray-100 hover:bg-gray-200">
                   Cancelar edição
                 </button>
