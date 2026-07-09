@@ -19,7 +19,9 @@ import { Route as CentraladminRouteImport } from './routes/centraladmin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTemplateRouteImport } from './routes/admin.template'
+import { Route as AdminStudentsRouteImport } from './routes/admin.students'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminModulesRouteImport } from './routes/admin.modules'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiPublicInfinitepayWebhookRouteImport } from './routes/api/public/infinitepay-webhook'
@@ -75,9 +77,19 @@ const AdminTemplateRoute = AdminTemplateRouteImport.update({
   path: '/admin/template',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminStudentsRoute = AdminStudentsRouteImport.update({
+  id: '/admin/students',
+  path: '/admin/students',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/admin/settings',
   path: '/admin/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminModulesRoute = AdminModulesRouteImport.update({
+  id: '/admin/modules',
+  path: '/admin/modules',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -112,7 +124,9 @@ export interface FileRoutesByFullPath {
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
@@ -129,7 +143,9 @@ export interface FileRoutesByTo {
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
@@ -147,7 +163,9 @@ export interface FileRoutesById {
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
@@ -166,7 +184,9 @@ export interface FileRouteTypes {
     | '/promocc'
     | '/vendassc'
     | '/admin/login'
+    | '/admin/modules'
     | '/admin/settings'
+    | '/admin/students'
     | '/admin/template'
     | '/admin/'
     | '/api/files/$'
@@ -183,7 +203,9 @@ export interface FileRouteTypes {
     | '/promocc'
     | '/vendassc'
     | '/admin/login'
+    | '/admin/modules'
     | '/admin/settings'
+    | '/admin/students'
     | '/admin/template'
     | '/admin'
     | '/api/files/$'
@@ -200,7 +222,9 @@ export interface FileRouteTypes {
     | '/promocc'
     | '/vendassc'
     | '/admin/login'
+    | '/admin/modules'
     | '/admin/settings'
+    | '/admin/students'
     | '/admin/template'
     | '/admin/'
     | '/api/files/$'
@@ -218,7 +242,9 @@ export interface RootRouteChildren {
   PromoccRoute: typeof PromoccRoute
   VendasscRoute: typeof VendasscRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminModulesRoute: typeof AdminModulesRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminStudentsRoute: typeof AdminStudentsRoute
   AdminTemplateRoute: typeof AdminTemplateRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiFilesSplatRoute: typeof ApiFilesSplatRoute
@@ -298,11 +324,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTemplateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/students': {
+      id: '/admin/students'
+      path: '/admin/students'
+      fullPath: '/admin/students'
+      preLoaderRoute: typeof AdminStudentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/settings': {
       id: '/admin/settings'
       path: '/admin/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/modules': {
+      id: '/admin/modules'
+      path: '/admin/modules'
+      fullPath: '/admin/modules'
+      preLoaderRoute: typeof AdminModulesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/login': {
@@ -346,7 +386,9 @@ const rootRouteChildren: RootRouteChildren = {
   PromoccRoute: PromoccRoute,
   VendasscRoute: VendasscRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminModulesRoute: AdminModulesRoute,
   AdminSettingsRoute: AdminSettingsRoute,
+  AdminStudentsRoute: AdminStudentsRoute,
   AdminTemplateRoute: AdminTemplateRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiFilesSplatRoute: ApiFilesSplatRoute,
