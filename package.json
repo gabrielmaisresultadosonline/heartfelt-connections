@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "build:selfhost": "SELF_HOST_BUILD=1 NITRO_PRESET=node-server vite build",
     "build:dev": "vite build --mode development",
     "start": "node .output/server/index.mjs",
     "preview": "vite preview",
