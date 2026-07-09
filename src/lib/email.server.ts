@@ -1,11 +1,3 @@
-import { WorkerMailer } from "worker-mailer";
-
-const HOST = process.env.SMTP_HOST || "smtp.hostinger.com";
-const PORT = Number(process.env.SMTP_PORT || 465);
-const USER = process.env.SMTP_USER || "suporte@belezalisoperfeito.online";
-const PASS = process.env.SMTP_PASS || "";
-const FROM = process.env.SMTP_FROM || `Beleza Liso Perfeito <${USER}>`;
-
 export type SendMail = {
   to: string;
   subject: string;
@@ -13,26 +5,47 @@ export type SendMail = {
   text?: string;
 };
 
+type SmtpConfig = {
+  host: string;
+  port: number;
+  user: string;
+  pass: string;
+  from: string;
+};
+
 export async function sendMail(mail: SendMail): Promise<void> {
-  if (!PASS) throw new Error("SMTP_PASS não configurado");
-  const mailer = await WorkerMailer.connect({
-    host: HOST,
-    port: PORT,
-    secure: PORT === 465,
-    credentials: { username: USER, password: PASS },
-    authType: "plain",
+  const config = getSmtpConfig();
+  const nodemailer = await import("nodemailer");
+  const transporter = nodemailer.createTransport({
+    host: config.host,
+    port: config.port,
+    secure: config.port === 465,
+    auth: {
+      user: config.user,
+      pass: config.pass,
+    },
   });
-  try {
-    await mailer.send({
-      from: FROM,
-      to: mail.to,
-      subject: mail.subject,
-      html: mail.html,
-      text: mail.text || stripHtml(mail.html),
-    });
-  } finally {
-    await mailer.close().catch(() => {});
-  }
+
+  await transporter.sendMail({
+    from: config.from,
+    to: mail.to,
+    subject: mail.subject,
+    html: mail.html,
+    text: mail.text || stripHtml(mail.html),
+  });
+}
+
+function getSmtpConfig(): SmtpConfig {
+  const host = process.env.SMTP_HOST || "smtp.hostinger.com";
+  const port = Number(process.env.SMTP_PORT || 465);
+  const user = process.env.SMTP_USER || "suporte@belezalisoperfeito.online";
+  const pass = process.env.SMTP_PASS || "";
+  const from = process.env.SMTP_FROM || `Beleza Liso Perfeito <${user}>`;
+
+  if (!pass) throw new Error("SMTP_PASS não configurado");
+  if (!Number.isFinite(port) || port <= 0) throw new Error("SMTP_PORT inválida");
+
+  return { host, port, user, pass, from };
 }
 
 function stripHtml(html: string): string {
