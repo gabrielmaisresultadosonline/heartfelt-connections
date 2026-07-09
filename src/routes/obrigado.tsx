@@ -21,6 +21,17 @@ function Obrigado() {
   const [remainingMs, setRemainingMs] = useState<number>(20 * 60 * 1000);
 
   useEffect(() => {
+    if (status !== "approved") return;
+    if (typeof window === "undefined") return;
+    const w = window as any;
+    if (w.__fbPurchaseFired) return;
+    w.__fbPurchaseFired = true;
+    if (w.fbq) {
+      w.fbq("track", "Purchase", { value: 0, currency: "BRL" });
+    }
+  }, [status]);
+
+  useEffect(() => {
     if (!nsu) return;
     let stopped = false;
     let timer: ReturnType<typeof setTimeout> | null = null;
