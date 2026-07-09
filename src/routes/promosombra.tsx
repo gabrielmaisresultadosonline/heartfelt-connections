@@ -551,7 +551,7 @@ function Promosombra() {
           </h2>
           <div className="max-w-xs sm:max-w-sm mx-auto mb-8">
             <img
-              src={alessandraSalao.url}
+              src={heroAlessandra}
               alt="Curso de Sobrancelha com Alessandra Linhares"
               className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
               loading="lazy"
