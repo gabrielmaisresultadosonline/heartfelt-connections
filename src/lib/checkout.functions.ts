@@ -102,7 +102,7 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
     const phone = phoneClean.startsWith("55") ? `+${phoneClean}` : `+55${phoneClean}`;
 
     const items = [
-      { quantity: 1, price: BASE_PRICE, description: BASE_DESC },
+      { quantity: 1, price: mainCfg.price_cents, description: mainCfg.description },
       ...bumpItems.map((b) => ({ quantity: 1, price: b.price_cents, description: b.description })),
     ];
 
