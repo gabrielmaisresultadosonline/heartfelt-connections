@@ -26,7 +26,7 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
         name: z.string().trim().min(2).max(120),
         email: z.string().trim().email().max(200),
         phone: z.string().trim().min(8).max(30),
-        bumps: z.array(z.enum(["sobrancelha", "vitalicio"])).default([]),
+        bumps: z.array(z.enum(["sobrancelha", "vitalicio", "cilios"])).default([]),
       })
       .parse(input),
   )
