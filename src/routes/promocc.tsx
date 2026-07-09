@@ -870,7 +870,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : `Pagar R$ ${total},00 →`}
               </button>
               <p className="text-center text-[11px] text-gray-500 mt-1">
-                Pagamento processado pela InfinitePay. Seu acesso é enviado por e-mail assim que confirmado.
+                Pagamento processado pela InfinitePay via API MRO - Mais Resultados Online - Gabriel fernandes da silva. Seu acesso é enviado por e-mail assim que confirmado.
               </p>
             </form>
           </motion.div>
