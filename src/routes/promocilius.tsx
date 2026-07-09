@@ -14,10 +14,10 @@ import { createStudentCheckout } from "@/lib/checkout.functions";
 const cursoLisoImg = "/curso-liso-perfeito.webp";
 const comboImg = "/combo-3-cursos.webp";
 
-export const Route = createFileRoute("/promocc")({
-  component: Promocc,
+export const Route = createFileRoute("/promocilius")({
+  component: Promocilius,
 });
-function Promocc() {
+function Promocilius() {
   const images = {
     lisos: "https://images.pexels.com/photos/973401/pexels-photo-973401.jpeg?auto=compress&cs=tinysrgb&w=800",
     corte: "https://images.pexels.com/photos/3319333/pexels-photo-3319333.jpeg?auto=compress&cs=tinysrgb&w=800",
