@@ -807,6 +807,13 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
   const base = 10;
   const extras = (bumpSobrancelha ? 10 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCilios ? 13 : 0);
   const total = base + extras;
@@ -894,10 +901,14 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 </div>
               </div>
 
-              <div className="pt-1">
-                <p className="text-xs font-black text-[#d82298] uppercase tracking-wider mb-2">
-                  🎁 Turbine sua compra
+              <div className="pt-2 -mx-1 px-3 py-3 rounded-2xl bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 border-2 border-dashed border-amber-400 relative">
+                <span className="absolute -top-3 left-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+                  🎁 Oferta exclusiva
+                </span>
+                <p className="text-sm sm:text-base font-black text-amber-900 uppercase tracking-tight mt-1 mb-1">
+                  Turbine sua compra
                 </p>
+                <p className="text-[11px] text-amber-800/80 mb-3">Adicione com desconto — só nesta tela</p>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
                   <input
                     type="checkbox"
