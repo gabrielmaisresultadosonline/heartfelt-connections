@@ -8,7 +8,13 @@ import {
   deleteStudent,
   listStudents,
   resendStudentEmail,
+  setStudentBumps,
 } from "@/lib/students.functions";
+
+const BUMP_LABELS: Record<string, string> = {
+  sobrancelha: "Sobrancelha (+R$10)",
+  vitalicio: "Vitalícias (+R$9)",
+};
 
 export const Route = createFileRoute("/admin/students")({
   component: StudentsPage,
