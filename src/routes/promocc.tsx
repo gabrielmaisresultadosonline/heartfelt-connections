@@ -47,7 +47,7 @@ function Promocc() {
   const openCheckout = () => {
     setShowCheckout(true);
     if (typeof window !== "undefined" && (window as any).fbq) {
-      (window as any).fbq("track", "InitiateCheckout");
+      (window as any).fbq("track", "Lead");
     }
   };
   const scrollToOferta = (e: React.MouseEvent) => {
