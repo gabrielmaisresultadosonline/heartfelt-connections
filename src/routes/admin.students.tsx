@@ -12,9 +12,9 @@ import {
 } from "@/lib/students.functions";
 
 const BUMP_LABELS: Record<string, string> = {
+  cilios: "Extensão de Cílios",
   sobrancelha: "Sobrancelha (+R$10)",
   vitalicio: "Vitalícias (+R$9)",
-  cilios: "Extensão de Cílios",
 };
 
 export const Route = createFileRoute("/admin/students")({
@@ -140,7 +140,11 @@ function StudentsPage() {
                       <td className="p-3"><StatusBadge status={s.status} /></td>
                       <td className="p-3">
                         <div className="flex flex-col gap-1">
-                          {(["sobrancelha", "vitalicio", "cilios"] as const).map((b) => {
+                          <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-pink-700">
+                            <span className="inline-block w-3 h-3 rounded-sm bg-pink-600 text-white text-[9px] leading-3 text-center">✓</span>
+                            Liso Perfeito
+                          </span>
+                          {(["cilios"] as const).map((b) => {
                             const has = s.bumps.includes(b);
                             return (
                               <label key={b} className="inline-flex items-center gap-1.5 text-[11px] cursor-pointer">
