@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
 import heroImg from "@/assets/hero-alessandra.webp";
 import cert1 from "@/assets/cert-1.webp";
