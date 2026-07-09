@@ -135,6 +135,7 @@ function ModulesPage() {
                   <th className="p-3 font-semibold w-16">#</th>
                   <th className="p-3 font-semibold">Título</th>
                   <th className="p-3 font-semibold">Vídeo</th>
+                  <th className="p-3 font-semibold">Acesso</th>
                   <th className="p-3"></th>
                 </tr>
               </thead>
@@ -148,9 +149,18 @@ function ModulesPage() {
                         {m.video_url}
                       </a>
                     </td>
+                    <td className="p-3 text-xs">
+                      {m.required_bump === "sobrancelha" ? (
+                        <span className="inline-block px-2 py-1 rounded-full bg-fuchsia-100 text-fuchsia-800 font-bold">Bump: Sobrancelha</span>
+                      ) : m.required_bump === "vitalicio" ? (
+                        <span className="inline-block px-2 py-1 rounded-full bg-amber-100 text-amber-800 font-bold">Bump: Vitalícias</span>
+                      ) : (
+                        <span className="inline-block px-2 py-1 rounded-full bg-green-100 text-green-800 font-bold">Curso base</span>
+                      )}
+                    </td>
                     <td className="p-3 text-right whitespace-nowrap space-x-2">
                       <button
-                        onClick={() => setEditing({ id: m.id, title: m.title, description: m.description, video_url: m.video_url, order: m.order })}
+                        onClick={() => setEditing({ id: m.id, title: m.title, description: m.description, video_url: m.video_url, order: m.order, required_bump: m.required_bump })}
                         className="text-xs font-bold text-pink-700 hover:underline">Editar</button>
                       <button
                         onClick={async () => {
