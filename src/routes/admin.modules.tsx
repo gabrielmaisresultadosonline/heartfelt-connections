@@ -48,7 +48,7 @@ function ModulesPage() {
       const r = await saveFn({ data: editing });
       if (r.ok) {
         setMsg(editing.id ? "✓ Módulo atualizado" : "✓ Módulo criado");
-        setEditing({ title: "", description: "", video_url: "", order: (mods.at(-1)?.order ?? -1) + 1 });
+        setEditing({ title: "", description: "", video_url: "", order: (mods.at(-1)?.order ?? -1) + 1, required_bump: null });
         qc.invalidateQueries({ queryKey: ["admin-modules"] });
       }
     } catch (e) {
