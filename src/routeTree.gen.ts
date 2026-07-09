@@ -13,6 +13,7 @@ import { Route as VendasscRouteImport } from './routes/vendassc'
 import { Route as PromoccRouteImport } from './routes/promocc'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as CursosRouteImport } from './routes/cursos'
 import { Route as CursoRouteImport } from './routes/curso'
 import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as CentraladminRouteImport } from './routes/centraladmin'
@@ -48,6 +49,11 @@ const ObrigadoRoute = ObrigadoRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CursosRoute = CursosRouteImport.update({
+  id: '/cursos',
+  path: '/cursos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CursoRoute = CursoRouteImport.update({
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
   '/curso': typeof CursoRoute
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
   '/curso': typeof CursoRoute
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
   '/curso': typeof CursoRoute
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
@@ -206,6 +215,7 @@ export interface FileRouteTypes {
     | '/centraladmin'
     | '/certificado'
     | '/curso'
+    | '/cursos'
     | '/login'
     | '/obrigado'
     | '/promocc'
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/centraladmin'
     | '/certificado'
     | '/curso'
+    | '/cursos'
     | '/login'
     | '/obrigado'
     | '/promocc'
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '/centraladmin'
     | '/certificado'
     | '/curso'
+    | '/cursos'
     | '/login'
     | '/obrigado'
     | '/promocc'
@@ -273,6 +285,7 @@ export interface RootRouteChildren {
   CentraladminRoute: typeof CentraladminRoute
   CertificadoRoute: typeof CertificadoRoute
   CursoRoute: typeof CursoRoute
+  CursosRoute: typeof CursosRoute
   LoginRoute: typeof LoginRoute
   ObrigadoRoute: typeof ObrigadoRoute
   PromoccRoute: typeof PromoccRoute
@@ -319,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cursos': {
+      id: '/cursos'
+      path: '/cursos'
+      fullPath: '/cursos'
+      preLoaderRoute: typeof CursosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/curso': {
@@ -441,6 +461,7 @@ const rootRouteChildren: RootRouteChildren = {
   CentraladminRoute: CentraladminRoute,
   CertificadoRoute: CertificadoRoute,
   CursoRoute: CursoRoute,
+  CursosRoute: CursosRoute,
   LoginRoute: LoginRoute,
   ObrigadoRoute: ObrigadoRoute,
   PromoccRoute: PromoccRoute,
