@@ -12,7 +12,7 @@ export type Certificate = {
   created_at: string;
   full_name: string;
   email: string | null;
-  original_file: string; // relative to FILES_DIR
+  original_file: string;
   enhanced_file: string;
   pdf_file: string;
 };
@@ -25,7 +25,7 @@ export type AdminUser = {
 };
 
 export type TemplateConfig = {
-  template_file: string | null; // relative to FILES_DIR (png/jpg/pdf)
+  template_file: string | null;
   template_mime: string | null;
   photo_x: number;
   photo_y: number;
@@ -46,7 +46,7 @@ export type Settings = {
 };
 
 export type KiwifyBuyer = {
-  email: string; // lowercase
+  email: string;
   name: string | null;
   order_id: string | null;
   product_id: string | null;
@@ -55,12 +55,43 @@ export type KiwifyBuyer = {
   updated_at: string;
 };
 
+/** Aluno / cliente do curso (InfinitePay). */
+export type Student = {
+  id: string;
+  email: string; // lowercase
+  name: string;
+  phone: string | null;
+  password_hash: string | null; // gerado quando aprovado
+  status: "pending" | "paid" | "approved_manual" | "refunded";
+  order_nsu: string | null;
+  transaction_nsu: string | null;
+  invoice_slug: string | null;
+  amount: number | null; // centavos
+  paid_amount: number | null;
+  paid_at: string | null;
+  created_at: string;
+  updated_at: string;
+  email_sent_at: string | null;
+};
+
+/** Módulo/aula do curso. */
+export type CourseModule = {
+  id: string;
+  title: string;
+  description: string;
+  video_url: string; // youtube/vimeo/mp4
+  order: number;
+  created_at: string;
+};
+
 type DB = {
   certificates: Certificate[];
   admins: AdminUser[];
   template_config: TemplateConfig;
   settings: Settings;
   kiwify_buyers: KiwifyBuyer[];
+  students: Student[];
+  course_modules: CourseModule[];
 };
 
 const DEFAULT_DB: DB = {
@@ -84,6 +115,8 @@ const DEFAULT_DB: DB = {
   },
   settings: { openai_api_key: null },
   kiwify_buyers: [],
+  students: [],
+  course_modules: [],
 };
 
 let writeChain: Promise<unknown> = Promise.resolve();
@@ -103,6 +136,8 @@ export async function readDB(): Promise<DB> {
       template_config: { ...DEFAULT_DB.template_config, ...(parsed.template_config ?? {}) },
       settings: { ...DEFAULT_DB.settings, ...(parsed.settings ?? {}) },
       kiwify_buyers: parsed.kiwify_buyers ?? [],
+      students: parsed.students ?? [],
+      course_modules: parsed.course_modules ?? [],
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {
