@@ -53,6 +53,8 @@ echo "✅ .env preservado e validado"
 # 3) Pull + build + restart
 git pull
 npm install --include=dev
+# Force Nitro to build a plain Node.js server (VPS), not Cloudflare Workers
+export NITRO_PRESET=node-server
 npm run build
 
 # Carrega o .env para o processo de produção do PM2 sem imprimir segredos no terminal.
