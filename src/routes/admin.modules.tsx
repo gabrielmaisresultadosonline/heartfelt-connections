@@ -18,8 +18,8 @@ function ModulesPage() {
   const delFn = useServerFn(deleteModule);
   const [ready, setReady] = useState(false);
   const [editing, setEditing] = useState<{
-    id?: string; title: string; description: string; video_url: string; order: number;
-  }>({ title: "", description: "", video_url: "", order: 0 });
+    id?: string; title: string; description: string; video_url: string; order: number; required_bump: "sobrancelha" | "vitalicio" | null;
+  }>({ title: "", description: "", video_url: "", order: 0, required_bump: null });
   const [msg, setMsg] = useState<string | null>(null);
 
   useEffect(() => {
