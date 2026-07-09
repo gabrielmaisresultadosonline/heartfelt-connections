@@ -23,6 +23,7 @@ import { Route as AdminStudentsRouteImport } from './routes/admin.students'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminModulesRouteImport } from './routes/admin.modules'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminCoursesRouteImport } from './routes/admin.courses'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiPublicInfinitepayWebhookRouteImport } from './routes/api/public/infinitepay-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
@@ -99,6 +100,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCoursesRoute = AdminCoursesRouteImport.update({
+  id: '/admin/courses',
+  path: '/admin/courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicKiwifyWebhookRoute = ApiPublicKiwifyWebhookRouteImport.update({
   id: '/api/public/kiwify-webhook',
   path: '/api/public/kiwify-webhook',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
     | '/admin/settings'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
     | '/admin/settings'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
     | '/admin/settings'
@@ -265,6 +277,7 @@ export interface RootRouteChildren {
   ObrigadoRoute: typeof ObrigadoRoute
   PromoccRoute: typeof PromoccRoute
   VendasscRoute: typeof VendasscRoute
+  AdminCoursesRoute: typeof AdminCoursesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminModulesRoute: typeof AdminModulesRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/courses': {
+      id: '/admin/courses'
+      path: '/admin/courses'
+      fullPath: '/admin/courses'
+      preLoaderRoute: typeof AdminCoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/kiwify-webhook': {
       id: '/api/public/kiwify-webhook'
       path: '/api/public/kiwify-webhook'
@@ -425,6 +445,7 @@ const rootRouteChildren: RootRouteChildren = {
   ObrigadoRoute: ObrigadoRoute,
   PromoccRoute: PromoccRoute,
   VendasscRoute: VendasscRoute,
+  AdminCoursesRoute: AdminCoursesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminModulesRoute: AdminModulesRoute,
   AdminSettingsRoute: AdminSettingsRoute,
