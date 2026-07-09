@@ -26,6 +26,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiPublicInfinitepayWebhookRouteImport } from './routes/api/public/infinitepay-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
+import { Route as ApiAdminCourseCoverRouteImport } from './routes/api/admin/course-cover'
 import { Route as ApiAdminCourseAssetRouteImport } from './routes/api/admin/course-asset'
 
 const VendasscRoute = VendasscRouteImport.update({
@@ -114,6 +115,11 @@ const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
   path: '/api/files/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminCourseCoverRoute = ApiAdminCourseCoverRouteImport.update({
+  id: '/api/admin/course-cover',
+  path: '/api/admin/course-cover',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAdminCourseAssetRoute = ApiAdminCourseAssetRouteImport.update({
   id: '/api/admin/course-asset',
   path: '/api/admin/course-asset',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
+  '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/admin/template': typeof AdminTemplateRoute
   '/admin': typeof AdminIndexRoute
   '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
+  '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
+  '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin/'
     | '/api/admin/course-asset'
+    | '/api/admin/course-cover'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin'
     | '/api/admin/course-asset'
+    | '/api/admin/course-cover'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin/'
     | '/api/admin/course-asset'
+    | '/api/admin/course-cover'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -260,6 +272,7 @@ export interface RootRouteChildren {
   AdminTemplateRoute: typeof AdminTemplateRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiAdminCourseAssetRoute: typeof ApiAdminCourseAssetRoute
+  ApiAdminCourseCoverRoute: typeof ApiAdminCourseCoverRoute
   ApiFilesSplatRoute: typeof ApiFilesSplatRoute
   ApiPublicInfinitepayWebhookRoute: typeof ApiPublicInfinitepayWebhookRoute
   ApiPublicKiwifyWebhookRoute: typeof ApiPublicKiwifyWebhookRoute
@@ -386,6 +399,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiFilesSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin/course-cover': {
+      id: '/api/admin/course-cover'
+      path: '/api/admin/course-cover'
+      fullPath: '/api/admin/course-cover'
+      preLoaderRoute: typeof ApiAdminCourseCoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/admin/course-asset': {
       id: '/api/admin/course-asset'
       path: '/api/admin/course-asset'
@@ -412,6 +432,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminTemplateRoute: AdminTemplateRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiAdminCourseAssetRoute: ApiAdminCourseAssetRoute,
+  ApiAdminCourseCoverRoute: ApiAdminCourseCoverRoute,
   ApiFilesSplatRoute: ApiFilesSplatRoute,
   ApiPublicInfinitepayWebhookRoute: ApiPublicInfinitepayWebhookRoute,
   ApiPublicKiwifyWebhookRoute: ApiPublicKiwifyWebhookRoute,
