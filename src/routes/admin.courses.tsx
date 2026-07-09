@@ -392,6 +392,14 @@ function CourseDetail({
           )}
         </div>
 
+        <input
+          ref={retryInputRef}
+          type="file"
+          accept="video/mp4,video/webm,video/quicktime,video/x-m4v,application/pdf"
+          className="hidden"
+          onChange={(e) => onRetryFilePicked(e.target.files?.[0])}
+        />
+
         {queue.length > 0 && (
           <ul className="mt-4 space-y-1.5 max-h-64 overflow-auto text-sm">
             {queue.map((q) => (
@@ -402,7 +410,36 @@ function CourseDetail({
                 {q.status === "queued" && <span className="text-gray-400 flex-shrink-0">•</span>}
                 <span className="truncate flex-1">{q.file.name}</span>
                 <span className="text-xs text-gray-500">{(q.file.size / 1024 / 1024).toFixed(1)}MB</span>
-                {q.error && <span className="text-xs text-red-600" title={q.error}>{q.error.slice(0, 40)}</span>}
+                {q.error && <span className="text-xs text-red-600 truncate max-w-[160px]" title={q.error}>{q.error.slice(0, 40)}</span>}
+                {q.status === "error" && (
+                  <>
+                    <button
+                      onClick={() => retrySame(q.id)}
+                      disabled={uploading}
+                      className="inline-flex items-center gap-1 text-xs bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-bold px-2.5 py-1 rounded-full"
+                      title="Tentar novamente com o mesmo arquivo"
+                    >
+                      <RefreshCw size={11} /> Tentar
+                    </button>
+                    <button
+                      onClick={() => retryWithReplace(q.id)}
+                      disabled={uploading}
+                      className="inline-flex items-center gap-1 text-xs bg-pink-600 hover:bg-pink-700 disabled:opacity-50 text-white font-bold px-2.5 py-1 rounded-full"
+                      title="Selecionar arquivo novamente"
+                    >
+                      <Upload size={11} /> Reenviar
+                    </button>
+                  </>
+                )}
+                {(q.status === "error" || q.status === "done") && (
+                  <button
+                    onClick={() => setQueue((qq) => qq.filter((x) => x.id !== q.id))}
+                    className="text-gray-400 hover:text-gray-600"
+                    title="Remover"
+                  >
+                    <X size={13} />
+                  </button>
+                )}
               </li>
             ))}
           </ul>
