@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
 const heroImg = { url: "/curso-sobrancelha.png" };
+import heroAlessandraImg from "@/assets/hero-alessandra.webp";
 import cert1 from "@/assets/cert-1.webp";
 import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
@@ -550,7 +551,7 @@ function Promosombra() {
           </h2>
           <div className="max-w-xs sm:max-w-sm mx-auto mb-8">
             <img
-              src={heroImg.url}
+              src={heroAlessandraImg}
               alt="Curso de Sobrancelha com Alessandra Linhares"
               className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
               loading="lazy"
