@@ -17,19 +17,20 @@ cd "$APP_DIR"
 sudo mkdir -p "$DATA_DIR/files"
 sudo chown -R "$(whoami)" "$DATA_DIR"
 
-# 2) Escreve .env (idempotente — sobrescreve sempre com os valores atuais)
-cat > .env <<'ENVEOF'
-NODE_ENV=production
+# 2) Preserva segredos locais e só valida o .env existente.
+#    Importante: NODE_ENV não deve ficar dentro do .env porque quebra o build/dev do Vite.
+if [[ ! -f .env ]]; then
+  cat > .env <<'ENVEOF'
 DATA_DIR=/var/lib/certificados
-JWT_SECRET=9f38bdaa74123aad3108c0ae69ba6393853718221a6f84525e3c01cff558dbfb698f677a6ba565e311e288c6fb1f1d2e
-ADMIN_EMAIL=mro@gmail.com
-ADMIN_PASSWORD=Ga145523@
+JWT_SECRET=troque-por-um-segredo-longo
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=troque-esta-senha
 
 # SMTP Hostinger (envio de e-mails do curso)
 SMTP_HOST=smtp.hostinger.com
 SMTP_PORT=465
 SMTP_USER=suporte@belezalisoperfeito.online
-SMTP_PASS=Ga145523@
+SMTP_PASS=preencha-a-senha-do-email
 SMTP_FROM=Beleza Liso Perfeito <suporte@belezalisoperfeito.online>
 
 # InfinitePay
@@ -38,27 +39,58 @@ INFINITEPAY_HANDLE=paguemro
 # URL pública (usada em webhook / redirect)
 PUBLIC_BASE_URL=https://belezalisoperfeito.online
 ENVEOF
+  chmod 600 .env
+  echo "⚠️  .env criado com placeholders. Preencha os segredos reais e rode este script novamente."
+  exit 1
+fi
+
+sed -i '/^NODE_ENV=/d' .env
 chmod 600 .env
-echo "✅ .env atualizado"
+echo "✅ .env preservado e validado"
 
 # 3) Pull + build + restart
 git pull
-npm install
+npm install --include=dev
 npm run build
 
-# 4) PM2: cria se não existir, restart se existir
+# Carrega o .env para o processo de produção do PM2 sem imprimir segredos no terminal.
+eval "$(python3 - <<'PY'
+from pathlib import Path
+import re
+import shlex
+
+env_path = Path('.env')
+for raw_line in env_path.read_text().splitlines():
+    line = raw_line.strip()
+    if not line or line.startswith('#') or '=' not in line:
+        continue
+    key, value = line.split('=', 1)
+    key = key.strip()
+    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', key):
+        continue
+    print(f'export {key}={shlex.quote(value.strip())}')
+PY
+)"
+
+# 4) PM2: troca comandos antigos de desenvolvimento por servidor de produção.
+#    Deleta somente este app pelo nome; não interfere em outros sites/processos do VPS.
 if pm2 describe "$PM2_NAME" > /dev/null 2>&1; then
-  pm2 restart "$PM2_NAME" --update-env
-else
-  pm2 start ".output/server/index.mjs" --name "$PM2_NAME" --update-env
+  pm2 delete "$PM2_NAME"
 fi
+
+NODE_ENV=production \
+HOST=127.0.0.1 \
+PORT=8080 \
+pm2 start ".output/server/index.mjs" \
+  --name "$PM2_NAME" \
+  --interpreter node \
+  --update-env
 
 pm2 save
 echo "✅ Deploy concluído"
 echo ""
 echo "Admin: https://belezalisoperfeito.online/admin/login  (ou /centraladmin)"
-echo "  email: mro@gmail.com"
-echo "  senha: Ga145523@"
+echo "Use as credenciais configuradas no .env do servidor."
 echo ""
 echo "Fluxo /promocc → checkout InfinitePay (paguemro) → webhook → email SMTP."
 echo "Alunos: /admin/students   |   Módulos do curso: /admin/modules"
