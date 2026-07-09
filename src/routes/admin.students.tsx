@@ -12,9 +12,9 @@ import {
 } from "@/lib/students.functions";
 
 const BUMP_LABELS: Record<string, string> = {
+  cilios: "Extensão de Cílios",
   sobrancelha: "Sobrancelha (+R$10)",
   vitalicio: "Vitalícias (+R$9)",
-  cilios: "Extensão de Cílios",
 };
 
 export const Route = createFileRoute("/admin/students")({
