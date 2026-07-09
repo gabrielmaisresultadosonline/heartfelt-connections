@@ -27,6 +27,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminModulesRouteImport } from './routes/admin.modules'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminCoursesRouteImport } from './routes/admin.courses'
+import { Route as AdminCertificadosRouteImport } from './routes/admin.certificados'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiPublicInfinitepayWebhookRouteImport } from './routes/api/public/infinitepay-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
@@ -123,6 +124,11 @@ const AdminCoursesRoute = AdminCoursesRouteImport.update({
   path: '/admin/courses',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCertificadosRoute = AdminCertificadosRouteImport.update({
+  id: '/admin/certificados',
+  path: '/admin/certificados',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicKiwifyWebhookRoute = ApiPublicKiwifyWebhookRouteImport.update({
   id: '/api/public/kiwify-webhook',
   path: '/api/public/kiwify-webhook',
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/certificados'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/certificados'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/certificados'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
@@ -315,6 +327,7 @@ export interface RootRouteChildren {
   ObrigadoRoute: typeof ObrigadoRoute
   PromoccRoute: typeof PromoccRoute
   VendasscRoute: typeof VendasscRoute
+  AdminCertificadosRoute: typeof AdminCertificadosRoute
   AdminCoursesRoute: typeof AdminCoursesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminModulesRoute: typeof AdminModulesRoute
@@ -457,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoursesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/certificados': {
+      id: '/admin/certificados'
+      path: '/admin/certificados'
+      fullPath: '/admin/certificados'
+      preLoaderRoute: typeof AdminCertificadosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/kiwify-webhook': {
       id: '/api/public/kiwify-webhook'
       path: '/api/public/kiwify-webhook'
@@ -516,6 +536,7 @@ const rootRouteChildren: RootRouteChildren = {
   ObrigadoRoute: ObrigadoRoute,
   PromoccRoute: PromoccRoute,
   VendasscRoute: VendasscRoute,
+  AdminCertificadosRoute: AdminCertificadosRoute,
   AdminCoursesRoute: AdminCoursesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminModulesRoute: AdminModulesRoute,
