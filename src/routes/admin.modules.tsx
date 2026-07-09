@@ -91,6 +91,17 @@ function ModulesPage() {
             <input type="number" value={editing.order} onChange={(e) => setEditing({ ...editing, order: Number(e.target.value) })}
               className="mt-1 w-full border border-pink-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none" />
           </div>
+          <div>
+            <label className="text-xs font-bold uppercase text-gray-600">Acesso requerido</label>
+            <select
+              value={editing.required_bump ?? ""}
+              onChange={(e) => setEditing({ ...editing, required_bump: (e.target.value || null) as "sobrancelha" | "vitalicio" | null })}
+              className="mt-1 w-full border border-pink-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none bg-white"
+            >
+              <option value="">Curso base (todos os alunos)</option>
+              <option value="sobrancelha">Bump: Sobrancelha (+R$10)</option>
+              <option value="vitalicio">Bump: Vitalícias (+R$9)</option>
+            </select>
           <div className="md:col-span-2">
             <label className="text-xs font-bold uppercase text-gray-600">Descrição (opcional)</label>
             <textarea value={editing.description} onChange={(e) => setEditing({ ...editing, description: e.target.value })}
