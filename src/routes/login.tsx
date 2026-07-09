@@ -29,7 +29,7 @@ function LoginPage() {
     try {
       const r = await login({ data: { email, password } });
       if (!r.ok) setErr(r.error);
-      else nav({ to: "/curso" });
+      else nav({ to: "/cursos" });
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Erro");
     } finally {
