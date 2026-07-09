@@ -127,25 +127,40 @@ function CoursePage() {
           <h3 className="font-black text-white/90 mb-2 uppercase tracking-wider text-xs">
             Módulos ({modules.length})
           </h3>
-          {modules.map((m) => (
-            <button
-              key={m.id}
-              onClick={() => setActive(m.id)}
-              className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition ${
-                (current?.id ?? modules[0]?.id) === m.id
-                  ? "bg-[#d82298]/20 border-[#d82298]/50"
-                  : "bg-white/5 hover:bg-white/10 border-white/10"
-              }`}
-            >
-              <PlayCircle size={22} className="text-[#ff7ac4] shrink-0" />
-              <div className="min-w-0">
-                <p className="font-bold text-sm truncate">{m.title}</p>
-                {m.description && (
-                  <p className="text-xs text-white/50 truncate">{m.description}</p>
+          {modules.map((m) => {
+            const isActive = (current?.id ?? accessible[0]?.id) === m.id;
+            const locked = m.locked;
+            return (
+              <button
+                key={m.id}
+                onClick={() => !locked && setActive(m.id)}
+                disabled={locked}
+                className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition ${
+                  locked
+                    ? "bg-white/5 border-white/10 opacity-60 cursor-not-allowed"
+                    : isActive
+                    ? "bg-[#d82298]/20 border-[#d82298]/50"
+                    : "bg-white/5 hover:bg-white/10 border-white/10"
+                }`}
+              >
+                {locked ? (
+                  <Lock size={20} className="text-amber-300 shrink-0" />
+                ) : (
+                  <PlayCircle size={22} className="text-[#ff7ac4] shrink-0" />
                 )}
-              </div>
-            </button>
-          ))}
+                <div className="min-w-0 flex-1">
+                  <p className="font-bold text-sm truncate">{m.title}</p>
+                  {locked ? (
+                    <p className="text-[11px] text-amber-300/80 truncate">
+                      🔒 Bônus {m.required_bump === "sobrancelha" ? "Sobrancelha" : "Atualizações Vitalícias"}
+                    </p>
+                  ) : m.description ? (
+                    <p className="text-xs text-white/50 truncate">{m.description}</p>
+                  ) : null}
+                </div>
+              </button>
+            );
+          })}
         </aside>
       </div>
     </div>
