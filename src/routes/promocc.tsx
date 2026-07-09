@@ -89,6 +89,14 @@ function Promocc() {
   };
   return (
     <div className="bg-[#fafafa] text-[#1a1a1a] font-sans relative overflow-x-hidden min-h-screen">
+      {/* Login Button - Top Right */}
+      <Link
+        to="/login"
+        className="fixed top-4 right-4 z-50 inline-flex items-center gap-2 bg-white/95 backdrop-blur-md text-[#1a1a1a] font-bold text-sm px-5 py-2.5 rounded-full shadow-xl border border-white/60 hover:bg-white hover:scale-105 transition-all duration-200"
+      >
+        <LogIn size={16} />
+        <span>Entrar</span>
+      </Link>
       {/* Background Animated Elements */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div
