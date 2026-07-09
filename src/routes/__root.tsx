@@ -17,6 +17,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d82298'/%3E%3Cpath d='M18 42c9-18 19-24 31-23-5 7-7 16-5 27-9-7-18-8-26-4Z' fill='%23fff'/%3E%3Ccircle cx='22' cy='23' r='5' fill='%23fde047'/%3E%3C/svg%3E",
+      },
+      {
         rel: "stylesheet",
         href: appCss,
       },
