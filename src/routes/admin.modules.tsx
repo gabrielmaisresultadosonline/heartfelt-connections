@@ -160,7 +160,7 @@ function ModulesPage() {
                     </td>
                     <td className="p-3 text-right whitespace-nowrap space-x-2">
                       <button
-                        onClick={() => setEditing({ id: m.id, title: m.title, description: m.description, video_url: m.video_url, order: m.order, required_bump: m.required_bump })}
+                        onClick={() => setEditing({ id: m.id, title: m.title, description: m.description, video_url: m.video_url, order: m.order, required_bump: (m.required_bump as "sobrancelha" | "vitalicio" | null) })}
                         className="text-xs font-bold text-pink-700 hover:underline">Editar</button>
                       <button
                         onClick={async () => {
