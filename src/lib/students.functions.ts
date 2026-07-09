@@ -165,3 +165,44 @@ export const studentMe = createServerFn({ method: "GET" }).handler(async () => {
   if (!st) return { authenticated: false as const };
   return { authenticated: true as const, name: st.name, email: st.email };
 });
+
+/** Aluno esqueceu a senha: gera nova e reenvia por email. */
+export const studentForgotPassword = createServerFn({ method: "POST" })
+  .inputValidator((i: unknown) => z.object({ email: z.string().trim().email().max(200) }).parse(i))
+  .handler(async ({ data }) => {
+    const email = data.email.toLowerCase();
+    const db = await readDB();
+    const st = db.students.find((x) => x.email.toLowerCase() === email);
+    // Resposta genérica p/ não vazar quem é aluno
+    const generic = { ok: true as const, message: "Se este e-mail estiver cadastrado, uma nova senha foi enviada." };
+    if (!st) return generic;
+    if (!(st.status === "paid" || st.status === "approved_manual")) return generic;
+
+    const { generatePassword } = await import("./student-auth.server");
+    const bcrypt = (await import("bcryptjs")).default;
+    const pw = generatePassword();
+    const hash = await bcrypt.hash(pw, 10);
+    await withDB(async (d) => {
+      const s = d.students.find((x) => x.id === st.id);
+      if (s) {
+        s.password_hash = hash;
+        s.updated_at = new Date().toISOString();
+      }
+    });
+    try {
+      const { subject, html } = renderAccessEmail({
+        name: st.name,
+        email: st.email,
+        password: pw,
+        loginUrl: `${baseUrl()}/login`,
+      });
+      await sendMail({ to: st.email, subject, html });
+      await withDB(async (d) => {
+        const s = d.students.find((x) => x.id === st.id);
+        if (s) s.email_sent_at = new Date().toISOString();
+      });
+    } catch (e) {
+      return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
+    }
+    return generic;
+  });
