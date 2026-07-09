@@ -1,15 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2 } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
 import heroImg from "@/assets/hero-alessandra.webp";
 import cert1 from "@/assets/cert-1.webp";
 import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
 import cert4 from "@/assets/cert-4.webp";
-import comboAsset from "@/assets/combo-cursos.webp";
 import cabeleireiraAsset from "@/assets/curso-cabeleireira.webp";
+import { createStudentCheckout } from "@/lib/checkout.functions";
 export const Route = createFileRoute("/promocc")({
   component: Promocc,
 });
