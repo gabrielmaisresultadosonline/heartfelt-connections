@@ -19,6 +19,7 @@ import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as CentraladminRouteImport } from './routes/centraladmin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as CursoSlugRouteImport } from './routes/curso.$slug'
 import { Route as AdminTemplateRouteImport } from './routes/admin.template'
 import { Route as AdminStudentsRouteImport } from './routes/admin.students'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
@@ -81,6 +82,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CursoSlugRoute = CursoSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CursoRoute,
+} as any)
 const AdminTemplateRoute = AdminTemplateRouteImport.update({
   id: '/admin/template',
   path: '/admin/template',
@@ -142,7 +148,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRoute
+  '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
@@ -154,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
+  '/curso/$slug': typeof CursoSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
   '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
@@ -165,7 +172,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRoute
+  '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
@@ -177,6 +184,7 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
+  '/curso/$slug': typeof CursoSlugRoute
   '/admin': typeof AdminIndexRoute
   '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
   '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
@@ -189,7 +197,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRoute
+  '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
@@ -201,6 +209,7 @@ export interface FileRoutesById {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
+  '/curso/$slug': typeof CursoSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
   '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
@@ -226,6 +235,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/students'
     | '/admin/template'
+    | '/curso/$slug'
     | '/admin/'
     | '/api/admin/course-asset'
     | '/api/admin/course-cover'
@@ -249,6 +259,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/students'
     | '/admin/template'
+    | '/curso/$slug'
     | '/admin'
     | '/api/admin/course-asset'
     | '/api/admin/course-cover'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/students'
     | '/admin/template'
+    | '/curso/$slug'
     | '/admin/'
     | '/api/admin/course-asset'
     | '/api/admin/course-cover'
@@ -284,7 +296,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CentraladminRoute: typeof CentraladminRoute
   CertificadoRoute: typeof CertificadoRoute
-  CursoRoute: typeof CursoRoute
+  CursoRoute: typeof CursoRouteWithChildren
   CursosRoute: typeof CursosRoute
   LoginRoute: typeof LoginRoute
   ObrigadoRoute: typeof ObrigadoRoute
@@ -376,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/curso/$slug': {
+      id: '/curso/$slug'
+      path: '/$slug'
+      fullPath: '/curso/$slug'
+      preLoaderRoute: typeof CursoSlugRouteImport
+      parentRoute: typeof CursoRoute
+    }
     '/admin/template': {
       id: '/admin/template'
       path: '/admin/template'
@@ -456,11 +475,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface CursoRouteChildren {
+  CursoSlugRoute: typeof CursoSlugRoute
+}
+
+const CursoRouteChildren: CursoRouteChildren = {
+  CursoSlugRoute: CursoSlugRoute,
+}
+
+const CursoRouteWithChildren = CursoRoute._addFileChildren(CursoRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CentraladminRoute: CentraladminRoute,
   CertificadoRoute: CertificadoRoute,
-  CursoRoute: CursoRoute,
+  CursoRoute: CursoRouteWithChildren,
   CursosRoute: CursosRoute,
   LoginRoute: LoginRoute,
   ObrigadoRoute: ObrigadoRoute,
