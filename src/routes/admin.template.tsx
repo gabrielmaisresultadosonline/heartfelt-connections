@@ -47,6 +47,7 @@ function TemplatePage() {
     date_x: 400, date_y: 560, date_font_size: 24, date_color: "#000000",
   });
   const [file, setFile] = useState<File | null>(null);
+  const [showModal, setShowModal] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
