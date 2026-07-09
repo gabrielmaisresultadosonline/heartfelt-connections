@@ -50,7 +50,7 @@ export const setStudentBumps = createServerFn({ method: "POST" })
     z
       .object({
         id: z.string(),
-        bumps: z.array(z.enum(["sobrancelha", "vitalicio"])),
+        bumps: z.array(z.enum(["sobrancelha", "vitalicio", "cilios"])),
       })
       .parse(i),
   )
@@ -172,11 +172,71 @@ export const studentForgotPassword = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const email = data.email.toLowerCase();
     const db = await readDB();
-    const st = db.students.find((x) => x.email.toLowerCase() === email);
+    let st = db.students.find((x) => x.email.toLowerCase() === email);
     // Resposta genérica p/ não vazar quem é aluno
     const generic = { ok: true as const, message: "Se este e-mail estiver cadastrado, uma nova senha foi enviada." };
-    if (!st) return generic;
-    if (!(st.status === "paid" || st.status === "approved_manual")) return generic;
+
+    // Bootstrap: aluna veio da Kiwify (paga) mas ainda não é student → cria com os 3 cursos liberados.
+    if (!st) {
+      const kb = db.kiwify_buyers.find((b) => b.email.toLowerCase() === email && b.status === "paid");
+      if (!kb) return generic;
+      const now = new Date().toISOString();
+      const newId = crypto.randomUUID();
+      await withDB(async (d) => {
+        if (d.students.some((x) => x.email.toLowerCase() === email)) return;
+        d.students.push({
+          id: newId,
+          email,
+          name: kb.name || email.split("@")[0],
+          phone: null,
+          password_hash: null,
+          status: "paid",
+          order_nsu: kb.order_id ?? null,
+          transaction_nsu: null,
+          invoice_slug: null,
+          amount: null,
+          paid_amount: null,
+          paid_at: kb.purchased_at ?? now,
+          created_at: now,
+          updated_at: now,
+          email_sent_at: null,
+          checkout_started_at: null,
+          bumps: ["sobrancelha", "vitalicio", "cilios"],
+        });
+      });
+      const db2 = await readDB();
+      st = db2.students.find((x) => x.id === newId);
+      if (!st) return generic;
+    } else if (!(st.status === "paid" || st.status === "approved_manual")) {
+      // Se existe mas não está paga, tenta liberar via Kiwify
+      const kb = db.kiwify_buyers.find((b) => b.email.toLowerCase() === email && b.status === "paid");
+      if (!kb) return generic;
+      await withDB(async (d) => {
+        const s = d.students.find((x) => x.id === st!.id);
+        if (s) {
+          s.status = "paid";
+          s.paid_at = s.paid_at ?? new Date().toISOString();
+          s.bumps = Array.from(new Set([...(s.bumps ?? []), "sobrancelha", "vitalicio", "cilios"]));
+          s.updated_at = new Date().toISOString();
+        }
+      });
+    } else {
+      // Aluna paga existente: garante que tenha os 3 cursos da migração Kiwify
+      const kb = db.kiwify_buyers.find((b) => b.email.toLowerCase() === email && b.status === "paid");
+      if (kb) {
+        const desired = ["sobrancelha", "vitalicio", "cilios"];
+        const current = new Set(st.bumps ?? []);
+        if (desired.some((b) => !current.has(b))) {
+          await withDB(async (d) => {
+            const s = d.students.find((x) => x.id === st!.id);
+            if (s) {
+              s.bumps = Array.from(new Set([...(s.bumps ?? []), ...desired]));
+              s.updated_at = new Date().toISOString();
+            }
+          });
+        }
+      }
+    }
 
     const { generatePassword } = await import("./student-auth.server");
     const bcrypt = (await import("bcryptjs")).default;
