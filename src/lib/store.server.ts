@@ -208,6 +208,9 @@ export async function readDB(): Promise<DB> {
       course_modules: (parsed.course_modules ?? []).map((m) => ({ ...m, required_bump: m.required_bump ?? null })),
       courses: (parsed.courses ?? []).map((c) => ({ ...c, required_bump: c.required_bump ?? null, cover_file: c.cover_file ?? null })),
       course_assets: parsed.course_assets ?? [],
+      course_cert_configs: parsed.course_cert_configs ?? [],
+      student_course_access: parsed.student_course_access ?? [],
+      course_certificates: parsed.course_certificates ?? [],
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {
