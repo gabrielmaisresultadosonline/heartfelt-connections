@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VendasscRouteImport } from './routes/vendassc'
 import { Route as PromoccRouteImport } from './routes/promocc'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
+import { Route as MeusCertificadosRouteImport } from './routes/meus-certificados'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CursosRouteImport } from './routes/cursos'
 import { Route as CursoRouteImport } from './routes/curso'
@@ -26,6 +27,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminModulesRouteImport } from './routes/admin.modules'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminCoursesRouteImport } from './routes/admin.courses'
+import { Route as AdminCertificadosRouteImport } from './routes/admin.certificados'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiPublicInfinitepayWebhookRouteImport } from './routes/api/public/infinitepay-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
@@ -45,6 +47,11 @@ const PromoccRoute = PromoccRouteImport.update({
 const ObrigadoRoute = ObrigadoRouteImport.update({
   id: '/obrigado',
   path: '/obrigado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeusCertificadosRoute = MeusCertificadosRouteImport.update({
+  id: '/meus-certificados',
+  path: '/meus-certificados',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -117,6 +124,11 @@ const AdminCoursesRoute = AdminCoursesRouteImport.update({
   path: '/admin/courses',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCertificadosRoute = AdminCertificadosRouteImport.update({
+  id: '/admin/certificados',
+  path: '/admin/certificados',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicKiwifyWebhookRoute = ApiPublicKiwifyWebhookRouteImport.update({
   id: '/api/public/kiwify-webhook',
   path: '/api/public/kiwify-webhook',
@@ -151,9 +163,11 @@ export interface FileRoutesByFullPath {
   '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
+  '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
@@ -175,9 +189,11 @@ export interface FileRoutesByTo {
   '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
+  '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
@@ -200,9 +216,11 @@ export interface FileRoutesById {
   '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
+  '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
@@ -226,9 +244,11 @@ export interface FileRouteTypes {
     | '/curso'
     | '/cursos'
     | '/login'
+    | '/meus-certificados'
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/certificados'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
@@ -250,9 +270,11 @@ export interface FileRouteTypes {
     | '/curso'
     | '/cursos'
     | '/login'
+    | '/meus-certificados'
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/certificados'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
@@ -274,9 +296,11 @@ export interface FileRouteTypes {
     | '/curso'
     | '/cursos'
     | '/login'
+    | '/meus-certificados'
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/certificados'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
@@ -299,9 +323,11 @@ export interface RootRouteChildren {
   CursoRoute: typeof CursoRouteWithChildren
   CursosRoute: typeof CursosRoute
   LoginRoute: typeof LoginRoute
+  MeusCertificadosRoute: typeof MeusCertificadosRoute
   ObrigadoRoute: typeof ObrigadoRoute
   PromoccRoute: typeof PromoccRoute
   VendasscRoute: typeof VendasscRoute
+  AdminCertificadosRoute: typeof AdminCertificadosRoute
   AdminCoursesRoute: typeof AdminCoursesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminModulesRoute: typeof AdminModulesRoute
@@ -337,6 +363,13 @@ declare module '@tanstack/react-router' {
       path: '/obrigado'
       fullPath: '/obrigado'
       preLoaderRoute: typeof ObrigadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meus-certificados': {
+      id: '/meus-certificados'
+      path: '/meus-certificados'
+      fullPath: '/meus-certificados'
+      preLoaderRoute: typeof MeusCertificadosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -437,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoursesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/certificados': {
+      id: '/admin/certificados'
+      path: '/admin/certificados'
+      fullPath: '/admin/certificados'
+      preLoaderRoute: typeof AdminCertificadosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/kiwify-webhook': {
       id: '/api/public/kiwify-webhook'
       path: '/api/public/kiwify-webhook'
@@ -492,9 +532,11 @@ const rootRouteChildren: RootRouteChildren = {
   CursoRoute: CursoRouteWithChildren,
   CursosRoute: CursosRoute,
   LoginRoute: LoginRoute,
+  MeusCertificadosRoute: MeusCertificadosRoute,
   ObrigadoRoute: ObrigadoRoute,
   PromoccRoute: PromoccRoute,
   VendasscRoute: VendasscRoute,
+  AdminCertificadosRoute: AdminCertificadosRoute,
   AdminCoursesRoute: AdminCoursesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminModulesRoute: AdminModulesRoute,

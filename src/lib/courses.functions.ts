@@ -168,6 +168,21 @@ export const getCourseForStudent = createServerFn({ method: "GET" })
     const assets: CourseAsset[] = db.course_assets
       .filter((a) => a.course_id === course.id)
       .sort((a, b) => a.order - b.order);
+    // Registra primeiro acesso (base para contagem de 8 dias do certificado).
+    const alreadyAccessed = db.student_course_access.some(
+      (a) => a.student_id === s.sub && a.course_id === course.id,
+    );
+    if (!alreadyAccessed) {
+      await withDB(async (d) => {
+        if (!d.student_course_access.some((a) => a.student_id === s.sub && a.course_id === course.id)) {
+          d.student_course_access.push({
+            student_id: s.sub,
+            course_id: course.id,
+            first_access_at: new Date().toISOString(),
+          });
+        }
+      });
+    }
     return {
       ok: true as const,
       course: {
