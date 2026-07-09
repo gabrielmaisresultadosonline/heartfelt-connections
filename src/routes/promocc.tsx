@@ -9,7 +9,7 @@ import cert1 from "@/assets/cert-1.webp";
 import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
 import cert4 from "@/assets/cert-4.webp";
-import cabeleireiraAsset from "@/assets/curso-cabeleireira.webp";
+
 import { createStudentCheckout } from "@/lib/checkout.functions";
 export const Route = createFileRoute("/promocc")({
   component: Promocc,
@@ -169,14 +169,12 @@ function Promocc() {
           <div className="grid md:grid-cols-1 gap-6 max-w-xl mx-auto">
             <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-yellow-300 flex flex-col">
               <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Curso de Alisamento Perfeito</h3>
-              <img loading="lazy" decoding="async" src={cabeleireiraAsset} alt="Curso de Alisamento Perfeito" className="w-full rounded-2xl mb-4 object-contain bg-black" />
               <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
                 {[
                   "Produtos e processo completo do liso",
                   "Aulas em HD gravadas",
                   "Certificado MEC incluso",
                   "Acesso vitalício ao conteúdo",
-                  "Suporte direto com a Alessandra",
                 ].map((c) => (
                   <li key={c} className="flex items-center gap-2 font-semibold">
                     <CheckCircle className="text-[#d82298] shrink-0" size={18} />{c}
@@ -198,6 +196,52 @@ function Promocc() {
               </PulseButton>
             </div>
           </div>
+
+          {/* Combo Completo com Order Bumps visíveis fora do modal */}
+          <div className="mt-10 max-w-3xl mx-auto bg-white/10 backdrop-blur-md border-2 border-yellow-300/60 rounded-[2.5rem] p-6 md:p-8 text-white shadow-2xl">
+            <div className="inline-block bg-yellow-300 text-[#1a1a1a] text-[10px] md:text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
+              💎 Combo Completo
+            </div>
+            <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 42
+            </h3>
+            <p className="text-white/90 text-sm md:text-base mb-5">
+              Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3 text-left mb-6">
+              {[
+                { t: "Curso de Alisamento Perfeito", p: "R$ 10" },
+                { t: "Curso de Sobrancelha", p: "+ R$ 10" },
+                { t: "Curso de Extensão de Cílios", p: "+ R$ 13" },
+                { t: "Atualizações Vitalícias", p: "+ R$ 9" },
+              ].map((b) => (
+                <div key={b.t} className="flex items-center justify-between bg-white/10 rounded-2xl px-4 py-3 border border-white/10">
+                  <span className="flex items-center gap-2 text-sm font-bold">
+                    <CheckCircle size={16} className="text-yellow-300 shrink-0" /> {b.t}
+                  </span>
+                  <span className="text-xs font-black text-yellow-300">{b.p}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
+                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 42,00</p>
+                <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
+              </div>
+              <PulseButton
+                asCheckout
+                variant="yellow"
+                className="py-4 px-8 rounded-full text-base md:text-lg"
+              >
+                QUERO O COMBO — R$ 42
+              </PulseButton>
+            </div>
+            <p className="text-[11px] text-white/80 mt-3 text-center">
+              Os complementos aparecem também no checkout — marque só o que quiser.
+            </p>
+          </div>
+
           <p className="text-xs md:text-sm text-white/90 mt-6 font-semibold">
             Pagamento seguro • Acesso imediato • Certificado incluso
           </p>
@@ -244,9 +288,9 @@ function Promocc() {
         </div>
         <div className="grid md:grid-cols-3 gap-12">
           {[
-            { icon: Sparkles, title: "Alisamento", tag: "Expert", desc: "Progressivas e selagens com brilho real." },
-            { icon: Scissors, title: "Corte", tag: "Moderno", desc: "Técnicas de corte e visagismo avançado." },
-            { icon: Paintbrush, title: "Colorimetria", tag: "Elite", desc: "Domine as cores sem erros de salão." }
+            { icon: Sparkles, title: "Alisamento Perfeito", tag: "Curso", desc: "Progressivas e selagens com brilho real, do zero ao avançado." },
+            { icon: Flower2, title: "Sobrancelha", tag: "Curso", desc: "Design, henna e modelagem para valorizar cada rosto." },
+            { icon: Star, title: "Extensão de Cílios", tag: "Curso", desc: "Fio a fio, volume russo e brasileiro com técnica profissional." }
           ].map((item, i) => (
             <motion.div key={i} whileHover={{ y: -15 }} className="bg-[#fafafa] rounded-[3.5rem] overflow-hidden shadow-xl border border-gray-100 h-full flex flex-col group">
               <div className="h-80 overflow-hidden relative flex items-center justify-center bg-gradient-to-br from-[#d82298]/5 to-transparent">
@@ -278,7 +322,21 @@ function Promocc() {
             </motion.div>
           ))}
         </div>
-        <div className="text-center mt-20">
+        <div className="mt-20 max-w-3xl mx-auto bg-gradient-to-br from-[#d82298] to-[#ff3ea5] rounded-[3rem] p-8 md:p-10 text-center text-white shadow-2xl">
+          <p className="inline-block bg-yellow-300 text-[#1a1a1a] text-[10px] md:text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
+            ✨ Atualização Vitalícia Inclusa
+          </p>
+          <h3 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter mb-3">
+            Leve <span className="text-yellow-300">TUDO</span> por R$ 42
+          </h3>
+          <p className="text-white/90 mb-6">
+            Alisamento + Sobrancelha + Extensão de Cílios + Atualizações Vitalícias. Pagamento único.
+          </p>
+          <PulseButton asCheckout variant="yellow" className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            QUERO O COMBO — R$ 42
+          </PulseButton>
+        </div>
+        <div className="text-center mt-10">
           <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
             COMEÇAR MEU CURSO AGORA →
           </PulseButton>
