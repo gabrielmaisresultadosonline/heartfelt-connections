@@ -1,24 +1,10 @@
-import nodemailer from "nodemailer";
+import { WorkerMailer } from "worker-mailer";
 
 const HOST = process.env.SMTP_HOST || "smtp.hostinger.com";
 const PORT = Number(process.env.SMTP_PORT || 465);
 const USER = process.env.SMTP_USER || "suporte@belezalisoperfeito.online";
 const PASS = process.env.SMTP_PASS || "";
 const FROM = process.env.SMTP_FROM || `Beleza Liso Perfeito <${USER}>`;
-
-let cached: nodemailer.Transporter | null = null;
-
-function getTransport(): nodemailer.Transporter {
-  if (cached) return cached;
-  if (!PASS) throw new Error("SMTP_PASS não configurado no .env");
-  cached = nodemailer.createTransport({
-    host: HOST,
-    port: PORT,
-    secure: PORT === 465,
-    auth: { user: USER, pass: PASS },
-  });
-  return cached;
-}
 
 export type SendMail = {
   to: string;
@@ -28,19 +14,31 @@ export type SendMail = {
 };
 
 export async function sendMail(mail: SendMail): Promise<void> {
-  const t = getTransport();
-  await t.sendMail({
-    from: FROM,
-    to: mail.to,
-    subject: mail.subject,
-    html: mail.html,
-    text: mail.text || stripHtml(mail.html),
+  if (!PASS) throw new Error("SMTP_PASS não configurado");
+  const mailer = await WorkerMailer.connect({
+    host: HOST,
+    port: PORT,
+    secure: PORT === 465,
+    credentials: { username: USER, password: PASS },
+    authType: "plain",
   });
+  try {
+    await mailer.send({
+      from: FROM,
+      to: mail.to,
+      subject: mail.subject,
+      html: mail.html,
+      text: mail.text || stripHtml(mail.html),
+    });
+  } finally {
+    await mailer.close().catch(() => {});
+  }
 }
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
 }
+
 
 export function renderAccessEmail(opts: {
   name: string;
