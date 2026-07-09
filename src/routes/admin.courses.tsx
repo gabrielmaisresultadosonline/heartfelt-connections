@@ -223,11 +223,15 @@ function CourseDetail({
   const delAsset = useServerFn(deleteCourseAsset);
   const renameAsset = useServerFn(renameCourseAsset);
   const [queue, setQueue] = useState<UploadItem[]>([]);
+  const queueRef = useRef<UploadItem[]>([]);
+  queueRef.current = queue;
   const [uploading, setUploading] = useState(false);
   const [coverUploading, setCoverUploading] = useState(false);
   const [editingAsset, setEditingAsset] = useState<{ id: string; title: string; order: number } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
+  const retryInputRef = useRef<HTMLInputElement>(null);
+  const retryTargetRef = useRef<string | null>(null);
 
   const { data } = useQuery({
     queryKey: ["course-assets", courseId],
