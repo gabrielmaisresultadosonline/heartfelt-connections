@@ -584,32 +584,6 @@ function Promocc() {
       {/* Área de Membros + Bônus */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-br from-black via-[#1a0a14] to-[#2a0a1f] relative z-20 overflow-hidden">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-block px-4 py-2 bg-[#d82298]/20 border border-[#d82298]/40 rounded-full text-[#ff7ac4] text-sm font-bold tracking-widest uppercase mb-6"
-            >
-              Veja por dentro
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-6xl font-black text-white mb-4 leading-tight"
-            >
-              A sua <span className="text-[#ff7ac4]">área de membros</span>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto"
-            >
-              Mais de <span className="text-[#ff7ac4] font-bold">60 aulas gravadas</span> dos cursos presenciais da Alessandra, organizadas em módulos para você assistir quando e onde quiser.
-            </motion.p>
-          </div>
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
