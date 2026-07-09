@@ -5,12 +5,13 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { adminLogout, adminMe } from "@/lib/auth.functions";
 import { deleteCertificate, listCertificates } from "@/lib/certificates.functions";
 import { addBuyerManual, deleteBuyer, importBuyersCSV, listBuyers } from "@/lib/buyers.functions";
+import { listEmailSends, sendMigrationCampaign, sendMigrationTest } from "@/lib/campaigns.functions";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
 });
 
-type Tab = "certificates" | "buyers";
+type Tab = "certificates" | "buyers" | "emails";
 
 function AdminDashboard() {
   const nav = useNavigate();
@@ -23,6 +24,9 @@ function AdminDashboard() {
   const importCsv = useServerFn(importBuyersCSV);
   const delBuyer = useServerFn(deleteBuyer);
   const addManual = useServerFn(addBuyerManual);
+  const fetchSends = useServerFn(listEmailSends);
+  const sendCampaign = useServerFn(sendMigrationCampaign);
+  const sendTest = useServerFn(sendMigrationTest);
 
   const [ready, setReady] = useState(false);
   const [tab, setTab] = useState<Tab>("certificates");
@@ -57,6 +61,14 @@ function AdminDashboard() {
     queryFn: () => fetchBuyers(),
     enabled: ready,
   });
+
+  const { data: sendsData, isLoading: sendsLoading } = useQuery({
+    queryKey: ["admin-email-sends"],
+    queryFn: () => fetchSends(),
+    enabled: ready,
+    refetchInterval: tab === "emails" ? 4000 : false,
+  });
+
 
   if (!ready)
     return (
@@ -172,7 +184,30 @@ function AdminDashboard() {
           <TabBtn active={tab === "buyers"} onClick={() => setTab("buyers")}>
             👥 Alunas Kiwify ({stats.total})
           </TabBtn>
+          <TabBtn active={tab === "emails"} onClick={() => setTab("emails")}>
+            📧 Emails ({sendsData?.stats.sent ?? 0})
+          </TabBtn>
         </div>
+
+        {tab === "emails" && (
+          <EmailsPanel
+            totalPaid={stats.paid}
+            sends={sendsData?.sends ?? []}
+            loading={sendsLoading}
+            stats={sendsData?.stats ?? { total: 0, sent: 0, failed: 0 }}
+            migrationSentCount={sendsData?.migration_sent_count ?? 0}
+            onSend={async (onlyNew) => {
+              const res = await sendCampaign({ data: { onlyNew } });
+              qc.invalidateQueries({ queryKey: ["admin-email-sends"] });
+              return res;
+            }}
+            onTest={async (email, name) => {
+              const res = await sendTest({ data: { email, name } });
+              qc.invalidateQueries({ queryKey: ["admin-email-sends"] });
+              return res;
+            }}
+          />
+        )}
 
         {tab === "buyers" && (
           <div className="bg-white rounded-2xl shadow-xl shadow-pink-200/40 ring-1 ring-pink-100 overflow-hidden">
@@ -454,3 +489,180 @@ function StatusBadge({ status }: { status: string }) {
     </span>
   );
 }
+
+type EmailSendRow = {
+  id: string;
+  campaign: string;
+  email: string;
+  name: string | null;
+  subject: string;
+  status: "sent" | "failed";
+  error: string | null;
+  sent_at: string;
+};
+
+function EmailsPanel({
+  totalPaid,
+  sends,
+  loading,
+  stats,
+  migrationSentCount,
+  onSend,
+  onTest,
+}: {
+  totalPaid: number;
+  sends: EmailSendRow[];
+  loading: boolean;
+  stats: { total: number; sent: number; failed: number };
+  migrationSentCount: number;
+  onSend: (onlyNew: boolean) => Promise<{ ok: true; queued: number; skipped: number; already_sent: number }>;
+  onTest: (email: string, name?: string) => Promise<{ ok: boolean; error?: string }>;
+}) {
+  const [onlyNew, setOnlyNew] = useState(true);
+  const [sending, setSending] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+  const [testEmail, setTestEmail] = useState("");
+  const [testName, setTestName] = useState("");
+  const [testing, setTesting] = useState(false);
+
+  async function handleSend() {
+    if (!confirm(`Disparar campanha "Seu Curso Atualizou!" para ${onlyNew ? "novos" : "TODOS"} os buyers pagos?`)) return;
+    setSending(true);
+    setMsg(null);
+    try {
+      const r = await onSend(onlyNew);
+      setMsg(`✓ ${r.queued} emails na fila (envio em background, ~1 por segundo). Já enviados antes: ${r.already_sent}`);
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Erro ao disparar");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  async function handleTest(e: React.FormEvent) {
+    e.preventDefault();
+    if (!testEmail.trim()) return;
+    setTesting(true);
+    setMsg(null);
+    try {
+      const r = await onTest(testEmail.trim(), testName.trim() || undefined);
+      setMsg(r.ok ? `✓ Teste enviado para ${testEmail}` : `Erro: ${r.error}`);
+    } finally {
+      setTesting(false);
+    }
+  }
+
+  return (
+    <div className="bg-white rounded-2xl shadow-xl shadow-pink-200/40 ring-1 ring-pink-100 overflow-hidden">
+      <div className="p-5 border-b border-pink-100 bg-gradient-to-r from-pink-50 to-fuchsia-50">
+        <h2 className="text-lg font-extrabold text-rose-900">📧 Campanha: Migração para Nova Área</h2>
+        <p className="text-sm text-rose-900/70 mt-1">
+          Envia o e-mail <em>"Seu Curso Atualizou!"</em> para as alunas Kiwify, orientando a usar
+          <strong> "Esqueci a senha"</strong> na nova área de membros.
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+          <MiniStat label="Alunas pagas" value={totalPaid} />
+          <MiniStat label="Já receberam" value={migrationSentCount} />
+          <MiniStat label="Enviados (total)" value={stats.sent} />
+          <MiniStat label="Falhas" value={stats.failed} tone="red" />
+        </div>
+      </div>
+
+      <div className="p-5 border-b border-pink-100 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+        <label className="flex items-center gap-2 text-sm text-rose-900 font-semibold">
+          <input type="checkbox" checked={onlyNew} onChange={(e) => setOnlyNew(e.target.checked)} className="w-4 h-4 accent-pink-600" />
+          Enviar só para quem ainda não recebeu
+        </label>
+        <button
+          onClick={handleSend}
+          disabled={sending}
+          className="bg-gradient-to-r from-pink-500 to-fuchsia-600 hover:from-pink-600 hover:to-fuchsia-700 text-white text-sm font-bold px-6 py-2.5 rounded-full shadow-lg shadow-pink-400/30 disabled:opacity-60"
+        >
+          {sending ? "Disparando..." : "🚀 Disparar campanha"}
+        </button>
+      </div>
+
+      <form onSubmit={handleTest} className="p-5 border-b border-pink-100 bg-amber-50/40 flex flex-col md:flex-row gap-2 md:items-center">
+        <div className="text-xs text-amber-900 font-bold whitespace-nowrap">🧪 Enviar teste:</div>
+        <input
+          type="email"
+          value={testEmail}
+          onChange={(e) => setTestEmail(e.target.value)}
+          placeholder="seu@email.com"
+          className="flex-1 min-w-[200px] border border-amber-300 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400"
+        />
+        <input
+          type="text"
+          value={testName}
+          onChange={(e) => setTestName(e.target.value)}
+          placeholder="Nome (opcional)"
+          className="flex-1 min-w-[160px] border border-amber-300 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400"
+        />
+        <button
+          type="submit"
+          disabled={testing}
+          className="bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold px-5 py-2 rounded-full shadow disabled:opacity-60 whitespace-nowrap"
+        >
+          {testing ? "Enviando..." : "Enviar teste"}
+        </button>
+      </form>
+
+      {msg && (
+        <div className={`px-5 py-3 text-sm ${msg.startsWith("✓") ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>{msg}</div>
+      )}
+
+      <div className="p-5 border-b border-pink-100">
+        <h3 className="text-sm font-extrabold text-rose-900">Histórico de envios</h3>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="bg-pink-50 text-left text-rose-900">
+            <tr>
+              <th className="p-3 font-semibold">Enviado em</th>
+              <th className="p-3 font-semibold">Email</th>
+              <th className="p-3 font-semibold">Nome</th>
+              <th className="p-3 font-semibold">Campanha</th>
+              <th className="p-3 font-semibold">Status</th>
+              <th className="p-3 font-semibold">Erro</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr><td colSpan={6} className="p-6 text-center text-rose-700/60">Carregando...</td></tr>
+            ) : sends.length === 0 ? (
+              <tr><td colSpan={6} className="p-8 text-center text-rose-700/60">Nenhum envio ainda.</td></tr>
+            ) : (
+              sends.map((s) => (
+                <tr key={s.id} className="border-t border-pink-100 hover:bg-pink-50/40">
+                  <td className="p-3 text-xs text-gray-600 whitespace-nowrap">{new Date(s.sent_at).toLocaleString("pt-BR")}</td>
+                  <td className="p-3 font-mono text-xs">{s.email}</td>
+                  <td className="p-3 text-xs">{s.name ?? "—"}</td>
+                  <td className="p-3 text-xs text-gray-600">{s.campaign}</td>
+                  <td className="p-3">
+                    {s.status === "sent" ? (
+                      <span className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">✓ Enviado</span>
+                    ) : (
+                      <span className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">✗ Falha</span>
+                    )}
+                  </td>
+                  <td className="p-3 text-xs text-red-700 max-w-[280px] truncate" title={s.error ?? ""}>{s.error ?? "—"}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function MiniStat({ label, value, tone = "pink" }: { label: string; value: number; tone?: "pink" | "red" }) {
+  const cls = tone === "red" ? "text-red-700" : "text-pink-700";
+  return (
+    <div className="bg-white rounded-xl ring-1 ring-pink-100 p-3">
+      <div className="text-[10px] uppercase tracking-wider text-rose-900/60 font-semibold">{label}</div>
+      <div className={`text-2xl font-extrabold ${cls}`}>{value}</div>
+    </div>
+  );
+}
+

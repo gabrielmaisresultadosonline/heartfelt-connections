@@ -145,6 +145,17 @@ export const BUMPS = [
 ] as const;
 export type BumpId = (typeof BUMPS)[number]["id"];
 
+export type EmailSend = {
+  id: string;
+  campaign: string; // ex: "migracao-kiwify"
+  email: string;
+  name: string | null;
+  subject: string;
+  status: "sent" | "failed";
+  error: string | null;
+  sent_at: string;
+};
+
 type DB = {
   certificates: Certificate[];
   admins: AdminUser[];
@@ -158,6 +169,7 @@ type DB = {
   course_cert_configs: CourseCertConfig[];
   student_course_access: StudentCourseAccess[];
   course_certificates: CourseCertificate[];
+  email_sends: EmailSend[];
 };
 
 const DEFAULT_DB: DB = {
@@ -188,6 +200,7 @@ const DEFAULT_DB: DB = {
   course_cert_configs: [],
   student_course_access: [],
   course_certificates: [],
+  email_sends: [],
 };
 
 let writeChain: Promise<unknown> = Promise.resolve();
@@ -214,6 +227,7 @@ export async function readDB(): Promise<DB> {
       course_cert_configs: parsed.course_cert_configs ?? [],
       student_course_access: parsed.student_course_access ?? [],
       course_certificates: parsed.course_certificates ?? [],
+      email_sends: parsed.email_sends ?? [],
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {
