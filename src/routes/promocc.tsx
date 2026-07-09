@@ -47,7 +47,7 @@ function Promocc() {
   const openCheckout = () => {
     setShowCheckout(true);
     if (typeof window !== "undefined" && (window as any).fbq) {
-      (window as any).fbq("track", "InitiateCheckout");
+      (window as any).fbq("track", "Lead");
     }
   };
   const scrollToOferta = (e: React.MouseEvent) => {
@@ -702,6 +702,9 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
         setErr(r.error || "Erro ao gerar checkout");
         setLoading(false);
         return;
+      }
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "InitiateCheckout", { value: total, currency: "BRL" });
       }
       window.location.href = r.url;
     } catch (e) {
