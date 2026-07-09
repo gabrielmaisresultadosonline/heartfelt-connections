@@ -14,7 +14,7 @@ type SmtpConfig = {
 };
 
 export async function sendMail(mail: SendMail): Promise<void> {
-  const config = getSmtpConfig();
+  const config = await getSmtpConfig();
   const nodemailer = await import("nodemailer");
   const transporter = nodemailer.createTransport({
     host: config.host,
@@ -35,17 +35,91 @@ export async function sendMail(mail: SendMail): Promise<void> {
   });
 }
 
-function getSmtpConfig(): SmtpConfig {
-  const host = process.env.SMTP_HOST || "smtp.hostinger.com";
-  const port = Number(process.env.SMTP_PORT || 465);
-  const user = process.env.SMTP_USER || "suporte@belezalisoperfeito.online";
-  const pass = process.env.SMTP_PASS || "";
-  const from = process.env.SMTP_FROM || `Beleza Liso Perfeito <${user}>`;
+type EnvMap = Record<string, string>;
 
-  if (!pass) throw new Error("SMTP_PASS não configurado");
+const SMTP_PASS_PLACEHOLDERS = new Set([
+  "preencha-a-senha-do-email",
+  "senha-do-email",
+  "sua-senha-do-email",
+  "troque-esta-senha",
+]);
+
+async function getSmtpConfig(): Promise<SmtpConfig> {
+  const fileEnv = await readLocalEnvFile();
+  const host = getEnvValue("SMTP_HOST", fileEnv, "smtp.hostinger.com");
+  const port = Number(getEnvValue("SMTP_PORT", fileEnv, "465"));
+  const user = getEnvValue("SMTP_USER", fileEnv, "suporte@belezalisoperfeito.online");
+  const pass = getEnvValue("SMTP_PASS", fileEnv, "");
+  const from = getEnvValue("SMTP_FROM", fileEnv, `Beleza Liso Perfeito <${user}>`);
+
+  if (!pass || SMTP_PASS_PLACEHOLDERS.has(pass)) {
+    throw new Error(
+      "SMTP_PASS não configurado. Configure a senha da caixa de e-mail da Hostinger no arquivo .env do servidor e rode o deploy novamente.",
+    );
+  }
   if (!Number.isFinite(port) || port <= 0) throw new Error("SMTP_PORT inválida");
 
   return { host, port, user, pass, from };
+}
+
+async function readLocalEnvFile(): Promise<EnvMap> {
+  const candidates = [".env", "/var/www/belezalisoperfeito.online/.env"];
+  const fs = await import("fs/promises");
+  const path = await import("path");
+  const visited = new Set<string>();
+
+  for (const candidate of candidates) {
+    const fullPath = path.isAbsolute(candidate) ? candidate : path.join(process.cwd(), candidate);
+    if (visited.has(fullPath)) continue;
+    visited.add(fullPath);
+
+    try {
+      const content = await fs.readFile(fullPath, "utf8");
+      return parseEnv(content);
+    } catch {
+      // Em preview/build sem .env local, seguimos apenas com process.env.
+    }
+  }
+
+  return {};
+}
+
+function getEnvValue(key: string, fileEnv: EnvMap, fallback: string): string {
+  return normalizeEnvValue(process.env[key]) ?? normalizeEnvValue(fileEnv[key]) ?? fallback;
+}
+
+function normalizeEnvValue(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined;
+  const trimmed = stripWrappingQuotes(value.trim());
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function parseEnv(content: string): EnvMap {
+  const env: EnvMap = {};
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+
+    const match = /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$/.exec(line);
+    if (!match) continue;
+
+    env[match[1]] = stripWrappingQuotes(match[2].trim());
+  }
+
+  return env;
+}
+
+function stripWrappingQuotes(value: string): string {
+  if (value.length >= 2) {
+    const first = value[0];
+    const last = value[value.length - 1];
+    if ((first === '"' && last === '"') || (first === "'" && last === "'")) {
+      return value.slice(1, -1);
+    }
+  }
+
+  return value;
 }
 
 function stripHtml(html: string): string {

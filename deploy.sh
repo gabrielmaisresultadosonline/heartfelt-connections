@@ -48,7 +48,72 @@ fi
 
 sed -i '/^NODE_ENV=/d' .env
 chmod 600 .env
-echo "✅ .env preservado e validado"
+python3 - <<'PY'
+from pathlib import Path
+import re
+import sys
+
+env_path = Path('.env')
+env = {}
+
+for raw_line in env_path.read_text().splitlines():
+    line = raw_line.strip()
+    if not line or line.startswith('#') or '=' not in line:
+        continue
+
+    if line.startswith('export '):
+        line = line[len('export '):].strip()
+
+    key, value = line.split('=', 1)
+    key = key.strip()
+    value = value.strip()
+
+    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', key):
+        continue
+
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+        value = value[1:-1]
+
+    env[key] = value
+
+placeholders = {
+    'preencha-a-senha-do-email',
+    'senha-do-email',
+    'sua-senha-do-email',
+    'troque-esta-senha',
+}
+
+required = {
+    'SMTP_HOST': 'smtp.hostinger.com',
+    'SMTP_PORT': '465',
+    'SMTP_USER': 'suporte@belezalisoperfeito.online',
+    'SMTP_PASS': 'senha da caixa de e-mail na Hostinger',
+    'SMTP_FROM': 'Beleza Liso Perfeito <suporte@belezalisoperfeito.online>',
+}
+
+missing = []
+for key, hint in required.items():
+    value = env.get(key, '').strip()
+    if not value or value in placeholders:
+        missing.append((key, hint))
+
+try:
+    port = int(env.get('SMTP_PORT', ''))
+    if port <= 0:
+        missing.append(('SMTP_PORT', '465'))
+except ValueError:
+    missing.append(('SMTP_PORT', '465'))
+
+if missing:
+    print('❌ Configuração SMTP incompleta no .env do servidor.', file=sys.stderr)
+    print('Edite /var/www/belezalisoperfeito.online/.env e configure:', file=sys.stderr)
+    for key, hint in missing:
+        print(f'  {key}={hint}', file=sys.stderr)
+    print('Depois rode: bash deploy.sh', file=sys.stderr)
+    sys.exit(1)
+
+print('✅ .env preservado e SMTP validado')
+PY
 
 # 3) Pull + build + restart
 git pull
