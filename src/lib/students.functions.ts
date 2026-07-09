@@ -34,6 +34,7 @@ export const listStudents = createServerFn({ method: "GET" }).handler(async () =
       updated_at: s.updated_at,
       has_password: !!s.password_hash,
       email_sent_at: s.email_sent_at,
+      bumps: s.bumps ?? [],
     })),
     stats: {
       total: students.length,
@@ -43,6 +44,28 @@ export const listStudents = createServerFn({ method: "GET" }).handler(async () =
     },
   };
 });
+
+export const setStudentBumps = createServerFn({ method: "POST" })
+  .inputValidator((i: unknown) =>
+    z
+      .object({
+        id: z.string(),
+        bumps: z.array(z.enum(["sobrancelha", "vitalicio"])),
+      })
+      .parse(i),
+  )
+  .handler(async ({ data }) => {
+    requireAdmin();
+    const bumps = Array.from(new Set(data.bumps));
+    const ok = await withDB(async (d) => {
+      const s = d.students.find((x) => x.id === data.id);
+      if (!s) return false;
+      s.bumps = bumps;
+      s.updated_at = new Date().toISOString();
+      return true;
+    });
+    return { ok };
+  });
 
 export const approveStudent = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({ id: z.string() }).parse(i))
