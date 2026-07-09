@@ -62,6 +62,14 @@ function AdminDashboard() {
     enabled: ready,
   });
 
+  const { data: sendsData, isLoading: sendsLoading } = useQuery({
+    queryKey: ["admin-email-sends"],
+    queryFn: () => fetchSends(),
+    enabled: ready,
+    refetchInterval: tab === "emails" ? 4000 : false,
+  });
+
+
   if (!ready)
     return (
       <div className="min-h-screen grid place-items-center text-rose-700">Carregando...</div>
