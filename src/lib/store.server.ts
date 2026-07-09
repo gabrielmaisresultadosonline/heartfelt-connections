@@ -224,6 +224,10 @@ export async function readFileBytes(relName: string): Promise<{ bytes: Buffer; m
       ext === ".png" ? "image/png" :
       ext === ".jpg" || ext === ".jpeg" ? "image/jpeg" :
       ext === ".webp" ? "image/webp" :
+      ext === ".mp4" ? "video/mp4" :
+      ext === ".webm" ? "video/webm" :
+      ext === ".mov" ? "video/quicktime" :
+      ext === ".m4v" ? "video/x-m4v" :
       "application/octet-stream";
     return { bytes, mime };
   } catch {
