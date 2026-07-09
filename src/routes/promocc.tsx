@@ -10,6 +10,7 @@ import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
 import cert4 from "@/assets/cert-4.webp";
 import cursoLisoImg from "@/assets/curso-liso-perfeito.png.asset.json";
+import comboImg from "@/assets/combo-3-cursos.png.asset.json";
 
 
 import { createStudentCheckout } from "@/lib/checkout.functions";
@@ -496,11 +497,11 @@ function Promocc() {
           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] mb-6">
             Curso de <span className="text-yellow-300">Alisamento Perfeito</span>
           </h2>
-          <div className="max-w-2xl mx-auto mb-8">
+          <div className="max-w-xs sm:max-w-sm mx-auto mb-8">
             <img
               src={cursoLisoImg.url}
               alt="Curso de Liso Perfeito com Alessandra Linhares"
-              className="w-full h-auto rounded-[2rem] shadow-2xl border-4 border-yellow-300/40"
+              className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
               loading="lazy"
             />
           </div>
@@ -542,6 +543,14 @@ function Promocc() {
 
           {/* Combo Completo com Order Bumps visíveis fora do modal */}
           <div className="mt-10 max-w-3xl mx-auto bg-white/10 backdrop-blur-md border-2 border-yellow-300/60 rounded-[2.5rem] p-6 md:p-8 text-white shadow-2xl">
+            <div className="max-w-xs sm:max-w-sm mx-auto mb-5">
+              <img
+                src={comboImg.url}
+                alt="Combo 3 Cursos - Alisamento, Sobrancelha e Extensão de Cílios"
+                className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
+                loading="lazy"
+              />
+            </div>
             <div className="inline-block bg-yellow-300 text-[#1a1a1a] text-[10px] md:text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
               💎 Combo Completo
             </div>
