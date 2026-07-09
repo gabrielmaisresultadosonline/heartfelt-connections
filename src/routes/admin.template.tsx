@@ -138,7 +138,11 @@ function TemplatePage() {
               <input
                 type="file"
                 accept="image/png,image/jpeg,application/pdf"
-                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                onChange={(e) => {
+                  const f = e.target.files?.[0] ?? null;
+                  setFile(f);
+                  if (f) setShowModal(true);
+                }}
               />
               {data?.template_url && !file && (
                 <p className="text-xs text-gray-500 mt-1">
