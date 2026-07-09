@@ -9,8 +9,8 @@ import cert1 from "@/assets/cert-1.webp";
 import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
 import cert4 from "@/assets/cert-4.webp";
-import cursoLisoImg from "@/assets/curso-liso-perfeito.png.asset.json";
-import comboImg from "@/assets/combo-3-cursos.png.asset.json";
+import cursoLisoImg from "@/assets/curso-liso-perfeito.webp";
+import comboImg from "@/assets/combo-3-cursos.webp";
 
 
 import { createStudentCheckout } from "@/lib/checkout.functions";
@@ -550,7 +550,7 @@ function Promocc() {
           </h2>
           <div className="max-w-xs sm:max-w-sm mx-auto mb-8">
             <img
-              src={cursoLisoImg.url}
+              src={cursoLisoImg}
               alt="Curso de Liso Perfeito com Alessandra Linhares"
               className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
               loading="lazy"
@@ -596,7 +596,7 @@ function Promocc() {
           <div className="mt-10 max-w-3xl mx-auto bg-white/10 backdrop-blur-md border-2 border-yellow-300/60 rounded-[2.5rem] p-6 md:p-8 text-white shadow-2xl">
             <div className="max-w-xs sm:max-w-sm mx-auto mb-5">
               <img
-                src={comboImg.url}
+                src={comboImg}
                 alt="Combo 3 Cursos - Alisamento, Sobrancelha e Extensão de Cílios"
                 className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
                 loading="lazy"
