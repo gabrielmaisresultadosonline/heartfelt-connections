@@ -251,10 +251,11 @@ function CourseDetail({
   async function processQueue() {
     if (uploading) return;
     setUploading(true);
-    // upload sequencial (evita saturar rede/VPS)
-    for (const item of queue) {
-      if (item.status !== "queued") continue;
-      setQueue((q) => q.map((x) => x.id === item.id ? { ...x, status: "uploading" } : x));
+    // upload sequencial — sempre lê a fila mais atual (permite retries no meio)
+    while (true) {
+      const item = queueRef.current.find((x) => x.status === "queued");
+      if (!item) break;
+      setQueue((q) => q.map((x) => x.id === item.id ? { ...x, status: "uploading", error: undefined } : x));
       const form = new FormData();
       form.append("courseId", courseId);
       form.append("file", item.file);
@@ -271,6 +272,25 @@ function CourseDetail({
     qc.invalidateQueries({ queryKey: ["course-assets", courseId] });
     // limpa concluídos
     setTimeout(() => setQueue((q) => q.filter((x) => x.status !== "done")), 1500);
+  }
+
+  function retrySame(id: string) {
+    setQueue((q) => q.map((x) => x.id === id ? { ...x, status: "queued", error: undefined } : x));
+    setTimeout(() => { void processQueue(); }, 0);
+  }
+
+  function retryWithReplace(id: string) {
+    retryTargetRef.current = id;
+    retryInputRef.current?.click();
+  }
+
+  function onRetryFilePicked(file: File | undefined) {
+    const id = retryTargetRef.current;
+    retryTargetRef.current = null;
+    if (retryInputRef.current) retryInputRef.current.value = "";
+    if (!id || !file) return;
+    setQueue((q) => q.map((x) => x.id === id ? { ...x, file, status: "queued", error: undefined } : x));
+    setTimeout(() => { void processQueue(); }, 0);
   }
 
   async function uploadCover(f: File) {
