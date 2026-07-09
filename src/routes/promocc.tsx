@@ -807,6 +807,13 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
   const base = 10;
   const extras = (bumpSobrancelha ? 10 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCilios ? 13 : 0);
   const total = base + extras;
