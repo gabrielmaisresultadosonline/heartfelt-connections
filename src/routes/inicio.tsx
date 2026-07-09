@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, ArrowRight, Scissors, Eye, Flower2 } from "lucide-react";
+import ciliosCover from "@/assets/curso-cilios.png.asset.json";
+import sobrancelhaCover from "@/assets/curso-sobrancelha.png.asset.json";
 
 export const Route = createFileRoute("/inicio")({
   component: InicioPage,
