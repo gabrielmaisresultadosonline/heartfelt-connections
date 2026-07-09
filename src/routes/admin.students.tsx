@@ -14,6 +14,7 @@ import {
 const BUMP_LABELS: Record<string, string> = {
   sobrancelha: "Sobrancelha (+R$10)",
   vitalicio: "Vitalícias (+R$9)",
+  cilios: "Extensão de Cílios",
 };
 
 export const Route = createFileRoute("/admin/students")({
@@ -139,7 +140,7 @@ function StudentsPage() {
                       <td className="p-3"><StatusBadge status={s.status} /></td>
                       <td className="p-3">
                         <div className="flex flex-col gap-1">
-                          {(["sobrancelha", "vitalicio"] as const).map((b) => {
+                          {(["sobrancelha", "vitalicio", "cilios"] as const).map((b) => {
                             const has = s.bumps.includes(b);
                             return (
                               <label key={b} className="inline-flex items-center gap-1.5 text-[11px] cursor-pointer">
@@ -150,7 +151,7 @@ function StudentsPage() {
                                     const next = e.target.checked
                                       ? Array.from(new Set([...s.bumps, b]))
                                       : s.bumps.filter((x) => x !== b);
-                                    await bumpsFn({ data: { id: s.id, bumps: next as ("sobrancelha" | "vitalicio")[] } });
+                                    await bumpsFn({ data: { id: s.id, bumps: next as ("sobrancelha" | "vitalicio" | "cilios")[] } });
                                     setMsg(`✓ Bumps atualizados para ${s.email}`);
                                     qc.invalidateQueries({ queryKey: ["admin-students"] });
                                   }}
