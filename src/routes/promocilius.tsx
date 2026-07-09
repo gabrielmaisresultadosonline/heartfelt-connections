@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
-import heroImg from "@/assets/hero-alessandra.webp";
+import heroImg from "@/assets/curso-cilios.png.asset.json";
 import cert1 from "@/assets/cert-1.webp";
 import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
@@ -22,7 +22,7 @@ function Promocilius() {
     lisos: "https://images.pexels.com/photos/973401/pexels-photo-973401.jpeg?auto=compress&cs=tinysrgb&w=800",
     corte: "https://images.pexels.com/photos/3319333/pexels-photo-3319333.jpeg?auto=compress&cs=tinysrgb&w=800",
     tonalizacao: "https://images.pexels.com/photos/3738339/pexels-photo-3738339.jpeg?auto=compress&cs=tinysrgb&w=800",
-    hero: heroImg,
+    hero: heroImg.url,
     alessandra: alessandraImg,
   };
   const certificates = [

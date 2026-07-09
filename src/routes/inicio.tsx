@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, ArrowRight, Scissors, Eye, Flower2 } from "lucide-react";
+import ciliosCover from "@/assets/curso-cilios.png.asset.json";
+import sobrancelhaCover from "@/assets/curso-sobrancelha.png.asset.json";
 
 export const Route = createFileRoute("/inicio")({
   component: InicioPage,
@@ -39,7 +41,7 @@ const cursos: Curso[] = [
     title: "Extensão de Cílios",
     tagline: "Aprenda fio a fio, volume russo e egípcio — do básico ao avançado.",
     price: "R$ 10,00",
-    image: "https://images.pexels.com/photos/3373716/pexels-photo-3373716.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: ciliosCover.url,
     icon: <Eye size={20} />,
     gradient: "from-rose-500 to-pink-600",
   },
@@ -49,7 +51,7 @@ const cursos: Curso[] = [
     title: "Design de Sobrancelha",
     tagline: "Modele com precisão, valorize o olhar e conquiste clientes fiéis.",
     price: "R$ 10,00",
-    image: "https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: sobrancelhaCover.url,
     icon: <Flower2 size={20} />,
     gradient: "from-fuchsia-500 to-purple-600",
   },
