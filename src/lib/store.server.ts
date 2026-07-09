@@ -62,7 +62,7 @@ export type Student = {
   name: string;
   phone: string | null;
   password_hash: string | null; // gerado quando aprovado
-  status: "pending" | "paid" | "approved_manual" | "refunded";
+  status: "pending" | "paid" | "approved_manual" | "refunded" | "expired";
   order_nsu: string | null;
   transaction_nsu: string | null;
   invoice_slug: string | null;
@@ -72,6 +72,8 @@ export type Student = {
   created_at: string;
   updated_at: string;
   email_sent_at: string | null;
+  /** Início da janela de 20 min de verificação para o order_nsu atual. */
+  checkout_started_at: string | null;
   /** Order bumps adquiridos: "sobrancelha" | "vitalicio" */
   bumps: string[];
 };
