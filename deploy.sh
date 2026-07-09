@@ -53,6 +53,25 @@ git pull
 npm install --include=dev
 npm run build
 
+# Carrega o .env para o processo de produção do PM2 sem imprimir segredos no terminal.
+eval "$(python3 - <<'PY'
+from pathlib import Path
+import re
+import shlex
+
+env_path = Path('.env')
+for raw_line in env_path.read_text().splitlines():
+    line = raw_line.strip()
+    if not line or line.startswith('#') or '=' not in line:
+        continue
+    key, value = line.split('=', 1)
+    key = key.strip()
+    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', key):
+        continue
+    print(f'export {key}={shlex.quote(value.strip())}')
+PY
+)"
+
 # 4) PM2: troca comandos antigos de desenvolvimento por servidor de produção.
 #    Deleta somente este app pelo nome; não interfere em outros sites/processos do VPS.
 if pm2 describe "$PM2_NAME" > /dev/null 2>&1; then
