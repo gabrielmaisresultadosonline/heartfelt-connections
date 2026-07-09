@@ -151,7 +151,7 @@ function LoginPage() {
 
         <p className="text-center text-xs text-gray-500 mt-6">
           Ainda não comprou?{" "}
-          <a href="/promocc" className="text-pink-700 font-bold underline">
+          <a href="/inicio" className="text-pink-700 font-bold underline">
             Ver o curso
           </a>
         </p>
