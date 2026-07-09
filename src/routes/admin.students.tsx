@@ -119,6 +119,7 @@ function StudentsPage() {
                   <th className="p-3 font-semibold">Email</th>
                   <th className="p-3 font-semibold">Telefone</th>
                   <th className="p-3 font-semibold">Status</th>
+                  <th className="p-3 font-semibold">Bumps / Acesso</th>
                   <th className="p-3 font-semibold">Criado</th>
                   <th className="p-3 font-semibold">Email enviado</th>
                   <th className="p-3"></th>
@@ -126,9 +127,9 @@ function StudentsPage() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr><td colSpan={7} className="p-8 text-center text-rose-700/60">Carregando...</td></tr>
+                  <tr><td colSpan={8} className="p-8 text-center text-rose-700/60">Carregando...</td></tr>
                 ) : filtered.length === 0 ? (
-                  <tr><td colSpan={7} className="p-10 text-center text-rose-700/60">Nenhum aluno.</td></tr>
+                  <tr><td colSpan={8} className="p-10 text-center text-rose-700/60">Nenhum aluno.</td></tr>
                 ) : (
                   filtered.map((s) => (
                     <tr key={s.id} className="border-t border-pink-100 hover:bg-pink-50/40">
