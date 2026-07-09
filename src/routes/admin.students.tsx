@@ -231,6 +231,7 @@ function StatusBadge({ status }: { status: string }) {
     paid: { label: "Pago", cls: "bg-green-100 text-green-800" },
     approved_manual: { label: "Aprovado manual", cls: "bg-blue-100 text-blue-800" },
     refunded: { label: "Reembolsado", cls: "bg-gray-200 text-gray-700" },
+    expired: { label: "Expirado", cls: "bg-rose-100 text-rose-800" },
   };
   const s = map[status] ?? { label: status, cls: "bg-gray-100 text-gray-700" };
   return <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${s.cls}`}>{s.label}</span>;
