@@ -182,6 +182,9 @@ const DEFAULT_DB: DB = {
   course_modules: [],
   courses: [],
   course_assets: [],
+  course_cert_configs: [],
+  student_course_access: [],
+  course_certificates: [],
 };
 
 let writeChain: Promise<unknown> = Promise.resolve();
