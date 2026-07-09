@@ -24,6 +24,9 @@ function AdminDashboard() {
   const importCsv = useServerFn(importBuyersCSV);
   const delBuyer = useServerFn(deleteBuyer);
   const addManual = useServerFn(addBuyerManual);
+  const fetchSends = useServerFn(listEmailSends);
+  const sendCampaign = useServerFn(sendMigrationCampaign);
+  const sendTest = useServerFn(sendMigrationTest);
 
   const [ready, setReady] = useState(false);
   const [tab, setTab] = useState<Tab>("certificates");
