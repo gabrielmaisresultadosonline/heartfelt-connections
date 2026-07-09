@@ -227,6 +227,7 @@ export async function readDB(): Promise<DB> {
       course_cert_configs: parsed.course_cert_configs ?? [],
       student_course_access: parsed.student_course_access ?? [],
       course_certificates: parsed.course_certificates ?? [],
+      email_sends: parsed.email_sends ?? [],
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {
