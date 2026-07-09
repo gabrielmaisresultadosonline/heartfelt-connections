@@ -7,7 +7,7 @@ import {
   listCoursesAdmin, saveCourse, deleteCourse,
   listCourseAssets, deleteCourseAsset, renameCourseAsset,
 } from "@/lib/courses.functions";
-import { FileVideo, FileText, Upload, Trash2, Image as ImageIcon, Loader2, Plus, Pencil, Save, X } from "lucide-react";
+import { FileVideo, FileText, Upload, Trash2, Image as ImageIcon, Loader2, Plus, Pencil, Save, X, RefreshCw } from "lucide-react";
 
 export const Route = createFileRoute("/admin/courses")({
   component: CoursesAdmin,
@@ -223,11 +223,15 @@ function CourseDetail({
   const delAsset = useServerFn(deleteCourseAsset);
   const renameAsset = useServerFn(renameCourseAsset);
   const [queue, setQueue] = useState<UploadItem[]>([]);
+  const queueRef = useRef<UploadItem[]>([]);
+  queueRef.current = queue;
   const [uploading, setUploading] = useState(false);
   const [coverUploading, setCoverUploading] = useState(false);
   const [editingAsset, setEditingAsset] = useState<{ id: string; title: string; order: number } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
+  const retryInputRef = useRef<HTMLInputElement>(null);
+  const retryTargetRef = useRef<string | null>(null);
 
   const { data } = useQuery({
     queryKey: ["course-assets", courseId],
@@ -247,10 +251,11 @@ function CourseDetail({
   async function processQueue() {
     if (uploading) return;
     setUploading(true);
-    // upload sequencial (evita saturar rede/VPS)
-    for (const item of queue) {
-      if (item.status !== "queued") continue;
-      setQueue((q) => q.map((x) => x.id === item.id ? { ...x, status: "uploading" } : x));
+    // upload sequencial — sempre lê a fila mais atual (permite retries no meio)
+    while (true) {
+      const item = queueRef.current.find((x) => x.status === "queued");
+      if (!item) break;
+      setQueue((q) => q.map((x) => x.id === item.id ? { ...x, status: "uploading", error: undefined } : x));
       const form = new FormData();
       form.append("courseId", courseId);
       form.append("file", item.file);
@@ -267,6 +272,25 @@ function CourseDetail({
     qc.invalidateQueries({ queryKey: ["course-assets", courseId] });
     // limpa concluídos
     setTimeout(() => setQueue((q) => q.filter((x) => x.status !== "done")), 1500);
+  }
+
+  function retrySame(id: string) {
+    setQueue((q) => q.map((x) => x.id === id ? { ...x, status: "queued", error: undefined } : x));
+    setTimeout(() => { void processQueue(); }, 0);
+  }
+
+  function retryWithReplace(id: string) {
+    retryTargetRef.current = id;
+    retryInputRef.current?.click();
+  }
+
+  function onRetryFilePicked(file: File | undefined) {
+    const id = retryTargetRef.current;
+    retryTargetRef.current = null;
+    if (retryInputRef.current) retryInputRef.current.value = "";
+    if (!id || !file) return;
+    setQueue((q) => q.map((x) => x.id === id ? { ...x, file, status: "queued", error: undefined } : x));
+    setTimeout(() => { void processQueue(); }, 0);
   }
 
   async function uploadCover(f: File) {
@@ -368,6 +392,14 @@ function CourseDetail({
           )}
         </div>
 
+        <input
+          ref={retryInputRef}
+          type="file"
+          accept="video/mp4,video/webm,video/quicktime,video/x-m4v,application/pdf"
+          className="hidden"
+          onChange={(e) => onRetryFilePicked(e.target.files?.[0])}
+        />
+
         {queue.length > 0 && (
           <ul className="mt-4 space-y-1.5 max-h-64 overflow-auto text-sm">
             {queue.map((q) => (
@@ -378,7 +410,36 @@ function CourseDetail({
                 {q.status === "queued" && <span className="text-gray-400 flex-shrink-0">•</span>}
                 <span className="truncate flex-1">{q.file.name}</span>
                 <span className="text-xs text-gray-500">{(q.file.size / 1024 / 1024).toFixed(1)}MB</span>
-                {q.error && <span className="text-xs text-red-600" title={q.error}>{q.error.slice(0, 40)}</span>}
+                {q.error && <span className="text-xs text-red-600 truncate max-w-[160px]" title={q.error}>{q.error.slice(0, 40)}</span>}
+                {q.status === "error" && (
+                  <>
+                    <button
+                      onClick={() => retrySame(q.id)}
+                      disabled={uploading}
+                      className="inline-flex items-center gap-1 text-xs bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-bold px-2.5 py-1 rounded-full"
+                      title="Tentar novamente com o mesmo arquivo"
+                    >
+                      <RefreshCw size={11} /> Tentar
+                    </button>
+                    <button
+                      onClick={() => retryWithReplace(q.id)}
+                      disabled={uploading}
+                      className="inline-flex items-center gap-1 text-xs bg-pink-600 hover:bg-pink-700 disabled:opacity-50 text-white font-bold px-2.5 py-1 rounded-full"
+                      title="Selecionar arquivo novamente"
+                    >
+                      <Upload size={11} /> Reenviar
+                    </button>
+                  </>
+                )}
+                {(q.status === "error" || q.status === "done") && (
+                  <button
+                    onClick={() => setQueue((qq) => qq.filter((x) => x.id !== q.id))}
+                    className="text-gray-400 hover:text-gray-600"
+                    title="Remover"
+                  >
+                    <X size={13} />
+                  </button>
+                )}
               </li>
             ))}
           </ul>
