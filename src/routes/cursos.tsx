@@ -89,7 +89,16 @@ function CoursesPage() {
                   <h3 className="font-black text-lg text-gray-900">{c.title}</h3>
                   <p className="text-sm text-gray-500 mt-1 line-clamp-2">{c.description || "\u00A0"}</p>
                   {c.locked ? (
-                    <a href="/promocc" className="mt-3 block text-center bg-gray-900 hover:bg-black text-white font-bold rounded-full py-2.5 text-sm">
+                    <a
+                      href={
+                        c.required_bump === "cilios"
+                          ? "/promocilius"
+                          : c.required_bump === "sobrancelha"
+                            ? "/promosombra"
+                            : "/promocc"
+                      }
+                      className="mt-3 block text-center bg-gray-900 hover:bg-black text-white font-bold rounded-full py-2.5 text-sm"
+                    >
                       Comprar para liberar
                     </a>
                   ) : (
