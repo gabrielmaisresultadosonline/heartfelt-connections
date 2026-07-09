@@ -53,9 +53,12 @@ echo "✅ .env preservado e validado"
 # 3) Pull + build + restart
 git pull
 npm install --include=dev
-# Force Nitro to build a plain Node.js server (VPS), not Cloudflare Workers
+
+# Force Nitro to build a plain Node.js HTTP server for this VPS.
+# Without this, the build can target Cloudflare Workers and will not listen on port 8080.
+export SELF_HOST_BUILD=1
 export NITRO_PRESET=node-server
-npm run build
+npm run build:selfhost
 
 # Carrega o .env para o processo de produção do PM2 sem imprimir segredos no terminal.
 eval "$(python3 - <<'PY'
@@ -78,12 +81,16 @@ PY
 
 # 4) PM2: remove SOMENTE processos deste app, inclusive processos antigos que ficaram
 #    presos em `npm run dev`. Não mexe em outros sites do VPS.
+#    Critérios: nome belezalisoperfeito/belezali, cwd deste projeto, script/cmd apontando para esta pasta.
 pm2 jlist | python3 -c '
 import json
+import os
 import sys
 
 target_name = sys.argv[1]
 target_cwd = sys.argv[2]
+target_real = os.path.realpath(target_cwd)
+legacy_names = {target_name, "belezali"}
 
 try:
     processes = json.load(sys.stdin)
@@ -93,8 +100,17 @@ except json.JSONDecodeError:
 for process in processes:
     env = process.get("pm2_env", {})
     name = env.get("name") or process.get("name")
-    cwd = env.get("pm_cwd") or env.get("PWD")
-    if name == target_name or cwd == target_cwd:
+    cwd = env.get("pm_cwd") or env.get("PWD") or ""
+    cwd_real = os.path.realpath(cwd) if cwd else ""
+    exec_path = str(env.get("pm_exec_path") or "")
+    args = " ".join(str(arg) for arg in (env.get("args") or []))
+    command_line = f"{exec_path} {args}"
+
+    name_matches = name in legacy_names or str(name).startswith("belezali")
+    cwd_matches = cwd_real == target_real
+    command_matches = target_real in command_line or target_cwd in command_line
+
+    if name_matches or cwd_matches or command_matches:
         print(process.get("pm_id"))
 ' "$PM2_NAME" "$APP_DIR" | while read -r pm_id; do
   if [[ -n "$pm_id" && "$pm_id" != "None" ]]; then
@@ -103,6 +119,9 @@ for process in processes:
 done
 
 pm2 flush "$PM2_NAME" || true
+
+# Regrava a lista antes de iniciar para impedir resurrect de configuração antiga (`npm run dev`).
+pm2 save --force || true
 
 # 5) Inicia o servidor de PRODUÇÃO gerado pelo build. Nunca usa `vite dev` no VPS.
 NODE_ENV=production \
