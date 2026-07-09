@@ -13,9 +13,13 @@ export const listModulesAdmin = createServerFn({ method: "GET" }).handler(async 
 
 export const listModulesStudent = createServerFn({ method: "GET" }).handler(async () => {
   const s = getStudentSession();
-  if (!s) return { ok: false as const, error: "Não autenticado", modules: [] as CourseModule[] };
+  if (!s) return { ok: false as const, error: "Não autenticado", modules: [] as (CourseModule & { locked: boolean })[] };
   const db = await readDB();
-  const modules = [...db.course_modules].sort((a, b) => a.order - b.order);
+  const student = db.students.find((x) => x.id === s.sub);
+  const owned = new Set(student?.bumps ?? []);
+  const modules = [...db.course_modules]
+    .sort((a, b) => a.order - b.order)
+    .map((m) => ({ ...m, locked: !!m.required_bump && !owned.has(m.required_bump) }));
   return { ok: true as const, modules };
 });
 
@@ -25,6 +29,7 @@ const moduleSchema = z.object({
   description: z.string().trim().max(2000).default(""),
   video_url: z.string().trim().url().max(500),
   order: z.number().int().min(0).max(9999).default(0),
+  required_bump: z.enum(["sobrancelha", "vitalicio"]).nullable().default(null),
 });
 
 export const saveModule = createServerFn({ method: "POST" })
@@ -42,6 +47,7 @@ export const saveModule = createServerFn({ method: "POST" })
             description: data.description,
             video_url: data.video_url,
             order: data.order,
+            required_bump: data.required_bump,
           };
           return d.course_modules[idx];
         }
@@ -53,6 +59,7 @@ export const saveModule = createServerFn({ method: "POST" })
         video_url: data.video_url,
         order: data.order,
         created_at: now,
+        required_bump: data.required_bump,
       };
       d.course_modules.push(m);
       return m;

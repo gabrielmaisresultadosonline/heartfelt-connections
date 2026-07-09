@@ -8,7 +8,13 @@ import {
   deleteStudent,
   listStudents,
   resendStudentEmail,
+  setStudentBumps,
 } from "@/lib/students.functions";
+
+const BUMP_LABELS: Record<string, string> = {
+  sobrancelha: "Sobrancelha (+R$10)",
+  vitalicio: "Vitalícias (+R$9)",
+};
 
 export const Route = createFileRoute("/admin/students")({
   component: StudentsPage,
@@ -22,6 +28,7 @@ function StudentsPage() {
   const approveFn = useServerFn(approveStudent);
   const resendFn = useServerFn(resendStudentEmail);
   const deleteFn = useServerFn(deleteStudent);
+  const bumpsFn = useServerFn(setStudentBumps);
   const [ready, setReady] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "paid" | "pending">("all");
@@ -112,6 +119,7 @@ function StudentsPage() {
                   <th className="p-3 font-semibold">Email</th>
                   <th className="p-3 font-semibold">Telefone</th>
                   <th className="p-3 font-semibold">Status</th>
+                  <th className="p-3 font-semibold">Bumps / Acesso</th>
                   <th className="p-3 font-semibold">Criado</th>
                   <th className="p-3 font-semibold">Email enviado</th>
                   <th className="p-3"></th>
@@ -119,9 +127,9 @@ function StudentsPage() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr><td colSpan={7} className="p-8 text-center text-rose-700/60">Carregando...</td></tr>
+                  <tr><td colSpan={8} className="p-8 text-center text-rose-700/60">Carregando...</td></tr>
                 ) : filtered.length === 0 ? (
-                  <tr><td colSpan={7} className="p-10 text-center text-rose-700/60">Nenhum aluno.</td></tr>
+                  <tr><td colSpan={8} className="p-10 text-center text-rose-700/60">Nenhum aluno.</td></tr>
                 ) : (
                   filtered.map((s) => (
                     <tr key={s.id} className="border-t border-pink-100 hover:bg-pink-50/40">
@@ -129,6 +137,31 @@ function StudentsPage() {
                       <td className="p-3 font-mono text-xs">{s.email}</td>
                       <td className="p-3 text-xs">{s.phone ?? "—"}</td>
                       <td className="p-3"><StatusBadge status={s.status} /></td>
+                      <td className="p-3">
+                        <div className="flex flex-col gap-1">
+                          {(["sobrancelha", "vitalicio"] as const).map((b) => {
+                            const has = s.bumps.includes(b);
+                            return (
+                              <label key={b} className="inline-flex items-center gap-1.5 text-[11px] cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={has}
+                                  onChange={async (e) => {
+                                    const next = e.target.checked
+                                      ? Array.from(new Set([...s.bumps, b]))
+                                      : s.bumps.filter((x) => x !== b);
+                                    await bumpsFn({ data: { id: s.id, bumps: next as ("sobrancelha" | "vitalicio")[] } });
+                                    setMsg(`✓ Bumps atualizados para ${s.email}`);
+                                    qc.invalidateQueries({ queryKey: ["admin-students"] });
+                                  }}
+                                  className="accent-[#d82298]"
+                                />
+                                <span className={has ? "font-bold text-pink-700" : "text-gray-500"}>{BUMP_LABELS[b]}</span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </td>
                       <td className="p-3 text-xs text-gray-600">{new Date(s.created_at).toLocaleString("pt-BR")}</td>
                       <td className="p-3 text-xs text-gray-600">
                         {s.email_sent_at ? new Date(s.email_sent_at).toLocaleString("pt-BR") : "—"}

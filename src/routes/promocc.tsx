@@ -743,15 +743,26 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [bumpSobrancelha, setBumpSobrancelha] = useState(false);
+  const [bumpVitalicio, setBumpVitalicio] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+
+  const base = 10;
+  const extras = (bumpSobrancelha ? 10 : 0) + (bumpVitalicio ? 9 : 0);
+  const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null);
     setLoading(true);
     try {
-      const r = await createCheckout({ data: { name: name.trim(), email: email.trim(), phone: phone.trim() } });
+      const bumps: ("sobrancelha" | "vitalicio")[] = [];
+      if (bumpSobrancelha) bumps.push("sobrancelha");
+      if (bumpVitalicio) bumps.push("vitalicio");
+      const r = await createCheckout({
+        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps },
+      });
       if (!r.ok) {
         setErr(r.error || "Erro ao gerar checkout");
         setLoading(false);
@@ -770,12 +781,12 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
         >
           <motion.div
             initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 md:p-8 relative"
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 md:p-8 relative my-8"
           >
             <button onClick={onClose} className="absolute top-3 right-3 p-2 rounded-full hover:bg-gray-100" aria-label="Fechar">
               <X size={20} />
@@ -784,7 +795,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               <h3 className="text-2xl md:text-3xl font-black text-[#d82298] uppercase italic tracking-tight">
                 Garantir minha vaga
               </h3>
-              <p className="text-sm text-gray-500 mt-2">Curso de Alisamento Perfeito — <strong className="text-gray-900">R$ 10,00</strong> à vista</p>
+              <p className="text-sm text-gray-500 mt-2">Curso de Alisamento Perfeito</p>
             </div>
             <form onSubmit={onSubmit} className="space-y-3">
               <div>
@@ -803,10 +814,46 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   placeholder="(11) 99999-9999"
                   className="mt-1 w-full border border-pink-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
+
+              <div className="pt-2">
+                <p className="text-xs font-black text-[#d82298] uppercase tracking-wider mb-2">
+                  🎁 Turbine sua compra
+                </p>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpSobrancelha}
+                    onChange={(e) => setBumpSobrancelha(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Curso de Sobrancelha</p>
+                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 10</strong></p>
+                  </div>
+                </label>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpVitalicio}
+                    onChange={(e) => setBumpVitalicio(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
+                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
+                  </div>
+                </label>
+              </div>
+
+              <div className="bg-gradient-to-r from-pink-50 to-fuchsia-50 rounded-xl p-3 flex items-center justify-between">
+                <span className="text-sm font-bold text-gray-700 uppercase tracking-wider">Total</span>
+                <span className="text-2xl font-black text-[#d82298]">R$ {total},00</span>
+              </div>
+
               {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2">{err}</p>}
               <button type="submit" disabled={loading}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg">
-                {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : "Ir para o pagamento seguro →"}
+                {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : `Pagar R$ ${total},00 →`}
               </button>
               <p className="text-center text-[11px] text-gray-500 mt-1">
                 Pagamento processado pela InfinitePay. Seu acesso é enviado por e-mail assim que confirmado.

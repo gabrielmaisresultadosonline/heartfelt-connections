@@ -72,6 +72,8 @@ export type Student = {
   created_at: string;
   updated_at: string;
   email_sent_at: string | null;
+  /** Order bumps adquiridos: "sobrancelha" | "vitalicio" */
+  bumps: string[];
 };
 
 /** Módulo/aula do curso. */
@@ -82,7 +84,16 @@ export type CourseModule = {
   video_url: string; // youtube/vimeo/mp4
   order: number;
   created_at: string;
+  /** Se null, faz parte do curso base. Se "sobrancelha" ou "vitalicio", requer bump. */
+  required_bump: string | null;
 };
+
+/** Bumps disponíveis para venda. */
+export const BUMPS = [
+  { id: "sobrancelha", label: "Curso de Sobrancelha", price_cents: 1000, description: "Curso de Sobrancelha (bônus)" },
+  { id: "vitalicio", label: "Atualizações Vitalícias", price_cents: 900, description: "Atualizações Vitalícias (bônus)" },
+] as const;
+export type BumpId = (typeof BUMPS)[number]["id"];
 
 type DB = {
   certificates: Certificate[];
@@ -136,8 +147,8 @@ export async function readDB(): Promise<DB> {
       template_config: { ...DEFAULT_DB.template_config, ...(parsed.template_config ?? {}) },
       settings: { ...DEFAULT_DB.settings, ...(parsed.settings ?? {}) },
       kiwify_buyers: parsed.kiwify_buyers ?? [],
-      students: parsed.students ?? [],
-      course_modules: parsed.course_modules ?? [],
+      students: (parsed.students ?? []).map((s) => ({ ...s, bumps: s.bumps ?? [] })),
+      course_modules: (parsed.course_modules ?? []).map((m) => ({ ...m, required_bump: m.required_bump ?? null })),
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {

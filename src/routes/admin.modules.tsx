@@ -18,8 +18,8 @@ function ModulesPage() {
   const delFn = useServerFn(deleteModule);
   const [ready, setReady] = useState(false);
   const [editing, setEditing] = useState<{
-    id?: string; title: string; description: string; video_url: string; order: number;
-  }>({ title: "", description: "", video_url: "", order: 0 });
+    id?: string; title: string; description: string; video_url: string; order: number; required_bump: "sobrancelha" | "vitalicio" | null;
+  }>({ title: "", description: "", video_url: "", order: 0, required_bump: null });
   const [msg, setMsg] = useState<string | null>(null);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ function ModulesPage() {
       const r = await saveFn({ data: editing });
       if (r.ok) {
         setMsg(editing.id ? "✓ Módulo atualizado" : "✓ Módulo criado");
-        setEditing({ title: "", description: "", video_url: "", order: (mods.at(-1)?.order ?? -1) + 1 });
+        setEditing({ title: "", description: "", video_url: "", order: (mods.at(-1)?.order ?? -1) + 1, required_bump: null });
         qc.invalidateQueries({ queryKey: ["admin-modules"] });
       }
     } catch (e) {
@@ -91,6 +91,18 @@ function ModulesPage() {
             <input type="number" value={editing.order} onChange={(e) => setEditing({ ...editing, order: Number(e.target.value) })}
               className="mt-1 w-full border border-pink-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none" />
           </div>
+          <div>
+            <label className="text-xs font-bold uppercase text-gray-600">Acesso requerido</label>
+            <select
+              value={editing.required_bump ?? ""}
+              onChange={(e) => setEditing({ ...editing, required_bump: (e.target.value || null) as "sobrancelha" | "vitalicio" | null })}
+              className="mt-1 w-full border border-pink-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none bg-white"
+            >
+              <option value="">Curso base (todos os alunos)</option>
+              <option value="sobrancelha">Bump: Sobrancelha (+R$10)</option>
+              <option value="vitalicio">Bump: Vitalícias (+R$9)</option>
+            </select>
+          </div>
           <div className="md:col-span-2">
             <label className="text-xs font-bold uppercase text-gray-600">Descrição (opcional)</label>
             <textarea value={editing.description} onChange={(e) => setEditing({ ...editing, description: e.target.value })}
@@ -101,7 +113,7 @@ function ModulesPage() {
             {msg && <span className="text-sm text-green-700">{msg}</span>}
             <div className="flex gap-2 ml-auto">
               {editing.id && (
-                <button type="button" onClick={() => setEditing({ title: "", description: "", video_url: "", order: 0 })}
+                <button type="button" onClick={() => setEditing({ title: "", description: "", video_url: "", order: 0, required_bump: null })}
                   className="px-4 py-2 text-sm font-bold rounded-full bg-gray-100 hover:bg-gray-200">
                   Cancelar edição
                 </button>
@@ -123,6 +135,7 @@ function ModulesPage() {
                   <th className="p-3 font-semibold w-16">#</th>
                   <th className="p-3 font-semibold">Título</th>
                   <th className="p-3 font-semibold">Vídeo</th>
+                  <th className="p-3 font-semibold">Acesso</th>
                   <th className="p-3"></th>
                 </tr>
               </thead>
@@ -136,9 +149,18 @@ function ModulesPage() {
                         {m.video_url}
                       </a>
                     </td>
+                    <td className="p-3 text-xs">
+                      {m.required_bump === "sobrancelha" ? (
+                        <span className="inline-block px-2 py-1 rounded-full bg-fuchsia-100 text-fuchsia-800 font-bold">Bump: Sobrancelha</span>
+                      ) : m.required_bump === "vitalicio" ? (
+                        <span className="inline-block px-2 py-1 rounded-full bg-amber-100 text-amber-800 font-bold">Bump: Vitalícias</span>
+                      ) : (
+                        <span className="inline-block px-2 py-1 rounded-full bg-green-100 text-green-800 font-bold">Curso base</span>
+                      )}
+                    </td>
                     <td className="p-3 text-right whitespace-nowrap space-x-2">
                       <button
-                        onClick={() => setEditing({ id: m.id, title: m.title, description: m.description, video_url: m.video_url, order: m.order })}
+                        onClick={() => setEditing({ id: m.id, title: m.title, description: m.description, video_url: m.video_url, order: m.order, required_bump: (m.required_bump as "sobrancelha" | "vitalicio" | null) })}
                         className="text-xs font-bold text-pink-700 hover:underline">Editar</button>
                       <button
                         onClick={async () => {

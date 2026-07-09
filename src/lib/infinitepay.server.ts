@@ -4,10 +4,11 @@ const HANDLE = process.env.INFINITEPAY_HANDLE || "paguemro";
 const API_LINKS = "https://api.checkout.infinitepay.io/links";
 const API_CHECK = "https://api.checkout.infinitepay.io/payment_check";
 
+export type CheckoutItem = { quantity: number; price: number; description: string };
+
 export type CreateLinkInput = {
   order_nsu: string;
-  price_cents: number; // 1000 = R$10
-  description: string;
+  items: CheckoutItem[];
   redirect_url: string;
   webhook_url: string;
   customer: { name: string; email: string; phone_number: string };
@@ -18,9 +19,7 @@ export async function createCheckoutLink(
 ): Promise<{ ok: true; url: string; raw: unknown } | { ok: false; error: string }> {
   const payload = {
     handle: HANDLE,
-    items: [
-      { quantity: 1, price: input.price_cents, description: input.description },
-    ],
+    items: input.items,
     order_nsu: input.order_nsu,
     redirect_url: input.redirect_url,
     webhook_url: input.webhook_url,
