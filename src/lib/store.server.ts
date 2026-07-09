@@ -138,7 +138,7 @@ export async function readDB(): Promise<DB> {
       template_config: { ...DEFAULT_DB.template_config, ...(parsed.template_config ?? {}) },
       settings: { ...DEFAULT_DB.settings, ...(parsed.settings ?? {}) },
       kiwify_buyers: parsed.kiwify_buyers ?? [],
-      students: parsed.students ?? [],
+      students: (parsed.students ?? []).map((s) => ({ ...s, bumps: s.bumps ?? [] })),
       course_modules: parsed.course_modules ?? [],
     };
   } catch (e) {
