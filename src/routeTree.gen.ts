@@ -11,13 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VendasscRouteImport } from './routes/vendassc'
 import { Route as PromoccRouteImport } from './routes/promocc'
+import { Route as ObrigadoRouteImport } from './routes/obrigado'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CursoRouteImport } from './routes/curso'
 import { Route as CertificadoRouteImport } from './routes/certificado'
+import { Route as CentraladminRouteImport } from './routes/centraladmin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTemplateRouteImport } from './routes/admin.template'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
+import { Route as ApiPublicInfinitepayWebhookRouteImport } from './routes/api/public/infinitepay-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
 
 const VendasscRoute = VendasscRouteImport.update({
@@ -30,9 +35,29 @@ const PromoccRoute = PromoccRouteImport.update({
   path: '/promocc',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ObrigadoRoute = ObrigadoRouteImport.update({
+  id: '/obrigado',
+  path: '/obrigado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CursoRoute = CursoRouteImport.update({
+  id: '/curso',
+  path: '/curso',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CertificadoRoute = CertificadoRouteImport.update({
   id: '/certificado',
   path: '/certificado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CentraladminRoute = CentraladminRouteImport.update({
+  id: '/centraladmin',
+  path: '/centraladmin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -65,6 +90,12 @@ const ApiPublicKiwifyWebhookRoute = ApiPublicKiwifyWebhookRouteImport.update({
   path: '/api/public/kiwify-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicInfinitepayWebhookRoute =
+  ApiPublicInfinitepayWebhookRouteImport.update({
+    id: '/api/public/infinitepay-webhook',
+    path: '/api/public/infinitepay-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
   id: '/api/files/$',
   path: '/api/files/$',
@@ -73,7 +104,11 @@ const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
+  '/curso': typeof CursoRoute
+  '/login': typeof LoginRoute
+  '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
@@ -81,11 +116,16 @@ export interface FileRoutesByFullPath {
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
+  '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
+  '/curso': typeof CursoRoute
+  '/login': typeof LoginRoute
+  '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
@@ -93,12 +133,17 @@ export interface FileRoutesByTo {
   '/admin/template': typeof AdminTemplateRoute
   '/admin': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
+  '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
+  '/curso': typeof CursoRoute
+  '/login': typeof LoginRoute
+  '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
   '/admin/login': typeof AdminLoginRoute
@@ -106,13 +151,18 @@ export interface FileRoutesById {
   '/admin/template': typeof AdminTemplateRoute
   '/admin/': typeof AdminIndexRoute
   '/api/files/$': typeof ApiFilesSplatRoute
+  '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/centraladmin'
     | '/certificado'
+    | '/curso'
+    | '/login'
+    | '/obrigado'
     | '/promocc'
     | '/vendassc'
     | '/admin/login'
@@ -120,11 +170,16 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin/'
     | '/api/files/$'
+    | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/centraladmin'
     | '/certificado'
+    | '/curso'
+    | '/login'
+    | '/obrigado'
     | '/promocc'
     | '/vendassc'
     | '/admin/login'
@@ -132,11 +187,16 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin'
     | '/api/files/$'
+    | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
   id:
     | '__root__'
     | '/'
+    | '/centraladmin'
     | '/certificado'
+    | '/curso'
+    | '/login'
+    | '/obrigado'
     | '/promocc'
     | '/vendassc'
     | '/admin/login'
@@ -144,12 +204,17 @@ export interface FileRouteTypes {
     | '/admin/template'
     | '/admin/'
     | '/api/files/$'
+    | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CentraladminRoute: typeof CentraladminRoute
   CertificadoRoute: typeof CertificadoRoute
+  CursoRoute: typeof CursoRoute
+  LoginRoute: typeof LoginRoute
+  ObrigadoRoute: typeof ObrigadoRoute
   PromoccRoute: typeof PromoccRoute
   VendasscRoute: typeof VendasscRoute
   AdminLoginRoute: typeof AdminLoginRoute
@@ -157,6 +222,7 @@ export interface RootRouteChildren {
   AdminTemplateRoute: typeof AdminTemplateRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiFilesSplatRoute: typeof ApiFilesSplatRoute
+  ApiPublicInfinitepayWebhookRoute: typeof ApiPublicInfinitepayWebhookRoute
   ApiPublicKiwifyWebhookRoute: typeof ApiPublicKiwifyWebhookRoute
 }
 
@@ -176,11 +242,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PromoccRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/obrigado': {
+      id: '/obrigado'
+      path: '/obrigado'
+      fullPath: '/obrigado'
+      preLoaderRoute: typeof ObrigadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/curso': {
+      id: '/curso'
+      path: '/curso'
+      fullPath: '/curso'
+      preLoaderRoute: typeof CursoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/certificado': {
       id: '/certificado'
       path: '/certificado'
       fullPath: '/certificado'
       preLoaderRoute: typeof CertificadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/centraladmin': {
+      id: '/centraladmin'
+      path: '/centraladmin'
+      fullPath: '/centraladmin'
+      preLoaderRoute: typeof CentraladminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -225,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicKiwifyWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/infinitepay-webhook': {
+      id: '/api/public/infinitepay-webhook'
+      path: '/api/public/infinitepay-webhook'
+      fullPath: '/api/public/infinitepay-webhook'
+      preLoaderRoute: typeof ApiPublicInfinitepayWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/files/$': {
       id: '/api/files/$'
       path: '/api/files/$'
@@ -237,7 +338,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CentraladminRoute: CentraladminRoute,
   CertificadoRoute: CertificadoRoute,
+  CursoRoute: CursoRoute,
+  LoginRoute: LoginRoute,
+  ObrigadoRoute: ObrigadoRoute,
   PromoccRoute: PromoccRoute,
   VendasscRoute: VendasscRoute,
   AdminLoginRoute: AdminLoginRoute,
@@ -245,6 +350,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminTemplateRoute: AdminTemplateRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiFilesSplatRoute: ApiFilesSplatRoute,
+  ApiPublicInfinitepayWebhookRoute: ApiPublicInfinitepayWebhookRoute,
   ApiPublicKiwifyWebhookRoute: ApiPublicKiwifyWebhookRoute,
 }
 export const routeTree = rootRouteImport
