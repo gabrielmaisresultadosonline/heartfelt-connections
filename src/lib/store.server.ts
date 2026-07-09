@@ -244,27 +244,64 @@ export async function saveFile(relName: string, bytes: Uint8Array): Promise<stri
   return safe;
 }
 
+function mimeFor(ext: string): string {
+  return (
+    ext === ".pdf" ? "application/pdf" :
+    ext === ".png" ? "image/png" :
+    ext === ".jpg" || ext === ".jpeg" ? "image/jpeg" :
+    ext === ".webp" ? "image/webp" :
+    ext === ".mp4" ? "video/mp4" :
+    ext === ".webm" ? "video/webm" :
+    ext === ".mov" ? "video/quicktime" :
+    ext === ".m4v" ? "video/x-m4v" :
+    "application/octet-stream"
+  );
+}
+
 export async function readFileBytes(relName: string): Promise<{ bytes: Buffer; mime: string } | null> {
   const safe = relName.replace(/[^a-zA-Z0-9._-]/g, "_");
   const full = path.join(FILES_DIR, safe);
   try {
     const bytes = await fs.readFile(full);
-    const ext = path.extname(safe).toLowerCase();
-    const mime =
-      ext === ".pdf" ? "application/pdf" :
-      ext === ".png" ? "image/png" :
-      ext === ".jpg" || ext === ".jpeg" ? "image/jpeg" :
-      ext === ".webp" ? "image/webp" :
-      ext === ".mp4" ? "video/mp4" :
-      ext === ".webm" ? "video/webm" :
-      ext === ".mov" ? "video/quicktime" :
-      ext === ".m4v" ? "video/x-m4v" :
-      "application/octet-stream";
-    return { bytes, mime };
+    return { bytes, mime: mimeFor(path.extname(safe).toLowerCase()) };
   } catch {
     return null;
   }
 }
+
+export async function statFile(relName: string): Promise<{ size: number; mime: string; full: string } | null> {
+  const safe = relName.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const full = path.join(FILES_DIR, safe);
+  try {
+    const st = await fs.stat(full);
+    return { size: st.size, mime: mimeFor(path.extname(safe).toLowerCase()), full };
+  } catch {
+    return null;
+  }
+}
+
+export async function readFileRange(
+  relName: string,
+  start: number,
+  end: number,
+): Promise<Buffer | null> {
+  const safe = relName.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const full = path.join(FILES_DIR, safe);
+  try {
+    const fh = await fs.open(full, "r");
+    try {
+      const length = end - start + 1;
+      const buf = Buffer.alloc(length);
+      await fh.read(buf, 0, length, start);
+      return buf;
+    } finally {
+      await fh.close();
+    }
+  } catch {
+    return null;
+  }
+}
+
 
 export async function deleteFile(relName: string): Promise<void> {
   const safe = relName.replace(/[^a-zA-Z0-9._-]/g, "_");
