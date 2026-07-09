@@ -139,7 +139,7 @@ function Promocc() {
           </motion.div>
         </div>
       </section>
-{/* __COMBO_MARKER__ */}
+
 
       {/* Quem Somos - Alessandra Linhares */}
       <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100">
