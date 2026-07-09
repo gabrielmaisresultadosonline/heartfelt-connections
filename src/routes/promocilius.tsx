@@ -671,7 +671,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [phone, setPhone] = useState("");
   const [bumpSobrancelha, setBumpSobrancelha] = useState(false);
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
-  const [bumpCilios, setBumpCilios] = useState(false);
+  const [bumpAlisamento, setBumpAlisamento] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -683,7 +683,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open]);
 
   const base = 10;
-  const extras = (bumpSobrancelha ? 10 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCilios ? 13 : 0);
+  const extras = (bumpSobrancelha ? 10 : 0) + (bumpVitalicio ? 9 : 0) + (bumpAlisamento ? 10 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -691,12 +691,12 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     setErr(null);
     setLoading(true);
     try {
-      const bumps: ("sobrancelha" | "vitalicio" | "cilios")[] = [];
+      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "alisamento")[] = [];
       if (bumpSobrancelha) bumps.push("sobrancelha");
       if (bumpVitalicio) bumps.push("vitalicio");
-      if (bumpCilios) bumps.push("cilios");
+      if (bumpAlisamento) bumps.push("alisamento");
       const r = await createCheckout({
-        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps },
+        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps, main: "cilios" },
       });
       if (!r.ok) {
         setErr(r.error || "Erro ao gerar checkout");
@@ -730,7 +730,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-[#d82298] uppercase italic tracking-tight">
                 Garantir minha vaga
               </h3>
-              <p className="text-xs sm:text-sm text-gray-500 mt-2">Curso de Alisamento Perfeito</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-2">Curso de Extensão de Cílios</p>
             </div>
             <form onSubmit={onSubmit} className="space-y-3">
               <div>
@@ -750,7 +750,6 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
 
-              {/* Produto principal — sempre incluso */}
               <div className="pt-2">
                 <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2">
                   🛒 Sua compra
@@ -761,7 +760,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
+                      <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
                       <span className="text-[9px] font-black uppercase tracking-wider bg-[#d82298] text-white px-2 py-0.5 rounded-full">Principal</span>
                     </div>
                     <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 10</strong></p>
@@ -789,6 +788,18 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                     <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 10</strong></p>
                   </div>
                 </label>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpAlisamento ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpAlisamento}
+                    onChange={(e) => setBumpAlisamento(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
+                    <p className="text-xs text-gray-600">Adicione o curso completo de alisamento por apenas <strong className="text-[#d82298]">+R$ 10</strong></p>
+                  </div>
+                </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
                   <input
                     type="checkbox"
@@ -799,18 +810,6 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
                     <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
-                  </div>
-                </label>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <input
-                    type="checkbox"
-                    checked={bumpCilios}
-                    onChange={(e) => setBumpCilios(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <strong className="text-[#d82298]">+R$ 13</strong></p>
                   </div>
                 </label>
               </div>
