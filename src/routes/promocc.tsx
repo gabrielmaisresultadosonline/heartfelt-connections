@@ -9,6 +9,8 @@ import cert1 from "@/assets/cert-1.webp";
 import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
 import cert4 from "@/assets/cert-4.webp";
+import cursoLisoImg from "@/assets/curso-liso-perfeito.png.asset.json";
+
 
 import { createStudentCheckout } from "@/lib/checkout.functions";
 export const Route = createFileRoute("/promocc")({
