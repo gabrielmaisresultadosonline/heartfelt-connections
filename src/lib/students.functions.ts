@@ -50,7 +50,7 @@ export const setStudentBumps = createServerFn({ method: "POST" })
     z
       .object({
         id: z.string(),
-        bumps: z.array(z.enum(["sobrancelha", "vitalicio"])),
+        bumps: z.array(z.enum(["sobrancelha", "vitalicio", "cilios"])),
       })
       .parse(i),
   )
