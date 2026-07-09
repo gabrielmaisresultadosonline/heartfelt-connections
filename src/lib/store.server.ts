@@ -76,7 +76,7 @@ export type Student = {
   bumps: string[];
 };
 
-/** Módulo/aula do curso. */
+/** Módulo/aula do curso (legado — mantido para compatibilidade). */
 export type CourseModule = {
   id: string;
   title: string;
@@ -84,8 +84,34 @@ export type CourseModule = {
   video_url: string; // youtube/vimeo/mp4
   order: number;
   created_at: string;
-  /** Se null, faz parte do curso base. Se "sobrancelha" ou "vitalicio", requer bump. */
+  /** Se null, faz parte do curso base. Se "sobrancelha" | "vitalicio" | "cilios", requer bump. */
   required_bump: string | null;
+};
+
+/** Curso (novo modelo). Cada curso tem capa e uma lista de assets (vídeos + PDFs). */
+export type Course = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  cover_file: string | null; // rel filename em FILES_DIR
+  order: number;
+  /** null = curso base (todos). "sobrancelha" | "vitalicio" | "cilios" = requer bump. */
+  required_bump: string | null;
+  created_at: string;
+};
+
+export type CourseAssetKind = "video" | "pdf";
+
+export type CourseAsset = {
+  id: string;
+  course_id: string;
+  kind: CourseAssetKind;
+  title: string;
+  file_rel: string; // filename em FILES_DIR
+  order: number;
+  size_bytes: number;
+  created_at: string;
 };
 
 /** Bumps disponíveis para venda. */
@@ -104,6 +130,8 @@ type DB = {
   kiwify_buyers: KiwifyBuyer[];
   students: Student[];
   course_modules: CourseModule[];
+  courses: Course[];
+  course_assets: CourseAsset[];
 };
 
 const DEFAULT_DB: DB = {
@@ -129,6 +157,8 @@ const DEFAULT_DB: DB = {
   kiwify_buyers: [],
   students: [],
   course_modules: [],
+  courses: [],
+  course_assets: [],
 };
 
 let writeChain: Promise<unknown> = Promise.resolve();
@@ -150,6 +180,8 @@ export async function readDB(): Promise<DB> {
       kiwify_buyers: parsed.kiwify_buyers ?? [],
       students: (parsed.students ?? []).map((s) => ({ ...s, bumps: s.bumps ?? [] })),
       course_modules: (parsed.course_modules ?? []).map((m) => ({ ...m, required_bump: m.required_bump ?? null })),
+      courses: (parsed.courses ?? []).map((c) => ({ ...c, required_bump: c.required_bump ?? null, cover_file: c.cover_file ?? null })),
+      course_assets: parsed.course_assets ?? [],
     };
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT") {
@@ -192,6 +224,10 @@ export async function readFileBytes(relName: string): Promise<{ bytes: Buffer; m
       ext === ".png" ? "image/png" :
       ext === ".jpg" || ext === ".jpeg" ? "image/jpeg" :
       ext === ".webp" ? "image/webp" :
+      ext === ".mp4" ? "video/mp4" :
+      ext === ".webm" ? "video/webm" :
+      ext === ".mov" ? "video/quicktime" :
+      ext === ".m4v" ? "video/x-m4v" :
       "application/octet-stream";
     return { bytes, mime };
   } catch {

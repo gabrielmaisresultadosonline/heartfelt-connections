@@ -13,19 +13,24 @@ import { Route as VendasscRouteImport } from './routes/vendassc'
 import { Route as PromoccRouteImport } from './routes/promocc'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as CursosRouteImport } from './routes/cursos'
 import { Route as CursoRouteImport } from './routes/curso'
 import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as CentraladminRouteImport } from './routes/centraladmin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as CursoSlugRouteImport } from './routes/curso.$slug'
 import { Route as AdminTemplateRouteImport } from './routes/admin.template'
 import { Route as AdminStudentsRouteImport } from './routes/admin.students'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminModulesRouteImport } from './routes/admin.modules'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminCoursesRouteImport } from './routes/admin.courses'
 import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 import { Route as ApiPublicInfinitepayWebhookRouteImport } from './routes/api/public/infinitepay-webhook'
 import { Route as ApiFilesSplatRouteImport } from './routes/api/files/$'
+import { Route as ApiAdminCourseCoverRouteImport } from './routes/api/admin/course-cover'
+import { Route as ApiAdminCourseAssetRouteImport } from './routes/api/admin/course-asset'
 
 const VendasscRoute = VendasscRouteImport.update({
   id: '/vendassc',
@@ -45,6 +50,11 @@ const ObrigadoRoute = ObrigadoRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CursosRoute = CursosRouteImport.update({
+  id: '/cursos',
+  path: '/cursos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CursoRoute = CursoRouteImport.update({
@@ -72,6 +82,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CursoSlugRoute = CursoSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CursoRoute,
+} as any)
 const AdminTemplateRoute = AdminTemplateRouteImport.update({
   id: '/admin/template',
   path: '/admin/template',
@@ -97,6 +112,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCoursesRoute = AdminCoursesRouteImport.update({
+  id: '/admin/courses',
+  path: '/admin/courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicKiwifyWebhookRoute = ApiPublicKiwifyWebhookRouteImport.update({
   id: '/api/public/kiwify-webhook',
   path: '/api/public/kiwify-webhook',
@@ -113,22 +133,37 @@ const ApiFilesSplatRoute = ApiFilesSplatRouteImport.update({
   path: '/api/files/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminCourseCoverRoute = ApiAdminCourseCoverRouteImport.update({
+  id: '/api/admin/course-cover',
+  path: '/api/admin/course-cover',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminCourseAssetRoute = ApiAdminCourseAssetRouteImport.update({
+  id: '/api/admin/course-asset',
+  path: '/api/admin/course-asset',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRoute
+  '/curso': typeof CursoRouteWithChildren
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
+  '/curso/$slug': typeof CursoSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
+  '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -137,17 +172,22 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRoute
+  '/curso': typeof CursoRouteWithChildren
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
+  '/curso/$slug': typeof CursoSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
+  '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -157,17 +197,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRoute
+  '/curso': typeof CursoRouteWithChildren
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
   '/vendassc': typeof VendasscRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/modules': typeof AdminModulesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/template': typeof AdminTemplateRoute
+  '/curso/$slug': typeof CursoSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/admin/course-asset': typeof ApiAdminCourseAssetRoute
+  '/api/admin/course-cover': typeof ApiAdminCourseCoverRoute
   '/api/files/$': typeof ApiFilesSplatRoute
   '/api/public/infinitepay-webhook': typeof ApiPublicInfinitepayWebhookRoute
   '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
@@ -179,16 +224,21 @@ export interface FileRouteTypes {
     | '/centraladmin'
     | '/certificado'
     | '/curso'
+    | '/cursos'
     | '/login'
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
     | '/admin/settings'
     | '/admin/students'
     | '/admin/template'
+    | '/curso/$slug'
     | '/admin/'
+    | '/api/admin/course-asset'
+    | '/api/admin/course-cover'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -198,16 +248,21 @@ export interface FileRouteTypes {
     | '/centraladmin'
     | '/certificado'
     | '/curso'
+    | '/cursos'
     | '/login'
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
     | '/admin/settings'
     | '/admin/students'
     | '/admin/template'
+    | '/curso/$slug'
     | '/admin'
+    | '/api/admin/course-asset'
+    | '/api/admin/course-cover'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -217,16 +272,21 @@ export interface FileRouteTypes {
     | '/centraladmin'
     | '/certificado'
     | '/curso'
+    | '/cursos'
     | '/login'
     | '/obrigado'
     | '/promocc'
     | '/vendassc'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/modules'
     | '/admin/settings'
     | '/admin/students'
     | '/admin/template'
+    | '/curso/$slug'
     | '/admin/'
+    | '/api/admin/course-asset'
+    | '/api/admin/course-cover'
     | '/api/files/$'
     | '/api/public/infinitepay-webhook'
     | '/api/public/kiwify-webhook'
@@ -236,17 +296,21 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CentraladminRoute: typeof CentraladminRoute
   CertificadoRoute: typeof CertificadoRoute
-  CursoRoute: typeof CursoRoute
+  CursoRoute: typeof CursoRouteWithChildren
+  CursosRoute: typeof CursosRoute
   LoginRoute: typeof LoginRoute
   ObrigadoRoute: typeof ObrigadoRoute
   PromoccRoute: typeof PromoccRoute
   VendasscRoute: typeof VendasscRoute
+  AdminCoursesRoute: typeof AdminCoursesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminModulesRoute: typeof AdminModulesRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminStudentsRoute: typeof AdminStudentsRoute
   AdminTemplateRoute: typeof AdminTemplateRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  ApiAdminCourseAssetRoute: typeof ApiAdminCourseAssetRoute
+  ApiAdminCourseCoverRoute: typeof ApiAdminCourseCoverRoute
   ApiFilesSplatRoute: typeof ApiFilesSplatRoute
   ApiPublicInfinitepayWebhookRoute: typeof ApiPublicInfinitepayWebhookRoute
   ApiPublicKiwifyWebhookRoute: typeof ApiPublicKiwifyWebhookRoute
@@ -280,6 +344,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cursos': {
+      id: '/cursos'
+      path: '/cursos'
+      fullPath: '/cursos'
+      preLoaderRoute: typeof CursosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/curso': {
@@ -317,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/curso/$slug': {
+      id: '/curso/$slug'
+      path: '/$slug'
+      fullPath: '/curso/$slug'
+      preLoaderRoute: typeof CursoSlugRouteImport
+      parentRoute: typeof CursoRoute
+    }
     '/admin/template': {
       id: '/admin/template'
       path: '/admin/template'
@@ -352,6 +430,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/courses': {
+      id: '/admin/courses'
+      path: '/admin/courses'
+      fullPath: '/admin/courses'
+      preLoaderRoute: typeof AdminCoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/kiwify-webhook': {
       id: '/api/public/kiwify-webhook'
       path: '/api/public/kiwify-webhook'
@@ -373,24 +458,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiFilesSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin/course-cover': {
+      id: '/api/admin/course-cover'
+      path: '/api/admin/course-cover'
+      fullPath: '/api/admin/course-cover'
+      preLoaderRoute: typeof ApiAdminCourseCoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/course-asset': {
+      id: '/api/admin/course-asset'
+      path: '/api/admin/course-asset'
+      fullPath: '/api/admin/course-asset'
+      preLoaderRoute: typeof ApiAdminCourseAssetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface CursoRouteChildren {
+  CursoSlugRoute: typeof CursoSlugRoute
+}
+
+const CursoRouteChildren: CursoRouteChildren = {
+  CursoSlugRoute: CursoSlugRoute,
+}
+
+const CursoRouteWithChildren = CursoRoute._addFileChildren(CursoRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CentraladminRoute: CentraladminRoute,
   CertificadoRoute: CertificadoRoute,
-  CursoRoute: CursoRoute,
+  CursoRoute: CursoRouteWithChildren,
+  CursosRoute: CursosRoute,
   LoginRoute: LoginRoute,
   ObrigadoRoute: ObrigadoRoute,
   PromoccRoute: PromoccRoute,
   VendasscRoute: VendasscRoute,
+  AdminCoursesRoute: AdminCoursesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminModulesRoute: AdminModulesRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminStudentsRoute: AdminStudentsRoute,
   AdminTemplateRoute: AdminTemplateRoute,
   AdminIndexRoute: AdminIndexRoute,
+  ApiAdminCourseAssetRoute: ApiAdminCourseAssetRoute,
+  ApiAdminCourseCoverRoute: ApiAdminCourseCoverRoute,
   ApiFilesSplatRoute: ApiFilesSplatRoute,
   ApiPublicInfinitepayWebhookRoute: ApiPublicInfinitepayWebhookRoute,
   ApiPublicKiwifyWebhookRoute: ApiPublicKiwifyWebhookRoute,
@@ -398,13 +511,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
