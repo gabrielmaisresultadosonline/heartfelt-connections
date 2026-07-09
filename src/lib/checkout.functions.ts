@@ -18,9 +18,14 @@ function baseUrl(): string {
   }
 }
 
-const BASE_PRICE = 1000; // R$10 curso
-const BASE_DESC = "Curso de Alisamento Perfeito - Acesso Vitalicio";
 const CHECKOUT_TTL_MS = 20 * 60 * 1000; // 20 min
+
+const PRODUCTS = {
+  alisamento: { price_cents: 1000, description: "Curso de Alisamento Perfeito - Acesso Vitalicio" },
+  cilios: { price_cents: 1000, description: "Curso de Extensão de Cílios - Acesso Vitalicio" },
+  sombrancelha: { price_cents: 1000, description: "Curso de Sobrancelha - Acesso Vitalicio" },
+} as const;
+type MainId = keyof typeof PRODUCTS;
 
 function newOrderNsu(): string {
   return `ord_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
@@ -33,16 +38,21 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
         name: z.string().trim().min(2).max(120),
         email: z.string().trim().email().max(200),
         phone: z.string().trim().min(8).max(30),
-        bumps: z.array(z.enum(["sobrancelha", "vitalicio", "cilios"])).default([]),
+        bumps: z.array(z.enum(["sobrancelha", "vitalicio", "cilios", "alisamento"])).default([]),
+        main: z.enum(["alisamento", "cilios", "sombrancelha"]).default("alisamento"),
       })
       .parse(input),
   )
   .handler(async ({ data }) => {
     const emailLower = data.email.toLowerCase();
     const now = new Date().toISOString();
-    const bumps = Array.from(new Set(data.bumps));
-    const bumpItems = BUMPS.filter((b) => bumps.includes(b.id));
-    const totalCents = BASE_PRICE + bumpItems.reduce((s, b) => s + b.price_cents, 0);
+    const main: MainId = data.main;
+    const mainCfg = PRODUCTS[main];
+    // Bump equivalente ao produto principal é ignorado (evita comprar 2x o mesmo)
+    const mainAsBump: Record<MainId, string> = { alisamento: "alisamento", cilios: "cilios", sombrancelha: "sobrancelha" };
+    const bumps = Array.from(new Set(data.bumps)).filter((b) => b !== mainAsBump[main]);
+    const bumpItems = BUMPS.filter((b) => (bumps as string[]).includes(b.id));
+    const totalCents = mainCfg.price_cents + bumpItems.reduce((s, b) => s + b.price_cents, 0);
 
     // Cria/atualiza registro pendente. Sempre gera NOVO order_nsu quando ainda não foi pago
     // (retries, expirados, etc), garantindo verificação limpa a cada tentativa.
@@ -92,7 +102,7 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
     const phone = phoneClean.startsWith("55") ? `+${phoneClean}` : `+55${phoneClean}`;
 
     const items = [
-      { quantity: 1, price: BASE_PRICE, description: BASE_DESC },
+      { quantity: 1, price: mainCfg.price_cents, description: mainCfg.description },
       ...bumpItems.map((b) => ({ quantity: 1, price: b.price_cents, description: b.description })),
     ];
 

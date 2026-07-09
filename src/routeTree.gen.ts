@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VendasscRouteImport } from './routes/vendassc'
+import { Route as PromosombraRouteImport } from './routes/promosombra'
+import { Route as PromociliusRouteImport } from './routes/promocilius'
 import { Route as PromoccRouteImport } from './routes/promocc'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as MeusCertificadosRouteImport } from './routes/meus-certificados'
@@ -36,6 +38,16 @@ import { Route as ApiAdminCourseAssetRouteImport } from './routes/api/admin/cour
 const VendasscRoute = VendasscRouteImport.update({
   id: '/vendassc',
   path: '/vendassc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromosombraRoute = PromosombraRouteImport.update({
+  id: '/promosombra',
+  path: '/promosombra',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromociliusRoute = PromociliusRouteImport.update({
+  id: '/promocilius',
+  path: '/promocilius',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PromoccRoute = PromoccRouteImport.update({
@@ -159,6 +171,8 @@ export interface FileRoutesByFullPath {
   '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
+  '/promocilius': typeof PromociliusRoute
+  '/promosombra': typeof PromosombraRoute
   '/vendassc': typeof VendasscRoute
   '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
@@ -184,6 +198,8 @@ export interface FileRoutesByTo {
   '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
+  '/promocilius': typeof PromociliusRoute
+  '/promosombra': typeof PromosombraRoute
   '/vendassc': typeof VendasscRoute
   '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
@@ -210,6 +226,8 @@ export interface FileRoutesById {
   '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
   '/promocc': typeof PromoccRoute
+  '/promocilius': typeof PromociliusRoute
+  '/promosombra': typeof PromosombraRoute
   '/vendassc': typeof VendasscRoute
   '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/courses': typeof AdminCoursesRoute
@@ -237,6 +255,8 @@ export interface FileRouteTypes {
     | '/meus-certificados'
     | '/obrigado'
     | '/promocc'
+    | '/promocilius'
+    | '/promosombra'
     | '/vendassc'
     | '/admin/certificados'
     | '/admin/courses'
@@ -262,6 +282,8 @@ export interface FileRouteTypes {
     | '/meus-certificados'
     | '/obrigado'
     | '/promocc'
+    | '/promocilius'
+    | '/promosombra'
     | '/vendassc'
     | '/admin/certificados'
     | '/admin/courses'
@@ -287,6 +309,8 @@ export interface FileRouteTypes {
     | '/meus-certificados'
     | '/obrigado'
     | '/promocc'
+    | '/promocilius'
+    | '/promosombra'
     | '/vendassc'
     | '/admin/certificados'
     | '/admin/courses'
@@ -313,6 +337,8 @@ export interface RootRouteChildren {
   MeusCertificadosRoute: typeof MeusCertificadosRoute
   ObrigadoRoute: typeof ObrigadoRoute
   PromoccRoute: typeof PromoccRoute
+  PromociliusRoute: typeof PromociliusRoute
+  PromosombraRoute: typeof PromosombraRoute
   VendasscRoute: typeof VendasscRoute
   AdminCertificadosRoute: typeof AdminCertificadosRoute
   AdminCoursesRoute: typeof AdminCoursesRoute
@@ -337,6 +363,20 @@ declare module '@tanstack/react-router' {
       path: '/vendassc'
       fullPath: '/vendassc'
       preLoaderRoute: typeof VendasscRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promosombra': {
+      id: '/promosombra'
+      path: '/promosombra'
+      fullPath: '/promosombra'
+      preLoaderRoute: typeof PromosombraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promocilius': {
+      id: '/promocilius'
+      path: '/promocilius'
+      fullPath: '/promocilius'
+      preLoaderRoute: typeof PromociliusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/promocc': {
@@ -505,6 +545,8 @@ const rootRouteChildren: RootRouteChildren = {
   MeusCertificadosRoute: MeusCertificadosRoute,
   ObrigadoRoute: ObrigadoRoute,
   PromoccRoute: PromoccRoute,
+  PromociliusRoute: PromociliusRoute,
+  PromosombraRoute: PromosombraRoute,
   VendasscRoute: VendasscRoute,
   AdminCertificadosRoute: AdminCertificadosRoute,
   AdminCoursesRoute: AdminCoursesRoute,
