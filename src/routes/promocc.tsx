@@ -745,11 +745,12 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [phone, setPhone] = useState("");
   const [bumpSobrancelha, setBumpSobrancelha] = useState(false);
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
+  const [bumpCilios, setBumpCilios] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   const base = 10;
-  const extras = (bumpSobrancelha ? 10 : 0) + (bumpVitalicio ? 9 : 0);
+  const extras = (bumpSobrancelha ? 10 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCilios ? 13 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
