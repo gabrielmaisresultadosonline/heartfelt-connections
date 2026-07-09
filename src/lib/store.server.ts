@@ -200,6 +200,7 @@ const DEFAULT_DB: DB = {
   course_cert_configs: [],
   student_course_access: [],
   course_certificates: [],
+  email_sends: [],
 };
 
 let writeChain: Promise<unknown> = Promise.resolve();
