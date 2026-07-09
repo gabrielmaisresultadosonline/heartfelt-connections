@@ -40,10 +40,11 @@ function Promocc() {
     }, 2000);
     return () => clearInterval(id);
   }, [autoPlay, openCert, certificates.length]);
-  const checkoutUrl = "https://pay.kiwify.com.br/Zdfysv7";
-  const trackAddToCart = () => {
+  const [showCheckout, setShowCheckout] = useState(false);
+  const openCheckout = () => {
+    setShowCheckout(true);
     if (typeof window !== "undefined" && (window as any).fbq) {
-      (window as any).fbq("track", "AddToCart");
+      (window as any).fbq("track", "InitiateCheckout");
     }
   };
   const scrollToOferta = (e: React.MouseEvent) => {
@@ -60,11 +61,9 @@ function Promocc() {
       yellow: { bg: "#b8860b", bgMid: "#d4a017", ring: "rgba(184,134,11,0.4)" },
     }[palette];
     return (
-      <motion.a
-        href={asCheckout ? checkoutUrl : "#oferta"}
-        target={asCheckout ? "_blank" : undefined}
-        rel={asCheckout ? "noopener noreferrer" : undefined}
-        onClick={asCheckout ? trackAddToCart : scrollToOferta}
+      <motion.button
+        type="button"
+        onClick={asCheckout ? openCheckout : scrollToOferta}
         animate={{
           boxShadow: [
             `0 0 0 0px ${colors.ring}`,
@@ -85,7 +84,7 @@ function Promocc() {
           animate={{ x: "100%" }}
           transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
         />
-      </motion.a>
+      </motion.button>
     );
   };
   return (
