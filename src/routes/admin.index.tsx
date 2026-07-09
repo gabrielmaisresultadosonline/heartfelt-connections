@@ -5,12 +5,13 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { adminLogout, adminMe } from "@/lib/auth.functions";
 import { deleteCertificate, listCertificates } from "@/lib/certificates.functions";
 import { addBuyerManual, deleteBuyer, importBuyersCSV, listBuyers } from "@/lib/buyers.functions";
+import { listEmailSends, sendMigrationCampaign, sendMigrationTest } from "@/lib/campaigns.functions";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
 });
 
-type Tab = "certificates" | "buyers";
+type Tab = "certificates" | "buyers" | "emails";
 
 function AdminDashboard() {
   const nav = useNavigate();
