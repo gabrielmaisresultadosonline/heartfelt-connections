@@ -138,13 +138,14 @@ export const pollCheckoutStatus = createServerFn({ method: "POST" })
     const check = await checkPayment({
       order_nsu: st.order_nsu!,
       transaction_nsu: st.transaction_nsu ?? undefined,
-      invoice_slug: st.invoice_slug ?? undefined,
-    } as { order_nsu: string; transaction_nsu?: string; invoice_slug?: string });
+      slug: st.invoice_slug ?? undefined,
+    });
 
     if (check && check.success && check.paid) {
       const result = await markStudentPaid({
         order_nsu: st.order_nsu!,
-        transaction_nsu: check ? undefined : null,
+        transaction_nsu: st.transaction_nsu ?? null,
+        invoice_slug: st.invoice_slug ?? null,
         amount: check.amount ?? null,
         paid_amount: check.paid_amount ?? null,
       });
