@@ -133,19 +133,11 @@ function AdminDashboard() {
               Gerencie alunas autorizadas e certificados emitidos.
             </p>
           </div>
-          <div className="flex gap-3 items-center">
-            <a
-              href="/admin/template"
-              className="text-sm text-pink-700 hover:text-pink-900 font-semibold"
-            >
-              Template
-            </a>
-            <a
-              href="/admin/settings"
-              className="text-sm text-pink-700 hover:text-pink-900 font-semibold"
-            >
-              Configurações
-            </a>
+          <div className="flex gap-3 items-center flex-wrap">
+            <a href="/admin/students" className="text-sm text-pink-700 hover:text-pink-900 font-semibold">Alunos</a>
+            <a href="/admin/modules" className="text-sm text-pink-700 hover:text-pink-900 font-semibold">Módulos</a>
+            <a href="/admin/template" className="text-sm text-pink-700 hover:text-pink-900 font-semibold">Template</a>
+            <a href="/admin/settings" className="text-sm text-pink-700 hover:text-pink-900 font-semibold">Configurações</a>
             <button
               onClick={async () => {
                 await logout();
