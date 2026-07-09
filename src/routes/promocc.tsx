@@ -841,41 +841,60 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-start sm:items-center justify-center p-2 sm:p-4 overflow-y-auto"
         >
           <motion.div
             initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 md:p-8 relative my-8"
+            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md p-4 sm:p-6 md:p-8 relative my-4 sm:my-8 max-h-[95vh] overflow-y-auto"
           >
-            <button onClick={onClose} className="absolute top-3 right-3 p-2 rounded-full hover:bg-gray-100" aria-label="Fechar">
+            <button onClick={onClose} className="absolute top-2 right-2 sm:top-3 sm:right-3 p-2 rounded-full hover:bg-gray-100" aria-label="Fechar">
               <X size={20} />
             </button>
-            <div className="text-center mb-5">
-              <h3 className="text-2xl md:text-3xl font-black text-[#d82298] uppercase italic tracking-tight">
+            <div className="text-center mb-4 sm:mb-5 pr-8">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-[#d82298] uppercase italic tracking-tight">
                 Garantir minha vaga
               </h3>
-              <p className="text-sm text-gray-500 mt-2">Curso de Alisamento Perfeito</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-2">Curso de Alisamento Perfeito</p>
             </div>
             <form onSubmit={onSubmit} className="space-y-3">
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
                 <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
-                  className="mt-1 w-full border border-pink-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-pink-400 outline-none" />
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">E-mail</label>
                 <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 w-full border border-pink-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-pink-400 outline-none" />
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">WhatsApp (com DDD)</label>
                 <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)}
                   placeholder="(11) 99999-9999"
-                  className="mt-1 w-full border border-pink-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-pink-400 outline-none" />
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
 
+              {/* Produto principal — sempre incluso */}
               <div className="pt-2">
+                <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2">
+                  🛒 Sua compra
+                </p>
+                <div className="flex items-start gap-3 p-3 rounded-xl border-2 border-[#d82298] bg-gradient-to-br from-pink-50 to-fuchsia-50">
+                  <div className="mt-0.5 w-4 h-4 rounded-sm bg-[#d82298] flex items-center justify-center shrink-0">
+                    <CheckCircle size={12} className="text-white" strokeWidth={3} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
+                      <span className="text-[9px] font-black uppercase tracking-wider bg-[#d82298] text-white px-2 py-0.5 rounded-full">Principal</span>
+                    </div>
+                    <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 10</strong></p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-1">
                 <p className="text-xs font-black text-[#d82298] uppercase tracking-wider mb-2">
                   🎁 Turbine sua compra
                 </p>
