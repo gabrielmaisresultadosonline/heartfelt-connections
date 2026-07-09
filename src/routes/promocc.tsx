@@ -215,20 +215,6 @@ function Promocc() {
             </motion.div>
           ))}
         </div>
-        <div className="mt-20 max-w-3xl mx-auto bg-gradient-to-br from-[#d82298] to-[#ff3ea5] rounded-[3rem] p-8 md:p-10 text-center text-white shadow-2xl">
-          <p className="inline-block bg-yellow-300 text-[#1a1a1a] text-[10px] md:text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-            ✨ Atualização Vitalícia Inclusa
-          </p>
-          <h3 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter mb-3">
-            Leve <span className="text-yellow-300">TUDO</span> por R$ 42
-          </h3>
-          <p className="text-white/90 mb-6">
-            Alisamento + Sobrancelha + Extensão de Cílios + Atualizações Vitalícias. Pagamento único.
-          </p>
-          <PulseButton asCheckout variant="yellow" className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
-            QUERO O COMBO — R$ 42
-          </PulseButton>
-        </div>
         <div className="text-center mt-10">
           <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
             COMEÇAR MEU CURSO AGORA →
