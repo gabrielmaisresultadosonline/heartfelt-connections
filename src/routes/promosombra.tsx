@@ -704,6 +704,9 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
         setLoading(false);
         return;
       }
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "InitiateCheckout", { value: total, currency: "BRL" });
+      }
       window.location.href = r.url;
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Erro");
