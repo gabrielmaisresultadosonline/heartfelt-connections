@@ -139,7 +139,7 @@ function Promocilius() {
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-sm line-through text-white/60 font-bold">De R$ 197</p>
-                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 10</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 13</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
@@ -246,7 +246,7 @@ function Promocilius() {
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 10,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 13,00</span></p>
           <div className="mt-10">
             <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →

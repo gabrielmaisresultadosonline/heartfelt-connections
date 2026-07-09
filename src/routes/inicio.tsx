@@ -40,7 +40,7 @@ const cursos: Curso[] = [
     to: "/promocilius",
     title: "Extensão de Cílios",
     tagline: "Aprenda fio a fio, volume russo e egípcio — do básico ao avançado.",
-    price: "R$ 10,00",
+    price: "R$ 13,00",
     image: ciliosCover.url,
     icon: <Eye size={20} />,
     gradient: "from-rose-500 to-pink-600",
