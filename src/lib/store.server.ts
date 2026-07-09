@@ -114,6 +114,26 @@ export type CourseAsset = {
   created_at: string;
 };
 
+/** Config de certificado por curso (override do global). */
+export type CourseCertConfig = TemplateConfig & { course_id: string };
+
+/** Registra quando aluno acessou pela 1ª vez cada curso (base para contagem de 8 dias). */
+export type StudentCourseAccess = {
+  student_id: string;
+  course_id: string;
+  first_access_at: string;
+};
+
+/** Certificado emitido por (aluno, curso). */
+export type CourseCertificate = {
+  id: string;
+  student_id: string;
+  course_id: string;
+  created_at: string;
+  full_name: string;
+  pdf_file: string;
+};
+
 /** Bumps disponíveis para venda. */
 export const BUMPS = [
   { id: "sobrancelha", label: "Curso de Sobrancelha", price_cents: 1000, description: "Curso de Sobrancelha (bônus)" },
@@ -132,6 +152,9 @@ type DB = {
   course_modules: CourseModule[];
   courses: Course[];
   course_assets: CourseAsset[];
+  course_cert_configs: CourseCertConfig[];
+  student_course_access: StudentCourseAccess[];
+  course_certificates: CourseCertificate[];
 };
 
 const DEFAULT_DB: DB = {
