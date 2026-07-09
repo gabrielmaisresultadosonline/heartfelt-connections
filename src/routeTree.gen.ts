@@ -15,7 +15,6 @@ import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as MeusCertificadosRouteImport } from './routes/meus-certificados'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CursosRouteImport } from './routes/cursos'
-import { Route as CursoRouteImport } from './routes/curso'
 import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as CentraladminRouteImport } from './routes/centraladmin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -64,11 +63,6 @@ const CursosRoute = CursosRouteImport.update({
   path: '/cursos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CursoRoute = CursoRouteImport.update({
-  id: '/curso',
-  path: '/curso',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CertificadoRoute = CertificadoRouteImport.update({
   id: '/certificado',
   path: '/certificado',
@@ -90,9 +84,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CursoSlugRoute = CursoSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => CursoRoute,
+  id: '/curso/$slug',
+  path: '/curso/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminTemplateRoute = AdminTemplateRouteImport.update({
   id: '/admin/template',
@@ -160,7 +154,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/meus-certificados': typeof MeusCertificadosRoute
@@ -186,7 +179,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/meus-certificados': typeof MeusCertificadosRoute
@@ -213,7 +205,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/centraladmin': typeof CentraladminRoute
   '/certificado': typeof CertificadoRoute
-  '/curso': typeof CursoRouteWithChildren
   '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
   '/meus-certificados': typeof MeusCertificadosRoute
@@ -241,7 +232,6 @@ export interface FileRouteTypes {
     | '/'
     | '/centraladmin'
     | '/certificado'
-    | '/curso'
     | '/cursos'
     | '/login'
     | '/meus-certificados'
@@ -267,7 +257,6 @@ export interface FileRouteTypes {
     | '/'
     | '/centraladmin'
     | '/certificado'
-    | '/curso'
     | '/cursos'
     | '/login'
     | '/meus-certificados'
@@ -293,7 +282,6 @@ export interface FileRouteTypes {
     | '/'
     | '/centraladmin'
     | '/certificado'
-    | '/curso'
     | '/cursos'
     | '/login'
     | '/meus-certificados'
@@ -320,7 +308,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CentraladminRoute: typeof CentraladminRoute
   CertificadoRoute: typeof CertificadoRoute
-  CursoRoute: typeof CursoRouteWithChildren
   CursosRoute: typeof CursosRoute
   LoginRoute: typeof LoginRoute
   MeusCertificadosRoute: typeof MeusCertificadosRoute
@@ -334,6 +321,7 @@ export interface RootRouteChildren {
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminStudentsRoute: typeof AdminStudentsRoute
   AdminTemplateRoute: typeof AdminTemplateRoute
+  CursoSlugRoute: typeof CursoSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiAdminCourseAssetRoute: typeof ApiAdminCourseAssetRoute
   ApiAdminCourseCoverRoute: typeof ApiAdminCourseCoverRoute
@@ -386,13 +374,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CursosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/curso': {
-      id: '/curso'
-      path: '/curso'
-      fullPath: '/curso'
-      preLoaderRoute: typeof CursoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/certificado': {
       id: '/certificado'
       path: '/certificado'
@@ -423,10 +404,10 @@ declare module '@tanstack/react-router' {
     }
     '/curso/$slug': {
       id: '/curso/$slug'
-      path: '/$slug'
+      path: '/curso/$slug'
       fullPath: '/curso/$slug'
       preLoaderRoute: typeof CursoSlugRouteImport
-      parentRoute: typeof CursoRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/template': {
       id: '/admin/template'
@@ -515,21 +496,10 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface CursoRouteChildren {
-  CursoSlugRoute: typeof CursoSlugRoute
-}
-
-const CursoRouteChildren: CursoRouteChildren = {
-  CursoSlugRoute: CursoSlugRoute,
-}
-
-const CursoRouteWithChildren = CursoRoute._addFileChildren(CursoRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CentraladminRoute: CentraladminRoute,
   CertificadoRoute: CertificadoRoute,
-  CursoRoute: CursoRouteWithChildren,
   CursosRoute: CursosRoute,
   LoginRoute: LoginRoute,
   MeusCertificadosRoute: MeusCertificadosRoute,
@@ -543,6 +513,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminSettingsRoute: AdminSettingsRoute,
   AdminStudentsRoute: AdminStudentsRoute,
   AdminTemplateRoute: AdminTemplateRoute,
+  CursoSlugRoute: CursoSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiAdminCourseAssetRoute: ApiAdminCourseAssetRoute,
   ApiAdminCourseCoverRoute: ApiAdminCourseCoverRoute,
@@ -553,13 +524,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
