@@ -76,7 +76,7 @@ PY
 
 # 4) PM2: remove SOMENTE processos deste app, inclusive processos antigos que ficaram
 #    presos em `npm run dev`. Não mexe em outros sites do VPS.
-pm2 jlist | python3 - "$PM2_NAME" "$APP_DIR" <<'PY' | while read -r pm_id; do
+pm2 jlist | python3 -c '
 import json
 import sys
 
@@ -94,7 +94,7 @@ for process in processes:
     cwd = env.get("pm_cwd") or env.get("PWD")
     if name == target_name or cwd == target_cwd:
         print(process.get("pm_id"))
-PY
+' "$PM2_NAME" "$APP_DIR" | while read -r pm_id; do
   if [[ -n "$pm_id" && "$pm_id" != "None" ]]; then
     pm2 delete "$pm_id" || true
   fi
