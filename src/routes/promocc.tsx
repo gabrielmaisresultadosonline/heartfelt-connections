@@ -485,7 +485,7 @@ function Promocc() {
         </div>
       </section>
       {/* Combo de Cursos - Oferta Relâmpago */}
-      <section className="relative z-30 py-20 px-6 bg-gradient-to-br from-[#d82298] via-[#ff3ea5] to-[#d82298] overflow-hidden">
+      <section id="oferta" className="relative z-30 py-20 px-6 bg-gradient-to-br from-[#d82298] via-[#ff3ea5] to-[#d82298] overflow-hidden scroll-mt-24">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <motion.div
             animate={{ rotate: 360 }}
