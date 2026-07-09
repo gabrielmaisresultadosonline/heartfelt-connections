@@ -67,7 +67,8 @@ function CoursePage() {
   }
 
   const modules = data?.modules ?? [];
-  const current = modules.find((m) => m.id === active) ?? modules[0];
+  const accessible = modules.filter((m) => !m.locked);
+  const current = accessible.find((m) => m.id === active) ?? accessible[0];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0f0710] via-[#1a0a14] to-[#2a0a1f] text-white">
