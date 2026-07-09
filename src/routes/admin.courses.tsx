@@ -7,7 +7,7 @@ import {
   listCoursesAdmin, saveCourse, deleteCourse,
   listCourseAssets, deleteCourseAsset, renameCourseAsset,
 } from "@/lib/courses.functions";
-import { FileVideo, FileText, Upload, Trash2, Image as ImageIcon, Loader2, Plus, Pencil, Save, X } from "lucide-react";
+import { FileVideo, FileText, Upload, Trash2, Image as ImageIcon, Loader2, Plus, Pencil, Save, X, RefreshCw } from "lucide-react";
 
 export const Route = createFileRoute("/admin/courses")({
   component: CoursesAdmin,
