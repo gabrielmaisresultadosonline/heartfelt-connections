@@ -46,12 +46,20 @@ function CoursesPage() {
             <h1 className="text-xl font-black text-[#d82298]">Área de Membros</h1>
             <p className="text-xs text-gray-500">Olá, {name}</p>
           </div>
-          <button
-            onClick={async () => { await logout(); nav({ to: "/login" }); }}
-            className="text-sm inline-flex items-center gap-1 text-pink-700 hover:text-pink-900 font-semibold"
-          >
-            <LogOut size={14} /> Sair
-          </button>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/meus-certificados"
+              className="text-sm inline-flex items-center gap-1 text-pink-700 hover:text-pink-900 font-bold"
+            >
+              🏆 Certificados
+            </Link>
+            <button
+              onClick={async () => { await logout(); nav({ to: "/login" }); }}
+              className="text-sm inline-flex items-center gap-1 text-pink-700 hover:text-pink-900 font-semibold"
+            >
+              <LogOut size={14} /> Sair
+            </button>
+          </div>
         </div>
       </header>
 
