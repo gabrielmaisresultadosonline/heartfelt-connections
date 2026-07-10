@@ -143,7 +143,7 @@ function StudentsPage() {
                       <td className="p-3 text-xs font-bold text-green-700 whitespace-nowrap">
                         {typeof s.amount === "number" ? `R$ ${(s.amount / 100).toFixed(2).replace(".", ",")}` : "—"}
                       </td>
-                      <td className="p-3 text-[11px] text-rose-900/80">{inferPurchase(s.amount)}</td>
+                      <td className="p-3 text-[11px] text-rose-900/80">{inferPurchase(s.amount, s.bumps)}</td>
                       <td className="p-3">
                         <div className="flex flex-col gap-1">
                           <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-pink-700">
