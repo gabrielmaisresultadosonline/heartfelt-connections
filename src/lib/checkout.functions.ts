@@ -5,6 +5,7 @@ import { withDB, readDB, BUMPS, type Student } from "./store.server";
 import { createCheckoutLink, checkPayment } from "./infinitepay.server";
 import { markStudentPaid } from "./student-auth.server";
 import { renderAccessEmail, sendMail } from "./email.server";
+import { sendPurchaseEvent } from "./meta-capi.server";
 
 function baseUrl(): string {
   const envUrl = process.env.PUBLIC_BASE_URL;
