@@ -247,3 +247,19 @@ function StatusBadge({ status }: { status: string }) {
   const s = map[status] ?? { label: status, cls: "bg-gray-100 text-gray-700" };
   return <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${s.cls}`}>{s.label}</span>;
 }
+
+// Infere quais cursos foram comprados a partir do valor pago (em centavos).
+// Preços: Liso Perfeito R$10, Extensão de Cílios R$13, Sobrancelha R$10.
+function inferPurchase(amountCents: number | null | undefined): string {
+  if (typeof amountCents !== "number" || amountCents <= 0) return "—";
+  const combos: { total: number; items: string[] }[] = [
+    { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
+    { total: 2300, items: ["Liso Perfeito", "Cílios"] },
+    { total: 2000, items: ["Liso Perfeito", "Sobrancelha"] },
+    { total: 1300, items: ["Cílios"] },
+    { total: 1000, items: ["Liso Perfeito"] },
+  ];
+  const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
+  if (match) return match.items.join(" + ");
+  return `R$ ${(amountCents / 100).toFixed(2).replace(".", ",")} (custom)`;
+}
