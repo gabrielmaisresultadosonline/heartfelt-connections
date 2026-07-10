@@ -218,7 +218,7 @@ function StudentsPage() {
                     const isOpen = !!expanded[key];
                     const last = g.latest;
                     return (
-                      <>
+                      <Fragment key={key}>
                         <tr key={key} className="border-t border-pink-100 hover:bg-pink-50/40 cursor-pointer" onClick={() => setExpanded((e) => ({ ...e, [key]: !e[key] }))}>
                           <td className="p-3 text-pink-600 font-bold text-lg select-none">{isOpen ? "▾" : "▸"}</td>
                           <td className="p-3 font-medium">{g.name}</td>
