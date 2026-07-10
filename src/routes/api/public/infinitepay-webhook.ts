@@ -4,6 +4,7 @@ import { withDB } from "@/lib/store.server";
 import { checkPayment } from "@/lib/infinitepay.server";
 import { markStudentPaid } from "@/lib/student-auth.server";
 import { renderAccessEmail, sendMail } from "@/lib/email.server";
+import { sendPurchaseEvent } from "@/lib/meta-capi.server";
 
 const bodySchema = z.object({
   invoice_slug: z.string().optional(),
