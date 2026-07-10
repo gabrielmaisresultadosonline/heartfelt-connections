@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { adminMe } from "@/lib/auth.functions";
 import {
@@ -67,6 +68,45 @@ function CourseCertForm({
   const [msg, setMsg] = useState<string | null>(null);
 
   useEffect(() => setF(initial), [initial]);
+
+  // preview URL: novo arquivo (não salvo) OU template atual
+  const [previewUrl, setPreviewUrl] = useState<string | null>(templateUrl);
+  const [isPdf, setIsPdf] = useState<boolean>(
+    !!(templateUrl && templateUrl.toLowerCase().endsWith(".pdf")),
+  );
+  useEffect(() => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      setIsPdf(file.type === "application/pdf");
+      return () => URL.revokeObjectURL(url);
+    }
+    setPreviewUrl(templateUrl);
+    setIsPdf(!!(templateUrl && templateUrl.toLowerCase().endsWith(".pdf")));
+  }, [file, templateUrl]);
+
+  const [tplSize, setTplSize] = useState<{ w: number; h: number } | null>(null);
+  useEffect(() => {
+    setTplSize(null);
+    if (!previewUrl || isPdf) return;
+    const img = new Image();
+    img.onload = () => setTplSize({ w: img.naturalWidth, h: img.naturalHeight });
+    img.src = previewUrl;
+  }, [previewUrl, isPdf]);
+
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const [stageW, setStageW] = useState(600);
+  useEffect(() => {
+    const update = () => {
+      if (stageRef.current) setStageW(Math.min(stageRef.current.clientWidth, 900));
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  const scale = useMemo(() => (tplSize ? stageW / tplSize.w : 1), [tplSize, stageW]);
+  const stageH = useMemo(() => (tplSize ? tplSize.h * scale : 0), [tplSize, scale]);
+
 
   function upd<K extends keyof Cfg>(k: K, v: Cfg[K]) {
     setF((p) => ({ ...p, [k]: v }));
@@ -154,6 +194,78 @@ function CourseCertForm({
           </a>
         )}
       </div>
+
+      {/* Preview ao vivo */}
+      <div>
+        <p className="text-xs font-bold text-rose-900 mb-2">
+          Preview {file ? "(novo template — ainda não salvo)" : "(template atual)"}
+        </p>
+        <div ref={stageRef} className="bg-white rounded-xl border border-pink-100 overflow-hidden">
+          {previewUrl && isPdf ? (
+            <div className="p-6 text-center text-xs text-rose-900/70">
+              PDF não tem preview interativo — ajuste os números e salve para testar.
+            </div>
+          ) : previewUrl && tplSize ? (
+            <div className="relative bg-white mx-auto" style={{ width: stageW, height: stageH }}>
+              <div
+                className="absolute border-2 border-dashed border-amber-500 bg-amber-100/40 flex items-center justify-center text-[10px] text-amber-800"
+                style={{
+                  left: f.photo_x * scale,
+                  top: f.photo_y * scale,
+                  width: f.photo_w * scale,
+                  height: f.photo_h * scale,
+                }}
+              >
+                foto aluno
+              </div>
+              <img
+                src={previewUrl}
+                alt="template"
+                draggable={false}
+                className="absolute inset-0 pointer-events-none"
+                style={{ width: stageW, height: stageH }}
+              />
+              <div
+                className="absolute pointer-events-none font-bold whitespace-nowrap"
+                style={{
+                  left: f.name_x * scale,
+                  top: f.name_y * scale,
+                  transform: "translate(-50%, -100%)",
+                  fontSize: f.name_font_size * scale,
+                  color: f.name_color,
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                }}
+              >
+                NOME DO ALUNO
+              </div>
+              <div
+                className="absolute pointer-events-none whitespace-nowrap"
+                style={{
+                  left: f.date_x * scale,
+                  top: f.date_y * scale,
+                  transform: "translate(-50%, -100%)",
+                  fontSize: f.date_font_size * scale,
+                  color: f.date_color,
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                }}
+              >
+                {new Date().toLocaleDateString("pt-BR")}
+              </div>
+            </div>
+          ) : (
+            <div className="p-6 text-center text-xs text-rose-900/60">
+              Suba um template pra ver o preview.
+            </div>
+          )}
+        </div>
+        {tplSize && (
+          <p className="text-[11px] text-rose-900/60 mt-2">
+            Template: {tplSize.w} × {tplSize.h} px. Ajuste os números abaixo olhando o preview.
+          </p>
+        )}
+      </div>
+
+
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {fields.map(([k, label, type]) => (
