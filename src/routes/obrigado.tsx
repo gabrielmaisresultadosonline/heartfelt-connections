@@ -19,6 +19,7 @@ function Obrigado() {
   }, []);
   const [status, setStatus] = useState<Status>(nsu ? "checking" : "unknown");
   const [remainingMs, setRemainingMs] = useState<number>(20 * 60 * 1000);
+  const [amountCents, setAmountCents] = useState<number>(0);
 
   useEffect(() => {
     if (status !== "approved") return;
@@ -27,9 +28,17 @@ function Obrigado() {
     if (w.__fbPurchaseFired) return;
     w.__fbPurchaseFired = true;
     if (w.fbq) {
-      w.fbq("track", "Purchase", { value: 0, currency: "BRL" });
+      // Dedupe com o Purchase enviado pelo servidor (Conversions API):
+      // usamos o mesmo eventID (= order_nsu). Se o server já contabilizou,
+      // o Meta considera apenas 1 evento.
+      w.fbq(
+        "track",
+        "Purchase",
+        { value: amountCents > 0 ? amountCents / 100 : 0, currency: "BRL" },
+        { eventID: nsu || undefined },
+      );
     }
-  }, [status]);
+  }, [status, amountCents, nsu]);
 
   useEffect(() => {
     if (!nsu) return;
