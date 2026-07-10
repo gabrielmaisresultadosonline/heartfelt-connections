@@ -51,6 +51,7 @@ function Obrigado() {
         const r = await poll({ data: { order_nsu: nsu } });
         if (stopped) return;
         if (r.status === "approved") {
+          if ("amount" in r && typeof r.amount === "number") setAmountCents(r.amount);
           setStatus("approved");
           return;
         }
