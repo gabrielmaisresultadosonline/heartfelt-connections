@@ -80,6 +80,24 @@ async function handle(request: Request): Promise<Response> {
       console.error("[infinitepay-webhook] erro ao enviar email", e);
     }
   }
+
+  // Meta Pixel — Purchase server-side (Conversions API).
+  // Dispara sempre que o webhook confirma o pagamento, mesmo que o comprador
+  // tenha fechado a aba /obrigado. Dedupe por event_id = order_nsu.
+  try {
+    const amountCents = check.paid_amount ?? check.amount ?? p.paid_amount ?? p.amount ?? result.student.amount ?? 0;
+    await sendPurchaseEvent({
+      eventId: p.order_nsu,
+      email: result.student.email,
+      phone: result.student.phone,
+      name: result.student.name,
+      amountCents,
+      sourceUrl: `${baseUrl()}/obrigado?nsu=${encodeURIComponent(p.order_nsu)}`,
+    });
+  } catch (e) {
+    console.error("[infinitepay-webhook] erro Meta CAPI", e);
+  }
+
   return new Response("ok", { status: 200 });
 }
 
