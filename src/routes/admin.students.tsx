@@ -120,6 +120,8 @@ function StudentsPage() {
                   <th className="p-3 font-semibold">Email</th>
                   <th className="p-3 font-semibold">Telefone</th>
                   <th className="p-3 font-semibold">Status</th>
+                  <th className="p-3 font-semibold">Pago</th>
+                  <th className="p-3 font-semibold">Comprou</th>
                   <th className="p-3 font-semibold">Bumps / Acesso</th>
                   <th className="p-3 font-semibold">Criado</th>
                   <th className="p-3 font-semibold">Email enviado</th>
@@ -128,9 +130,9 @@ function StudentsPage() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr><td colSpan={8} className="p-8 text-center text-rose-700/60">Carregando...</td></tr>
+                  <tr><td colSpan={10} className="p-8 text-center text-rose-700/60">Carregando...</td></tr>
                 ) : filtered.length === 0 ? (
-                  <tr><td colSpan={8} className="p-10 text-center text-rose-700/60">Nenhum aluno.</td></tr>
+                  <tr><td colSpan={10} className="p-10 text-center text-rose-700/60">Nenhum aluno.</td></tr>
                 ) : (
                   filtered.map((s) => (
                     <tr key={s.id} className="border-t border-pink-100 hover:bg-pink-50/40">
@@ -138,6 +140,10 @@ function StudentsPage() {
                       <td className="p-3 font-mono text-xs">{s.email}</td>
                       <td className="p-3 text-xs">{s.phone ?? "—"}</td>
                       <td className="p-3"><StatusBadge status={s.status} /></td>
+                      <td className="p-3 text-xs font-bold text-green-700 whitespace-nowrap">
+                        {typeof s.amount === "number" ? `R$ ${(s.amount / 100).toFixed(2).replace(".", ",")}` : "—"}
+                      </td>
+                      <td className="p-3 text-[11px] text-rose-900/80">{inferPurchase(s.amount)}</td>
                       <td className="p-3">
                         <div className="flex flex-col gap-1">
                           <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-pink-700">
@@ -240,4 +246,20 @@ function StatusBadge({ status }: { status: string }) {
   };
   const s = map[status] ?? { label: status, cls: "bg-gray-100 text-gray-700" };
   return <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${s.cls}`}>{s.label}</span>;
+}
+
+// Infere quais cursos foram comprados a partir do valor pago (em centavos).
+// Preços: Liso Perfeito R$10, Extensão de Cílios R$13, Sobrancelha R$10.
+function inferPurchase(amountCents: number | null | undefined): string {
+  if (typeof amountCents !== "number" || amountCents <= 0) return "—";
+  const combos: { total: number; items: string[] }[] = [
+    { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
+    { total: 2300, items: ["Liso Perfeito", "Cílios"] },
+    { total: 2000, items: ["Liso Perfeito", "Sobrancelha"] },
+    { total: 1300, items: ["Cílios"] },
+    { total: 1000, items: ["Liso Perfeito"] },
+  ];
+  const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
+  if (match) return match.items.join(" + ");
+  return `R$ ${(amountCents / 100).toFixed(2).replace(".", ",")} (custom)`;
 }
