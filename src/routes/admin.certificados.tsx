@@ -69,6 +69,45 @@ function CourseCertForm({
 
   useEffect(() => setF(initial), [initial]);
 
+  // preview URL: novo arquivo (não salvo) OU template atual
+  const [previewUrl, setPreviewUrl] = useState<string | null>(templateUrl);
+  const [isPdf, setIsPdf] = useState<boolean>(
+    !!(templateUrl && templateUrl.toLowerCase().endsWith(".pdf")),
+  );
+  useEffect(() => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      setIsPdf(file.type === "application/pdf");
+      return () => URL.revokeObjectURL(url);
+    }
+    setPreviewUrl(templateUrl);
+    setIsPdf(!!(templateUrl && templateUrl.toLowerCase().endsWith(".pdf")));
+  }, [file, templateUrl]);
+
+  const [tplSize, setTplSize] = useState<{ w: number; h: number } | null>(null);
+  useEffect(() => {
+    setTplSize(null);
+    if (!previewUrl || isPdf) return;
+    const img = new Image();
+    img.onload = () => setTplSize({ w: img.naturalWidth, h: img.naturalHeight });
+    img.src = previewUrl;
+  }, [previewUrl, isPdf]);
+
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const [stageW, setStageW] = useState(600);
+  useEffect(() => {
+    const update = () => {
+      if (stageRef.current) setStageW(Math.min(stageRef.current.clientWidth, 900));
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  const scale = useMemo(() => (tplSize ? stageW / tplSize.w : 1), [tplSize, stageW]);
+  const stageH = useMemo(() => (tplSize ? tplSize.h * scale : 0), [tplSize, scale]);
+
+
   function upd<K extends keyof Cfg>(k: K, v: Cfg[K]) {
     setF((p) => ({ ...p, [k]: v }));
   }
