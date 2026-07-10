@@ -5,6 +5,7 @@ import { withDB, readDB, BUMPS, type Student } from "./store.server";
 import { createCheckoutLink, checkPayment } from "./infinitepay.server";
 import { markStudentPaid } from "./student-auth.server";
 import { renderAccessEmail, sendMail } from "./email.server";
+import { sendPurchaseEvent } from "./meta-capi.server";
 
 function baseUrl(): string {
   const envUrl = process.env.PUBLIC_BASE_URL;
@@ -141,6 +142,7 @@ export const pollCheckoutStatus = createServerFn({ method: "POST" })
         status: "approved" as const,
         email: st.email,
         email_sent: !!st.email_sent_at,
+        amount: st.paid_amount ?? st.amount ?? 0,
       };
     }
 
@@ -176,7 +178,26 @@ export const pollCheckoutStatus = createServerFn({ method: "POST" })
           console.error("[pollCheckoutStatus] email falhou", e);
         }
       }
-      return { status: "approved" as const, email: st.email, email_sent: true };
+      // Meta CAPI — Purchase server-side (dedupe com o client via event_id = order_nsu)
+      const amountCents = check.paid_amount ?? check.amount ?? st.amount ?? 0;
+      try {
+        await sendPurchaseEvent({
+          eventId: st.order_nsu!,
+          email: st.email,
+          phone: st.phone,
+          name: st.name,
+          amountCents,
+          sourceUrl: `${baseUrl()}/obrigado?nsu=${encodeURIComponent(st.order_nsu!)}`,
+        });
+      } catch (e) {
+        console.error("[pollCheckoutStatus] Meta CAPI falhou", e);
+      }
+      return {
+        status: "approved" as const,
+        email: st.email,
+        email_sent: true,
+        amount: amountCents,
+      };
     }
 
     // Verifica expiração (20 min)
