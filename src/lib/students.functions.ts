@@ -20,6 +20,13 @@ export const listStudents = createServerFn({ method: "GET" }).handler(async () =
   requireAdmin();
   const db = await readDB();
   const students = [...db.students].sort((a, b) => b.created_at.localeCompare(a.created_at));
+  // "Aprovado" = pago via checkout atual (paid ou aprovado manual) COM valor real.
+  // Migrações da Kiwify entram como paid mas com amount null → não contam no total financeiro.
+  const totalApprovedCents = students.reduce((acc, s) => {
+    const isApproved = s.status === "paid" || s.status === "approved_manual";
+    const value = s.paid_amount ?? s.amount ?? 0;
+    return isApproved && value > 0 ? acc + value : acc;
+  }, 0);
   return {
     students: students.map((s) => ({
       id: s.id,
@@ -28,7 +35,10 @@ export const listStudents = createServerFn({ method: "GET" }).handler(async () =
       phone: s.phone,
       status: s.status,
       order_nsu: s.order_nsu,
+      transaction_nsu: s.transaction_nsu,
+      invoice_slug: s.invoice_slug,
       amount: s.amount,
+      paid_amount: s.paid_amount,
       paid_at: s.paid_at,
       created_at: s.created_at,
       updated_at: s.updated_at,
@@ -41,6 +51,7 @@ export const listStudents = createServerFn({ method: "GET" }).handler(async () =
       paid: students.filter((s) => s.status === "paid" || s.status === "approved_manual").length,
       pending: students.filter((s) => s.status === "pending").length,
       refunded: students.filter((s) => s.status === "refunded").length,
+      total_approved_cents: totalApprovedCents,
     },
   };
 });
