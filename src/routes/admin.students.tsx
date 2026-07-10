@@ -150,7 +150,7 @@ function StudentsPage() {
                             <span className="inline-block w-3 h-3 rounded-sm bg-pink-600 text-white text-[9px] leading-3 text-center">✓</span>
                             Liso Perfeito
                           </span>
-                          {(["cilios"] as const).map((b) => {
+                          {(["cilios", "sobrancelha", "vitalicio"] as const).map((b) => {
                             const has = s.bumps.includes(b);
                             return (
                               <label key={b} className="inline-flex items-center gap-1.5 text-[11px] cursor-pointer">
