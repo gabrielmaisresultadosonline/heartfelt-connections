@@ -143,14 +143,14 @@ function StudentsPage() {
                       <td className="p-3 text-xs font-bold text-green-700 whitespace-nowrap">
                         {typeof s.amount === "number" ? `R$ ${(s.amount / 100).toFixed(2).replace(".", ",")}` : "—"}
                       </td>
-                      <td className="p-3 text-[11px] text-rose-900/80">{inferPurchase(s.amount)}</td>
+                      <td className="p-3 text-[11px] text-rose-900/80">{inferPurchase(s.amount, s.bumps)}</td>
                       <td className="p-3">
                         <div className="flex flex-col gap-1">
                           <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-pink-700">
                             <span className="inline-block w-3 h-3 rounded-sm bg-pink-600 text-white text-[9px] leading-3 text-center">✓</span>
                             Liso Perfeito
                           </span>
-                          {(["cilios"] as const).map((b) => {
+                          {(["cilios", "sobrancelha", "vitalicio"] as const).map((b) => {
                             const has = s.bumps.includes(b);
                             return (
                               <label key={b} className="inline-flex items-center gap-1.5 text-[11px] cursor-pointer">
@@ -248,18 +248,29 @@ function StatusBadge({ status }: { status: string }) {
   return <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${s.cls}`}>{s.label}</span>;
 }
 
-// Infere quais cursos foram comprados a partir do valor pago (em centavos).
-// Preços: Liso Perfeito R$10, Extensão de Cílios R$13, Sobrancelha R$10.
-function inferPurchase(amountCents: number | null | undefined): string {
-  if (typeof amountCents !== "number" || amountCents <= 0) return "—";
+// Infere quais cursos foram comprados a partir do valor pago (em centavos) + bumps liberados.
+// Preços: Liso Perfeito R$10, Extensão de Cílios R$13, Sobrancelha R$10, Vitalícias R$9.
+function inferPurchase(amountCents: number | null | undefined, bumps: string[] = []): string {
   const combos: { total: number; items: string[] }[] = [
+    { total: 4200, items: ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"] },
     { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
+    { total: 3200, items: ["Cílios", "Sobrancelha", "Vitalícias"] },
     { total: 2300, items: ["Liso Perfeito", "Cílios"] },
+    { total: 2200, items: ["Cílios", "Vitalícias"] },
     { total: 2000, items: ["Liso Perfeito", "Sobrancelha"] },
+    { total: 1900, items: ["Sobrancelha", "Vitalícias"] },
     { total: 1300, items: ["Cílios"] },
     { total: 1000, items: ["Liso Perfeito"] },
+    { total: 1000, items: ["Sobrancelha"] },
+    { total: 900, items: ["Vitalícias"] },
   ];
-  const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
-  if (match) return match.items.join(" + ");
-  return `R$ ${(amountCents / 100).toFixed(2).replace(".", ",")} (custom)`;
+  const paid = typeof amountCents === "number" && amountCents > 0
+    ? combos.find((c) => Math.abs(c.total - amountCents) <= 100)?.items ?? [`R$ ${(amountCents / 100).toFixed(2).replace(".", ",")}`]
+    : [];
+  const bumpMap: Record<string, string> = { cilios: "Cílios", sobrancelha: "Sobrancelha", vitalicio: "Vitalícias" };
+  const granted = bumps.map((b) => bumpMap[b]).filter(Boolean);
+  // Liso Perfeito é padrão para todo aluno na área
+  const all = Array.from(new Set(["Liso Perfeito", ...paid, ...granted]));
+  if (all.length === 0) return "—";
+  return all.join(" + ");
 }
