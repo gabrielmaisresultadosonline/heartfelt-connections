@@ -92,6 +92,28 @@ export const setStudentBumps = createServerFn({ method: "POST" })
     return { ok };
   });
 
+export const setStudentAmount = createServerFn({ method: "POST" })
+  .inputValidator((i: unknown) =>
+    z
+      .object({
+        id: z.string(),
+        amount_cents: z.number().int().min(0).max(10_000_000),
+      })
+      .parse(i),
+  )
+  .handler(async ({ data }) => {
+    requireAdmin();
+    const ok = await withDB(async (d) => {
+      const s = d.students.find((x) => x.id === data.id);
+      if (!s) return false;
+      s.paid_amount = data.amount_cents;
+      s.amount = data.amount_cents;
+      s.updated_at = new Date().toISOString();
+      return true;
+    });
+    return { ok };
+  });
+
 export const approveStudent = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({ id: z.string() }).parse(i))
   .handler(async ({ data }) => {
