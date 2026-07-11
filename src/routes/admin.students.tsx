@@ -74,6 +74,8 @@ function StudentsPage() {
   const resendFn = useServerFn(resendStudentEmail);
   const deleteFn = useServerFn(deleteStudent);
   const bumpsFn = useServerFn(setStudentBumps);
+  const reconcileFn = useServerFn(reconcilePendingStudents);
+  const [reconciling, setReconciling] = useState(false);
   const [ready, setReady] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "paid" | "pending">("all");
