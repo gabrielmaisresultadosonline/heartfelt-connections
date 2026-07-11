@@ -384,11 +384,17 @@ function StudentsPage() {
                                     <div>
                                       <div className="text-[10px] uppercase text-rose-900/50 font-bold">Valor</div>
                                       <div className="font-bold text-green-700">
-                                        {typeof (r.paid_amount ?? r.amount) === "number"
-                                          ? `R$ ${(((r.paid_amount ?? r.amount)!) / 100).toFixed(2).replace(".", ",")}`
-                                          : "— (migração)"}
+                                        {r.source === "kiwify"
+                                          ? "Kiwify"
+                                          : typeof (r.paid_amount ?? r.amount) === "number"
+                                            ? `R$ ${(((r.paid_amount ?? r.amount)!) / 100).toFixed(2).replace(".", ",")}`
+                                            : "— (migração)"}
                                       </div>
-                                      <div className="text-[11px] text-rose-900/80">{inferPurchase(r.paid_amount ?? r.amount)}</div>
+                                      <div className="text-[11px] text-rose-900/80">
+                                        {r.source === "kiwify"
+                                          ? "Liso Perfeito + Cílios + Sobrancelha + Vitalícias"
+                                          : inferPurchase(r.paid_amount ?? r.amount)}
+                                      </div>
                                     </div>
                                     <div>
                                       <div className="text-[10px] uppercase text-rose-900/50 font-bold">Criado</div>
@@ -401,24 +407,34 @@ function StudentsPage() {
                                       )}
                                     </div>
                                     <div className="md:col-span-2 font-mono text-[10px] break-all">
-                                      <div className="text-[10px] uppercase text-rose-900/50 font-bold font-sans">Transação</div>
-                                      <div>NSU: {r.order_nsu ?? "—"}</div>
-                                      <div>TX: {r.transaction_nsu ?? "—"}</div>
-                                      {r.invoice_slug && <div>Slug: {r.invoice_slug}</div>}
+                                      <div className="text-[10px] uppercase text-rose-900/50 font-bold font-sans">
+                                        {r.source === "kiwify" ? "Origem" : "Transação"}
+                                      </div>
+                                      {r.source === "kiwify" ? (
+                                        <div>Kiwify • Pedido: {r.order_nsu ?? "—"}</div>
+                                      ) : (
+                                        <>
+                                          <div>NSU: {r.order_nsu ?? "—"}</div>
+                                          <div>TX: {r.transaction_nsu ?? "—"}</div>
+                                          {r.invoice_slug && <div>Slug: {r.invoice_slug}</div>}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="text-right">
                                       <div className="text-[10px] uppercase text-rose-900/50 font-bold">Email</div>
                                       <div>{r.email_sent_at ? new Date(r.email_sent_at).toLocaleString("pt-BR") : "—"}</div>
-                                      <button
-                                        onClick={async () => {
-                                          if (!confirm(`Remover esta compra (#${g.history.length - idx}) de ${g.email}?`)) return;
-                                          await deleteFn({ data: { id: r.id } });
-                                          qc.invalidateQueries({ queryKey: ["admin-students"] });
-                                        }}
-                                        className="mt-2 text-[11px] font-semibold text-red-600 hover:text-red-800 hover:underline"
-                                      >
-                                        Remover
-                                      </button>
+                                      {r.source !== "kiwify" && (
+                                        <button
+                                          onClick={async () => {
+                                            if (!confirm(`Remover esta compra (#${g.history.length - idx}) de ${g.email}?`)) return;
+                                            await deleteFn({ data: { id: r.id } });
+                                            qc.invalidateQueries({ queryKey: ["admin-students"] });
+                                          }}
+                                          className="mt-2 text-[11px] font-semibold text-red-600 hover:text-red-800 hover:underline"
+                                        >
+                                          Remover
+                                        </button>
+                                      )}
                                     </div>
                                   </div>
                                 ))}
