@@ -283,8 +283,89 @@ function StudentsPage() {
             >
               {reconciling ? "Verificando..." : "Verificar pendentes"}
             </button>
+            <button
+              disabled={runningRecovery}
+              onClick={async () => {
+                setRunningRecovery(true);
+                setMsg(null);
+                try {
+                  const r = await runRecoveryFn();
+                  setMsg(`Recuperação: ${r.sent} email(s) enviado(s) de ${r.processed} pendente(s)`);
+                  qc.invalidateQueries({ queryKey: ["admin-recovery-emails"] });
+                } catch (e) {
+                  setMsg(e instanceof Error ? e.message : "Erro ao processar recuperação");
+                } finally {
+                  setRunningRecovery(false);
+                  setTimeout(() => setMsg(null), 6000);
+                }
+              }}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold shadow disabled:opacity-60"
+            >
+              {runningRecovery ? "Enviando..." : "Processar recuperação"}
+            </button>
+            <button
+              onClick={() => setShowRecovery((v) => !v)}
+              className="px-4 py-2 rounded-xl bg-white ring-1 ring-pink-200 text-pink-700 text-xs font-bold shadow-sm hover:bg-pink-50"
+            >
+              {showRecovery ? "Ocultar histórico" : "Histórico de recuperação"}
+            </button>
             {msg && <span className="text-xs text-green-700">{msg}</span>}
           </div>
+
+          {showRecovery && (
+            <div className="border-b border-pink-100 bg-amber-50/40 p-4">
+              <div className="text-xs font-bold text-rose-900/70 uppercase tracking-wider mb-3">
+                Emails de recuperação enviados
+                {recoveryQuery.data?.sends && (
+                  <span className="ml-2 text-rose-900/50">({recoveryQuery.data.sends.length})</span>
+                )}
+              </div>
+              {recoveryQuery.isLoading ? (
+                <p className="text-xs text-rose-700/60">Carregando...</p>
+              ) : !recoveryQuery.data?.sends?.length ? (
+                <p className="text-xs text-rose-700/60">Nenhum email de recuperação enviado ainda.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead className="text-left text-rose-900/60">
+                      <tr>
+                        <th className="p-2 font-semibold">Data</th>
+                        <th className="p-2 font-semibold">Etapa</th>
+                        <th className="p-2 font-semibold">Nome</th>
+                        <th className="p-2 font-semibold">Email</th>
+                        <th className="p-2 font-semibold">Assunto</th>
+                        <th className="p-2 font-semibold">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {recoveryQuery.data.sends.map((s) => (
+                        <tr key={s.id} className="border-t border-amber-100">
+                          <td className="p-2 whitespace-nowrap">{new Date(s.sent_at).toLocaleString("pt-BR")}</td>
+                          <td className="p-2">
+                            <span className="inline-block px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">
+                              #{s.campaign.replace("recuperacao-", "")}
+                            </span>
+                          </td>
+                          <td className="p-2">{s.name ?? "—"}</td>
+                          <td className="p-2 font-mono">{s.email}</td>
+                          <td className="p-2 text-rose-900/70">{s.subject}</td>
+                          <td className="p-2">
+                            {s.status === "sent" ? (
+                              <span className="text-green-700 font-bold">✓ Enviado</span>
+                            ) : (
+                              <span className="text-red-600 font-bold" title={s.error ?? ""}>Falhou</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+
 
 
           <div className="overflow-x-auto">
