@@ -481,3 +481,21 @@ function inferPurchase(amountCents: number | null | undefined): string {
   const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
   return match ? match.items.join(" + ") : `R$ ${(amountCents / 100).toFixed(2).replace(".", ",")}`;
 }
+
+export function inferPurchaseItems(amountCents: number | null | undefined): string[] {
+  if (typeof amountCents !== "number" || amountCents <= 0) return [];
+  const combos: { total: number; items: string[] }[] = [
+    { total: 4200, items: ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"] },
+    { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
+    { total: 3200, items: ["Cílios", "Sobrancelha", "Vitalícias"] },
+    { total: 2300, items: ["Liso Perfeito", "Cílios"] },
+    { total: 2200, items: ["Cílios", "Vitalícias"] },
+    { total: 2000, items: ["Liso Perfeito", "Sobrancelha"] },
+    { total: 1900, items: ["Sobrancelha", "Vitalícias"] },
+    { total: 1300, items: ["Cílios"] },
+    { total: 1000, items: ["Liso Perfeito"] },
+    { total: 900, items: ["Vitalícias"] },
+  ];
+  const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
+  return match ? [...match.items] : [];
+}
