@@ -363,3 +363,28 @@ export const reconcilePendingStudents = createServerFn({ method: "POST" }).handl
 
   return { ok: true as const, checked, approved, details };
 });
+
+/** Processa fila de emails de recuperação de checkout abandonado (manual). */
+export const runRecoveryEmails = createServerFn({ method: "POST" }).handler(async () => {
+  requireAdmin();
+  const r = await processRecoveryEmails();
+  return { ok: true as const, ...r };
+});
+
+/** Lista histórico de emails de recuperação enviados. */
+export const listRecoveryEmails = createServerFn({ method: "GET" }).handler(async () => {
+  requireAdmin();
+  const sends = await listRecoveryEmailSends();
+  return {
+    sends: sends.map((s) => ({
+      id: s.id,
+      campaign: s.campaign,
+      email: s.email,
+      name: s.name,
+      subject: s.subject,
+      status: s.status,
+      error: s.error,
+      sent_at: s.sent_at,
+    })),
+  };
+});
