@@ -22,6 +22,9 @@ function baseUrl(): string {
 
 export const listStudents = createServerFn({ method: "GET" }).handler(async () => {
   requireAdmin();
+  // Dispara fila de recuperação em background (não bloqueia listagem).
+  // Como o painel faz refetch a cada 15s, isso substitui um cron.
+  void processRecoveryEmails().catch((e) => console.error("[recovery] falhou", e));
   const db = await readDB();
   const students = [...db.students].sort((a, b) => b.created_at.localeCompare(a.created_at));
   // "Aprovado" = pago via checkout atual (paid ou aprovado manual) COM valor real.
