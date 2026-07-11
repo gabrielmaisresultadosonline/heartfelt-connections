@@ -11,6 +11,9 @@ import {
   signStudent,
 } from "./student-auth.server";
 import { renderAccessEmail, sendMail } from "./email.server";
+import { checkPayment } from "./infinitepay.server";
+import { markStudentPaid } from "./student-auth.server";
+import { sendPurchaseEvent } from "./meta-capi.server";
 
 function baseUrl(): string {
   return (process.env.PUBLIC_BASE_URL || "https://belezalisoperfeito.online").replace(/\/+$/, "");
