@@ -94,24 +94,29 @@ function wrap(title: string, inner: string): string {
 </body></html>`;
 }
 
+// Mutex em memória para evitar execuções concorrentes (o painel refetch a cada 15s)
+let running: Promise<{ processed: number; sent: number; details: Array<{ email: string; step?: number; sent: boolean; reason?: string }> }> | null = null;
+
 /** Roda a fila de recuperação. Segura para ser chamada várias vezes seguidas. */
 export async function processRecoveryEmails(): Promise<{ processed: number; sent: number; details: Array<{ email: string; step?: number; sent: boolean; reason?: string }> }> {
-  const db = await readDB();
+  if (running) return running;
+  running = (async () => {
+    try {
+      return await runRecoveryOnce();
+    } finally {
+      running = null;
+    }
+  })();
+  return running;
+}
+
+async function runRecoveryOnce() {
   const now = Date.now();
   const details: Array<{ email: string; step?: number; sent: boolean; reason?: string }> = [];
   let sent = 0;
   let processed = 0;
 
-  // Agrupa envios por email (lowercase)
-  const sendsByEmail = new Map<string, EmailSend[]>();
-  for (const es of db.email_sends) {
-    if (!es.campaign.startsWith(CAMPAIGN_PREFIX)) continue;
-    const k = es.email.toLowerCase();
-    const arr = sendsByEmail.get(k) ?? [];
-    arr.push(es);
-    sendsByEmail.set(k, arr);
-  }
-
+  const db = await readDB();
   // Alunos elegíveis: pending com checkout_started_at, sem pagamento
   const candidates = db.students.filter(
     (s) => s.status === "pending" && s.checkout_started_at && !s.paid_at,
@@ -121,46 +126,54 @@ export async function processRecoveryEmails(): Promise<{ processed: number; sent
     processed++;
     const startedAt = new Date(st.checkout_started_at!).getTime();
     const key = st.email.toLowerCase();
-    const previous = (sendsByEmail.get(key) ?? [])
-      .filter((e) => e.status === "sent")
-      .sort((a, b) => a.sent_at.localeCompare(b.sent_at));
 
-    const count = previous.length;
-    if (count >= 3) continue;
+    // Claim atômico: reavalia contagem e insere placeholder DENTRO do withDB.
+    // Se outra execução já enviou, o count aqui reflete isso e pulamos.
+    const claim = await withDB(async (d) => {
+      const previous = d.email_sends
+        .filter((e) => e.campaign.startsWith(CAMPAIGN_PREFIX) && e.email.toLowerCase() === key && e.status === "sent")
+        .sort((a, b) => a.sent_at.localeCompare(b.sent_at));
+      const count = previous.length;
+      if (count >= 3) return null;
+      const nextStep = (count + 1) as RecoveryStep;
+      const reference = count === 0
+        ? startedAt
+        : new Date(previous[previous.length - 1].sent_at).getTime();
+      const requiredDelay = count === 0 ? FIRST_DELAY_MS : NEXT_DELAY_MS;
+      if (now - reference < requiredDelay) return null;
 
-    const nextStep = (count + 1) as RecoveryStep;
-    const reference = count === 0
-      ? startedAt
-      : new Date(previous[previous.length - 1].sent_at).getTime();
-    const requiredDelay = count === 0 ? FIRST_DELAY_MS : NEXT_DELAY_MS;
+      const { subject, html } = renderRecoveryEmail(nextStep, { name: st.name });
+      const record: EmailSend = {
+        id: crypto.randomUUID(),
+        campaign: `${CAMPAIGN_PREFIX}${nextStep}`,
+        email: st.email,
+        name: st.name,
+        subject,
+        status: "sent", // otimista; se falhar, corrigimos abaixo
+        error: null,
+        sent_at: new Date().toISOString(),
+      };
+      d.email_sends.push(record);
+      return { record, subject, html, nextStep };
+    });
 
-    if (now - reference < requiredDelay) continue;
-
-    const { subject, html } = renderRecoveryEmail(nextStep, { name: st.name });
-    const record: EmailSend = {
-      id: crypto.randomUUID(),
-      campaign: `${CAMPAIGN_PREFIX}${nextStep}`,
-      email: st.email,
-      name: st.name,
-      subject,
-      status: "sent",
-      error: null,
-      sent_at: new Date().toISOString(),
-    };
+    if (!claim) continue;
 
     try {
-      await sendMail({ to: st.email, subject, html });
+      await sendMail({ to: st.email, subject: claim.subject, html: claim.html });
       sent++;
-      details.push({ email: st.email, step: nextStep, sent: true });
+      details.push({ email: st.email, step: claim.nextStep, sent: true });
     } catch (e) {
-      record.status = "failed";
-      record.error = e instanceof Error ? e.message : String(e);
-      details.push({ email: st.email, step: nextStep, sent: false, reason: record.error });
+      const msg = e instanceof Error ? e.message : String(e);
+      details.push({ email: st.email, step: claim.nextStep, sent: false, reason: msg });
+      await withDB(async (d) => {
+        const rec = d.email_sends.find((x) => x.id === claim.record.id);
+        if (rec) {
+          rec.status = "failed";
+          rec.error = msg;
+        }
+      });
     }
-
-    await withDB(async (d) => {
-      d.email_sends.push(record);
-    });
   }
 
   return { processed, sent, details };
