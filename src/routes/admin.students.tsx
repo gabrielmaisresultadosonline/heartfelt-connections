@@ -96,7 +96,14 @@ function StudentsPage() {
     refetchInterval: 15000,
   });
 
-  const students: Row[] = useMemo(() => (data?.students ?? []) as Row[], [data]);
+  const students: Row[] = useMemo(
+    () => ((data?.students ?? []) as Row[]).map((s) => ({ ...s, source: "checkout" as const })),
+    [data],
+  );
+  const kiwifyBuyers: KiwifyBuyerRow[] = useMemo(
+    () => (data?.kiwify_buyers ?? []) as KiwifyBuyerRow[],
+    [data],
+  );
   const stats = data?.stats ?? { total: 0, paid: 0, pending: 0, refunded: 0, total_approved_cents: 0 };
 
   const grouped: Grouped[] = useMemo(() => {
@@ -105,6 +112,7 @@ function StudentsPage() {
       const key = s.email.toLowerCase();
       const value = s.paid_amount ?? s.amount ?? 0;
       const isApproved = s.status === "paid" || s.status === "approved_manual";
+      const items = inferPurchaseItems(value);
       const g = map.get(key);
       if (!g) {
         map.set(key, {
@@ -117,6 +125,8 @@ function StudentsPage() {
           hasPaid: isApproved,
           hasPending: s.status === "pending",
           allBumps: [...s.bumps],
+          hasLiso: isApproved && items.includes("Liso Perfeito"),
+          purchasedItems: isApproved ? [...items] : [],
         });
       } else {
         g.history.push(s);
@@ -129,15 +139,51 @@ function StudentsPage() {
         if (isApproved) g.hasPaid = true;
         if (s.status === "pending") g.hasPending = true;
         for (const b of s.bumps) if (!g.allBumps.includes(b)) g.allBumps.push(b);
+        if (isApproved) {
+          if (items.includes("Liso Perfeito")) g.hasLiso = true;
+          for (const it of items) if (!g.purchasedItems.includes(it)) g.purchasedItems.push(it);
+        }
+      }
+    }
+    // Adiciona compras da Kiwify (migração) como itens de histórico + marca Liso Perfeito
+    for (const kb of kiwifyBuyers) {
+      const key = kb.email.toLowerCase();
+      const g = map.get(key);
+      if (!g) continue; // só mostramos histórico Kiwify se já é aluna
+      const pseudo: Row = {
+        id: `kiwify:${kb.order_id ?? kb.email}:${kb.purchased_at}`,
+        email: kb.email,
+        name: kb.name ?? g.name,
+        phone: g.phone,
+        status: kb.status === "paid" ? "paid" : kb.status,
+        order_nsu: kb.order_id,
+        transaction_nsu: null,
+        invoice_slug: null,
+        amount: null,
+        paid_amount: null,
+        paid_at: kb.purchased_at,
+        created_at: kb.purchased_at,
+        updated_at: kb.purchased_at,
+        has_password: true,
+        email_sent_at: null,
+        bumps: [],
+        source: "kiwify",
+      };
+      // evita duplicar se já existir uma linha de checkout com mesmo order_nsu
+      const dup = g.history.some((h) => h.order_nsu && kb.order_id && h.order_nsu === kb.order_id);
+      if (!dup) g.history.push(pseudo);
+      if (kb.status === "paid") {
+        g.hasLiso = true;
+        for (const it of ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"]) {
+          if (!g.purchasedItems.includes(it)) g.purchasedItems.push(it);
+        }
       }
     }
     const arr = Array.from(map.values());
-    // ordena por compra mais recente
     arr.sort((a, b) => b.latest.created_at.localeCompare(a.latest.created_at));
-    // ordena histórico interno
     for (const g of arr) g.history.sort((a, b) => b.created_at.localeCompare(a.created_at));
     return arr;
-  }, [students]);
+  }, [students, kiwifyBuyers]);
 
   const filtered = grouped.filter((g) => {
     if (filter === "paid" && !g.hasPaid) return false;
