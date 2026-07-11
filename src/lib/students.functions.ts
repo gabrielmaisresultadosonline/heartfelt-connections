@@ -14,6 +14,7 @@ import { renderAccessEmail, sendMail } from "./email.server";
 import { checkPayment } from "./infinitepay.server";
 import { sendPurchaseEvent } from "./meta-capi.server";
 import { markStudentPaid } from "./student-auth.server";
+import { processRecoveryEmails, listRecoveryEmailSends } from "./recovery-emails.server";
 
 function baseUrl(): string {
   return (process.env.PUBLIC_BASE_URL || "https://belezalisoperfeito.online").replace(/\/+$/, "");
@@ -21,6 +22,9 @@ function baseUrl(): string {
 
 export const listStudents = createServerFn({ method: "GET" }).handler(async () => {
   requireAdmin();
+  // Dispara fila de recuperação em background (não bloqueia listagem).
+  // Como o painel faz refetch a cada 15s, isso substitui um cron.
+  void processRecoveryEmails().catch((e) => console.error("[recovery] falhou", e));
   const db = await readDB();
   const students = [...db.students].sort((a, b) => b.created_at.localeCompare(a.created_at));
   // "Aprovado" = pago via checkout atual (paid ou aprovado manual) COM valor real.
@@ -358,4 +362,29 @@ export const reconcilePendingStudents = createServerFn({ method: "POST" }).handl
   }
 
   return { ok: true as const, checked, approved, details };
+});
+
+/** Processa fila de emails de recuperação de checkout abandonado (manual). */
+export const runRecoveryEmails = createServerFn({ method: "POST" }).handler(async () => {
+  requireAdmin();
+  const r = await processRecoveryEmails();
+  return { ok: true as const, ...r };
+});
+
+/** Lista histórico de emails de recuperação enviados. */
+export const listRecoveryEmails = createServerFn({ method: "GET" }).handler(async () => {
+  requireAdmin();
+  const sends = await listRecoveryEmailSends();
+  return {
+    sends: sends.map((s) => ({
+      id: s.id,
+      campaign: s.campaign,
+      email: s.email,
+      name: s.name,
+      subject: s.subject,
+      status: s.status,
+      error: s.error,
+      sent_at: s.sent_at,
+    })),
+  };
 });
