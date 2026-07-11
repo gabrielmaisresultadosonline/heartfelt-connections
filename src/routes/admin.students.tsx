@@ -21,24 +21,6 @@ export const Route = createFileRoute("/admin/students")({
   component: StudentsPage,
 });
 
-type Row = {
-  id: string;
-  email: string;
-  name: string;
-  phone: string | null;
-  status: string;
-  order_nsu: string | null;
-  transaction_nsu: string | null;
-  invoice_slug: string | null;
-  amount: number | null;
-  paid_amount: number | null;
-  paid_at: string | null;
-  created_at: string;
-  updated_at: string;
-  has_password: boolean;
-  email_sent_at: string | null;
-  bumps: string[];
-};
 
 type Row = {
   id: string;
