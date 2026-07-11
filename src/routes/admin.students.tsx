@@ -77,6 +77,7 @@ function StudentsPage() {
   const resendFn = useServerFn(resendStudentEmail);
   const deleteFn = useServerFn(deleteStudent);
   const bumpsFn = useServerFn(setStudentBumps);
+  const amountFn = useServerFn(setStudentAmount);
   const reconcileFn = useServerFn(reconcilePendingStudents);
   const runRecoveryFn = useServerFn(runRecoveryEmails);
   const listRecoveryFn = useServerFn(listRecoveryEmails);
