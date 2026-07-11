@@ -105,6 +105,13 @@ function StudentsPage() {
     refetchInterval: 15000,
   });
 
+  const recoveryQuery = useQuery({
+    queryKey: ["admin-recovery-emails"],
+    queryFn: () => listRecoveryFn(),
+    enabled: ready && showRecovery,
+    refetchInterval: showRecovery ? 20000 : false,
+  });
+
   const students: Row[] = useMemo(
     () => ((data?.students ?? []) as Row[]).map((s) => ({ ...s, source: "checkout" as const })),
     [data],
