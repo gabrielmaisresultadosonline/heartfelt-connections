@@ -296,8 +296,15 @@ function StudentsPage() {
                           </td>
                           <td className="p-3" onClick={(e) => e.stopPropagation()}>
                             <div className="flex flex-col gap-1">
-                              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-pink-700">
-                                <span className="inline-block w-3 h-3 rounded-sm bg-pink-600 text-white text-[9px] leading-3 text-center">✓</span>
+                              <span
+                                className={`inline-flex items-center gap-1.5 text-[11px] font-bold ${g.hasLiso ? "text-pink-700" : "text-gray-400"}`}
+                                title={g.hasLiso ? "Liso Perfeito comprado" : "Liso Perfeito não comprado"}
+                              >
+                                <span
+                                  className={`inline-block w-3 h-3 rounded-sm text-white text-[9px] leading-3 text-center ${g.hasLiso ? "bg-pink-600" : "bg-gray-300"}`}
+                                >
+                                  {g.hasLiso ? "✓" : ""}
+                                </span>
                                 Liso Perfeito
                               </span>
                               {(["cilios", "sobrancelha", "vitalicio"] as const).map((b) => {
