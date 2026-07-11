@@ -7,6 +7,7 @@ import {
   approveStudent,
   deleteStudent,
   listStudents,
+  reconcilePendingStudents,
   resendStudentEmail,
   setStudentBumps,
 } from "@/lib/students.functions";
