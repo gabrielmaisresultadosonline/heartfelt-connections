@@ -21,6 +21,7 @@ export const Route = createFileRoute("/admin/students")({
   component: StudentsPage,
 });
 
+
 type Row = {
   id: string;
   email: string;
@@ -38,6 +39,15 @@ type Row = {
   has_password: boolean;
   email_sent_at: string | null;
   bumps: string[];
+  source?: "checkout" | "kiwify";
+};
+
+type KiwifyBuyerRow = {
+  email: string;
+  name: string | null;
+  order_id: string | null;
+  status: string;
+  purchased_at: string;
 };
 
 type Grouped = {
@@ -50,6 +60,8 @@ type Grouped = {
   hasPaid: boolean;
   hasPending: boolean;
   allBumps: string[];
+  hasLiso: boolean;
+  purchasedItems: string[]; // união de todos os cursos comprados
 };
 
 function StudentsPage() {
@@ -84,7 +96,14 @@ function StudentsPage() {
     refetchInterval: 15000,
   });
 
-  const students: Row[] = useMemo(() => (data?.students ?? []) as Row[], [data]);
+  const students: Row[] = useMemo(
+    () => ((data?.students ?? []) as Row[]).map((s) => ({ ...s, source: "checkout" as const })),
+    [data],
+  );
+  const kiwifyBuyers: KiwifyBuyerRow[] = useMemo(
+    () => (data?.kiwify_buyers ?? []) as KiwifyBuyerRow[],
+    [data],
+  );
   const stats = data?.stats ?? { total: 0, paid: 0, pending: 0, refunded: 0, total_approved_cents: 0 };
 
   const grouped: Grouped[] = useMemo(() => {
@@ -93,6 +112,7 @@ function StudentsPage() {
       const key = s.email.toLowerCase();
       const value = s.paid_amount ?? s.amount ?? 0;
       const isApproved = s.status === "paid" || s.status === "approved_manual";
+      const items = inferPurchaseItems(value);
       const g = map.get(key);
       if (!g) {
         map.set(key, {
@@ -105,6 +125,8 @@ function StudentsPage() {
           hasPaid: isApproved,
           hasPending: s.status === "pending",
           allBumps: [...s.bumps],
+          hasLiso: isApproved && items.includes("Liso Perfeito"),
+          purchasedItems: isApproved ? [...items] : [],
         });
       } else {
         g.history.push(s);
@@ -117,15 +139,51 @@ function StudentsPage() {
         if (isApproved) g.hasPaid = true;
         if (s.status === "pending") g.hasPending = true;
         for (const b of s.bumps) if (!g.allBumps.includes(b)) g.allBumps.push(b);
+        if (isApproved) {
+          if (items.includes("Liso Perfeito")) g.hasLiso = true;
+          for (const it of items) if (!g.purchasedItems.includes(it)) g.purchasedItems.push(it);
+        }
+      }
+    }
+    // Adiciona compras da Kiwify (migração) como itens de histórico + marca Liso Perfeito
+    for (const kb of kiwifyBuyers) {
+      const key = kb.email.toLowerCase();
+      const g = map.get(key);
+      if (!g) continue; // só mostramos histórico Kiwify se já é aluna
+      const pseudo: Row = {
+        id: `kiwify:${kb.order_id ?? kb.email}:${kb.purchased_at}`,
+        email: kb.email,
+        name: kb.name ?? g.name,
+        phone: g.phone,
+        status: kb.status === "paid" ? "paid" : kb.status,
+        order_nsu: kb.order_id,
+        transaction_nsu: null,
+        invoice_slug: null,
+        amount: null,
+        paid_amount: null,
+        paid_at: kb.purchased_at,
+        created_at: kb.purchased_at,
+        updated_at: kb.purchased_at,
+        has_password: true,
+        email_sent_at: null,
+        bumps: [],
+        source: "kiwify",
+      };
+      // evita duplicar se já existir uma linha de checkout com mesmo order_nsu
+      const dup = g.history.some((h) => h.order_nsu && kb.order_id && h.order_nsu === kb.order_id);
+      if (!dup) g.history.push(pseudo);
+      if (kb.status === "paid") {
+        g.hasLiso = true;
+        for (const it of ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"]) {
+          if (!g.purchasedItems.includes(it)) g.purchasedItems.push(it);
+        }
       }
     }
     const arr = Array.from(map.values());
-    // ordena por compra mais recente
     arr.sort((a, b) => b.latest.created_at.localeCompare(a.latest.created_at));
-    // ordena histórico interno
     for (const g of arr) g.history.sort((a, b) => b.created_at.localeCompare(a.created_at));
     return arr;
-  }, [students]);
+  }, [students, kiwifyBuyers]);
 
   const filtered = grouped.filter((g) => {
     if (filter === "paid" && !g.hasPaid) return false;
@@ -238,8 +296,15 @@ function StudentsPage() {
                           </td>
                           <td className="p-3" onClick={(e) => e.stopPropagation()}>
                             <div className="flex flex-col gap-1">
-                              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-pink-700">
-                                <span className="inline-block w-3 h-3 rounded-sm bg-pink-600 text-white text-[9px] leading-3 text-center">✓</span>
+                              <span
+                                className={`inline-flex items-center gap-1.5 text-[11px] font-bold ${g.hasLiso ? "text-pink-700" : "text-gray-400"}`}
+                                title={g.hasLiso ? "Liso Perfeito comprado" : "Liso Perfeito não comprado"}
+                              >
+                                <span
+                                  className={`inline-block w-3 h-3 rounded-sm text-white text-[9px] leading-3 text-center ${g.hasLiso ? "bg-pink-600" : "bg-gray-300"}`}
+                                >
+                                  {g.hasLiso ? "✓" : ""}
+                                </span>
                                 Liso Perfeito
                               </span>
                               {(["cilios", "sobrancelha", "vitalicio"] as const).map((b) => {
@@ -319,11 +384,17 @@ function StudentsPage() {
                                     <div>
                                       <div className="text-[10px] uppercase text-rose-900/50 font-bold">Valor</div>
                                       <div className="font-bold text-green-700">
-                                        {typeof (r.paid_amount ?? r.amount) === "number"
-                                          ? `R$ ${(((r.paid_amount ?? r.amount)!) / 100).toFixed(2).replace(".", ",")}`
-                                          : "— (migração)"}
+                                        {r.source === "kiwify"
+                                          ? "Kiwify"
+                                          : typeof (r.paid_amount ?? r.amount) === "number"
+                                            ? `R$ ${(((r.paid_amount ?? r.amount)!) / 100).toFixed(2).replace(".", ",")}`
+                                            : "— (migração)"}
                                       </div>
-                                      <div className="text-[11px] text-rose-900/80">{inferPurchase(r.paid_amount ?? r.amount)}</div>
+                                      <div className="text-[11px] text-rose-900/80">
+                                        {r.source === "kiwify"
+                                          ? "Liso Perfeito + Cílios + Sobrancelha + Vitalícias"
+                                          : inferPurchase(r.paid_amount ?? r.amount)}
+                                      </div>
                                     </div>
                                     <div>
                                       <div className="text-[10px] uppercase text-rose-900/50 font-bold">Criado</div>
@@ -336,24 +407,34 @@ function StudentsPage() {
                                       )}
                                     </div>
                                     <div className="md:col-span-2 font-mono text-[10px] break-all">
-                                      <div className="text-[10px] uppercase text-rose-900/50 font-bold font-sans">Transação</div>
-                                      <div>NSU: {r.order_nsu ?? "—"}</div>
-                                      <div>TX: {r.transaction_nsu ?? "—"}</div>
-                                      {r.invoice_slug && <div>Slug: {r.invoice_slug}</div>}
+                                      <div className="text-[10px] uppercase text-rose-900/50 font-bold font-sans">
+                                        {r.source === "kiwify" ? "Origem" : "Transação"}
+                                      </div>
+                                      {r.source === "kiwify" ? (
+                                        <div>Kiwify • Pedido: {r.order_nsu ?? "—"}</div>
+                                      ) : (
+                                        <>
+                                          <div>NSU: {r.order_nsu ?? "—"}</div>
+                                          <div>TX: {r.transaction_nsu ?? "—"}</div>
+                                          {r.invoice_slug && <div>Slug: {r.invoice_slug}</div>}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="text-right">
                                       <div className="text-[10px] uppercase text-rose-900/50 font-bold">Email</div>
                                       <div>{r.email_sent_at ? new Date(r.email_sent_at).toLocaleString("pt-BR") : "—"}</div>
-                                      <button
-                                        onClick={async () => {
-                                          if (!confirm(`Remover esta compra (#${g.history.length - idx}) de ${g.email}?`)) return;
-                                          await deleteFn({ data: { id: r.id } });
-                                          qc.invalidateQueries({ queryKey: ["admin-students"] });
-                                        }}
-                                        className="mt-2 text-[11px] font-semibold text-red-600 hover:text-red-800 hover:underline"
-                                      >
-                                        Remover
-                                      </button>
+                                      {r.source !== "kiwify" && (
+                                        <button
+                                          onClick={async () => {
+                                            if (!confirm(`Remover esta compra (#${g.history.length - idx}) de ${g.email}?`)) return;
+                                            await deleteFn({ data: { id: r.id } });
+                                            qc.invalidateQueries({ queryKey: ["admin-students"] });
+                                          }}
+                                          className="mt-2 text-[11px] font-semibold text-red-600 hover:text-red-800 hover:underline"
+                                        >
+                                          Remover
+                                        </button>
+                                      )}
                                     </div>
                                   </div>
                                 ))}
@@ -415,4 +496,22 @@ function inferPurchase(amountCents: number | null | undefined): string {
   ];
   const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
   return match ? match.items.join(" + ") : `R$ ${(amountCents / 100).toFixed(2).replace(".", ",")}`;
+}
+
+export function inferPurchaseItems(amountCents: number | null | undefined): string[] {
+  if (typeof amountCents !== "number" || amountCents <= 0) return [];
+  const combos: { total: number; items: string[] }[] = [
+    { total: 4200, items: ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"] },
+    { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
+    { total: 3200, items: ["Cílios", "Sobrancelha", "Vitalícias"] },
+    { total: 2300, items: ["Liso Perfeito", "Cílios"] },
+    { total: 2200, items: ["Cílios", "Vitalícias"] },
+    { total: 2000, items: ["Liso Perfeito", "Sobrancelha"] },
+    { total: 1900, items: ["Sobrancelha", "Vitalícias"] },
+    { total: 1300, items: ["Cílios"] },
+    { total: 1000, items: ["Liso Perfeito"] },
+    { total: 900, items: ["Vitalícias"] },
+  ];
+  const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
+  return match ? [...match.items] : [];
 }

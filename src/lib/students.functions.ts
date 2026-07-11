@@ -46,6 +46,13 @@ export const listStudents = createServerFn({ method: "GET" }).handler(async () =
       email_sent_at: s.email_sent_at,
       bumps: s.bumps ?? [],
     })),
+    kiwify_buyers: db.kiwify_buyers.map((b) => ({
+      email: b.email,
+      name: b.name,
+      order_id: b.order_id,
+      status: b.status,
+      purchased_at: b.purchased_at,
+    })),
     stats: {
       total: students.length,
       paid: students.filter((s) => s.status === "paid" || s.status === "approved_manual").length,
