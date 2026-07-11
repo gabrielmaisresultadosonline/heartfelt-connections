@@ -11,6 +11,7 @@ import {
   reconcilePendingStudents,
   resendStudentEmail,
   runRecoveryEmails,
+  setStudentAmount,
   setStudentBumps,
 } from "@/lib/students.functions";
 
