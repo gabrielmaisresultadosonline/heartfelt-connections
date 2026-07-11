@@ -287,3 +287,75 @@ export const studentForgotPassword = createServerFn({ method: "POST" })
     }
     return generic;
   });
+
+/**
+ * Reconcilia pendentes: consulta InfinitePay para cada aluno com status=pending
+ * e, se estiver pago, marca como pago + envia email + dispara Purchase (Meta CAPI).
+ * Útil quando o webhook falhou (rede, timeout) e o aluno fechou a aba /obrigado.
+ */
+export const reconcilePendingStudents = createServerFn({ method: "POST" }).handler(async () => {
+  requireAdmin();
+  const db = await readDB();
+  const pendings = db.students.filter((s) => s.status === "pending" && s.order_nsu);
+  let checked = 0;
+  let approved = 0;
+  const details: Array<{ email: string; approved: boolean; reason?: string }> = [];
+
+  for (const st of pendings) {
+    checked++;
+    const check = await checkPayment({
+      order_nsu: st.order_nsu!,
+      transaction_nsu: st.transaction_nsu ?? undefined,
+      slug: st.invoice_slug ?? undefined,
+    });
+    if (!check || !check.success || !check.paid) {
+      details.push({ email: st.email, approved: false, reason: "não pago" });
+      continue;
+    }
+    const result = await markStudentPaid({
+      order_nsu: st.order_nsu!,
+      transaction_nsu: st.transaction_nsu ?? null,
+      invoice_slug: st.invoice_slug ?? null,
+      amount: check.amount ?? null,
+      paid_amount: check.paid_amount ?? null,
+    });
+    if (!result) {
+      details.push({ email: st.email, approved: false, reason: "aluno sumiu" });
+      continue;
+    }
+    approved++;
+    if (result.password) {
+      try {
+        const { subject, html } = renderAccessEmail({
+          name: result.student.name,
+          email: result.student.email,
+          password: result.password,
+          loginUrl: `${baseUrl()}/login`,
+        });
+        await sendMail({ to: result.student.email, subject, html });
+        await withDB(async (d) => {
+          const s = d.students.find((x) => x.id === result.student.id);
+          if (s) s.email_sent_at = new Date().toISOString();
+        });
+      } catch (e) {
+        console.error("[reconcile] email falhou", e);
+      }
+    }
+    try {
+      const amountCents = check.paid_amount ?? check.amount ?? st.amount ?? 0;
+      await sendPurchaseEvent({
+        eventId: st.order_nsu!,
+        email: st.email,
+        phone: st.phone,
+        name: st.name,
+        amountCents,
+        sourceUrl: `${baseUrl()}/obrigado?nsu=${encodeURIComponent(st.order_nsu!)}`,
+      });
+    } catch (e) {
+      console.error("[reconcile] Meta CAPI falhou", e);
+    }
+    details.push({ email: st.email, approved: true });
+  }
+
+  return { ok: true as const, checked, approved, details };
+});
