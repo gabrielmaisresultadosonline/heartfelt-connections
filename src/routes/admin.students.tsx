@@ -7,6 +7,7 @@ import {
   approveStudent,
   deleteStudent,
   listStudents,
+  reconcilePendingStudents,
   resendStudentEmail,
   setStudentBumps,
 } from "@/lib/students.functions";
@@ -73,6 +74,8 @@ function StudentsPage() {
   const resendFn = useServerFn(resendStudentEmail);
   const deleteFn = useServerFn(deleteStudent);
   const bumpsFn = useServerFn(setStudentBumps);
+  const reconcileFn = useServerFn(reconcilePendingStudents);
+  const [reconciling, setReconciling] = useState(false);
   const [ready, setReady] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "paid" | "pending">("all");
@@ -247,8 +250,29 @@ function StudentsPage() {
               placeholder="Buscar por nome ou email..."
               className="flex-1 border border-pink-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-pink-400 outline-none"
             />
+            <button
+              disabled={reconciling}
+              onClick={async () => {
+                setReconciling(true);
+                setMsg(null);
+                try {
+                  const r = await reconcileFn();
+                  setMsg(`Verificados: ${r.checked} · Aprovados agora: ${r.approved}`);
+                  qc.invalidateQueries({ queryKey: ["admin-students"] });
+                } catch (e) {
+                  setMsg(e instanceof Error ? e.message : "Erro ao verificar");
+                } finally {
+                  setReconciling(false);
+                  setTimeout(() => setMsg(null), 6000);
+                }
+              }}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-600 to-fuchsia-600 text-white text-xs font-bold shadow disabled:opacity-60"
+            >
+              {reconciling ? "Verificando..." : "Verificar pendentes"}
+            </button>
             {msg && <span className="text-xs text-green-700">{msg}</span>}
           </div>
+
 
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
