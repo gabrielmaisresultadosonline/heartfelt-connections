@@ -77,7 +77,11 @@ function StudentsPage() {
   const deleteFn = useServerFn(deleteStudent);
   const bumpsFn = useServerFn(setStudentBumps);
   const reconcileFn = useServerFn(reconcilePendingStudents);
+  const runRecoveryFn = useServerFn(runRecoveryEmails);
+  const listRecoveryFn = useServerFn(listRecoveryEmails);
   const [reconciling, setReconciling] = useState(false);
+  const [runningRecovery, setRunningRecovery] = useState(false);
+  const [showRecovery, setShowRecovery] = useState(false);
   const [ready, setReady] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "paid" | "pending">("all");
