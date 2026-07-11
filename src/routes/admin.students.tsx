@@ -308,7 +308,8 @@ function StudentsPage() {
                                 Liso Perfeito
                               </span>
                               {(["cilios", "sobrancelha", "vitalicio"] as const).map((b) => {
-                                const has = g.allBumps.includes(b);
+                                const itemLabel = b === "cilios" ? "Cílios" : b === "sobrancelha" ? "Sobrancelha" : "Vitalícias";
+                                const has = g.allBumps.includes(b) || g.purchasedItems.includes(itemLabel);
                                 return (
                                   <label key={b} className="inline-flex items-center gap-1.5 text-[11px] cursor-pointer">
                                     <input
