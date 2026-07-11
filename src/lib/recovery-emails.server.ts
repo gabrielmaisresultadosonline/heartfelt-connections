@@ -181,7 +181,14 @@ async function runRecoveryOnce() {
 
 export async function listRecoveryEmailSends(): Promise<EmailSend[]> {
   const db = await readDB();
-  return db.email_sends
-    .filter((e) => e.campaign.startsWith(CAMPAIGN_PREFIX))
-    .sort((a, b) => b.sent_at.localeCompare(a.sent_at));
+  // Dedupe defensivo por (email, campaign) — mantém o mais antigo
+  const seen = new Map<string, EmailSend>();
+  for (const e of db.email_sends) {
+    if (!e.campaign.startsWith(CAMPAIGN_PREFIX)) continue;
+    const key = `${e.email.toLowerCase()}::${e.campaign}`;
+    const prev = seen.get(key);
+    if (!prev || e.sent_at < prev.sent_at) seen.set(key, e);
+  }
+  return Array.from(seen.values()).sort((a, b) => b.sent_at.localeCompare(a.sent_at));
 }
+
