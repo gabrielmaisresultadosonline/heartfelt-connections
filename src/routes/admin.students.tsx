@@ -7,8 +7,10 @@ import {
   approveStudent,
   deleteStudent,
   listStudents,
+  listRecoveryEmails,
   reconcilePendingStudents,
   resendStudentEmail,
+  runRecoveryEmails,
   setStudentBumps,
 } from "@/lib/students.functions";
 
