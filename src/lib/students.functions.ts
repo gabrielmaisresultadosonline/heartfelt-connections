@@ -14,6 +14,7 @@ import { renderAccessEmail, sendMail } from "./email.server";
 import { checkPayment } from "./infinitepay.server";
 import { sendPurchaseEvent } from "./meta-capi.server";
 import { markStudentPaid } from "./student-auth.server";
+import { processRecoveryEmails, listRecoveryEmailSends } from "./recovery-emails.server";
 
 function baseUrl(): string {
   return (process.env.PUBLIC_BASE_URL || "https://belezalisoperfeito.online").replace(/\/+$/, "");
