@@ -516,6 +516,30 @@ function StudentsPage() {
                                           ? "Liso Perfeito + Cílios + Sobrancelha + Vitalícias"
                                           : inferPurchase(r.paid_amount ?? r.amount)}
                                       </div>
+                                      {r.source !== "kiwify" && (
+                                        <button
+                                          onClick={async () => {
+                                            const cur = ((r.paid_amount ?? r.amount) ?? 0) / 100;
+                                            const raw = prompt(
+                                              `Valor pago (R$) para esta compra de ${g.email}:`,
+                                              cur ? cur.toFixed(2).replace(".", ",") : "",
+                                            );
+                                            if (raw == null) return;
+                                            const norm = raw.replace(/\./g, "").replace(",", ".").trim();
+                                            const num = Number(norm);
+                                            if (!Number.isFinite(num) || num < 0) {
+                                              alert("Valor inválido");
+                                              return;
+                                            }
+                                            const cents = Math.round(num * 100);
+                                            await amountFn({ data: { id: r.id, amount_cents: cents } });
+                                            qc.invalidateQueries({ queryKey: ["admin-students"] });
+                                          }}
+                                          className="mt-1 text-[10px] font-semibold text-pink-700 hover:text-pink-900 hover:underline"
+                                        >
+                                          Editar valor
+                                        </button>
+                                      )}
                                     </div>
                                     <div>
                                       <div className="text-[10px] uppercase text-rose-900/50 font-bold">Criado</div>
