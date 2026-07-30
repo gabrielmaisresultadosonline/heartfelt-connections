@@ -579,7 +579,7 @@ function Promocc() {
               <p className="text-gray-500 line-through font-bold">De R$ 197</p>
               <div className="flex items-start justify-center gap-1 my-3">
                 <span className="text-2xl font-black text-[#d82298] mt-2">R$</span>
-                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">10</span>
+                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">19</span>
               </div>
               <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único • Acesso vitalício</p>
               <PulseButton
