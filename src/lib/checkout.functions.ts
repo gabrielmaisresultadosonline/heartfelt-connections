@@ -22,9 +22,9 @@ function baseUrl(): string {
 const CHECKOUT_TTL_MS = 20 * 60 * 1000; // 20 min
 
 const PRODUCTS = {
-  alisamento: { price_cents: 1000, description: "Curso de Alisamento Perfeito - Acesso Vitalicio" },
-  cilios: { price_cents: 1300, description: "Curso de Extensão de Cílios - Acesso Vitalicio" },
-  sombrancelha: { price_cents: 1000, description: "Curso de Sobrancelha - Acesso Vitalicio" },
+  alisamento: { price_cents: 1900, description: "Curso de Alisamento Perfeito - Acesso Vitalicio" },
+  cilios: { price_cents: 3900, description: "Curso de Extensão de Cílios - Acesso Vitalicio" },
+  sombrancelha: { price_cents: 4000, description: "Curso de Sobrancelha - Acesso Vitalicio" },
 } as const;
 type MainId = keyof typeof PRODUCTS;
 
