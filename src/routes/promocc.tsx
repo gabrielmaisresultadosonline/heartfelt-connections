@@ -139,7 +139,7 @@ function Promocc() {
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-sm line-through text-white/60 font-bold">De R$ 197</p>
-                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 10</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 19</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
@@ -246,7 +246,7 @@ function Promocc() {
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 10,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 19,00</span></p>
           <div className="mt-10">
             <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →
@@ -587,7 +587,7 @@ function Promocc() {
                 variant="green"
                 className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto text-white"
               >
-                QUERO O CURSO — R$ 10
+                QUERO O CURSO — R$ 19
               </PulseButton>
             </div>
           </div>
@@ -606,16 +606,16 @@ function Promocc() {
               💎 Combo Completo
             </div>
             <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 42
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 107
             </h3>
             <p className="text-white/90 text-sm md:text-base mb-5">
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
             </p>
             <div className="grid sm:grid-cols-2 gap-3 text-left mb-6">
               {[
-                { t: "Curso de Alisamento Perfeito", p: "R$ 10" },
-                { t: "Curso de Sobrancelha", p: "+ R$ 10" },
-                { t: "Curso de Extensão de Cílios", p: "+ R$ 13" },
+                { t: "Curso de Alisamento Perfeito", p: "R$ 19" },
+                { t: "Curso de Sobrancelha", p: "+ R$ 40" },
+                { t: "Curso de Extensão de Cílios", p: "+ R$ 39" },
                 { t: "Atualizações Vitalícias", p: "+ R$ 9" },
               ].map((b) => (
                 <div key={b.t} className="flex items-center justify-between bg-white/10 rounded-2xl px-4 py-3 border border-white/10">
@@ -629,7 +629,7 @@ function Promocc() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
-                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 42,00</p>
+                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 107,00</p>
                 <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
               </div>
               <PulseButton
@@ -637,7 +637,7 @@ function Promocc() {
                 variant="green"
                 className="py-4 px-8 rounded-full text-base md:text-lg text-white"
               >
-                QUERO O COMBO — R$ 42
+                QUERO O COMBO — R$ 107
               </PulseButton>
             </div>
             <p className="text-[11px] text-white/80 mt-3 text-center">
@@ -682,8 +682,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     return () => { document.body.style.overflow = prev; };
   }, [open]);
 
-  const base = 10;
-  const extras = (bumpSobrancelha ? 10 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCilios ? 13 : 0);
+  const base = 19;
+  const extras = (bumpSobrancelha ? 40 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCilios ? 39 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -767,7 +767,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                       <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
                       <span className="text-[9px] font-black uppercase tracking-wider bg-[#d82298] text-white px-2 py-0.5 rounded-full">Principal</span>
                     </div>
-                    <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 10</strong></p>
+                    <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 19</strong></p>
                   </div>
                 </div>
               </div>
@@ -789,7 +789,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Sobrancelha</p>
-                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 10</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 40</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -813,7 +813,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <strong className="text-[#d82298]">+R$ 13</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <strong className="text-[#d82298]">+R$ 39</strong></p>
                   </div>
                 </label>
               </div>
