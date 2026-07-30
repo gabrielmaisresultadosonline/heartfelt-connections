@@ -623,40 +623,65 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 // Infere quais cursos foram comprados a partir do valor pago (em centavos).
-// Preços: Liso Perfeito R$10, Extensão de Cílios R$13, Sobrancelha R$10, Vitalícias R$9.
+// Preços atuais: Liso Perfeito R$19, Extensão de Cílios R$39, Sobrancelha R$40, Vitalícias R$9.
+// Preços antigos (histórico): Liso R$10, Cílios R$13, Sobrancelha R$10, Vitalícias R$9.
+type Combo = { total: number; items: string[] };
+
+function buildCombos(prices: { name: string; cents: number }[]): Combo[] {
+  const out: Combo[] = [];
+  const n = prices.length;
+  for (let mask = 1; mask < 1 << n; mask++) {
+    const items: string[] = [];
+    let total = 0;
+    for (let i = 0; i < n; i++) {
+      if (mask & (1 << i)) {
+        items.push(prices[i].name);
+        total += prices[i].cents;
+      }
+    }
+    out.push({ total, items });
+  }
+  // combos maiores primeiro para desempatar valores iguais
+  return out.sort((a, b) => b.total - a.total || b.items.length - a.items.length);
+}
+
+const CURRENT_COMBOS = buildCombos([
+  { name: "Liso Perfeito", cents: 1900 },
+  { name: "Cílios", cents: 3900 },
+  { name: "Sobrancelha", cents: 4000 },
+  { name: "Vitalícias", cents: 900 },
+]);
+
+const LEGACY_COMBOS: Combo[] = [
+  { total: 4200, items: ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"] },
+  { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
+  { total: 3200, items: ["Cílios", "Sobrancelha", "Vitalícias"] },
+  { total: 2300, items: ["Liso Perfeito", "Cílios"] },
+  { total: 2200, items: ["Cílios", "Vitalícias"] },
+  { total: 2000, items: ["Liso Perfeito", "Sobrancelha"] },
+  { total: 1300, items: ["Cílios"] },
+  { total: 1000, items: ["Liso Perfeito"] },
+  { total: 900, items: ["Vitalícias"] },
+];
+
+function matchCombo(amountCents: number | null | undefined): Combo | undefined {
+  if (typeof amountCents !== "number" || amountCents <= 0) return undefined;
+  return (
+    CURRENT_COMBOS.find((c) => c.total === amountCents) ??
+    LEGACY_COMBOS.find((c) => c.total === amountCents) ??
+    CURRENT_COMBOS.find((c) => Math.abs(c.total - amountCents) <= 100) ??
+    LEGACY_COMBOS.find((c) => Math.abs(c.total - amountCents) <= 100)
+  );
+}
+
 function inferPurchase(amountCents: number | null | undefined): string {
   if (typeof amountCents !== "number" || amountCents <= 0) return "—";
-  const combos: { total: number; items: string[] }[] = [
-    { total: 4200, items: ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"] },
-    { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
-    { total: 3200, items: ["Cílios", "Sobrancelha", "Vitalícias"] },
-    { total: 2300, items: ["Liso Perfeito", "Cílios"] },
-    { total: 2200, items: ["Cílios", "Vitalícias"] },
-    { total: 2000, items: ["Liso Perfeito", "Sobrancelha"] },
-    { total: 1900, items: ["Sobrancelha", "Vitalícias"] },
-    { total: 1300, items: ["Cílios"] },
-    { total: 1000, items: ["Liso Perfeito"] },
-    { total: 1000, items: ["Sobrancelha"] },
-    { total: 900, items: ["Vitalícias"] },
-  ];
-  const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
+  const match = matchCombo(amountCents);
   return match ? match.items.join(" + ") : `R$ ${(amountCents / 100).toFixed(2).replace(".", ",")}`;
 }
 
 export function inferPurchaseItems(amountCents: number | null | undefined): string[] {
-  if (typeof amountCents !== "number" || amountCents <= 0) return [];
-  const combos: { total: number; items: string[] }[] = [
-    { total: 4200, items: ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"] },
-    { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
-    { total: 3200, items: ["Cílios", "Sobrancelha", "Vitalícias"] },
-    { total: 2300, items: ["Liso Perfeito", "Cílios"] },
-    { total: 2200, items: ["Cílios", "Vitalícias"] },
-    { total: 2000, items: ["Liso Perfeito", "Sobrancelha"] },
-    { total: 1900, items: ["Sobrancelha", "Vitalícias"] },
-    { total: 1300, items: ["Cílios"] },
-    { total: 1000, items: ["Liso Perfeito"] },
-    { total: 900, items: ["Vitalícias"] },
-  ];
-  const match = combos.find((c) => Math.abs(c.total - amountCents) <= 100);
+  const match = matchCombo(amountCents);
   return match ? [...match.items] : [];
 }
+
