@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, ArrowRight, Scissors, Eye, Flower2, Heart } from "lucide-react";
 import marketingSalaoAsset from "@/assets/marketing-salao.png.asset.json";
 
-const cabelereiraProCover = "/cabelereira-pro-cover.png";
+import cabelereiraProAsset from "@/assets/cover-cabelereira-pro-2027.png.asset.json";
+const cabelereiraProCover = cabelereiraProAsset.url;
 const ciliosCover = "/curso-cilios.png";
 const sobrancelhaCover = "/curso-sobrancelha.png";
 
