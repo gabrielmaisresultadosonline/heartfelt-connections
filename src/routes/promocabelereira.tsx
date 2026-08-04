@@ -118,11 +118,11 @@ function PromoCabelereira() {
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
               <PulseButton variant="yellow" asCheckout className="py-6 px-12 rounded-[2.5rem] text-2xl">
-                Garantir Minha Vaga PRO — R$ 25
+                Garantir Minha Vaga PRO — R$ 25,00
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-sm line-through text-white/60 font-bold">De R$ 197</p>
-                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 25</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 25,00</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
@@ -160,7 +160,7 @@ function PromoCabelereira() {
          </div>
          <div className="text-center mt-16">
             <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
-              QUERO APRENDER COM A ALESSANDRA POR R$ 25 →
+              QUERO APRENDER COM A ALESSANDRA POR R$ 25,00 →
             </PulseButton>
          </div>
       </section>
@@ -209,7 +209,7 @@ function PromoCabelereira() {
         </div>
         <div className="text-center mt-10">
           <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
-            COMEÇAR MEU CURSO AGORA POR R$ 25 →
+            COMEÇAR MEU CURSO AGORA POR R$ 25,00 →
           </PulseButton>
         </div>
       </section>

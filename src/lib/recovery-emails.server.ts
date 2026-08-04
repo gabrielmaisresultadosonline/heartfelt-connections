@@ -31,20 +31,20 @@ export type RecoveryStep = 1 | 2 | 3;
 
 export function renderRecoveryEmail(step: RecoveryStep, opts: { name: string }): { subject: string; html: string } {
   const name = escapeHtml(opts.name || "");
-  const url = escapeHtml(`${baseUrl()}/promocc`);
+  const url = escapeHtml(`${baseUrl()}/inicio`);
   const btn = `<div style="text-align:center;margin:28px 0;">
     <a href="${url}" style="display:inline-block;background:#d82298;color:#fff;text-decoration:none;padding:16px 36px;border-radius:999px;font-weight:bold;font-size:16px;">
-      Garantir minha vaga por R$10
+      Garantir minha vaga promocional
     </a>
   </div>`;
 
   if (step === 1) {
-    const subject = "Vi que você começou sua compra 💗 últimas vagas por R$10";
+    const subject = "Vi que você começou sua compra 💗 últimas vagas promocionais";
     const html = wrap(
       subject,
       `<h1 style="margin:0 0 12px;font-size:22px;">Oi ${name || "linda"}, tudo bem?</h1>
-      <p>Percebi que você <strong>iniciou sua compra</strong> do <strong>Curso de Alisamento Perfeito</strong>, mas não chegou a finalizar. 😢</p>
-      <p>Ainda estamos com as <strong>últimas vagas por apenas R$10</strong>. É o preço promocional de lançamento e pode subir a qualquer momento.</p>
+      <p>Percebi que você <strong>iniciou sua compra</strong> de um de nossos cursos, mas não chegou a finalizar. 😢</p>
+      <p>Ainda estamos com as <strong>últimas vagas com preço promocional</strong>. É uma oportunidade única e pode acabar a qualquer momento.</p>
       <p><strong>Não perca essa oportunidade!</strong> Em poucos minutos você garante seu acesso vitalício ao método completo.</p>
       ${btn}
       <p style="font-size:13px;color:#666;">Qualquer dúvida, é só responder este e-mail. Estamos aqui pra te ajudar.</p>`,
@@ -53,12 +53,12 @@ export function renderRecoveryEmail(step: RecoveryStep, opts: { name: string }):
   }
 
   if (step === 2) {
-    const subject = "Apenas R$10 — só 10 reais, você não pode perder!";
+    const subject = "Preço Promocional — você não pode perder!";
     const html = wrap(
       subject,
-      `<h1 style="margin:0 0 12px;font-size:22px;">${name || "Amor"}, é sério: só R$10 💸</h1>
-      <p>Enquanto você lê este e-mail, dezenas de mulheres estão garantindo o <strong>Curso de Alisamento Perfeito</strong> por <strong>apenas R$10</strong>.</p>
-      <p>Por menos do que um lanche você leva o método completo para fazer alisamento profissional em casa ou no seu salão — com <strong>acesso vitalício</strong> e certificado.</p>
+      `<h1 style="margin:0 0 12px;font-size:22px;">${name || "Amor"}, é sério: oferta imperdível 💸</h1>
+      <p>Enquanto você lê este e-mail, dezenas de mulheres estão garantindo acesso aos nossos treinamentos por <strong>preços promocionais</strong>.</p>
+      <p>Por um valor simbólico você leva o método completo para sua especialização profissional — com <strong>acesso vitalício</strong> e certificado.</p>
       <p><strong>Aproveite antes que acabe!</strong> As vagas com esse preço estão se encerrando.</p>
       ${btn}
       <p style="font-size:13px;color:#666;">Se já tinha começado a compra, seus dados estão salvos — em 1 clique você finaliza.</p>`,
@@ -66,11 +66,11 @@ export function renderRecoveryEmail(step: RecoveryStep, opts: { name: string }):
     return { subject, html };
   }
 
-  const subject = "🚨 ÚLTIMA CHAMADA — últimas vagas por R$10 estão encerrando";
+  const subject = "🚨 ÚLTIMA CHAMADA — últimas vagas promocionais estão encerrando";
   const html = wrap(
     subject,
     `<h1 style="margin:0 0 12px;font-size:22px;color:#d82298;">Última chamada, ${name || "linda"}! ⏰</h1>
-    <p>Esse é o <strong>último aviso</strong>: as <strong>últimas vagas por apenas R$10</strong> do <strong>Curso de Alisamento Perfeito</strong> estão encerrando agora.</p>
+    <p>Esse é o <strong>último aviso</strong>: as <strong>últimas vagas com desconto</strong> estão encerrando agora.</p>
     <p>Depois disso o valor volta ao normal e você perde a chance de garantir com esse preço promocional.</p>
     <p><strong>Não deixe pra depois — depois pode ser tarde.</strong></p>
     ${btn}
