@@ -785,17 +785,17 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               <div className="space-y-4">
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
-                <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
+                <input required={step === 1} minLength={2} value={name} onChange={(e) => setName(e.target.value)}
                   className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">E-mail</label>
-                <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                <input required={step === 1} type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                   className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">WhatsApp (com DDD)</label>
-                <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)}
+                <input required={step === 1} type="tel" value={phone} onChange={(e) => setPhone(e.target.value)}
                   placeholder="(11) 99999-9999"
                   className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
@@ -844,7 +844,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   </label>
                   {bumpSeguidores && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="mt-2 overflow-hidden">
-                      <input required value={instagram} onChange={(e) => setInstagram(e.target.value)} placeholder="Seu @ ou link do Instagram"
+                      <input required={step === 2} value={instagram} onChange={(e) => setInstagram(e.target.value)} placeholder="Seu @ ou link do Instagram"
                         className="w-full border border-indigo-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-indigo-400 outline-none bg-white" />
                     </motion.div>
                   )}
