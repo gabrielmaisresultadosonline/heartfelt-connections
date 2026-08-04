@@ -834,13 +834,14 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                     <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
-                <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-indigo-50 to-blue-50 border-indigo-400 shadow-md" : "border-gray-200 hover:border-pink-300"}`}>
+                <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]" : "border-gray-200 hover:border-pink-300"}`}>
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input type="checkbox" checked={bumpSeguidores} onChange={(e) => setBumpSeguidores(e.target.checked)}
-                      className="mt-1 accent-indigo-600 w-4 h-4" />
-                    <div className="flex-1">
-                      <p className="text-sm font-black text-indigo-900 uppercase italic">🔥 Marketing Completo Instagram (+ R$ 97)</p>
-                      <p className="text-[10px] text-indigo-700/70">2000 seguidores + 5 mil alcance + curtidas/comentários</p>
+                      className="mt-1 accent-white w-4 h-4" />
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-black uppercase italic leading-tight ${bumpSeguidores ? "text-white" : "text-[#d82298]"}`}>🔥 MARKETING COMPLETO INSTAGRAM</p>
+                      <p className={`text-lg font-black mt-1 ${bumpSeguidores ? "text-yellow-300" : "text-[#d82298]"}`}>(+ R$ 97)</p>
+                      <p className={`text-[10px] mt-1 font-bold ${bumpSeguidores ? "text-white/90" : "text-gray-500"}`}>2000 seguidores + 5 mil alcance + curtidas/comentários</p>
                     </div>
                   </label>
                   {bumpSeguidores && (
