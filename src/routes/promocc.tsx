@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList, ArrowRight } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
 import heroImg from "@/assets/hero-alessandra.webp";
 import cert1 from "@/assets/cert-1.webp";
@@ -786,7 +786,14 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   Turbine sua formação
                 </p>
                 <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite nossos descontos exclusivos!</p>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition relative ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <motion.div 
+                    animate={{ x: [0, 5, 0] }} 
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    className="absolute -left-8 top-1/2 -translate-y-1/2 text-[#d82298] hidden sm:block"
+                  >
+                    <ArrowRight size={20} className="fill-[#d82298]" />
+                  </motion.div>
                   <input
                     type="checkbox"
                     checked={bumpSobrancelha}
@@ -795,7 +802,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Sobrancelha</p>
-                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -807,7 +814,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -819,7 +826,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
-                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
+                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <br/><strong className="text-[#d82298]">+R$ 9</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -831,7 +838,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
-                    <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                    <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
                 <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]" : "border-gray-200 hover:border-pink-300"}`}>
