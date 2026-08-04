@@ -606,7 +606,7 @@ function Promocc() {
               💎 Combo Completo
             </div>
             <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 91
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 61
             </h3>
             <p className="text-white/90 text-sm md:text-base mb-5">
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
@@ -630,7 +630,7 @@ function Promocc() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
-                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 91,00</p>
+                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 61,00</p>
                 <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
               </div>
               <PulseButton
@@ -638,7 +638,7 @@ function Promocc() {
                 variant="green"
                 className="py-4 px-8 rounded-full text-base md:text-lg text-white"
               >
-                QUERO O COMBO — R$ 91
+                QUERO O COMBO — R$ 61
               </PulseButton>
             </div>
             <p className="text-[11px] text-white/80 mt-3 text-center">
