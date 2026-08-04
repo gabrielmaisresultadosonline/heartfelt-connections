@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, ArrowRight, Scissors, Eye, Flower2 } from "lucide-react";
-const cabelereiraProCover = "/cabelereira-pro-cover.png";
+const cabelereiraProCover = "/api/files/cover-cabelereira-pro-2027.webp";
 const ciliosCover = "/curso-cilios.png";
 const sobrancelhaCover = "/curso-sobrancelha.png";
 
