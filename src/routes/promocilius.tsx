@@ -607,7 +607,7 @@ function Promocilius() {
               💎 Combo Completo
             </div>
             <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 71
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 168
             </h3>
             <p className="text-white/90 text-sm md:text-base mb-5">
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
