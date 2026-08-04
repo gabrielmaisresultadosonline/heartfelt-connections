@@ -171,9 +171,9 @@ function PromoCabelereira() {
         </div>
         <div className="grid md:grid-cols-3 gap-12">
           {[
-            { icon: Sparkles, title: "Alisamento Perfeito", tag: "Curso", desc: "Progressivas e selagens com brilho real, do zero ao avançado." },
-            { icon: Flower2, title: "Sobrancelha", tag: "Curso", desc: "Design, henna e modelagem para valorizar cada rosto." },
-            { icon: Star, title: "Extensão de Cílios", tag: "Curso", desc: "Fio a fio, volume russo e brasileiro com técnica profissional." }
+            { icon: Sparkles, title: "Técnicas 2027", tag: "Exclusivo", desc: "Domine as técnicas mais modernas e avançadas de alisamento e tratamentos para 2027." },
+            { icon: Scissors, title: "Curso Completo", tag: "Formação", desc: "Aprenda tudo sobre a profissão de cabeleireira, do básico ao nível PRO." },
+            { icon: Sparkles, title: "Tendências & Novidades", tag: "Novo", desc: "Fique por dentro das últimas tendências do mercado e novidades internacionais." }
           ].map((item, i) => (
             <motion.div key={i} whileHover={{ y: -15 }} className="bg-[#fafafa] rounded-[3.5rem] overflow-hidden shadow-xl border border-gray-100 h-full flex flex-col group">
               <div className="h-80 overflow-hidden relative flex items-center justify-center bg-gradient-to-br from-[#d82298]/5 to-transparent">
