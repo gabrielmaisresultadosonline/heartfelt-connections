@@ -140,7 +140,7 @@ function Promocilius() {
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-sm line-through text-white/60 font-bold">De R$ 197</p>
-                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 39</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 29</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
@@ -247,7 +247,7 @@ function Promocilius() {
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 39,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 29,00</span></p>
           <div className="mt-10">
             <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →
@@ -767,19 +767,19 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                       <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
                       <span className="text-[9px] font-black uppercase tracking-wider bg-[#d82298] text-white px-2 py-0.5 rounded-full">Principal</span>
                     </div>
-                    <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 39</strong></p>
+                    <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 29</strong></p>
                   </div>
                 </div>
               </div>
 
               <div className="pt-2 -mx-1 px-3 py-3 rounded-2xl bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 border-2 border-dashed border-amber-400 relative">
-                <span className="absolute -top-3 left-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
-                  🎁 Oferta exclusiva
+                <span className="absolute -top-3 left-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+                  🚀 ECONOMIZE E COMPRE JUNTO!
                 </span>
                 <p className="text-sm sm:text-base font-black text-amber-900 uppercase tracking-tight mt-1 mb-1">
-                  Turbine sua compra
+                  Turbine sua formação
                 </p>
-                <p className="text-[11px] text-amber-800/80 mb-3">Adicione com desconto — só nesta tela</p>
+                <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite: Só R$ 14 cada curso extra!</p>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
                   <input
                     type="checkbox"
@@ -789,7 +789,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Sobrancelha</p>
-                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 40</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpAlisamento ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -801,7 +801,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de alisamento por apenas <strong className="text-[#d82298]">+R$ 19</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso completo de alisamento por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -813,7 +813,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
-                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
+                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
               </div>
