@@ -613,12 +613,11 @@ function Promosombra() {
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
             </p>
             <div className="grid sm:grid-cols-2 gap-3 text-left mb-6">
-              {[
-                { t: "Curso de Alisamento Perfeito", p: "R$ 19" },
-                { t: "Curso de Sobrancelha", p: "+ R$ 40" },
-                { t: "Curso de Extensão de Cílios", p: "+ R$ 39" },
-                { t: "Atualizações Vitalícias", p: "+ R$ 9" },
-              ].map((b) => (
+                {[
+                  { t: "Curso de Alisamento Perfeito", p: "R$ 14" },
+                  { t: "Curso de Extensão de Cílios", p: "+ R$ 14" },
+                  { t: "Atualizações Vitalícias", p: "+ R$ 14" },
+                ].map((b) => (
                 <div key={b.t} className="flex items-center justify-between bg-white/10 rounded-2xl px-4 py-3 border border-white/10">
                   <span className="flex items-center gap-2 text-sm font-bold">
                     <CheckCircle size={16} className="text-yellow-300 shrink-0" /> {b.t}
