@@ -607,18 +607,17 @@ function Promocilius() {
               💎 Combo Completo
             </div>
             <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 107
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 71
             </h3>
             <p className="text-white/90 text-sm md:text-base mb-5">
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
             </p>
             <div className="grid sm:grid-cols-2 gap-3 text-left mb-6">
-              {[
-                { t: "Curso de Alisamento Perfeito", p: "R$ 19" },
-                { t: "Curso de Sobrancelha", p: "+ R$ 40" },
-                { t: "Curso de Extensão de Cílios", p: "+ R$ 39" },
-                { t: "Atualizações Vitalícias", p: "+ R$ 9" },
-              ].map((b) => (
+                {[
+                  { t: "Curso de Alisamento Perfeito", p: "R$ 14" },
+                  { t: "Curso de Sobrancelha", p: "+ R$ 14" },
+                  { t: "Atualizações Vitalícias", p: "+ R$ 14" },
+                ].map((b) => (
                 <div key={b.t} className="flex items-center justify-between bg-white/10 rounded-2xl px-4 py-3 border border-white/10">
                   <span className="flex items-center gap-2 text-sm font-bold">
                     <CheckCircle size={16} className="text-yellow-300 shrink-0" /> {b.t}
@@ -630,7 +629,7 @@ function Promocilius() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
-                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 107,00</p>
+                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 71,00</p>
                 <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
               </div>
               <PulseButton
@@ -638,7 +637,7 @@ function Promocilius() {
                 variant="green"
                 className="py-4 px-8 rounded-full text-base md:text-lg text-white"
               >
-                QUERO O COMBO — R$ 107
+                QUERO O COMBO — R$ 71
               </PulseButton>
             </div>
             <p className="text-[11px] text-white/80 mt-3 text-center">
@@ -683,8 +682,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     return () => { document.body.style.overflow = prev; };
   }, [open]);
 
-  const base = 39;
-  const extras = (bumpSobrancelha ? 40 : 0) + (bumpVitalicio ? 9 : 0) + (bumpAlisamento ? 19 : 0);
+  const base = 29;
+  const extras = (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 14 : 0) + (bumpAlisamento ? 14 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {

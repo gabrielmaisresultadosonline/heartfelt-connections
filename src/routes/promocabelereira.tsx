@@ -17,11 +17,9 @@ const comboImg = "/combo-3-cursos.webp";
 export const Route = createFileRoute("/promocabelereira")({
   component: PromoCabelereira,
 });
+
 function PromoCabelereira() {
   const images = {
-    lisos: "https://images.pexels.com/photos/973401/pexels-photo-973401.jpeg?auto=compress&cs=tinysrgb&w=800",
-    corte: "https://images.pexels.com/photos/3319333/pexels-photo-3319333.jpeg?auto=compress&cs=tinysrgb&w=800",
-    tonalizacao: "https://images.pexels.com/photos/3738339/pexels-photo-3738339.jpeg?auto=compress&cs=tinysrgb&w=800",
     hero: heroImg,
     alessandra: alessandraImg,
   };
@@ -34,15 +32,7 @@ function PromoCabelereira() {
   const [activeCert, setActiveCert] = useState(0);
   const [openCert, setOpenCert] = useState<number | null>(null);
   const [autoPlay, setAutoPlay] = useState(true);
-  const nextCert = () => setActiveCert((p) => (p + 1) % certificates.length);
-  const prevCert = () => setActiveCert((p) => (p - 1 + certificates.length) % certificates.length);
-  useEffect(() => {
-    if (!autoPlay || openCert !== null) return;
-    const id = setInterval(() => {
-      setActiveCert((p) => (p + 1) % certificates.length);
-    }, 2000);
-    return () => clearInterval(id);
-  }, [autoPlay, openCert, certificates.length]);
+  
   const [showCheckout, setShowCheckout] = useState(false);
   const openCheckout = () => {
     setShowCheckout(true);
@@ -55,6 +45,7 @@ function PromoCabelereira() {
     const el = document.getElementById("oferta");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
   const PulseButton = ({ children, className = "", asCheckout = false, variant }: { children: React.ReactNode; className?: string; asCheckout?: boolean; variant?: "pink" | "black" | "green" | "yellow" }) => {
     const palette = variant ?? (asCheckout ? "green" : "pink");
     const colors = {
@@ -90,37 +81,17 @@ function PromoCabelereira() {
       </motion.button>
     );
   };
+
   return (
     <div className="bg-[#fafafa] text-[#1a1a1a] font-sans relative overflow-x-hidden min-h-screen">
-      {/* Login Button - Top Right */}
-      <Link
-        to="/login"
-        className="fixed top-4 right-4 z-50 inline-flex items-center gap-2 bg-white/95 backdrop-blur-md text-[#1a1a1a] font-bold text-sm px-5 py-2.5 rounded-full shadow-xl border border-white/60 hover:bg-white hover:scale-105 transition-all duration-200"
-      >
+      <Link to="/login" className="fixed top-4 right-4 z-50 inline-flex items-center gap-2 bg-white/95 backdrop-blur-md text-[#1a1a1a] font-bold text-sm px-5 py-2.5 rounded-full shadow-xl border border-white/60 hover:bg-white hover:scale-105 transition-all duration-200">
         <LogIn size={16} />
         <span>Entrar</span>
       </Link>
-      {/* Background Animated Elements */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <motion.div
-          animate={{ rotate: 360, x: ["-10vw", "110vw"], y: ["10vh", "40vh", "10vh"] }}
-          transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-          className="absolute opacity-10 text-[#d82298]"
-        >
-          <Scissors size={100} />
-        </motion.div>
-        <motion.div
-          animate={{ rotate: -360, x: ["110vw", "-10vw"], y: ["70vh", "10vh", "70vh"] }}
-          transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
-          className="absolute opacity-10 text-pink-400"
-        >
-          <Scissors size={140} />
-        </motion.div>
-      </div>
-      {/* Hero Section */}
+
       <section className="relative pt-24 pb-20 px-6 bg-[#d82298] overflow-hidden min-h-[90vh] flex items-center z-10 text-white text-center lg:text-left shadow-2xl">
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-20">
-          <motion.div initial={{ opacity: 1, x: 0 }} animate={{ opacity: 1, x: 0 }}>
+          <motion.div>
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full mb-8 border border-white/30 mx-auto lg:mx-0">
               <Star size={16} className="text-yellow-300 fill-yellow-300" />
               <span className="text-xs font-black uppercase tracking-widest text-white">Formação de Elite 2027</span>
@@ -144,44 +115,18 @@ function PromoCabelereira() {
               </div>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 1, scale: 1 }} animate={{ opacity: 1, scale: 1 }} className="relative hidden lg:block">
-            <img loading="eager" fetchPriority="high" decoding="async" src={images.hero} alt="Curso" className="rounded-[4rem] border-[12px] border-white/20 shadow-2xl w-full aspect-[4/5] object-cover" />
-            <div className="absolute -top-10 -right-10 w-60 h-60 bg-pink-400 rounded-full blur-[100px] opacity-40 animate-pulse"></div>
+          <motion.div className="relative hidden lg:block">
+            <img loading="eager" fetchPriority="high" src={images.hero} alt="Curso" className="rounded-[4rem] border-[12px] border-white/20 shadow-2xl w-full aspect-[4/5] object-cover" />
           </motion.div>
         </div>
       </section>
 
-      {/* Resto da página igual... omitido por brevidade mas deve ser completo no arquivo */}
-      {/* ... conteúdo idêntico ao promocc adaptado para Cabelereira PRO 2027 ... */}
-
-      <section id="oferta" className="relative z-30 py-20 px-6 bg-gradient-to-br from-[#d82298] via-[#ff3ea5] to-[#d82298] overflow-hidden scroll-mt-24">
-        <div className="container mx-auto max-w-4xl relative z-10 text-center text-white">
-          <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] mb-6">
-            Cabelereira <span className="text-yellow-300">PRO 2027</span>
-          </h2>
-          <div className="max-w-xs sm:max-w-sm mx-auto mb-8">
-            <img src={cursoLisoImg} alt="Cabelereira PRO 2027" className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40" />
-          </div>
-          <div className="grid md:grid-cols-1 gap-6 max-w-xl mx-auto">
-            <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-yellow-300 flex flex-col">
-              <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Formação Cabelereira PRO</h3>
-              <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
-                {["Acesso Vitalício", "Certificado MEC", "Elite 2027", "Aulas em HD"].map(c => (
-                  <li key={c} className="flex items-center gap-2 font-semibold">
-                    <CheckCircle className="text-[#d82298] shrink-0" size={18} />{c}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex items-start justify-center gap-1 my-3">
-                <span className="text-2xl font-black text-[#d82298] mt-2">R$</span>
-                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">25</span>
-              </div>
-              <PulseButton asCheckout variant="green" className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto text-white">
-                QUERO O CURSO — R$ 25
-              </PulseButton>
-            </div>
-          </div>
-        </div>
+      <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100">
+         <div className="text-center">
+           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter mb-10 text-[#d82298]">Conteúdo do Curso</h2>
+           <p className="text-gray-600 text-lg mb-10">O curso Cabelereira PRO 2027 utiliza a metodologia completa do Alisamento Perfeito com novos módulos exclusivos.</p>
+           <PulseButton className="py-5 px-10 rounded-full text-lg">QUERO ME INSCREVER AGORA →</PulseButton>
+         </div>
       </section>
 
       <CheckoutModal open={showCheckout} onClose={() => setShowCheckout(false)} />
@@ -223,18 +168,18 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-start sm:items-center justify-center p-2 sm:p-4 overflow-y-auto"
+          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
         >
           <motion.div
-            initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+            initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md p-4 sm:p-6 md:p-8 relative my-4 sm:my-8 max-h-[95vh] overflow-y-auto"
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8"
           >
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-[#d82298] uppercase italic tracking-tight text-center">Garantir minha vaga PRO</h3>
-            <form onSubmit={onSubmit} className="space-y-3 mt-4">
-              <input placeholder="Nome" required value={name} onChange={e => setName(e.target.value)} className="w-full border border-pink-200 rounded-xl px-4 py-3" />
-              <input placeholder="Email" type="email" required value={email} onChange={e => setEmail(e.target.value)} className="w-full border border-pink-200 rounded-xl px-4 py-3" />
-              <input placeholder="WhatsApp" required value={phone} onChange={e => setPhone(e.target.value)} className="w-full border border-pink-200 rounded-xl px-4 py-3" />
+            <h3 className="text-2xl font-black text-[#d82298] text-center mb-6">Garantir minha vaga PRO</h3>
+            <form onSubmit={onSubmit} className="space-y-4">
+              <input placeholder="Nome" required value={name} onChange={e => setName(e.target.value)} className="w-full border rounded-xl p-3" />
+              <input placeholder="Email" type="email" required value={email} onChange={e => setEmail(e.target.value)} className="w-full border rounded-xl p-3" />
+              <input placeholder="WhatsApp" required value={phone} onChange={e => setPhone(e.target.value)} className="w-full border rounded-xl p-3" />
               <button type="submit" disabled={loading} className="w-full bg-[#d82298] text-white font-black py-4 rounded-full">
                 {loading ? "Processando..." : "Pagar R$ 25,00 →"}
               </button>
