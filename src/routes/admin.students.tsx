@@ -16,9 +16,11 @@ import {
 } from "@/lib/students.functions";
 
 const BUMP_LABELS: Record<string, string> = {
-  cilios: "Extensão de Cílios",
-  sobrancelha: "Sobrancelha (+R$10)",
-  vitalicio: "Vitalícias (+R$9)",
+  cilios: "Cílios",
+  sobrancelha: "Sobrancelha",
+  vitalicio: "Vitalícias",
+  alisamento: "Alisamento",
+  "cabelereira-pro": "Cabelereira PRO",
 };
 
 export const Route = createFileRoute("/admin/students")({
@@ -623,35 +625,43 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 // Infere quais cursos foram comprados a partir do valor pago (em centavos).
-// Preços atuais: Liso Perfeito R$19, Extensão de Cílios R$39, Sobrancelha R$40, Vitalícias R$9.
-// Preços antigos (histórico): Liso R$10, Cílios R$13, Sobrancelha R$10, Vitalícias R$9.
+// Preços atuais: Alisamento R$10, Cílios/Sobrancelha R$29, Cabelereira PRO R$25, Bumps R$14.
 type Combo = { total: number; items: string[] };
 
-function buildCombos(prices: { name: string; cents: number }[]): Combo[] {
+const ALL_CURSOS = [
+  { name: "Alisamento", cents: 1000 },
+  { name: "Cabelereira PRO", cents: 2500 },
+  { name: "Cílios", cents: 2900 },
+  { name: "Sobrancelha", cents: 2900 },
+];
+
+const BUMP_CENTS = 1400;
+
+function buildCombos(): Combo[] {
   const out: Combo[] = [];
-  const n = prices.length;
-  for (let mask = 1; mask < 1 << n; mask++) {
-    const items: string[] = [];
-    let total = 0;
-    for (let i = 0; i < n; i++) {
-      if (mask & (1 << i)) {
-        items.push(prices[i].name);
-        total += prices[i].cents;
+  // Para cada curso principal
+  for (const main of ALL_CURSOS) {
+    const bumps = ["Sobrancelha", "Vitalícias", "Cílios", "Alisamento", "Cabelereira PRO"].filter(b => b !== main.name);
+    const n = bumps.length;
+    // Todas as combinações de bumps (0 a 2^n)
+    for (let mask = 0; mask < (1 << n); mask++) {
+      const items = [main.name];
+      let total = main.cents;
+      for (let i = 0; i < n; i++) {
+        if (mask & (1 << i)) {
+          items.push(bumps[i]);
+          total += BUMP_CENTS;
+        }
       }
+      out.push({ total, items });
     }
-    out.push({ total, items });
   }
-  // combos maiores primeiro para desempatar valores iguais
   return out.sort((a, b) => b.total - a.total || b.items.length - a.items.length);
 }
 
-const CURRENT_COMBOS = buildCombos([
-  { name: "Liso Perfeito", cents: 1900 },
-  { name: "Cílios", cents: 3900 },
-  { name: "Sobrancelha", cents: 4000 },
-  { name: "Vitalícias", cents: 900 },
-]);
+const COMBOS = buildCombos();
 
+// Históricos e casos especiais
 const LEGACY_COMBOS: Combo[] = [
   { total: 4200, items: ["Liso Perfeito", "Cílios", "Sobrancelha", "Vitalícias"] },
   { total: 3300, items: ["Liso Perfeito", "Cílios", "Sobrancelha"] },
@@ -662,14 +672,17 @@ const LEGACY_COMBOS: Combo[] = [
   { total: 1300, items: ["Cílios"] },
   { total: 1000, items: ["Liso Perfeito"] },
   { total: 900, items: ["Vitalícias"] },
+  { total: 1900, items: ["Alisamento"] },
+  { total: 3900, items: ["Cílios"] },
+  { total: 4000, items: ["Sobrancelha"] },
 ];
 
 function matchCombo(amountCents: number | null | undefined): Combo | undefined {
   if (typeof amountCents !== "number" || amountCents <= 0) return undefined;
   return (
-    CURRENT_COMBOS.find((c) => c.total === amountCents) ??
+    COMBOS.find((c) => c.total === amountCents) ??
     LEGACY_COMBOS.find((c) => c.total === amountCents) ??
-    CURRENT_COMBOS.find((c) => Math.abs(c.total - amountCents) <= 100) ??
+    COMBOS.find((c) => Math.abs(c.total - amountCents) <= 100) ??
     LEGACY_COMBOS.find((c) => Math.abs(c.total - amountCents) <= 100)
   );
 }
