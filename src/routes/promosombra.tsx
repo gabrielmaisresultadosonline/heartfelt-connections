@@ -933,7 +933,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : `Pagar R$ ${total},00 →`}
               </button>
             </div>
-              <p className="text-center text-[11px] text-gray-500 mt-1 order-3 md:col-span-2">
+              <p className="text-center text-[11px] text-gray-500 mt-1 order-4 md:col-span-2">
                 🔒 Ambiente 100% seguro. Seus dados estão protegidos e não serão compartilhados.
               </p>
             </form>
