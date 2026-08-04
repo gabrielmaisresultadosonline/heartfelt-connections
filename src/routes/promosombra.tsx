@@ -786,62 +786,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   Turbine sua formação
                 </p>
                 <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite nossos descontos exclusivos!</p>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition relative ${bumpAlisamento ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <motion.div 
-                    animate={{ x: [0, 5, 0] }} 
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                    className="absolute -left-8 top-1/2 -translate-y-1/2 text-[#d82298] hidden sm:block"
-                  >
-                    <ArrowRight size={20} className="fill-[#d82298]" />
-                  </motion.div>
-                  <input
-                    type="checkbox"
-                    checked={bumpAlisamento}
-                    onChange={(e) => setBumpAlisamento(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de alisamento por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
-                  </div>
-                </label>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <input
-                    type="checkbox"
-                    checked={bumpCilios}
-                    onChange={(e) => setBumpCilios(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
-                  </div>
-                </label>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <input
-                    type="checkbox"
-                    checked={bumpVitalicio}
-                    onChange={(e) => setBumpVitalicio(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
-                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <br/><strong className="text-[#d82298]">+R$ 9</strong></p>
-                  </div>
-                </label>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <input
-                    type="checkbox"
-                    checked={bumpCabelereira}
-                    onChange={(e) => setBumpCabelereira(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
-                    <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
-                  </div>
-                </label>
-                <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]" : "border-gray-200 hover:border-pink-300"}`}>
+                <div className={`mb-3 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]" : "border-gray-200 hover:border-pink-300"}`}>
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input type="checkbox" checked={bumpSeguidores} onChange={(e) => setBumpSeguidores(e.target.checked)}
                       className="mt-1 accent-white w-4 h-4" />
@@ -857,6 +802,64 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                         className="w-full border border-indigo-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-indigo-400 outline-none bg-white" />
                     </motion.div>
                   )}
+                </div>
+
+                <div className="space-y-3 pt-3 border-t border-amber-200/50">
+                    <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition relative ${bumpAlisamento ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                      <motion.div 
+                        animate={{ x: [0, 5, 0] }} 
+                        transition={{ repeat: Infinity, duration: 1.5 }}
+                        className="absolute -left-8 top-1/2 -translate-y-1/2 text-[#d82298] hidden sm:block"
+                      >
+                        <ArrowRight size={20} className="fill-[#d82298]" />
+                      </motion.div>
+                      <input
+                        type="checkbox"
+                        checked={bumpAlisamento}
+                        onChange={(e) => setBumpAlisamento(e.target.checked)}
+                        className="mt-1 accent-[#d82298] w-4 h-4"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
+                        <p className="text-xs text-gray-600">Adicione o curso completo de alisamento por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
+                      </div>
+                    </label>
+                    <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                      <input
+                        type="checkbox"
+                        checked={bumpCilios}
+                        onChange={(e) => setBumpCilios(e.target.checked)}
+                        className="mt-1 accent-[#d82298] w-4 h-4"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
+                        <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
+                      </div>
+                    </label>
+                    <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                      <input
+                        type="checkbox"
+                        checked={bumpVitalicio}
+                        onChange={(e) => setBumpVitalicio(e.target.checked)}
+                        className="mt-1 accent-[#d82298] w-4 h-4"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
+                        <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <br/><strong className="text-[#d82298]">+R$ 9</strong></p>
+                      </div>
+                    </label>
+                    <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                      <input
+                        type="checkbox"
+                        checked={bumpCabelereira}
+                        onChange={(e) => setBumpCabelereira(e.target.checked)}
+                        className="mt-1 accent-[#d82298] w-4 h-4"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
+                        <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
+                      </div>
+                    </label>
                 </div>
               </div>
 
