@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, ArrowRight, Scissors, Eye, Flower2 } from "lucide-react";
+import cabelereiraProCover from "@/assets/cabelereira-pro-cover.png.asset.json";
 const ciliosCover = "/curso-cilios.png";
 const sobrancelhaCover = "/curso-sobrancelha.png";
 
@@ -41,7 +42,7 @@ const cursos: Curso[] = [
     title: "Cabelereira PRO 2027",
     tagline: "Formação completa premium — o mesmo conteúdo de elite com certificação 2027.",
     price: "R$ 25,00",
-    image: "/curso-liso-perfeito.webp",
+    image: cabelereiraProCover.url,
     icon: <Scissors size={20} />,
     gradient: "from-amber-500 to-orange-600",
   },
