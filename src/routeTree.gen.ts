@@ -13,6 +13,7 @@ import { Route as VendasscRouteImport } from './routes/vendassc'
 import { Route as PromosombraRouteImport } from './routes/promosombra'
 import { Route as PromociliusRouteImport } from './routes/promocilius'
 import { Route as PromoccRouteImport } from './routes/promocc'
+import { Route as PromocabelereiraRouteImport } from './routes/promocabelereira'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as MeusCertificadosRouteImport } from './routes/meus-certificados'
 import { Route as LoginRouteImport } from './routes/login'
@@ -54,6 +55,11 @@ const PromociliusRoute = PromociliusRouteImport.update({
 const PromoccRoute = PromoccRouteImport.update({
   id: '/promocc',
   path: '/promocc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromocabelereiraRoute = PromocabelereiraRouteImport.update({
+  id: '/promocabelereira',
+  path: '/promocabelereira',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ObrigadoRoute = ObrigadoRouteImport.update({
@@ -177,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
+  '/promocabelereira': typeof PromocabelereiraRoute
   '/promocc': typeof PromoccRoute
   '/promocilius': typeof PromociliusRoute
   '/promosombra': typeof PromosombraRoute
@@ -205,6 +212,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
+  '/promocabelereira': typeof PromocabelereiraRoute
   '/promocc': typeof PromoccRoute
   '/promocilius': typeof PromociliusRoute
   '/promosombra': typeof PromosombraRoute
@@ -234,6 +242,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/meus-certificados': typeof MeusCertificadosRoute
   '/obrigado': typeof ObrigadoRoute
+  '/promocabelereira': typeof PromocabelereiraRoute
   '/promocc': typeof PromoccRoute
   '/promocilius': typeof PromociliusRoute
   '/promosombra': typeof PromosombraRoute
@@ -264,6 +273,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/meus-certificados'
     | '/obrigado'
+    | '/promocabelereira'
     | '/promocc'
     | '/promocilius'
     | '/promosombra'
@@ -292,6 +302,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/meus-certificados'
     | '/obrigado'
+    | '/promocabelereira'
     | '/promocc'
     | '/promocilius'
     | '/promosombra'
@@ -320,6 +331,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/meus-certificados'
     | '/obrigado'
+    | '/promocabelereira'
     | '/promocc'
     | '/promocilius'
     | '/promosombra'
@@ -349,6 +361,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MeusCertificadosRoute: typeof MeusCertificadosRoute
   ObrigadoRoute: typeof ObrigadoRoute
+  PromocabelereiraRoute: typeof PromocabelereiraRoute
   PromoccRoute: typeof PromoccRoute
   PromociliusRoute: typeof PromociliusRoute
   PromosombraRoute: typeof PromosombraRoute
@@ -397,6 +410,13 @@ declare module '@tanstack/react-router' {
       path: '/promocc'
       fullPath: '/promocc'
       preLoaderRoute: typeof PromoccRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promocabelereira': {
+      id: '/promocabelereira'
+      path: '/promocabelereira'
+      fullPath: '/promocabelereira'
+      preLoaderRoute: typeof PromocabelereiraRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/obrigado': {
@@ -565,6 +585,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MeusCertificadosRoute: MeusCertificadosRoute,
   ObrigadoRoute: ObrigadoRoute,
+  PromocabelereiraRoute: PromocabelereiraRoute,
   PromoccRoute: PromoccRoute,
   PromociliusRoute: PromociliusRoute,
   PromosombraRoute: PromosombraRoute,
