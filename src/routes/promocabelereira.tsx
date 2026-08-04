@@ -4,14 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
-import heroImg from "@/assets/hero-alessandra.webp";
+import heroAlessandra from "@/assets/hero-alessandra.webp";
 import cert1 from "@/assets/cert-1.webp";
 import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
 import cert4 from "@/assets/cert-4.webp";
 import { createStudentCheckout } from "@/lib/checkout.functions";
 
-const cursoLisoImg = "/curso-liso-perfeito.webp";
 const comboImg = "/combo-3-cursos.webp";
 
 export const Route = createFileRoute("/promocabelereira")({
@@ -20,7 +19,7 @@ export const Route = createFileRoute("/promocabelereira")({
 
 function PromoCabelereira() {
   const images = {
-    hero: heroImg,
+    hero: heroAlessandra,
     alessandra: alessandraImg,
   };
   const certificates = [
@@ -45,6 +44,17 @@ function PromoCabelereira() {
     const el = document.getElementById("oferta");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  const nextCert = () => setActiveCert((p) => (p + 1) % certificates.length);
+  const prevCert = () => setActiveCert((p) => (p - 1 + certificates.length) % certificates.length);
+
+  useEffect(() => {
+    if (!autoPlay || openCert !== null) return;
+    const id = setInterval(() => {
+      setActiveCert((p) => (p + 1) % certificates.length);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [autoPlay, openCert, certificates.length]);
 
   const PulseButton = ({ children, className = "", asCheckout = false, variant }: { children: React.ReactNode; className?: string; asCheckout?: boolean; variant?: "pink" | "black" | "green" | "yellow" }) => {
     const palette = variant ?? (asCheckout ? "green" : "pink");
@@ -122,11 +132,107 @@ function PromoCabelereira() {
       </section>
 
       <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100">
-         <div className="text-center">
-           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter mb-10 text-[#d82298]">Conteúdo do Curso</h2>
-           <p className="text-gray-600 text-lg mb-10">O curso Cabelereira PRO 2027 utiliza a metodologia completa do Alisamento Perfeito com novos módulos exclusivos.</p>
-           <PulseButton className="py-5 px-10 rounded-full text-lg">QUERO ME INSCREVER AGORA →</PulseButton>
+         <div className="grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
+           <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="relative mx-auto lg:mx-0">
+             <div className="rounded-[3rem] overflow-hidden shadow-2xl border-8 border-[#fafafa] max-w-[500px]">
+               <img loading="lazy" decoding="async" src={images.alessandra} alt="Alessandra Linhares" className="w-full aspect-square object-cover" />
+             </div>
+             <div className="absolute -bottom-6 -right-6 bg-[#d82298] text-white p-8 rounded-3xl shadow-xl z-20 hidden md:block">
+               <p className="text-4xl font-black italic tracking-tighter leading-none">10+ ANOS</p>
+               <p className="text-xs uppercase font-bold tracking-widest mt-2">Experiência Real</p>
+             </div>
+           </motion.div>
+           <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="max-w-2xl mx-auto lg:mx-0">
+             <div className="flex items-center justify-center lg:justify-start gap-2 text-[#d82298] mb-6">
+               <Heart className="fill-[#d82298]" size={24} />
+               <span className="font-black uppercase tracking-widest text-sm">Legado de Família</span>
+             </div>
+             <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 uppercase italic tracking-tighter leading-none">
+               QUEM É <br/> <span className="text-[#d82298]">ALESSANDRA LINHARES</span>
+             </h2>
+             <div className="space-y-6 text-lg text-gray-600 font-light leading-relaxed">
+               <p>Sou <strong>Alessandra Linhares</strong>, fundadora do <strong>Salão de Beleza AL</strong>. Cresci vendo minha mãe transformar vidas, e esse amor foi passado <strong>de mãe para filha</strong>.</p>
+               <p>Com mais de 10 anos de experiência real, trago para você as técnicas práticas que realmente funcionam no dia a dia do salão, para que você mude sua realidade e de sua família.</p>
+             </div>
+           </motion.div>
          </div>
+         <div className="text-center mt-16">
+           <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+             QUERO APRENDER COM A ALESSANDRA →
+           </PulseButton>
+         </div>
+      </section>
+
+      {/* Modules Showcase */}
+      <section className="py-32 px-6 container mx-auto bg-white relative z-20">
+        <div className="text-center max-w-3xl mx-auto mb-24">
+          <h2 className="text-4xl md:text-7xl font-black mb-6 text-gray-900 uppercase italic tracking-tighter">O QUE VOCÊ VAI <span className="text-[#d82298]">DOMINAR</span></h2>
+          <p className="text-xl text-gray-500 font-light">60 aulas gravadas em Full HD com técnicas profissionais.</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-12">
+          {[
+            { icon: Sparkles, title: "Alisamento Perfeito", tag: "Curso", desc: "Progressivas e selagens com brilho real, do zero ao avançado." },
+            { icon: Flower2, title: "Sobrancelha", tag: "Curso", desc: "Design, henna e modelagem para valorizar cada rosto." },
+            { icon: Star, title: "Extensão de Cílios", tag: "Curso", desc: "Fio a fio, volume russo e brasileiro com técnica profissional." }
+          ].map((item, i) => (
+            <motion.div key={i} whileHover={{ y: -15 }} className="bg-[#fafafa] rounded-[3.5rem] overflow-hidden shadow-xl border border-gray-100 h-full flex flex-col group">
+              <div className="h-80 overflow-hidden relative flex items-center justify-center bg-gradient-to-br from-[#d82298]/5 to-transparent">
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 10, -10, 0],
+                    y: [0, -20, 0]
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.5
+                  }}
+                  className="text-[#d82298]"
+                >
+                  <item.icon size={120} strokeWidth={1.5} />
+                </motion.div>
+                <div className="absolute top-8 left-8 bg-[#d82298] text-white text-[10px] font-black uppercase px-4 py-2 rounded-full shadow-lg">{item.tag}</div>
+              </div>
+              <div className="p-10 flex flex-col flex-grow">
+                <h3 className="text-3xl font-black mb-4 uppercase italic tracking-tighter">{item.title}</h3>
+                <p className="text-gray-500 leading-relaxed mb-8 flex-grow">{item.desc}</p>
+                <div className="flex items-center gap-3 text-[#d82298] font-black uppercase text-xs pt-8 border-t border-gray-100">
+                  <CheckCircle size={20} /> <span>Prática Real</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="text-center mt-10">
+          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            COMEÇAR MEU CURSO AGORA →
+          </PulseButton>
+        </div>
+      </section>
+
+      {/* Bonus Section */}
+      <section className="bg-black text-white py-32 px-6 overflow-hidden relative z-20">
+        <div className="container mx-auto text-center">
+          <h2 className="text-5xl md:text-8xl font-black mb-20 uppercase tracking-tighter italic">BÔNUS <span className="text-[#d82298]">EXCLUSIVOS</span></h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-white">
+            {[{ icon: Award, title: "Certificado MEC" }, { icon: Users, title: "Comunidade VIP" }, { icon: ShoppingBag, title: "Fornecedores" }, { icon: Heart, title: "Dicas de Venda" }].map((bonus, i) => (
+              <motion.div key={i} whileHover={{ scale: 1.05 }} className="bg-white/5 p-10 rounded-[3rem] border border-white/5 flex flex-col items-center">
+                <div className="bg-[#d82298] p-5 rounded-2xl mb-8">
+                  <bonus.icon size={36} className="text-white" />
+                </div>
+                <h4 className="text-2xl font-black uppercase tracking-tighter text-white">{bonus.title}</h4>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 29,00</span></p>
+          <div className="mt-10">
+            <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+              GARANTIR MEUS BÔNUS →
+            </PulseButton>
+          </div>
+        </div>
       </section>
 
       <CheckoutModal open={showCheckout} onClose={() => setShowCheckout(false)} />
