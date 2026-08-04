@@ -329,7 +329,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
   const [bumpCilios, setBumpCilios] = useState(false);
   const [bumpCabelereira, setBumpCabelereira] = useState(false);
-  const [bumpSeguidores, setBumpSeguidores] = useState(false);
+  const [bumpSeguidores, setBumpSeguidores] = useState(true);
   const [instagram, setInstagram] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -442,14 +442,14 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite nossos descontos exclusivos!</p>
                 
                 {/* Marketing Primeiro */}
-                <div className={`mb-3 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]" : "border-gray-200 hover:border-pink-300"}`}>
+                <div className={`mb-3 p-3 rounded-xl border-2 transition-all duration-300 bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]`}>
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input type="checkbox" checked={bumpSeguidores} onChange={(e) => setBumpSeguidores(e.target.checked)}
                       className="mt-1 accent-white w-4 h-4" />
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-black uppercase italic leading-tight ${bumpSeguidores ? "text-white" : "text-[#d82298]"}`}>🔥 MARKETING COMPLETO INSTAGRAM</p>
-                      <p className={`text-lg font-black mt-1 ${bumpSeguidores ? "text-yellow-300" : "text-[#d82298]"}`}>(+ R$ 97)</p>
-                      <p className={`text-[10px] mt-1 font-bold ${bumpSeguidores ? "text-white/90" : "text-gray-500"}`}>2000 seguidores + 5 mil alcance + curtidas/comentários</p>
+                      <p className={`text-sm font-black uppercase italic leading-tight text-white`}>🔥 MARKETING COMPLETO INSTAGRAM</p>
+                      <p className={`text-lg font-black mt-1 text-yellow-300`}>(+ R$ 97)</p>
+                      <p className={`text-[10px] mt-1 font-bold text-white/90`}>2000 seguidores + 5 mil alcance + curtidas/comentários</p>
                     </div>
                   </label>
                   {bumpSeguidores && (
