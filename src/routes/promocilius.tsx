@@ -731,7 +731,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
           <motion.div
             initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md md:max-w-4xl p-4 sm:p-6 md:p-10 relative my-4 sm:my-8 max-h-[95vh] overflow-y-auto"
+            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-4xl p-4 sm:p-6 md:p-10 relative my-4 sm:my-8 max-h-[95vh] overflow-y-auto"
           >
             <button onClick={onClose} className="absolute top-2 right-2 sm:top-3 sm:right-3 p-2 rounded-full hover:bg-gray-100" aria-label="Fechar">
               <X size={20} />
