@@ -607,7 +607,7 @@ function Promosombra() {
               💎 Combo Completo
             </div>
             <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 168
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 110
             </h3>
             <p className="text-white/90 text-sm md:text-base mb-5">
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
@@ -631,7 +631,7 @@ function Promosombra() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
-                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 168,00</p>
+                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 110,00</p>
                 <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
               </div>
               <PulseButton
@@ -639,7 +639,7 @@ function Promosombra() {
                 variant="green"
                 className="py-4 px-8 rounded-full text-base md:text-lg text-white"
               >
-                QUERO O COMBO — R$ 168
+                QUERO O COMBO — R$ 110
               </PulseButton>
             </div>
             <p className="text-[11px] text-white/80 mt-3 text-center">

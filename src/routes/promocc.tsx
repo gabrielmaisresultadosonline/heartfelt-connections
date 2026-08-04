@@ -606,16 +606,16 @@ function Promocc() {
               💎 Combo Completo
             </div>
             <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 107
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 91
             </h3>
             <p className="text-white/90 text-sm md:text-base mb-5">
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
             </p>
             <div className="grid sm:grid-cols-2 gap-3 text-left mb-6">
               {[
-                { t: "Curso de Alisamento Perfeito", p: "R$ 19" },
-                { t: "Curso de Sobrancelha", p: "+ R$ 40" },
-                { t: "Curso de Extensão de Cílios", p: "+ R$ 39" },
+                { t: "Curso de Alisamento Perfeito", p: "R$ 10" },
+                { t: "Curso de Sobrancelha", p: "+ R$ 14" },
+                { t: "Curso de Extensão de Cílios", p: "+ R$ 14" },
                 { t: "Atualizações Vitalícias", p: "+ R$ 9" },
                 { t: "Marketing Completo (Seguidores)", p: "+ R$ 97" },
               ].map((b) => (
@@ -630,7 +630,7 @@ function Promocc() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
-                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 204,00</p>
+                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 91,00</p>
                 <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
               </div>
               <PulseButton
@@ -638,7 +638,7 @@ function Promocc() {
                 variant="green"
                 className="py-4 px-8 rounded-full text-base md:text-lg text-white"
               >
-                QUERO O COMBO — R$ 204
+                QUERO O COMBO — R$ 91
               </PulseButton>
             </div>
             <p className="text-[11px] text-white/80 mt-3 text-center">
