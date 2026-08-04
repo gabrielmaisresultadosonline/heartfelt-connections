@@ -672,6 +672,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [bumpSobrancelha, setBumpSobrancelha] = useState(false);
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
   const [bumpAlisamento, setBumpAlisamento] = useState(false);
+  const [bumpCabelereira, setBumpCabelereira] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -683,7 +684,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open]);
 
   const base = 29;
-  const extras = (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 14 : 0) + (bumpAlisamento ? 14 : 0);
+  const extras = (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 14 : 0) + (bumpAlisamento ? 14 : 0) + (bumpCabelereira ? 14 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -691,10 +692,11 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     setErr(null);
     setLoading(true);
     try {
-      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "alisamento")[] = [];
+      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "alisamento" | "cabelereira-pro")[] = [];
       if (bumpSobrancelha) bumps.push("sobrancelha");
       if (bumpVitalicio) bumps.push("vitalicio");
       if (bumpAlisamento) bumps.push("alisamento");
+      if (bumpCabelereira) bumps.push("cabelereira-pro");
       const r = await createCheckout({
         data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps, main: "cilios" },
       });
@@ -813,6 +815,18 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
                     <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 14</strong></p>
+                  </div>
+                </label>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpCabelereira}
+                    onChange={(e) => setBumpCabelereira(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
+                    <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
               </div>

@@ -672,6 +672,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [bumpSobrancelha, setBumpSobrancelha] = useState(false);
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
   const [bumpCilios, setBumpCilios] = useState(false);
+  const [bumpCabelereira, setBumpCabelereira] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
