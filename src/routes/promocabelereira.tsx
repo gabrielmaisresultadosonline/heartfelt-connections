@@ -43,6 +43,7 @@ function PromoCabelereira() {
   };
   const scrollToOferta = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (step === 1) { setStep(2); return; }
     const el = document.getElementById("oferta");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -321,8 +322,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               <p className="text-xs sm:text-sm text-gray-500 mt-2">Formação Cabelereira PRO 2027</p>
             </div>
             <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-              <div className={`space-y-4 order-2 md:order-1 ${step === 1 && "hidden md:block"}`}>
-              <div className="rounded-2xl border border-pink-100 bg-gradient-to-br from-pink-50/70 to-white p-4 sm:p-5 hidden md:block">
+              <div className={`space-y-4 md:col-span-2 md:grid md:grid-cols-2 md:gap-8 md:space-y-0 md:items-start ${step === 2 ? "hidden" : ""}`}>
+              <div className="rounded-2xl border border-pink-100 bg-gradient-to-br from-pink-50/70 to-white p-4 sm:p-5">
                 <div className="flex items-start gap-3">
                   <div className="shrink-0 w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center">
                     <ShieldCheck size={20} className="text-[#d82298]" />
@@ -344,6 +345,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                     { icon: Award, t: "Certificado MEC", d: "Reconhecimento e credibilidade." },
                     { icon: InfinityIcon, t: "Acesso vitalício", d: "Assista quando e onde quiser." },
                     { icon: Headphones, t: "Suporte dedicado", d: "Tire suas dúvidas sempre que precisar." },
+                    { icon: ShieldCheck, t: "Garantia de 7 dias", d: "Risco zero: devolvemos 100% do valor." },
                   ].map((b) => (
                     <li key={b.t} className="flex items-start gap-3">
                       <div className="shrink-0 w-8 h-8 rounded-lg bg-[#d82298]/10 flex items-center justify-center">
@@ -357,6 +359,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   ))}
                 </ul>
               </div>
+              <div className="space-y-4">
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
                 <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
@@ -374,11 +377,12 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
             </div>
+            </div>
 
-            <div className="space-y-4 order-1 md:order-2">
+            <div className={`space-y-4 md:col-span-2 ${step === 1 ? "hidden" : ""}`}>
 
 
-              <div className={step === 2 ? "hidden md:block space-y-4" : "space-y-4"}>
+              <div className="space-y-4">
               <div className="pt-2">
                 <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2 flex items-center gap-2">
                   <ShoppingBag size={14} className="text-[#d82298]" /> Sua compra
@@ -492,27 +496,27 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
 
             </div>
 
-            <div className="space-y-3 order-3 md:col-start-2">
+            <div className="space-y-3 md:col-span-2 md:max-w-md md:ml-auto w-full">
               {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2">{err}</p>}
               
               {step === 1 ? (
-                <button type="button" onClick={() => setStep(2)}
-                  className="w-full md:hidden inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg">
-                  Continuar para Cadastro →
+                <button type="submit"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg">
+                  Avançar →
                 </button>
               ) : (
                 <button type="button" onClick={() => setStep(1)}
-                  className="w-full md:hidden inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-600 font-bold uppercase tracking-wider py-3 rounded-full transition text-sm mb-2">
-                  ← Voltar para a Compra
+                  className="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-600 font-bold uppercase tracking-wider py-3 rounded-full transition text-sm mb-2">
+                  ← Voltar para meus dados
                 </button>
               )}
 
               <button type="submit" disabled={loading}
-                className={`w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg ${step === 1 ? "hidden md:inline-flex" : "inline-flex"}`}>
+                className={`w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg ${step === 1 ? "hidden" : "inline-flex"}`}>
                 {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : `Pagar R$ ${total},00 →`}
               </button>
             </div>
-              <p className="text-center text-[11px] text-gray-500 mt-1 order-4 md:col-span-2">
+              <p className="text-center text-[11px] text-gray-500 mt-1 md:col-span-2">
                 🔒 Ambiente 100% seguro. Seus dados estão protegidos e não serão compartilhados.
               </p>
             </form>
