@@ -15,7 +15,7 @@ export const Route = createFileRoute("/inicio")({
 
 type Curso = {
   slug: string;
-  to: "/promocc" | "/promocilius" | "/promosombra";
+  to: "/promocc" | "/promocilius" | "/promosombra" | "/promocabelereira";
   title: string;
   tagline: string;
   price: string;
