@@ -607,16 +607,18 @@ function Promocilius() {
               💎 Combo Completo
             </div>
             <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 71
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 168
             </h3>
             <p className="text-white/90 text-sm md:text-base mb-5">
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
             </p>
             <div className="grid sm:grid-cols-2 gap-3 text-left mb-6">
                 {[
-                  { t: "Curso de Alisamento Perfeito", p: "R$ 14" },
+                  { t: "Curso de Extensão de Cílios", p: "R$ 29" },
                   { t: "Curso de Sobrancelha", p: "+ R$ 14" },
-                  { t: "Atualizações Vitalícias", p: "+ R$ 14" },
+                  { t: "Curso de Alisamento Perfeito", p: "+ R$ 14" },
+                  { t: "Atualizações Vitalícias", p: "+ R$ 9" },
+                  { t: "Marketing Completo (Seguidores)", p: "+ R$ 97" },
                 ].map((b) => (
                 <div key={b.t} className="flex items-center justify-between bg-white/10 rounded-2xl px-4 py-3 border border-white/10">
                   <span className="flex items-center gap-2 text-sm font-bold">
@@ -629,7 +631,7 @@ function Promocilius() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
-                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 71,00</p>
+                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 168,00</p>
                 <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
               </div>
               <PulseButton
@@ -637,7 +639,7 @@ function Promocilius() {
                 variant="green"
                 className="py-4 px-8 rounded-full text-base md:text-lg text-white"
               >
-                QUERO O COMBO — R$ 71
+                QUERO O COMBO — R$ 168
               </PulseButton>
             </div>
             <p className="text-[11px] text-white/80 mt-3 text-center">
@@ -673,6 +675,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
   const [bumpAlisamento, setBumpAlisamento] = useState(false);
   const [bumpCabelereira, setBumpCabelereira] = useState(false);
+  const [bumpSeguidores, setBumpSeguidores] = useState(false);
+  const [instagram, setInstagram] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -684,7 +688,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open]);
 
   const base = 29;
-  const extras = (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 9 : 0) + (bumpAlisamento ? 14 : 0) + (bumpCabelereira ? 14 : 0);
+  const extras = (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 9 : 0) + (bumpAlisamento ? 14 : 0) + (bumpCabelereira ? 14 : 0) + (bumpSeguidores ? 97 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -692,13 +696,14 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     setErr(null);
     setLoading(true);
     try {
-      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "alisamento" | "cabelereira-pro")[] = [];
+      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "alisamento" | "cabelereira-pro" | "seguidores")[] = [];
       if (bumpSobrancelha) bumps.push("sobrancelha");
       if (bumpVitalicio) bumps.push("vitalicio");
       if (bumpAlisamento) bumps.push("alisamento");
       if (bumpCabelereira) bumps.push("cabelereira-pro");
+      if (bumpSeguidores) bumps.push("seguidores");
       const r = await createCheckout({
-        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps, main: "cilios" },
+        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps, main: "cilios", instagram: bumpSeguidores ? instagram : undefined },
       });
       if (!r.ok) {
         setErr(r.error || "Erro ao gerar checkout");
@@ -829,6 +834,22 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                     <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
+                <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "border-indigo-400 bg-indigo-50 shadow-md" : "border-gray-200 hover:border-pink-300"}`}>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" checked={bumpSeguidores} onChange={(e) => setBumpSeguidores(e.target.checked)}
+                      className="mt-1 accent-indigo-600 w-4 h-4" />
+                    <div className="flex-1">
+                      <p className="text-sm font-black text-indigo-900 uppercase italic">🔥 Marketing Completo Instagram (+ R$ 97)</p>
+                      <p className="text-[10px] text-indigo-700/70">2000 seguidores + 5 mil alcance + curtidas/comentários</p>
+                    </div>
+                  </label>
+                  {bumpSeguidores && (
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="mt-2 overflow-hidden">
+                      <input required value={instagram} onChange={(e) => setInstagram(e.target.value)} placeholder="Seu @ ou link do Instagram"
+                        className="w-full border border-indigo-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-indigo-400 outline-none bg-white" />
+                    </motion.div>
+                  )}
+                </div>
               </div>
 
               <div className="bg-gradient-to-r from-pink-50 to-fuchsia-50 rounded-xl p-3 flex items-center justify-between">

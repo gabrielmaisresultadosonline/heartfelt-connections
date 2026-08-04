@@ -21,6 +21,7 @@ const BUMP_LABELS: Record<string, string> = {
   vitalicio: "Vitalícias",
   alisamento: "Alisamento",
   "cabelereira-pro": "Cabelereira PRO",
+  seguidores: "Marketing/Seguidores",
 };
 
 export const Route = createFileRoute("/admin/students")({
@@ -429,8 +430,8 @@ function StudentsPage() {
                                 </span>
                                 Liso Perfeito
                               </span>
-                              {(["cilios", "sobrancelha", "vitalicio"] as const).map((b) => {
-                                const itemLabel = b === "cilios" ? "Cílios" : b === "sobrancelha" ? "Sobrancelha" : "Vitalícias";
+                              {(["cilios", "sobrancelha", "vitalicio", "seguidores"] as const).map((b) => {
+                                const itemLabel = b === "cilios" ? "Cílios" : b === "sobrancelha" ? "Sobrancelha" : b === "seguidores" ? "Marketing/Seguidores" : "Vitalícias";
                                 const has = g.allBumps.includes(b) || g.purchasedItems.includes(itemLabel);
                                 return (
                                   <label key={b} className="inline-flex items-center gap-1.5 text-[11px] cursor-pointer">
@@ -446,7 +447,7 @@ function StudentsPage() {
                                           await bumpsFn({
                                             data: {
                                               id: r.id,
-                                              bumps: nextBumps.filter((x) => x === "cilios" || x === "sobrancelha" || x === "vitalicio") as ("sobrancelha" | "vitalicio" | "cilios")[],
+                                              bumps: nextBumps.filter((x) => x === "cilios" || x === "sobrancelha" || x === "vitalicio" || x === "seguidores") as ("sobrancelha" | "vitalicio" | "cilios" | "seguidores")[],
                                             },
                                           });
                                         }
