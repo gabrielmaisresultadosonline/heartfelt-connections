@@ -4,14 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
-import heroImg from "@/assets/hero-alessandra.webp";
+import heroAlessandra from "@/assets/hero-alessandra.webp";
 import cert1 from "@/assets/cert-1.webp";
 import cert2 from "@/assets/cert-2.webp";
 import cert3 from "@/assets/cert-3.webp";
 import cert4 from "@/assets/cert-4.webp";
 import { createStudentCheckout } from "@/lib/checkout.functions";
 
-const cursoLisoImg = "/curso-liso-perfeito.webp";
 const comboImg = "/combo-3-cursos.webp";
 
 export const Route = createFileRoute("/promocabelereira")({
@@ -20,7 +19,7 @@ export const Route = createFileRoute("/promocabelereira")({
 
 function PromoCabelereira() {
   const images = {
-    hero: heroImg,
+    hero: heroAlessandra,
     alessandra: alessandraImg,
   };
   const certificates = [
