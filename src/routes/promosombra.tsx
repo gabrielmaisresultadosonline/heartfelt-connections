@@ -682,8 +682,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     return () => { document.body.style.overflow = prev; };
   }, [open]);
 
-  const base = 40;
-  const extras = (bumpAlisamento ? 19 : 0) + (bumpCilios ? 39 : 0) + (bumpVitalicio ? 9 : 0);
+  const base = 29;
+  const extras = (bumpAlisamento ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpVitalicio ? 14 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
