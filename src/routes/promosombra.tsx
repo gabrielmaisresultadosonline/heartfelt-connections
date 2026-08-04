@@ -731,7 +731,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
           <motion.div
             initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md p-4 sm:p-6 md:p-8 relative my-4 sm:my-8 max-h-[95vh] overflow-y-auto"
+            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md md:max-w-4xl p-4 sm:p-6 md:p-10 relative my-4 sm:my-8 max-h-[95vh] overflow-y-auto"
           >
             <button onClick={onClose} className="absolute top-2 right-2 sm:top-3 sm:right-3 p-2 rounded-full hover:bg-gray-100" aria-label="Fechar">
               <X size={20} />
@@ -742,7 +742,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               </h3>
               <p className="text-xs sm:text-sm text-gray-500 mt-2">Curso de Sobrancelha</p>
             </div>
-            <form onSubmit={onSubmit} className="space-y-3">
+            <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+              <div className="space-y-4">
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
                 <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
