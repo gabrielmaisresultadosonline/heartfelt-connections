@@ -134,7 +134,7 @@ function Promocc() {
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
-              <PulseButton variant="yellow" className="py-6 px-12 rounded-[2.5rem] text-2xl">
+              <PulseButton variant="yellow" asCheckout className="py-6 px-12 rounded-[2.5rem] text-2xl">
                 Garantir Minha Vaga
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
@@ -179,7 +179,7 @@ function Promocc() {
           </motion.div>
         </div>
         <div className="text-center mt-16">
-          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+          <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
             QUERO APRENDER COM A ALESSANDRA →
           </PulseButton>
         </div>
@@ -227,7 +227,7 @@ function Promocc() {
           ))}
         </div>
         <div className="text-center mt-10">
-          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+          <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
             COMEÇAR MEU CURSO AGORA →
           </PulseButton>
         </div>
@@ -248,7 +248,7 @@ function Promocc() {
           </div>
           <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 10,00</span></p>
           <div className="mt-10">
-            <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →
             </PulseButton>
           </div>
