@@ -105,7 +105,13 @@ function InicioPage() {
             const content = (
               <div className="group bg-white rounded-3xl overflow-hidden ring-1 ring-pink-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all h-full flex flex-col">
                 <div className="aspect-[4/3] overflow-hidden relative">
-                  <img src={c.image} alt={c.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img 
+                    src={c.image} 
+                    alt={c.title} 
+                    className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${
+                      c.slug === "cabelereira-pro" || c.slug === "marketing-salao" ? "object-[right_center]" : "object-center"
+                    }`} 
+                  />
                   <div className={`absolute top-3 left-3 bg-gradient-to-r ${c.gradient} text-white px-3 py-1 rounded-full text-xs font-black inline-flex items-center gap-1.5 shadow-lg`}>
                     {c.icon} {c.isExternal ? "Serviço" : "Curso"}
                   </div>
