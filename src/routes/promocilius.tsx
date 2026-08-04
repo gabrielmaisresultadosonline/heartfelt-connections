@@ -679,6 +679,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [instagram, setInstagram] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [step, setStep] = useState<1 | 2>(1);
 
   useEffect(() => {
     if (!open) return;
@@ -743,7 +744,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               <p className="text-xs sm:text-sm text-gray-500 mt-2">Curso de Extensão de Cílios</p>
             </div>
             <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-              <div className="space-y-4 order-2 md:order-1">
+              <div className={`space-y-4 order-2 md:order-1 ${step === 1 && "hidden md:block"}`}>
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
                 <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
@@ -762,7 +763,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               </div>
             </div>
 
-            <div className="space-y-4 order-1 md:order-2">
+            <div className={`space-y-4 order-1 md:order-2 ${step === 2 && "hidden md:block"}`}>
 
 
               <div className="pt-2">
@@ -874,8 +875,21 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               </div>
 
               {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2">{err}</p>}
+              
+              {step === 1 ? (
+                <button type="button" onClick={() => setStep(2)}
+                  className="w-full md:hidden inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg">
+                  Continuar para Cadastro →
+                </button>
+              ) : (
+                <button type="button" onClick={() => setStep(1)}
+                  className="w-full md:hidden inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-600 font-bold uppercase tracking-wider py-3 rounded-full transition text-sm mb-2">
+                  ← Voltar para a Compra
+                </button>
+              )}
+
               <button type="submit" disabled={loading}
-                className="w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg">
+                className={`w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg ${step === 1 ? "hidden md:inline-flex" : "inline-flex"}`}>
                 {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : `Pagar R$ ${total},00 →`}
               </button>
             </div>
