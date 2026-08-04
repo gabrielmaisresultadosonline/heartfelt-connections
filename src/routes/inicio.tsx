@@ -40,7 +40,7 @@ const cursos: Curso[] = [
     to: "/promocabelereira",
     title: "Cabelereira PRO 2027",
     tagline: "Formação completa premium — o mesmo conteúdo de elite com certificação 2027.",
-    price: "R$ 19,00",
+    price: "R$ 25,00",
     image: "/curso-liso-perfeito.webp",
     icon: <Scissors size={20} />,
     gradient: "from-amber-500 to-orange-600",
