@@ -139,7 +139,7 @@ function PromoCabelereira() {
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-sm line-through text-white/60 font-bold">De R$ 197</p>
-                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 19</p>
+                <p className="text-4xl font-black tracking-tighter text-yellow-300">R$ 25</p>
                 <p className="text-[10px] uppercase font-black tracking-widest opacity-60 text-white">Acesso Vitalício</p>
               </div>
             </div>
@@ -174,10 +174,10 @@ function PromoCabelereira() {
               </ul>
               <div className="flex items-start justify-center gap-1 my-3">
                 <span className="text-2xl font-black text-[#d82298] mt-2">R$</span>
-                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">19</span>
+                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">25</span>
               </div>
               <PulseButton asCheckout variant="green" className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto text-white">
-                QUERO O CURSO — R$ 19
+                QUERO O CURSO — R$ 25
               </PulseButton>
             </div>
           </div>
@@ -236,7 +236,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               <input placeholder="Email" type="email" required value={email} onChange={e => setEmail(e.target.value)} className="w-full border border-pink-200 rounded-xl px-4 py-3" />
               <input placeholder="WhatsApp" required value={phone} onChange={e => setPhone(e.target.value)} className="w-full border border-pink-200 rounded-xl px-4 py-3" />
               <button type="submit" disabled={loading} className="w-full bg-[#d82298] text-white font-black py-4 rounded-full">
-                {loading ? "Processando..." : "Pagar R$ 19,00 →"}
+                {loading ? "Processando..." : "Pagar R$ 25,00 →"}
               </button>
             </form>
           </motion.div>
