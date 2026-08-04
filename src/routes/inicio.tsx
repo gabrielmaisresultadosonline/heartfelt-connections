@@ -112,7 +112,7 @@ function InicioPage() {
                     src={c.image} 
                     alt={c.title} 
                     className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${
-                      c.slug === "cabelereira-pro" || c.slug === "marketing-salao" ? "object-[right_center]" : "object-center"
+                      c.slug === "cabelereira-pro" ? "object-[right_center]" : "object-center"
                     }`} 
                   />
                   <div className={`absolute top-3 left-3 bg-gradient-to-r ${c.gradient} text-white px-3 py-1 rounded-full text-xs font-black inline-flex items-center gap-1.5 shadow-lg`}>
