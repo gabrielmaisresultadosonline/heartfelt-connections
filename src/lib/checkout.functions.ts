@@ -55,7 +55,7 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
       alisamento: "alisamento",
       cilios: "cilios",
       sombrancelha: "sombrancelha",
-      "cabelereira-pro": "alisamento",
+      "cabelereira-pro": "cabelereira-pro",
     };
     const bumps = Array.from(new Set(data.bumps)).filter((b) => b !== mainAsBump[main]);
     const bumpItems = BUMPS.filter((b) => (bumps as string[]).includes(b.id));
