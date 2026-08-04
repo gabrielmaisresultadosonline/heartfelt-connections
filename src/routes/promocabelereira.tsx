@@ -512,7 +512,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               )}
 
               <button type="submit" disabled={loading}
-                className={`w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg ${step === 1 ? "hidden" : "inline-flex"}`}>
+                className={`w-full items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg ${step === 1 ? "hidden" : "inline-flex"}`}>
                 {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : `Pagar R$ ${total},00 →`}
               </button>
             </div>
