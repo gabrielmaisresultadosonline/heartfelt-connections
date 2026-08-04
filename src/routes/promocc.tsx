@@ -418,16 +418,16 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2">
                   🛒 Sua compra
                 </p>
-                <div className="flex items-start gap-3 p-3 rounded-xl border-2 border-[#d82298] bg-gradient-to-br from-pink-50 to-fuchsia-50">
+                <div className="flex items-start gap-3 p-4 rounded-xl border-2 border-[#d82298] bg-gradient-to-br from-pink-50 to-fuchsia-50 mb-4">
                   <div className="mt-0.5 w-4 h-4 rounded-sm bg-[#d82298] flex items-center justify-center shrink-0">
                     <CheckCircle size={12} className="text-white" strokeWidth={3} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
+                      <p className="text-sm font-black text-gray-900 uppercase">Curso de Alisamento Perfeito</p>
                       <span className="text-[9px] font-black uppercase tracking-wider bg-[#d82298] text-white px-2 py-0.5 rounded-full">Principal</span>
                     </div>
-                    <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 10</strong></p>
+                    <p className="text-xs text-gray-600 mt-1">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 10</strong></p>
                   </div>
                 </div>
               </div>
