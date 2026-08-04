@@ -163,6 +163,78 @@ function PromoCabelereira() {
          </div>
       </section>
 
+      {/* Modules Showcase */}
+      <section className="py-32 px-6 container mx-auto bg-white relative z-20">
+        <div className="text-center max-w-3xl mx-auto mb-24">
+          <h2 className="text-4xl md:text-7xl font-black mb-6 text-gray-900 uppercase italic tracking-tighter">O QUE VOCÊ VAI <span className="text-[#d82298]">DOMINAR</span></h2>
+          <p className="text-xl text-gray-500 font-light">60 aulas gravadas em Full HD com técnicas profissionais.</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-12">
+          {[
+            { icon: Sparkles, title: "Alisamento Perfeito", tag: "Curso", desc: "Progressivas e selagens com brilho real, do zero ao avançado." },
+            { icon: Flower2, title: "Sobrancelha", tag: "Curso", desc: "Design, henna e modelagem para valorizar cada rosto." },
+            { icon: Star, title: "Extensão de Cílios", tag: "Curso", desc: "Fio a fio, volume russo e brasileiro com técnica profissional." }
+          ].map((item, i) => (
+            <motion.div key={i} whileHover={{ y: -15 }} className="bg-[#fafafa] rounded-[3.5rem] overflow-hidden shadow-xl border border-gray-100 h-full flex flex-col group">
+              <div className="h-80 overflow-hidden relative flex items-center justify-center bg-gradient-to-br from-[#d82298]/5 to-transparent">
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 10, -10, 0],
+                    y: [0, -20, 0]
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.5
+                  }}
+                  className="text-[#d82298]"
+                >
+                  <item.icon size={120} strokeWidth={1.5} />
+                </motion.div>
+                <div className="absolute top-8 left-8 bg-[#d82298] text-white text-[10px] font-black uppercase px-4 py-2 rounded-full shadow-lg">{item.tag}</div>
+              </div>
+              <div className="p-10 flex flex-col flex-grow">
+                <h3 className="text-3xl font-black mb-4 uppercase italic tracking-tighter">{item.title}</h3>
+                <p className="text-gray-500 leading-relaxed mb-8 flex-grow">{item.desc}</p>
+                <div className="flex items-center gap-3 text-[#d82298] font-black uppercase text-xs pt-8 border-t border-gray-100">
+                  <CheckCircle size={20} /> <span>Prática Real</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="text-center mt-10">
+          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            COMEÇAR MEU CURSO AGORA →
+          </PulseButton>
+        </div>
+      </section>
+
+      {/* Bonus Section */}
+      <section className="bg-black text-white py-32 px-6 overflow-hidden relative z-20">
+        <div className="container mx-auto text-center">
+          <h2 className="text-5xl md:text-8xl font-black mb-20 uppercase tracking-tighter italic">BÔNUS <span className="text-[#d82298]">EXCLUSIVOS</span></h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-white">
+            {[{ icon: Award, title: "Certificado MEC" }, { icon: Users, title: "Comunidade VIP" }, { icon: ShoppingBag, title: "Fornecedores" }, { icon: Heart, title: "Dicas de Venda" }].map((bonus, i) => (
+              <motion.div key={i} whileHover={{ scale: 1.05 }} className="bg-white/5 p-10 rounded-[3rem] border border-white/5 flex flex-col items-center">
+                <div className="bg-[#d82298] p-5 rounded-2xl mb-8">
+                  <bonus.icon size={36} className="text-white" />
+                </div>
+                <h4 className="text-2xl font-black uppercase tracking-tighter text-white">{bonus.title}</h4>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 29,00</span></p>
+          <div className="mt-10">
+            <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+              GARANTIR MEUS BÔNUS →
+            </PulseButton>
+          </div>
+        </div>
+      </section>
+
       <CheckoutModal open={showCheckout} onClose={() => setShowCheckout(false)} />
     </div>
   );
