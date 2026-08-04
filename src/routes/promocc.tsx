@@ -672,6 +672,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [bumpSobrancelha, setBumpSobrancelha] = useState(false);
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
   const [bumpCilios, setBumpCilios] = useState(false);
+  const [bumpCabelereira, setBumpCabelereira] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -682,8 +683,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     return () => { document.body.style.overflow = prev; };
   }, [open]);
 
-  const base = 19;
-  const extras = (bumpSobrancelha ? 40 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCilios ? 39 : 0);
+  const base = 10;
+  const extras = (bumpSobrancelha ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpCabelereira ? 14 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -691,10 +692,10 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     setErr(null);
     setLoading(true);
     try {
-      const bumps: ("sobrancelha" | "vitalicio" | "cilios")[] = [];
+      const bumps: ("sobrancelha" | "cilios" | "cabelereira-pro")[] = [];
       if (bumpSobrancelha) bumps.push("sobrancelha");
-      if (bumpVitalicio) bumps.push("vitalicio");
       if (bumpCilios) bumps.push("cilios");
+      if (bumpCabelereira) bumps.push("cabelereira-pro");
       const r = await createCheckout({
         data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps },
       });
@@ -792,18 +793,6 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                     <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <input
-                    type="checkbox"
-                    checked={bumpVitalicio}
-                    onChange={(e) => setBumpVitalicio(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
-                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 14</strong></p>
-                  </div>
-                </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
                   <input
                     type="checkbox"
@@ -814,6 +803,18 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
                     <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                  </div>
+                </label>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpCabelereira}
+                    onChange={(e) => setBumpCabelereira(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
+                    <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
               </div>
