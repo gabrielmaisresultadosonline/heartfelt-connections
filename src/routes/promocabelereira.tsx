@@ -139,21 +139,45 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [bumpAlisamento, setBumpAlisamento] = useState(false);
+  const [bumpCilios, setBumpCilios] = useState(false);
+  const [bumpSobrancelha, setBumpSobrancelha] = useState(false);
+  const [bumpVitalicio, setBumpVitalicio] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
+  const base = 25;
+  const extras = (bumpAlisamento ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 14 : 0);
+  const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null);
     setLoading(true);
     try {
+      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "alisamento")[] = [];
+      if (bumpAlisamento) bumps.push("alisamento");
+      if (bumpCilios) bumps.push("cilios");
+      if (bumpSobrancelha) bumps.push("sobrancelha");
+      if (bumpVitalicio) bumps.push("vitalicio");
+
       const r = await createCheckout({
-        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), main: "cabelereira-pro", bumps: [] },
+        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), main: "cabelereira-pro", bumps },
       });
       if (!r.ok) {
         setErr(r.error || "Erro ao gerar checkout");
         setLoading(false);
         return;
+      }
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "InitiateCheckout", { value: total, currency: "BRL" });
       }
       window.location.href = r.url;
     } catch (e) {
@@ -168,21 +192,133 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-start sm:items-center justify-center p-2 sm:p-4 overflow-y-auto"
         >
           <motion.div
-            initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
+            initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8"
+            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md p-4 sm:p-6 md:p-8 relative my-4 sm:my-8 max-h-[95vh] overflow-y-auto"
           >
-            <h3 className="text-2xl font-black text-[#d82298] text-center mb-6">Garantir minha vaga PRO</h3>
-            <form onSubmit={onSubmit} className="space-y-4">
-              <input placeholder="Nome" required value={name} onChange={e => setName(e.target.value)} className="w-full border rounded-xl p-3" />
-              <input placeholder="Email" type="email" required value={email} onChange={e => setEmail(e.target.value)} className="w-full border rounded-xl p-3" />
-              <input placeholder="WhatsApp" required value={phone} onChange={e => setPhone(e.target.value)} className="w-full border rounded-xl p-3" />
-              <button type="submit" disabled={loading} className="w-full bg-[#d82298] text-white font-black py-4 rounded-full">
-                {loading ? "Processando..." : "Pagar R$ 25,00 →"}
+            <button onClick={onClose} className="absolute top-2 right-2 sm:top-3 sm:right-3 p-2 rounded-full hover:bg-gray-100" aria-label="Fechar">
+              <X size={20} />
+            </button>
+            <div className="text-center mb-4 sm:mb-5 pr-8">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-[#d82298] uppercase italic tracking-tight">
+                Garantir minha vaga PRO
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-500 mt-2">Formação Cabelereira PRO 2027</p>
+            </div>
+            <form onSubmit={onSubmit} className="space-y-3">
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
+                <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">E-mail</label>
+                <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">WhatsApp (com DDD)</label>
+                <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)}
+                  placeholder="(11) 99999-9999"
+                  className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
+              </div>
+
+              <div className="pt-2">
+                <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2">
+                  🛒 Sua compra
+                </p>
+                <div className="flex items-start gap-3 p-3 rounded-xl border-2 border-[#d82298] bg-gradient-to-br from-pink-50 to-fuchsia-50">
+                  <div className="mt-0.5 w-4 h-4 rounded-sm bg-[#d82298] flex items-center justify-center shrink-0">
+                    <CheckCircle size={12} className="text-white" strokeWidth={3} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
+                      <span className="text-[9px] font-black uppercase tracking-wider bg-[#d82298] text-white px-2 py-0.5 rounded-full">Principal</span>
+                    </div>
+                    <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 25</strong></p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 -mx-1 px-3 py-3 rounded-2xl bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 border-2 border-dashed border-amber-400 relative">
+                <span className="absolute -top-3 left-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+                  🚀 ECONOMIZE E COMPRE JUNTO!
+                </span>
+                <p className="text-sm sm:text-base font-black text-amber-900 uppercase tracking-tight mt-1 mb-1">
+                  Turbine sua formação
+                </p>
+                <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite: Só R$ 14 cada curso extra!</p>
+                
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpAlisamento ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpAlisamento}
+                    onChange={(e) => setBumpAlisamento(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
+                    <p className="text-xs text-gray-600">Adicione o curso completo de alisamento por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                  </div>
+                </label>
+
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpCilios}
+                    onChange={(e) => setBumpCilios(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
+                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                  </div>
+                </label>
+
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpSobrancelha}
+                    onChange={(e) => setBumpSobrancelha(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Curso de Sobrancelha</p>
+                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                  </div>
+                </label>
+
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpVitalicio}
+                    onChange={(e) => setBumpVitalicio(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
+                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 14</strong></p>
+                  </div>
+                </label>
+              </div>
+
+              <div className="bg-gradient-to-r from-pink-50 to-fuchsia-50 rounded-xl p-3 flex items-center justify-between">
+                <span className="text-sm font-bold text-gray-700 uppercase tracking-wider">Total</span>
+                <span className="text-2xl font-black text-[#d82298]">R$ {total},00</span>
+              </div>
+
+              {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2">{err}</p>}
+              <button type="submit" disabled={loading}
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#d82298] hover:bg-[#b8127f] disabled:opacity-70 text-white font-black uppercase tracking-wider py-4 rounded-full shadow-lg transition text-lg">
+                {loading ? <><Loader2 className="animate-spin" size={18} /> Gerando pagamento...</> : `Pagar R$ ${total},00 →`}
               </button>
+              <p className="text-center text-[11px] text-gray-500 mt-1">
+                Pagamento processado pela InfinitePay via API MRO - Mais Resultados Online - Gabriel fernandes da silva. Seu acesso é enviado por e-mail assim que confirmado.
+              </p>
             </form>
           </motion.div>
         </motion.div>
