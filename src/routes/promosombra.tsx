@@ -745,7 +745,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               <p className="text-xs sm:text-sm text-gray-500 mt-2">Curso de Sobrancelha</p>
             </div>
             <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-              <div className={`space-y-4 md:col-span-2 md:grid md:grid-cols-2 md:gap-8 md:space-y-0 md:items-start ${step === 2 ? "hidden" : ""}`}>
+              <div className={`space-y-4 md:col-span-2 md:grid-cols-2 md:gap-8 md:space-y-0 md:items-start ${step === 2 ? "hidden" : "md:grid"}`}>
               <div className="rounded-2xl border border-pink-100 bg-gradient-to-br from-pink-50/70 to-white p-4 sm:p-5">
                 <div className="flex items-start gap-3">
                   <div className="shrink-0 w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center">
