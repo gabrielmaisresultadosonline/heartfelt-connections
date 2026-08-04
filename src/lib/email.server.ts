@@ -140,37 +140,64 @@ export function renderAccessEmail(opts: {
   const safeUrl = escapeHtml(loginUrl);
   const subject = "Seu acesso ao Curso de Alisamento Perfeito ✨";
   const html = `<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><title>${subject}</title></head>
-<body style="margin:0;padding:0;background:#fafafa;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
-  <div style="max-width:560px;margin:0 auto;padding:32px 20px;">
-    <div style="background:#d82298;color:#fff;padding:28px 24px;border-radius:16px 16px 0 0;text-align:center;">
-      <h1 style="margin:0;font-size:24px;letter-spacing:-0.5px;">Bem-vinda, ${safeName}!</h1>
-      <p style="margin:8px 0 0;opacity:0.95;font-size:14px;">Seu acesso ao curso está liberado.</p>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${subject}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#fafafa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;-webkit-font-smoothing:antialiased;">
+  <div style="max-width:600px;margin:0 auto;background-color:#ffffff;border:1px solid #f1e6ee;border-radius:16px;overflow:hidden;margin-top:20px;margin-bottom:20px;">
+    <!-- Header -->
+    <div style="background-color:#d82298;background-image:linear-gradient(135deg, #d82298 0%, #a21871 100%);padding:40px 20px;text-align:center;color:#ffffff;">
+      <h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-0.5px;line-height:1.2;">Bem-vinda, ${safeName}!</h1>
+      <p style="margin:10px 0 0;font-size:16px;opacity:0.9;font-weight:500;">Seu acesso exclusivo foi liberado com sucesso.</p>
     </div>
-    <div style="background:#fff;padding:28px 24px;border-radius:0 0 16px 16px;border:1px solid #f1e6ee;">
-      <p style="font-size:15px;line-height:1.6;margin:0 0 16px;">
-        Pagamento confirmado! Você já pode entrar na área de membros do
-        <strong>Curso de Alisamento Perfeito</strong> com os dados abaixo:
+
+    <!-- Content -->
+    <div style="padding:40px 30px;">
+      <p style="font-size:16px;line-height:1.6;margin:0 0 24px;color:#333;">
+        Olá! Ficamos muito felizes em ter você conosco. Seu pagamento foi confirmado e sua jornada para o domínio do <strong>Alisamento Perfeito</strong> começa agora!
       </p>
-      <table style="width:100%;border-collapse:collapse;margin:16px 0;background:#fdf2f8;border-radius:12px;overflow:hidden;">
-        <tr><td style="padding:12px 16px;font-size:13px;color:#7a1252;font-weight:bold;">E-mail</td><td style="padding:12px 16px;font-size:14px;">${safeEmail}</td></tr>
-        <tr><td style="padding:12px 16px;font-size:13px;color:#7a1252;font-weight:bold;border-top:1px solid #f5d3e7;">Senha</td><td style="padding:12px 16px;font-size:14px;border-top:1px solid #f5d3e7;font-family:monospace;">${safePass}</td></tr>
-      </table>
-      <div style="text-align:center;margin:24px 0;">
-        <a href="${safeUrl}" style="display:inline-block;background:#d82298;color:#fff;text-decoration:none;padding:14px 32px;border-radius:999px;font-weight:bold;font-size:15px;">
-          Acessar meu curso
+
+      <div style="background-color:#fdf2f8;border:1px solid #f5d3e7;border-radius:12px;padding:24px;margin-bottom:32px;">
+        <h2 style="margin:0 0 16px;font-size:14px;color:#d82298;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Seus Dados de Acesso</h2>
+        <div style="margin-bottom:12px;">
+          <span style="display:block;font-size:12px;color:#7a1252;font-weight:bold;margin-bottom:4px;">E-MAIL</span>
+          <span style="display:block;font-size:16px;color:#1a1a1a;word-break:break-all;">${safeEmail}</span>
+        </div>
+        <div>
+          <span style="display:block;font-size:12px;color:#7a1252;font-weight:bold;margin-bottom:4px;">SENHA TEMPORÁRIA</span>
+          <code style="display:block;font-size:18px;color:#1a1a1a;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#fff;padding:8px 12px;border-radius:6px;border:1px solid #f5d3e7;letter-spacing:1px;">${safePass}</code>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin:32px 0;">
+        <a href="${safeUrl}" style="display:inline-block;background-color:#d82298;color:#ffffff;text-decoration:none;padding:18px 48px;border-radius:9999px;font-weight:bold;font-size:16px;box-shadow:0 4px 12px rgba(216, 34, 152, 0.3);">
+          ENTRAR NA ÁREA DE MEMBROS
         </a>
       </div>
-      <p style="font-size:13px;color:#666;line-height:1.6;margin:16px 0 0;">
-        Guarde este e-mail. Recomendamos alterar a senha após o primeiro acesso.
-        Se precisar de ajuda, responda esta mensagem.
+
+      <div style="border-top:1px solid #f1e6ee;padding-top:24px;margin-top:24px;">
+        <p style="font-size:14px;color:#666;line-height:1.6;margin:0;">
+          <strong>Dica:</strong> Recomendamos alterar sua senha no primeiro acesso para sua total segurança.
+          <br><br>
+          Se tiver qualquer dificuldade para entrar, basta responder a este e-mail que nossa equipe de suporte irá te ajudar prontamente.
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="background-color:#f9f9f9;padding:24px;text-align:center;border-top:1px solid #f1e6ee;">
+      <p style="margin:0;font-size:12px;color:#999;line-height:1.5;">
+        <strong>Beleza Liso Perfeito</strong><br>
+        Método Profissional de Alisamento e Estética<br>
+        <a href="mailto:suporte@belezalisoperfeito.online" style="color:#d82298;text-decoration:none;">suporte@belezalisoperfeito.online</a>
       </p>
     </div>
-    <p style="text-align:center;font-size:11px;color:#999;margin-top:20px;">
-      Beleza Liso Perfeito &middot; suporte@belezalisoperfeito.online
-    </p>
   </div>
-</body></html>`;
+</body>
+</html>`;
   return { subject, html };
 }
 

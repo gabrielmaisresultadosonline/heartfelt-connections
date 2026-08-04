@@ -81,17 +81,26 @@ export function renderRecoveryEmail(step: RecoveryStep, opts: { name: string }):
 
 function wrap(title: string, inner: string): string {
   return `<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><title>${escapeHtml(title)}</title></head>
-<body style="margin:0;padding:0;background:#fafafa;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
-  <div style="max-width:560px;margin:0 auto;padding:32px 20px;">
-    <div style="background:#fff;padding:32px 26px;border-radius:16px;border:1px solid #f1e6ee;line-height:1.6;font-size:15px;">
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(title)}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#fafafa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;-webkit-font-smoothing:antialiased;">
+  <div style="max-width:600px;margin:0 auto;background-color:#ffffff;border:1px solid #f1e6ee;border-radius:16px;overflow:hidden;margin-top:20px;margin-bottom:20px;">
+    <div style="padding:40px 30px;">
       ${inner}
     </div>
-    <p style="text-align:center;font-size:11px;color:#999;margin-top:20px;">
-      Beleza Liso Perfeito &middot; suporte@belezalisoperfeito.online
-    </p>
+    <div style="background-color:#f9f9f9;padding:24px;text-align:center;border-top:1px solid #f1e6ee;">
+      <p style="margin:0;font-size:12px;color:#999;line-height:1.5;">
+        <strong>Beleza Liso Perfeito</strong><br>
+        <a href="mailto:suporte@belezalisoperfeito.online" style="color:#d82298;text-decoration:none;">suporte@belezalisoperfeito.online</a>
+      </p>
+    </div>
   </div>
-</body></html>`;
+</body>
+</html>`;
 }
 
 // Mutex em memória para evitar execuções concorrentes (o painel refetch a cada 15s)
