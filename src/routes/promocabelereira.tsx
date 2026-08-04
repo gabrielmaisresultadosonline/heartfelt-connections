@@ -460,6 +460,11 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                     </div>
                   </label>
                   <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpAlisamento ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                    {!bumpAlisamento && (
+                      <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 0.9, ease: "easeInOut" }} className="mt-0.5 shrink-0 text-[#d82298]">
+                        <ArrowRight size={16} strokeWidth={3} />
+                      </motion.span>
+                    )}
                     <input
                       type="checkbox"
                       checked={bumpAlisamento}

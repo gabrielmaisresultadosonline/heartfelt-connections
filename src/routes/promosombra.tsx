@@ -864,6 +864,11 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                       >
                         <ArrowRight size={20} className="fill-[#d82298]" />
                       </motion.div>
+                      {!bumpAlisamento && (
+                        <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 0.9, ease: "easeInOut" }} className="mt-0.5 shrink-0 text-[#d82298]">
+                          <ArrowRight size={16} strokeWidth={3} />
+                        </motion.span>
+                      )}
                       <input
                         type="checkbox"
                         checked={bumpAlisamento}
@@ -876,6 +881,11 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                       </div>
                     </label>
                     <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                      {!bumpCilios && (
+                        <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 0.9, ease: "easeInOut" }} className="mt-0.5 shrink-0 text-[#d82298]">
+                          <ArrowRight size={16} strokeWidth={3} />
+                        </motion.span>
+                      )}
                       <input
                         type="checkbox"
                         checked={bumpCilios}
@@ -888,6 +898,11 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                       </div>
                     </label>
                     <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                      {!bumpVitalicio && (
+                        <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 0.9, ease: "easeInOut" }} className="mt-0.5 shrink-0 text-[#d82298]">
+                          <ArrowRight size={16} strokeWidth={3} />
+                        </motion.span>
+                      )}
                       <input
                         type="checkbox"
                         checked={bumpVitalicio}
@@ -900,6 +915,11 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                       </div>
                     </label>
                     <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                      {!bumpCabelereira && (
+                        <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 0.9, ease: "easeInOut" }} className="mt-0.5 shrink-0 text-[#d82298]">
+                          <ArrowRight size={16} strokeWidth={3} />
+                        </motion.span>
+                      )}
                       <input
                         type="checkbox"
                         checked={bumpCabelereira}
