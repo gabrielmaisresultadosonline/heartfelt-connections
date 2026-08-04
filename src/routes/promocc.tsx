@@ -1,3 +1,4 @@
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "framer-motion";
@@ -295,363 +296,17 @@ function Promocc() {
               </div>
             </div>
             {/* Certificate Carousel inside the container */}
-            <div className="relative mt-12 pt-10 border-t border-[#d82298]/10">
-              {/* floating petals */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {[...Array(6)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute text-[#d82298]/20"
-                    initial={{ y: -30, rotate: 0, opacity: 0 }}
-                    animate={{
-                      y: ["0%", "120%"],
-                      rotate: [0, 360],
-                      opacity: [0, 0.7, 0.7, 0],
-                    }}
-                    transition={{ duration: 10 + (i % 4), repeat: Infinity, delay: i * 1.2, ease: "linear" }}
-                    style={{ left: `${15 + i * 14}%` }}
-                  >
-                    <Flower2 size={22 + (i % 3) * 6} fill="currentColor" />
-                  </motion.div>
-                ))}
-              </div>
-              <p className="text-center text-[#d82298] font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-2">Veja como ele é</p>
-              <p className="text-center text-gray-500 text-xs md:text-sm mb-8">Toque na flor para abrir o certificado ✨</p>
-              {/* Carousel stage */}
-              <div
-                className="relative h-[360px] md:h-[520px] flex items-center justify-center select-none"
-                style={{ perspective: "1200px" }}
-                onMouseEnter={() => setAutoPlay(false)}
-                onMouseLeave={() => setAutoPlay(true)}
-                onTouchStart={() => setAutoPlay(false)}
-              >
-                <AnimatePresence mode="popLayout" initial={false}>
-                  {certificates.map((cert, i) => {
-                    const offset = i - activeCert;
-                    const isActive = offset === 0;
-                    const abs = Math.abs(offset);
-                    if (abs > 2) return null;
-                    return (
-                      <motion.div
-                        key={i}
-                        layout
-                        initial={{ opacity: 0, scale: 0.6, rotateY: 60 }}
-                        animate={{
-                          opacity: abs === 0 ? 1 : abs === 1 ? 0.5 : 0.18,
-                          scale: abs === 0 ? 1 : abs === 1 ? 0.78 : 0.6,
-                          x: offset * (typeof window !== "undefined" && window.innerWidth < 768 ? 100 : 240),
-                          rotateY: offset * -18,
-                          zIndex: 10 - abs,
-                        }}
-                        exit={{ opacity: 0, scale: 0.5 }}
-                        transition={{ type: "spring", stiffness: 110, damping: 18 }}
-                        className="absolute w-[220px] md:w-[400px] cursor-grab active:cursor-grabbing"
-                        drag={isActive ? "x" : false}
-                        dragConstraints={{ left: 0, right: 0 }}
-                        dragElastic={0.35}
-                        onDragStart={() => setAutoPlay(false)}
-                        onDragEnd={(_, info) => {
-                          if (info.offset.x < -60 || info.velocity.x < -300) nextCert();
-                          else if (info.offset.x > 60 || info.velocity.x > 300) prevCert();
-                        }}
-                        onClick={(e) => {
-                          if (!isActive) {
-                            setActiveCert(i);
-                            return;
-                          }
-                          // Only open if it's a genuine click (not a drag)
-                          setOpenCert(i);
-                        }}
-                      >
-                        <motion.div
-                          whileHover={isActive ? { scale: 1.03, y: -6 } : {}}
-                          className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(216,34,152,0.3)] border-4 border-white"
-                        >
-                          <img src={cert.src} alt={`Certificado ${cert.name}`} className="w-full h-auto block" loading="lazy" />
-                          {isActive && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur px-4 py-2 rounded-full shadow-xl flex items-center gap-2 whitespace-nowrap"
-                            >
-                              <motion.div animate={{ rotate: 360 }} transition={{ duration: 6, repeat: Infinity, ease: "linear" }}>
-                                <Flower2 size={16} className="text-[#d82298]" fill="currentColor" />
-                              </motion.div>
-                              <span className="text-[10px] md:text-xs font-black uppercase tracking-wider text-gray-900">Abrir</span>
-                            </motion.div>
-                          )}
-                        </motion.div>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
-                <button
-                  onClick={prevCert}
-                  aria-label="Anterior"
-                  className="absolute left-0 md:left-2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white hover:bg-[#d82298] hover:text-white shadow-lg border border-gray-200 text-gray-700 flex items-center justify-center transition-all"
-                >
-                  <ChevronLeft size={22} />
-                </button>
-                <button
-                  onClick={nextCert}
-                  aria-label="Próximo"
-                  className="absolute right-0 md:right-2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white hover:bg-[#d82298] hover:text-white shadow-lg border border-gray-200 text-gray-700 flex items-center justify-center transition-all"
-                >
-                  <ChevronRight size={22} />
-                </button>
-              </div>
-              {/* Dots */}
-              <div className="flex justify-center gap-2 mt-6">
-                {certificates.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveCert(i)}
-                    aria-label={`Ir para ${i + 1}`}
-                    className={`h-2 rounded-full transition-all ${i === activeCert ? "w-8 bg-[#d82298]" : "w-2 bg-gray-300 hover:bg-gray-400"}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-        {/* Lightbox */}
-        <AnimatePresence>
-          {openCert !== null && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setOpenCert(null)}
-              className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 md:p-10"
-            >
-              <motion.button
-                onClick={() => setOpenCert(null)}
-                whileHover={{ rotate: 90, scale: 1.1 }}
-                className="absolute top-5 right-5 w-12 h-12 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center"
-                aria-label="Fechar"
-              >
-                <X size={22} />
-              </motion.button>
-              <motion.div
-                initial={{ scale: 0.5, rotateY: 90, opacity: 0 }}
-                animate={{ scale: 1, rotateY: 0, opacity: 1 }}
-                exit={{ scale: 0.5, rotateY: -90, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 120, damping: 18 }}
-                onClick={(e) => e.stopPropagation()}
-                className="relative max-w-3xl w-full"
-              >
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="absolute -top-8 -left-8 text-[#d82298]"
-                >
-                  <Flower2 size={56} fill="currentColor" />
-                </motion.div>
-                <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                  className="absolute -bottom-8 -right-8 text-pink-400"
-                >
-                  <Flower2 size={48} fill="currentColor" />
-                </motion.div>
-                <img
-                  src={certificates[openCert].src}
-                  alt={`Certificado ${certificates[openCert].name}`}
-                  className="w-full h-auto rounded-2xl shadow-2xl border-4 border-white/20"
-                />
-                <p className="text-center text-white font-black uppercase tracking-wider mt-5 text-sm md:text-base">
-                  {certificates[openCert].name}
-                </p>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </section>
-      {/* Área de Membros + Bônus */}
-      <section className="py-24 md:py-32 px-6 bg-gradient-to-br from-black via-[#1a0a14] to-[#2a0a1f] relative z-20 overflow-hidden">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mt-14">
-            <PulseButton className="inline-block px-10 py-5 rounded-full text-white text-lg md:text-xl font-black shadow-2xl">
-              QUERO TUDO ISSO AGORA →
-            </PulseButton>
-          </div>
-        </div>
-      </section>
-      {/* Bônus Exclusivos */}
-      <section className="relative z-20 py-20 px-6 bg-gradient-to-br from-[#1a0a14] via-[#2a0f1f] to-[#1a0a14] overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <Gift className="absolute top-10 right-10 text-yellow-300" size={200} />
-          <Sparkles className="absolute bottom-10 left-10 text-[#d82298]" size={180} />
-        </div>
-        <div className="container mx-auto max-w-6xl relative z-10 text-center">
-          <span className="inline-block bg-yellow-300 text-[#1a1a1a] text-xs md:text-sm font-black uppercase tracking-widest px-6 py-2 rounded-full mb-6 shadow-xl">
-            🎁 Bônus Exclusivos Inclusos
-          </span>
-          <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] mb-4 text-white">
-            Ganhe <span className="text-yellow-300">+ R$ 497</span> em Bônus
-          </h2>
-          <p className="text-white/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">
-            PDFs, ebooks e materiais exclusivos liberados junto com o curso — <span className="text-yellow-300 font-bold">totalmente grátis</span>.
-          </p>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 text-left">
-            {[
-              { icon: ClipboardList, title: "Ficha de Anamnese", desc: "Modelo profissional pronto para usar com suas clientes.", tag: "PDF" },
-              { icon: ClipboardList, title: "Lista de Materiais", desc: "Tudo que você precisa comprar para começar hoje.", tag: "PDF" },
-              { icon: PlayCircle, title: "Remoção de Extensão de Cílios", desc: "Aula passo a passo para remoção segura.", tag: "Vídeo" },
-              { icon: BookOpen, title: "Apostila Cílios PRO — O Mapa", desc: "Guia completo do mapeamento de cílios.", tag: "PDF" },
-              { icon: FileText, title: "Conectando-se ao Sucesso", desc: "Marketing digital para empreendedoras da beleza.", tag: "PDF" },
-              { icon: FileText, title: "Crie seu MEI Gratuitamente", desc: "Passo a passo para formalizar seu negócio.", tag: "Ebook" },
-              { icon: FileText, title: "Smart — Transformando Sonhos em Realidade", desc: "Método de metas para alavancar sua carreira.", tag: "Ebook" },
-              { icon: FileText, title: "Elevando Experiências", desc: "Como criar um serviço de luxo que fideliza clientes.", tag: "Ebook" },
-            ].map((b) => (
-              <div
-                key={b.title}
-                className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-yellow-300/30 rounded-3xl p-6 hover:border-yellow-300 hover:scale-[1.02] transition-all duration-300 shadow-xl"
-              >
-                <div className="absolute -top-3 -right-3 bg-yellow-300 text-[#1a1a1a] text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
-                  {b.tag}
-                </div>
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center mb-4 shadow-lg">
-                  <b.icon className="text-[#1a1a1a]" size={28} />
-                </div>
-                <h3 className="text-white font-black uppercase text-base md:text-lg tracking-tight mb-2 leading-tight">
-                  {b.title}
-                </h3>
-                <p className="text-white/70 text-sm leading-relaxed">{b.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="mt-10 text-yellow-300 text-sm md:text-base font-bold uppercase tracking-widest">
-            ⚡ Todos os bônus liberados no ato da compra
-          </p>
-        </div>
-      </section>
-      {/* Combo de Cursos - Oferta Relâmpago */}
-      <section id="oferta" className="relative z-30 py-20 px-6 bg-gradient-to-br from-[#d82298] via-[#ff3ea5] to-[#d82298] overflow-hidden scroll-mt-24">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-            className="absolute -top-20 -left-20 text-white"
-          >
-            <Sparkles size={280} />
-          </motion.div>
-        </div>
-        <div className="container mx-auto max-w-4xl relative z-10 text-center text-white">
-          <motion.span
-            className="inline-block bg-yellow-300 text-[#1a1a1a] text-xs md:text-sm font-black uppercase tracking-widest px-6 py-2 rounded-full mb-6 shadow-xl"
-          >
-            🔥 Oferta Combo Relâmpago
-          </motion.span>
-          <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] mb-6">
-            Curso de <span className="text-yellow-300">Alisamento Perfeito</span>
-          </h2>
-          <div className="max-w-xs sm:max-w-sm mx-auto mb-8">
-            <img
-              src={cursoLisoImg}
-              alt="Curso de Liso Perfeito com Alessandra Linhares"
-              className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
-              loading="lazy"
-            />
-          </div>
-          <p className="text-lg md:text-xl opacity-95 mb-10 font-light max-w-2xl mx-auto">
-            Produtos e processo completo do melhor do liso. Aulas em HD gravadas, com certificado MEC incluso.
-          </p>
-
-
-          <div className="grid md:grid-cols-1 gap-6 max-w-xl mx-auto">
-            <div className="bg-white text-[#1a1a1a] rounded-[2.5rem] p-8 shadow-2xl border-4 border-yellow-300 flex flex-col">
-              <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">Curso de Alisamento Perfeito</h3>
-              <ul className="space-y-2 mb-4 text-left text-sm md:text-base">
-                {[
-                  "Produtos e processo completo do liso",
-                  "Aulas em HD gravadas",
-                  "Certificado MEC incluso",
-                  "Acesso vitalício ao conteúdo",
-                ].map((c) => (
-                  <li key={c} className="flex items-center gap-2 font-semibold">
-                    <CheckCircle className="text-[#d82298] shrink-0" size={18} />{c}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-gray-500 line-through font-bold">De R$ 197</p>
-              <div className="flex items-start justify-center gap-1 my-3">
-                <span className="text-2xl font-black text-[#d82298] mt-2">R$</span>
-                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">19</span>
-              </div>
-              <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único • Acesso vitalício</p>
-              <PulseButton
-                asCheckout
-                variant="green"
-                className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto text-white"
-              >
-                QUERO O CURSO — R$ 19
-              </PulseButton>
-            </div>
-          </div>
-
-          {/* Combo Completo com Order Bumps visíveis fora do modal */}
-          <div className="mt-10 max-w-3xl mx-auto bg-white/10 backdrop-blur-md border-2 border-yellow-300/60 rounded-[2.5rem] p-6 md:p-8 text-white shadow-2xl">
-            <div className="max-w-xs sm:max-w-sm mx-auto mb-5">
-              <img
-                src={comboImg}
-                alt="Combo 3 Cursos - Alisamento, Sobrancelha e Extensão de Cílios"
-                className="w-full h-auto rounded-2xl shadow-2xl border-2 border-yellow-300/40"
-                loading="lazy"
-              />
-            </div>
-            <div className="inline-block bg-yellow-300 text-[#1a1a1a] text-[10px] md:text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-              💎 Combo Completo
-            </div>
-            <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 61
-            </h3>
-            <p className="text-white/90 text-sm md:text-base mb-5">
-              Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-3 text-left mb-6">
-              {[
-                { t: "Curso de Alisamento Perfeito", p: "R$ 10" },
-                { t: "Curso de Sobrancelha", p: "+ R$ 14" },
-                { t: "Curso de Extensão de Cílios", p: "+ R$ 14" },
-                { t: "Atualizações Vitalícias", p: "+ R$ 9" },
-                { t: "Marketing Completo (Seguidores)", p: "+ R$ 97" },
-              ].map((b) => (
-                <div key={b.t} className="flex items-center justify-between bg-white/10 rounded-2xl px-4 py-3 border border-white/10">
-                  <span className="flex items-center gap-2 text-sm font-bold">
-                    <CheckCircle size={16} className="text-yellow-300 shrink-0" /> {b.t}
-                  </span>
-                  <span className="text-xs font-black text-yellow-300">{b.p}</span>
+            <div className="mt-16 grid md:grid-cols-4 gap-4">
+              {certificates.map((cert, i) => (
+                <div key={i} className="bg-[#fafafa] p-4 rounded-3xl border border-gray-100 shadow-sm">
+                  <img src={cert.src} alt={cert.name} className="w-full aspect-[4/3] object-cover rounded-2xl mb-3" />
+                  <p className="text-[10px] font-black uppercase text-gray-400">{cert.name}</p>
                 </div>
               ))}
             </div>
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
-              <div>
-                <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
-                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 61,00</p>
-                <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
-              </div>
-              <PulseButton
-                asCheckout
-                variant="green"
-                className="py-4 px-8 rounded-full text-base md:text-lg text-white"
-              >
-                QUERO O COMBO — R$ 61
-              </PulseButton>
-            </div>
-            <p className="text-[11px] text-white/80 mt-3 text-center">
-              Os complementos aparecem também no checkout — marque só o que quiser.
-            </p>
-          </div>
-
-          <p className="text-xs md:text-sm text-white/90 mt-6 font-semibold">
-            Pagamento seguro • Acesso imediato • Certificado incluso
-          </p>
+          </motion.div>
         </div>
       </section>
-      {/* Final CTA */}
       <footer className="py-40 px-6 text-center bg-[#fafafa] relative z-30">
         <h2 className="text-6xl md:text-[10rem] font-black mb-16 uppercase tracking-tighter leading-[0.8] italic text-[#1a1a1a]">TENDÊNCIAS <br/> <span className="text-[#d82298]">2026/2027</span></h2>
         <PulseButton asCheckout className="py-10 px-20 rounded-[3.5rem] text-3xl md:text-5xl inline-block shadow-[0_40px_80px_rgba(216,34,152,0.5)]">
@@ -687,7 +342,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open]);
 
   const base = 10;
-  const extras = (bumpSobrancelha ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCabelereira ? 14 : 0) + (bumpSeguidores ? 97 : 0);
+  const extras = (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCilios ? 14 : 0) + (bumpCabelereira ? 14 : 0) + (bumpSeguidores ? 97 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -695,14 +350,14 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     setErr(null);
     setLoading(true);
     try {
-      const bumps: ("sobrancelha" | "cilios" | "cabelereira-pro" | "vitalicio" | "seguidores")[] = [];
+      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "cabelereira-pro" | "seguidores")[] = [];
       if (bumpSobrancelha) bumps.push("sobrancelha");
+      if (bumpVitalicio) bumps.push("vitalicio");
       if (bumpCilios) bumps.push("cilios");
       if (bumpCabelereira) bumps.push("cabelereira-pro");
-      if (bumpVitalicio) bumps.push("vitalicio");
       if (bumpSeguidores) bumps.push("seguidores");
       const r = await createCheckout({
-        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps, instagram: bumpSeguidores ? instagram : undefined },
+        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps, main: "alisamento", instagram: bumpSeguidores ? instagram : undefined },
       });
       if (!r.ok) {
         setErr(r.error || "Erro ao gerar checkout");
@@ -759,21 +414,20 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   className="mt-1 w-full border border-pink-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-pink-400 outline-none" />
               </div>
 
-              {/* Produto principal — sempre incluso */}
               <div className="pt-2">
                 <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2">
                   🛒 Sua compra
                 </p>
-                <div className="flex items-start gap-3 p-3 rounded-xl border-2 border-[#d82298] bg-gradient-to-br from-pink-50 to-fuchsia-50">
+                <div className="flex items-start gap-3 p-4 rounded-xl border-2 border-[#d82298] bg-gradient-to-br from-pink-50 to-fuchsia-50 mb-4">
                   <div className="mt-0.5 w-4 h-4 rounded-sm bg-[#d82298] flex items-center justify-center shrink-0">
                     <CheckCircle size={12} className="text-white" strokeWidth={3} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
+                      <p className="text-sm font-black text-gray-900 uppercase">Curso de Alisamento Perfeito</p>
                       <span className="text-[9px] font-black uppercase tracking-wider bg-[#d82298] text-white px-2 py-0.5 rounded-full">Principal</span>
                     </div>
-                    <p className="text-xs text-gray-600">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 10</strong></p>
+                    <p className="text-xs text-gray-600 mt-1">Acesso vitalício + certificado MEC · <strong className="text-[#d82298]">R$ 10</strong></p>
                   </div>
                 </div>
               </div>
@@ -786,62 +440,9 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   Turbine sua formação
                 </p>
                 <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite nossos descontos exclusivos!</p>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition relative ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <motion.div 
-                    animate={{ x: [0, 5, 0] }} 
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                    className="absolute -left-8 top-1/2 -translate-y-1/2 text-[#d82298] hidden sm:block"
-                  >
-                    <ArrowRight size={20} className="fill-[#d82298]" />
-                  </motion.div>
-                  <input
-                    type="checkbox"
-                    checked={bumpSobrancelha}
-                    onChange={(e) => setBumpSobrancelha(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Curso de Sobrancelha</p>
-                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
-                  </div>
-                </label>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <input
-                    type="checkbox"
-                    checked={bumpCilios}
-                    onChange={(e) => setBumpCilios(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
-                  </div>
-                </label>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <input
-                    type="checkbox"
-                    checked={bumpVitalicio}
-                    onChange={(e) => setBumpVitalicio(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
-                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <br/><strong className="text-[#d82298]">+R$ 9</strong></p>
-                  </div>
-                </label>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
-                  <input
-                    type="checkbox"
-                    checked={bumpCabelereira}
-                    onChange={(e) => setBumpCabelereira(e.target.checked)}
-                    className="mt-1 accent-[#d82298] w-4 h-4"
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
-                    <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
-                  </div>
-                </label>
-                <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]" : "border-gray-200 hover:border-pink-300"}`}>
+                
+                {/* Marketing Primeiro */}
+                <div className={`mb-3 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]" : "border-gray-200 hover:border-pink-300"}`}>
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input type="checkbox" checked={bumpSeguidores} onChange={(e) => setBumpSeguidores(e.target.checked)}
                       className="mt-1 accent-white w-4 h-4" />
@@ -857,6 +458,57 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                         className="w-full border border-indigo-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-indigo-400 outline-none bg-white" />
                     </motion.div>
                   )}
+                </div>
+
+                <div className="space-y-3 pt-3 border-t border-amber-200/50">
+                  <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                    <input
+                      type="checkbox"
+                      checked={bumpSobrancelha}
+                      onChange={(e) => setBumpSobrancelha(e.target.checked)}
+                      className="mt-1 accent-[#d82298] w-4 h-4"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm font-black text-gray-900">Curso de Sobrancelha</p>
+                      <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
+                    </div>
+                  </label>
+                  <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                    <input
+                      type="checkbox"
+                      checked={bumpCilios}
+                      onChange={(e) => setBumpCilios(e.target.checked)}
+                      className="mt-1 accent-[#d82298] w-4 h-4"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
+                      <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
+                    </div>
+                  </label>
+                  <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                    <input
+                      type="checkbox"
+                      checked={bumpVitalicio}
+                      onChange={(e) => setBumpVitalicio(e.target.checked)}
+                      className="mt-1 accent-[#d82298] w-4 h-4"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
+                      <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <br/><strong className="text-[#d82298]">+R$ 9</strong></p>
+                    </div>
+                  </label>
+                  <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                    <input
+                      type="checkbox"
+                      checked={bumpCabelereira}
+                      onChange={(e) => setBumpCabelereira(e.target.checked)}
+                      className="mt-1 accent-[#d82298] w-4 h-4"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
+                      <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
+                    </div>
+                  </label>
                 </div>
               </div>
 
