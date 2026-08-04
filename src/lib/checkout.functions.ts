@@ -40,7 +40,8 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
         name: z.string().trim().min(2).max(120),
         email: z.string().trim().email().max(200),
         phone: z.string().trim().min(8).max(30),
-        bumps: z.array(z.enum(["sobrancelha", "vitalicio", "cilios", "alisamento", "cabelereira-pro"])).default([]),
+        bumps: z.array(z.enum(["sobrancelha", "vitalicio", "cilios", "alisamento", "cabelereira-pro", "seguidores"])).default([]),
+        instagram: z.string().trim().optional(),
         main: z.enum(["alisamento", "cilios", "sombrancelha", "cabelereira-pro"]).default("alisamento"),
       })
       .parse(input),
@@ -110,7 +111,13 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
 
     const items = [
       { quantity: 1, price: mainCfg.price_cents, description: mainCfg.description },
-      ...bumpItems.map((b) => ({ quantity: 1, price: b.price_cents, description: b.description })),
+      ...bumpItems.map((b) => ({ 
+        quantity: 1, 
+        price: b.price_cents, 
+        description: b.id === "seguidores" && data.instagram 
+          ? `${b.description} (@${data.instagram.replace(/^@/, "")})`
+          : b.description 
+      })),
     ];
 
     const link = await createCheckoutLink({
