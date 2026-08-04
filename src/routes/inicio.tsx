@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, ArrowRight, Scissors, Eye, Flower2, Heart } from "lucide-react";
-import marketingSalao from "@/assets/marketing-salao.png";
+import marketingSalaoAsset from "@/assets/marketing-salao-v2.png.asset.json";
 import cabelereiraProCover from "@/assets/cover-cabelereira-pro-2027.png";
+
+const marketingSalao = marketingSalaoAsset.url;
 
 
 
