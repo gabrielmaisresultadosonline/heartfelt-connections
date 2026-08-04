@@ -53,7 +53,6 @@ function Promocc() {
   };
   const scrollToOferta = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (step === 1) { setStep(2); return; }
     const el = document.getElementById("oferta");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -349,6 +348,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (step === 1) { setStep(2); return; }
     setErr(null);
     setLoading(true);
     try {
