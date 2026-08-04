@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList, ArrowRight } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList, ArrowRight, ShieldCheck, Zap, Headphones, Infinity as InfinityIcon } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
 import heroImg from "@/assets/hero-alessandra.webp";
 import cert1 from "@/assets/cert-1.webp";
@@ -399,6 +399,41 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
             </div>
             <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               <div className={`space-y-4 order-2 md:order-1 ${step === 1 && "hidden md:block"}`}>
+              <div className="rounded-2xl border border-pink-100 bg-gradient-to-br from-pink-50/70 to-white p-4 sm:p-5 hidden md:block">
+                <div className="flex items-start gap-3">
+                  <div className="shrink-0 w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center">
+                    <ShieldCheck size={20} className="text-[#d82298]" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-black text-[#d82298]">Compra 100% segura</p>
+                    <p className="text-xs text-gray-600 leading-relaxed mt-1">
+                      Pagamento processado pela InfinitePay via API MRO - Mais Resultados Online. Seu acesso será enviado por e-mail assim que confirmado.
+                    </p>
+                  </div>
+                </div>
+                <div className="border-t border-pink-100 my-4" />
+                <p className="text-[11px] font-black text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <Star size={14} className="text-[#d82298] fill-[#d82298]" /> Ao garantir sua vaga, você recebe:
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    { icon: Zap, t: "Acesso imediato", d: "Comece hoje mesmo." },
+                    { icon: Award, t: "Certificado MEC", d: "Reconhecimento e credibilidade." },
+                    { icon: InfinityIcon, t: "Acesso vitalício", d: "Assista quando e onde quiser." },
+                    { icon: Headphones, t: "Suporte dedicado", d: "Tire suas dúvidas sempre que precisar." },
+                  ].map((b) => (
+                    <li key={b.t} className="flex items-start gap-3">
+                      <div className="shrink-0 w-8 h-8 rounded-lg bg-[#d82298]/10 flex items-center justify-center">
+                        <b.icon size={16} className="text-[#d82298]" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-black text-gray-900 leading-tight">{b.t}</p>
+                        <p className="text-xs text-gray-500">{b.d}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
                 <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
@@ -417,9 +452,10 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               </div>
             </div>
 
-            <div className={`space-y-4 order-1 md:order-2 ${step === 2 && "hidden md:block"}`}>
+            <div className="space-y-4 order-1 md:order-2">
 
 
+              <div className={step === 2 ? "hidden md:block space-y-4" : "space-y-4"}>
               <div className="pt-2">
                 <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2 flex items-center gap-2">
                   <ShoppingBag size={14} className="text-[#d82298]" /> Sua compra
@@ -518,6 +554,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 </div>
               </div>
 
+              </div>
               <div className="bg-gradient-to-r from-pink-50 to-fuchsia-50 rounded-xl p-3 flex items-center justify-between">
                 <span className="text-sm font-bold text-gray-700 uppercase tracking-wider">Total</span>
                 <span className="text-2xl font-black text-[#d82298]">R$ {total},00</span>
@@ -543,7 +580,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               </button>
             </div>
               <p className="text-center text-[11px] text-gray-500 mt-1">
-                Pagamento processado pela InfinitePay via API MRO - Mais Resultados Online - Gabriel fernandes da silva. Seu acesso é enviado por e-mail assim que confirmado.
+                🔒 Ambiente 100% seguro. Seus dados estão protegidos e não serão compartilhados.
               </p>
             </form>
           </motion.div>
