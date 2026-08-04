@@ -51,7 +51,12 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
     const main: MainId = data.main;
     const mainCfg = PRODUCTS[main];
     // Bump equivalente ao produto principal é ignorado (evita comprar 2x o mesmo)
-    const mainAsBump: Record<MainId, string> = { alisamento: "alisamento", cilios: "cilios", sombrancelha: "sobrancelha" };
+    const mainAsBump: Record<MainId, string> = {
+      alisamento: "alisamento",
+      cilios: "cilios",
+      sombrancelha: "sombrancelha",
+      "cabelereira-pro": "alisamento",
+    };
     const bumps = Array.from(new Set(data.bumps)).filter((b) => b !== mainAsBump[main]);
     const bumpItems = BUMPS.filter((b) => (bumps as string[]).includes(b.id));
     const totalCents = mainCfg.price_cents + bumpItems.reduce((s, b) => s + b.price_cents, 0);
