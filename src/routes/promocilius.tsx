@@ -614,9 +614,11 @@ function Promocilius() {
             </p>
             <div className="grid sm:grid-cols-2 gap-3 text-left mb-6">
                 {[
-                  { t: "Curso de Alisamento Perfeito", p: "R$ 14" },
+                  { t: "Curso de Extensão de Cílios", p: "R$ 29" },
                   { t: "Curso de Sobrancelha", p: "+ R$ 14" },
-                  { t: "Atualizações Vitalícias", p: "+ R$ 14" },
+                  { t: "Curso de Alisamento Perfeito", p: "+ R$ 14" },
+                  { t: "Atualizações Vitalícias", p: "+ R$ 9" },
+                  { t: "Marketing Completo (Seguidores)", p: "+ R$ 97" },
                 ].map((b) => (
                 <div key={b.t} className="flex items-center justify-between bg-white/10 rounded-2xl px-4 py-3 border border-white/10">
                   <span className="flex items-center gap-2 text-sm font-bold">

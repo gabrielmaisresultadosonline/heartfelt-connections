@@ -249,6 +249,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [bumpCilios, setBumpCilios] = useState(false);
   const [bumpSobrancelha, setBumpSobrancelha] = useState(false);
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
+  const [bumpSeguidores, setBumpSeguidores] = useState(false);
+  const [instagram, setInstagram] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -260,7 +262,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open]);
 
   const base = 25;
-  const extras = (bumpAlisamento ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 9 : 0);
+  const extras = (bumpAlisamento ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 9 : 0) + (bumpSeguidores ? 97 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -410,6 +412,22 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                     <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
                   </div>
                 </label>
+                <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "border-indigo-400 bg-indigo-50 shadow-md" : "border-gray-200 hover:border-pink-300"}`}>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" checked={bumpSeguidores} onChange={(e) => setBumpSeguidores(e.target.checked)}
+                      className="mt-1 accent-indigo-600 w-4 h-4" />
+                    <div className="flex-1">
+                      <p className="text-sm font-black text-indigo-900 uppercase italic">🔥 Marketing Completo Instagram (+ R$ 97)</p>
+                      <p className="text-[10px] text-indigo-700/70">2000 seguidores + 5 mil alcance + curtidas/comentários</p>
+                    </div>
+                  </label>
+                  {bumpSeguidores && (
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="mt-2 overflow-hidden">
+                      <input required value={instagram} onChange={(e) => setInstagram(e.target.value)} placeholder="Seu @ ou link do Instagram"
+                        className="w-full border border-indigo-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-indigo-400 outline-none bg-white" />
+                    </motion.div>
+                  )}
+                </div>
               </div>
 
               <div className="bg-gradient-to-r from-pink-50 to-fuchsia-50 rounded-xl p-3 flex items-center justify-between">
