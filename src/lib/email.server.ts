@@ -138,7 +138,7 @@ export function renderAccessEmail(opts: {
   const safeEmail = escapeHtml(email);
   const safePass = escapeHtml(password);
   const safeUrl = escapeHtml(loginUrl);
-  const subject = "Seu acesso ao Curso de Alisamento Perfeito ✨";
+  const subject = "Seu acesso ao curso ✨";
   const html = `<!doctype html>
 <html lang="pt-BR">
 <head>
@@ -157,7 +157,7 @@ export function renderAccessEmail(opts: {
     <!-- Content -->
     <div style="padding:40px 30px;">
       <p style="font-size:16px;line-height:1.6;margin:0 0 24px;color:#333;">
-        Olá! Ficamos muito felizes em ter você conosco. Seu pagamento foi confirmado e sua jornada para o domínio do <strong>Alisamento Perfeito</strong> começa agora!
+        Olá! Ficamos muito felizes em ter você conosco. Seu pagamento foi confirmado e sua jornada profissional começa agora!
       </p>
 
       <div style="background-color:#fdf2f8;border:1px solid #f5d3e7;border-radius:12px;padding:24px;margin-bottom:32px;">
