@@ -6,8 +6,9 @@ import { adminMe } from "@/lib/auth.functions";
 import {
   listCoursesAdmin, saveCourse, deleteCourse,
   listCourseAssets, deleteCourseAsset, renameCourseAsset,
+  duplicateCourse,
 } from "@/lib/courses.functions";
-import { FileVideo, FileText, Upload, Trash2, Image as ImageIcon, Loader2, Plus, Pencil, Save, X, RefreshCw } from "lucide-react";
+import { FileVideo, FileText, Upload, Trash2, Image as ImageIcon, Loader2, Plus, Pencil, Save, X, RefreshCw, Copy } from "lucide-react";
 
 export const Route = createFileRoute("/admin/courses")({
   component: CoursesAdmin,
@@ -29,6 +30,7 @@ function CoursesAdmin() {
   const listFn = useServerFn(listCoursesAdmin);
   const saveFn = useServerFn(saveCourse);
   const delFn = useServerFn(deleteCourse);
+  const dupFn = useServerFn(duplicateCourse);
   const [ready, setReady] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -70,6 +72,20 @@ function CoursesAdmin() {
     await delFn({ data: { id } });
     if (selectedId === id) setSelectedId(null);
     qc.invalidateQueries({ queryKey: ["admin-courses"] });
+  }
+
+  async function onDuplicate(id: string, title: string) {
+    const newTitle = prompt("Novo título:", `${title} (Cópia)`) || `Cabelereira PRO 2027`;
+    const newSlug = prompt("Novo slug (URL):", `${title}-copia`) || `cabelereira-pro-2027`;
+    if (!newTitle) return;
+    
+    try {
+      await dupFn({ data: { id, newTitle, newSlug } });
+      qc.invalidateQueries({ queryKey: ["admin-courses"] });
+      alert("Curso duplicado com sucesso!");
+    } catch (err) {
+      alert("Erro ao duplicar: " + (err instanceof Error ? err.message : String(err)));
+    }
   }
 
   if (!ready) return <div className="min-h-screen grid place-items-center text-pink-700">Carregando...</div>;
@@ -132,12 +148,21 @@ function CoursesAdmin() {
                   className="text-pink-600 hover:text-pink-800 p-1"
                   role="button"
                   tabIndex={0}
+                  title="Editar"
                 ><Pencil size={16} /></span>
+                <span
+                  onClick={(e) => { e.stopPropagation(); onDuplicate(c.id, c.title); }}
+                  className="text-blue-500 hover:text-blue-700 p-1"
+                  role="button"
+                  tabIndex={0}
+                  title="Duplicar"
+                ><Copy size={16} /></span>
                 <span
                   onClick={(e) => { e.stopPropagation(); onDelete(c.id, c.title); }}
                   className="text-red-500 hover:text-red-700 p-1"
                   role="button"
                   tabIndex={0}
+                  title="Excluir"
                 ><Trash2 size={16} /></span>
               </button>
             ))}

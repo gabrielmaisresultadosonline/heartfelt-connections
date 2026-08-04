@@ -23,6 +23,7 @@ const CHECKOUT_TTL_MS = 20 * 60 * 1000; // 20 min
 
 const PRODUCTS = {
   alisamento: { price_cents: 1900, description: "Curso de Alisamento Perfeito - Acesso Vitalicio" },
+  "cabelereira-pro": { price_cents: 1900, description: "Cabelereira PRO 2027 - Acesso Vitalicio" },
   cilios: { price_cents: 3900, description: "Curso de Extensão de Cílios - Acesso Vitalicio" },
   sombrancelha: { price_cents: 4000, description: "Curso de Sobrancelha - Acesso Vitalicio" },
 } as const;
@@ -40,7 +41,7 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
         email: z.string().trim().email().max(200),
         phone: z.string().trim().min(8).max(30),
         bumps: z.array(z.enum(["sobrancelha", "vitalicio", "cilios", "alisamento"])).default([]),
-        main: z.enum(["alisamento", "cilios", "sombrancelha"]).default("alisamento"),
+        main: z.enum(["alisamento", "cilios", "sombrancelha", "cabelereira-pro"]).default("alisamento"),
       })
       .parse(input),
   )
@@ -50,7 +51,12 @@ export const createStudentCheckout = createServerFn({ method: "POST" })
     const main: MainId = data.main;
     const mainCfg = PRODUCTS[main];
     // Bump equivalente ao produto principal é ignorado (evita comprar 2x o mesmo)
-    const mainAsBump: Record<MainId, string> = { alisamento: "alisamento", cilios: "cilios", sombrancelha: "sobrancelha" };
+    const mainAsBump: Record<MainId, string> = {
+      alisamento: "alisamento",
+      cilios: "cilios",
+      sombrancelha: "sombrancelha",
+      "cabelereira-pro": "alisamento",
+    };
     const bumps = Array.from(new Set(data.bumps)).filter((b) => b !== mainAsBump[main]);
     const bumpItems = BUMPS.filter((b) => (bumps as string[]).includes(b.id));
     const totalCents = mainCfg.price_cents + bumpItems.reduce((s, b) => s + b.price_cents, 0);

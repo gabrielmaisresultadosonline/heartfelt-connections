@@ -15,7 +15,7 @@ export const Route = createFileRoute("/inicio")({
 
 type Curso = {
   slug: string;
-  to: "/promocc" | "/promocilius" | "/promosombra";
+  to: "/promocc" | "/promocilius" | "/promosombra" | "/promocabelereira";
   title: string;
   tagline: string;
   price: string;
@@ -34,6 +34,16 @@ const cursos: Curso[] = [
     image: "/curso-liso-perfeito.webp",
     icon: <Scissors size={20} />,
     gradient: "from-pink-500 to-fuchsia-600",
+  },
+  {
+    slug: "cabelereira-pro",
+    to: "/promocabelereira",
+    title: "Cabelereira PRO 2027",
+    tagline: "Formação completa premium — o mesmo conteúdo de elite com certificação 2027.",
+    price: "R$ 19,00",
+    image: "/curso-liso-perfeito.webp",
+    icon: <Scissors size={20} />,
+    gradient: "from-amber-500 to-orange-600",
   },
   {
     slug: "cilios",

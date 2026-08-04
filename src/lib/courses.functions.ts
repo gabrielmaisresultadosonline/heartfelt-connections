@@ -75,6 +75,50 @@ export const saveCourse = createServerFn({ method: "POST" })
     return { ok: true as const, course: saved };
   });
 
+export const duplicateCourse = createServerFn({ method: "POST" })
+  .inputValidator((i: unknown) => z.object({ id: z.string(), newTitle: z.string(), newSlug: z.string() }).parse(i))
+  .handler(async ({ data }) => {
+    requireAdmin();
+    const now = new Date().toISOString();
+    const result = await withDB(async (d) => {
+      const source = d.courses.find((c) => c.id === data.id);
+      if (!source) throw new Error("Curso original não encontrado");
+
+      const newId = crypto.randomUUID();
+      const newCourse: Course = {
+        ...source,
+        id: newId,
+        title: data.newTitle,
+        slug: slugify(data.newSlug),
+        created_at: now,
+        order: d.courses.length,
+      };
+
+      // Duplicar assets
+      const sourceAssets = d.course_assets.filter((a) => a.course_id === source.id);
+      const newAssets: CourseAsset[] = sourceAssets.map((a) => ({
+        ...a,
+        id: crypto.randomUUID(),
+        course_id: newId,
+        created_at: now,
+      }));
+
+      // Duplicar config de certificado se existir
+      const sourceCert = d.course_cert_configs.find((c) => c.course_id === source.id);
+      if (sourceCert) {
+        d.course_cert_configs.push({
+          ...sourceCert,
+          course_id: newId,
+        });
+      }
+
+      d.courses.push(newCourse);
+      d.course_assets.push(...newAssets);
+      return newCourse;
+    });
+    return { ok: true as const, course: result };
+  });
+
 export const deleteCourse = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({ id: z.string() }).parse(i))
   .handler(async ({ data }) => {
