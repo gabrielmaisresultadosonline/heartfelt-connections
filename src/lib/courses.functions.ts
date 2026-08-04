@@ -35,7 +35,7 @@ const saveCourseSchema = z.object({
   description: z.string().trim().max(4000).default(""),
   slug: z.string().trim().max(80).default(""),
   order: z.number().int().min(0).max(9999).default(0),
-  required_bump: z.enum(["sobrancelha", "vitalicio", "cilios"]).nullable().default(null),
+  required_bump: z.enum(["sobrancelha", "vitalicio", "cilios", "alisamento", "cabelereira-pro"]).nullable().default(null),
 });
 
 export const saveCourse = createServerFn({ method: "POST" })

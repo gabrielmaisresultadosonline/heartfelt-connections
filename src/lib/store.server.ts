@@ -142,6 +142,7 @@ export const BUMPS = [
   { id: "vitalicio", label: "Atualizações Vitalícias", price_cents: 1400, description: "Atualizações Vitalícias (bônus)" },
   { id: "cilios", label: "Curso de Extensão de Cílios", price_cents: 1400, description: "Curso de Extensão de Cílios (bônus)" },
   { id: "alisamento", label: "Curso de Alisamento Perfeito", price_cents: 1400, description: "Curso de Alisamento Perfeito (bônus)" },
+  { id: "cabelereira-pro", label: "Curso Cabelereira PRO", price_cents: 1400, description: "Curso Cabelereira PRO (bônus)" },
 ] as const;
 export type BumpId = (typeof BUMPS)[number]["id"];
 

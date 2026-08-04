@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin/courses")({
   component: CoursesAdmin,
 });
 
-type BumpId = "sobrancelha" | "vitalicio" | "cilios" | null;
+type BumpId = "sobrancelha" | "vitalicio" | "cilios" | "alisamento" | "cabelereira-pro" | null;
 
 type UploadItem = {
   id: string;
@@ -220,6 +220,8 @@ function CoursesAdmin() {
                     <option value="sobrancelha">Bump: Sobrancelha</option>
                     <option value="vitalicio">Bump: Vitalícias</option>
                     <option value="cilios">Bump: Cílios</option>
+                    <option value="alisamento">Bump: Alisamento</option>
+                    <option value="cabelereira-pro">Bump: Cabelereira PRO</option>
                   </select>
                 </div>
               </div>
