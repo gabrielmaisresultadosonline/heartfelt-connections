@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, ArrowRight, Scissors, Eye, Flower2 } from "lucide-react";
+import { Sparkles, ArrowRight, Scissors, Eye, Flower2, Heart } from "lucide-react";
+import marketingSalaoAsset from "@/assets/marketing-salao.png.asset.json";
+
 const cabelereiraProCover = "/cabelereira-pro-cover.png";
 const ciliosCover = "/curso-cilios.png";
 const sobrancelhaCover = "/curso-sobrancelha.png";
@@ -16,13 +18,15 @@ export const Route = createFileRoute("/inicio")({
 
 type Curso = {
   slug: string;
-  to: "/promocc" | "/promocilius" | "/promosombra" | "/promocabelereira";
+  to?: "/promocc" | "/promocilius" | "/promosombra" | "/promocabelereira";
+  href?: string;
   title: string;
   tagline: string;
   price: string;
   image: string;
   icon: React.ReactNode;
   gradient: string;
+  isExternal?: boolean;
 };
 
 const cursos: Curso[] = [
@@ -66,6 +70,17 @@ const cursos: Curso[] = [
     icon: <Flower2 size={20} />,
     gradient: "from-fuchsia-500 to-purple-600",
   },
+  {
+    slug: "marketing-salao",
+    href: "https://acessar.click/SALAODE",
+    title: "Marketing para Salão",
+    tagline: "Mais clientes e seguidores no seu salão de beleza — público filtrado por região.",
+    price: "Confira agora",
+    image: marketingSalaoAsset.url,
+    icon: <Heart size={20} />,
+    gradient: "from-purple-600 to-pink-500",
+    isExternal: true,
+  },
 ];
 
 function InicioPage() {
@@ -85,33 +100,45 @@ function InicioPage() {
 
       <main className="max-w-6xl mx-auto px-6 pb-16">
         <div className="grid gap-6 md:grid-cols-3">
-          {cursos.map((c) => (
-            <Link
-              key={c.slug}
-              to={c.to}
-              className="group bg-white rounded-3xl overflow-hidden ring-1 ring-pink-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all"
-            >
-              <div className="aspect-[4/3] overflow-hidden relative">
-                <img src={c.image} alt={c.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                <div className={`absolute top-3 left-3 bg-gradient-to-r ${c.gradient} text-white px-3 py-1 rounded-full text-xs font-black inline-flex items-center gap-1.5 shadow-lg`}>
-                  {c.icon} Curso
-                </div>
-              </div>
-              <div className="p-5">
-                <h2 className="text-xl font-black text-gray-900">{c.title}</h2>
-                <p className="text-sm text-gray-600 mt-1.5 line-clamp-2">{c.tagline}</p>
-                <div className="mt-4 flex items-center justify-between">
-                  <div>
-                    <span className="text-xs text-gray-400 line-through">R$ 197</span>
-                    <div className="text-2xl font-black text-[#d82298] leading-none">{c.price}</div>
+          {cursos.map((c) => {
+            const content = (
+              <div className="group bg-white rounded-3xl overflow-hidden ring-1 ring-pink-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all h-full flex flex-col">
+                <div className="aspect-[4/3] overflow-hidden relative">
+                  <img src={c.image} alt={c.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className={`absolute top-3 left-3 bg-gradient-to-r ${c.gradient} text-white px-3 py-1 rounded-full text-xs font-black inline-flex items-center gap-1.5 shadow-lg`}>
+                    {c.icon} {c.isExternal ? "Serviço" : "Curso"}
                   </div>
-                  <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r ${c.gradient} text-white font-bold rounded-full px-4 py-2 text-sm shadow-md group-hover:shadow-xl transition`}>
-                    Ver oferta <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                  </span>
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <h2 className="text-xl font-black text-gray-900">{c.title}</h2>
+                  <p className="text-sm text-gray-600 mt-1.5 line-clamp-2">{c.tagline}</p>
+                  <div className="mt-auto pt-4 flex items-center justify-between">
+                    <div>
+                      {!c.isExternal && <span className="text-xs text-gray-400 line-through">R$ 197</span>}
+                      <div className="text-xl font-black text-[#d82298] leading-none">{c.price}</div>
+                    </div>
+                    <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r ${c.gradient} text-white font-bold rounded-full px-4 py-2 text-sm shadow-md group-hover:shadow-xl transition`}>
+                      {c.isExternal ? "Acessar" : "Ver oferta"} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
                 </div>
               </div>
-            </Link>
-          ))}
+            );
+
+            if (c.isExternal) {
+              return (
+                <a key={c.slug} href={c.href} target="_blank" rel="noopener noreferrer" className="block">
+                  {content}
+                </a>
+              );
+            }
+
+            return (
+              <Link key={c.slug} to={c.to} className="block">
+                {content}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="mt-12 text-center">
