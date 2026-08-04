@@ -580,7 +580,7 @@ function Promocilius() {
               <p className="text-gray-500 line-through font-bold">De R$ 197</p>
               <div className="flex items-start justify-center gap-1 my-3">
                 <span className="text-2xl font-black text-[#d82298] mt-2">R$</span>
-                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">39</span>
+                <span className="text-7xl font-black text-[#d82298] leading-none tracking-tighter">29</span>
               </div>
               <p className="text-xs uppercase font-black tracking-widest text-gray-600 mb-6">Pagamento único • Acesso vitalício</p>
               <PulseButton
@@ -588,7 +588,7 @@ function Promocilius() {
                 variant="green"
                 className="w-full py-5 px-6 rounded-2xl text-lg md:text-xl flex items-center justify-center mt-auto text-white"
               >
-                QUERO O CURSO — R$ 39
+                QUERO O CURSO — R$ 29
               </PulseButton>
             </div>
           </div>
@@ -607,7 +607,7 @@ function Promocilius() {
               💎 Combo Completo
             </div>
             <h3 className="text-2xl md:text-4xl font-black uppercase italic tracking-tighter mb-2">
-              Leve <span className="text-yellow-300">TUDO</span> por R$ 80
+              Leve <span className="text-yellow-300">TUDO</span> por R$ 66
             </h3>
             <p className="text-white/90 text-sm md:text-base mb-5">
               Pagamento único, acesso vitalício aos 3 cursos + atualizações para sempre.
@@ -631,7 +631,7 @@ function Promocilius() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/25 rounded-2xl p-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-white/70 font-bold">Combo completo</p>
-                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 80,00</p>
+                <p className="text-3xl md:text-4xl font-black text-yellow-300">R$ 66,00</p>
                 <p className="text-[10px] uppercase tracking-widest text-white/70">Pagamento único</p>
               </div>
               <PulseButton
@@ -639,7 +639,7 @@ function Promocilius() {
                 variant="green"
                 className="py-4 px-8 rounded-full text-base md:text-lg text-white"
               >
-                QUERO O COMBO — R$ 80
+                QUERO O COMBO — R$ 66
               </PulseButton>
             </div>
             <p className="text-[11px] text-white/80 mt-3 text-center">
