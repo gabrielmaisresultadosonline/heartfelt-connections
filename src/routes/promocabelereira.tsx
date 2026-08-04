@@ -490,6 +490,9 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 <span className="text-2xl font-black text-[#d82298]">R$ {total},00</span>
               </div>
 
+            </div>
+
+            <div className="space-y-3 order-3 md:col-start-2">
               {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2">{err}</p>}
               
               {step === 1 ? (
