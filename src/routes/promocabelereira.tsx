@@ -45,6 +45,17 @@ function PromoCabelereira() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const nextCert = () => setActiveCert((p) => (p + 1) % certificates.length);
+  const prevCert = () => setActiveCert((p) => (p - 1 + certificates.length) % certificates.length);
+
+  useEffect(() => {
+    if (!autoPlay || openCert !== null) return;
+    const id = setInterval(() => {
+      setActiveCert((p) => (p + 1) % certificates.length);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [autoPlay, openCert, certificates.length]);
+
   const PulseButton = ({ children, className = "", asCheckout = false, variant }: { children: React.ReactNode; className?: string; asCheckout?: boolean; variant?: "pink" | "black" | "green" | "yellow" }) => {
     const palette = variant ?? (asCheckout ? "green" : "pink");
     const colors = {
@@ -121,10 +132,34 @@ function PromoCabelereira() {
       </section>
 
       <section className="py-32 px-6 container mx-auto relative z-30 bg-white rounded-[5rem] shadow-2xl -mt-10 mb-20 border border-gray-100">
-         <div className="text-center">
-           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter mb-10 text-[#d82298]">Conteúdo do Curso</h2>
-           <p className="text-gray-600 text-lg mb-10">O curso Cabelereira PRO 2027 utiliza a metodologia completa do Alisamento Perfeito com novos módulos exclusivos.</p>
-           <PulseButton className="py-5 px-10 rounded-full text-lg">QUERO ME INSCREVER AGORA →</PulseButton>
+         <div className="grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
+           <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="relative mx-auto lg:mx-0">
+             <div className="rounded-[3rem] overflow-hidden shadow-2xl border-8 border-[#fafafa] max-w-[500px]">
+               <img loading="lazy" decoding="async" src={images.alessandra} alt="Alessandra Linhares" className="w-full aspect-square object-cover" />
+             </div>
+             <div className="absolute -bottom-6 -right-6 bg-[#d82298] text-white p-8 rounded-3xl shadow-xl z-20 hidden md:block">
+               <p className="text-4xl font-black italic tracking-tighter leading-none">10+ ANOS</p>
+               <p className="text-xs uppercase font-bold tracking-widest mt-2">Experiência Real</p>
+             </div>
+           </motion.div>
+           <motion.div initial={{ opacity: 1, x: 0 }} whileInView={{ opacity: 1, x: 0 }} className="max-w-2xl mx-auto lg:mx-0">
+             <div className="flex items-center justify-center lg:justify-start gap-2 text-[#d82298] mb-6">
+               <Heart className="fill-[#d82298]" size={24} />
+               <span className="font-black uppercase tracking-widest text-sm">Legado de Família</span>
+             </div>
+             <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 uppercase italic tracking-tighter leading-none">
+               QUEM É <br/> <span className="text-[#d82298]">ALESSANDRA LINHARES</span>
+             </h2>
+             <div className="space-y-6 text-lg text-gray-600 font-light leading-relaxed">
+               <p>Sou <strong>Alessandra Linhares</strong>, fundadora do <strong>Salão de Beleza AL</strong>. Cresci vendo minha mãe transformar vidas, e esse amor foi passado <strong>de mãe para filha</strong>.</p>
+               <p>Com mais de 10 anos de experiência real, trago para você as técnicas práticas que realmente funcionam no dia a dia do salão, para que você mude sua realidade e de sua família.</p>
+             </div>
+           </motion.div>
+         </div>
+         <div className="text-center mt-16">
+           <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+             QUERO APRENDER COM A ALESSANDRA →
+           </PulseButton>
          </div>
       </section>
 
