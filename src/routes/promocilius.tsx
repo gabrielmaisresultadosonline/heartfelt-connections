@@ -743,7 +743,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               <p className="text-xs sm:text-sm text-gray-500 mt-2">Curso de Extensão de Cílios</p>
             </div>
             <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-              <div className="space-y-4">
+              <div className="space-y-4 md:col-start-1 md:row-start-2">
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
                 <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
@@ -762,11 +762,12 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 md:col-start-2 md:row-start-1">
+
 
               <div className="pt-2">
-                <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2">
-                  🛒 Sua compra
+                <p className="text-[11px] sm:text-xs font-black text-gray-700 uppercase tracking-wider mb-2 flex items-center gap-2">
+                  <ShoppingBag size={14} className="text-[#d82298]" /> Sua compra
                 </p>
                 <div className="flex items-start gap-3 p-4 rounded-xl border-2 border-[#d82298] bg-gradient-to-br from-pink-50 to-fuchsia-50 mb-4">
                   <div className="mt-0.5 w-4 h-4 rounded-sm bg-[#d82298] flex items-center justify-center shrink-0">
