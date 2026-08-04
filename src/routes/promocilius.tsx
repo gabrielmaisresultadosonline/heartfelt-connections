@@ -675,7 +675,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   const [bumpVitalicio, setBumpVitalicio] = useState(false);
   const [bumpAlisamento, setBumpAlisamento] = useState(false);
   const [bumpCabelereira, setBumpCabelereira] = useState(false);
-  const [bumpSeguidores, setBumpSeguidores] = useState(true);
+  const [bumpSeguidores, setBumpSeguidores] = useState(false);
   const [instagram, setInstagram] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -834,6 +834,11 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite nossos descontos exclusivos!</p>
                 <div className={`mb-3 p-3 rounded-xl border-2 transition-all duration-300 bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]`}>
                   <label className="flex items-start gap-3 cursor-pointer">
+                    {!bumpSeguidores && (
+                      <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 0.9, ease: "easeInOut" }} className="mt-0.5 shrink-0 text-yellow-300">
+                        <ArrowRight size={16} strokeWidth={3} />
+                      </motion.span>
+                    )}
                     <input type="checkbox" checked={bumpSeguidores} onChange={(e) => setBumpSeguidores(e.target.checked)}
                       className="mt-1 accent-white w-4 h-4" />
                     <div className="flex-1 min-w-0">
