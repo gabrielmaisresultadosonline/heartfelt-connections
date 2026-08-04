@@ -116,7 +116,7 @@ function PromoCabelereira() {
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
               <PulseButton variant="yellow" asCheckout className="py-6 px-12 rounded-[2.5rem] text-2xl">
-                Garantir Minha Vaga PRO
+                Garantir Minha Vaga PRO — R$ 25
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
                 <p className="text-sm line-through text-white/60 font-bold">De R$ 197</p>
@@ -158,7 +158,7 @@ function PromoCabelereira() {
          </div>
          <div className="text-center mt-16">
             <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
-              QUERO APRENDER COM A ALESSANDRA →
+              QUERO APRENDER COM A ALESSANDRA POR R$ 25 →
             </PulseButton>
          </div>
       </section>
@@ -207,7 +207,7 @@ function PromoCabelereira() {
         </div>
         <div className="text-center mt-10">
           <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
-            COMEÇAR MEU CURSO AGORA →
+            COMEÇAR MEU CURSO AGORA POR R$ 25 →
           </PulseButton>
         </div>
       </section>
@@ -226,10 +226,10 @@ function PromoCabelereira() {
               </motion.div>
             ))}
           </div>
-          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 29,00</span></p>
+          <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 25,00</span></p>
           <div className="mt-10">
             <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
-              GARANTIR MEUS BÔNUS →
+              GARANTIR MEUS BÔNUS POR R$ 25 →
             </PulseButton>
           </div>
         </div>
