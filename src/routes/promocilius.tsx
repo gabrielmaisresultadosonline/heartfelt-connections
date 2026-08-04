@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList } from "lucide-react";
+import { Scissors, Award, Users, ShoppingBag, CheckCircle, Star, Heart, Sparkles, Paintbrush, Calendar, FileCheck, Flower2, ChevronLeft, ChevronRight, X, Loader2, LogIn, Gift, FileText, BookOpen, PlayCircle, ClipboardList, ArrowRight } from "lucide-react";
 import alessandraImg from "@/assets/alessandra.webp";
 import heroAlessandra from "@/assets/hero-alessandra.webp";
 const heroImg = { url: "/curso-cilios.png" };
@@ -786,7 +786,14 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   Turbine sua formação
                 </p>
                 <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite nossos descontos exclusivos!</p>
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition relative ${bumpSobrancelha ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <motion.div 
+                    animate={{ x: [0, 5, 0] }} 
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    className="absolute -left-8 top-1/2 -translate-y-1/2 text-[#d82298] hidden sm:block"
+                  >
+                    <ArrowRight size={20} className="fill-[#d82298]" />
+                  </motion.div>
                   <input
                     type="checkbox"
                     checked={bumpSobrancelha}
@@ -795,7 +802,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Sobrancelha</p>
-                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso de design de sobrancelha por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpAlisamento ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -807,7 +814,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Alisamento Perfeito</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de alisamento por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso completo de alisamento por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -819,7 +826,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
-                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
+                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <br/><strong className="text-[#d82298]">+R$ 9</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
@@ -831,16 +838,17 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Cabelereira PRO 2027</p>
-                    <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                    <p className="text-xs text-gray-600">Adicione a formação PRO 2027 por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
-                <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "border-indigo-400 bg-indigo-50 shadow-md" : "border-gray-200 hover:border-pink-300"}`}>
+                <div className={`mt-2 p-3 rounded-xl border-2 transition-all duration-300 ${bumpSeguidores ? "bg-gradient-to-br from-[#d82298] to-pink-500 border-yellow-400 shadow-lg scale-[1.02]" : "border-gray-200 hover:border-pink-300"}`}>
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input type="checkbox" checked={bumpSeguidores} onChange={(e) => setBumpSeguidores(e.target.checked)}
-                      className="mt-1 accent-indigo-600 w-4 h-4" />
-                    <div className="flex-1">
-                      <p className="text-sm font-black text-indigo-900 uppercase italic">🔥 Marketing Completo Instagram (+ R$ 97)</p>
-                      <p className="text-[10px] text-indigo-700/70">2000 seguidores + 5 mil alcance + curtidas/comentários</p>
+                      className="mt-1 accent-white w-4 h-4" />
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-black uppercase italic leading-tight ${bumpSeguidores ? "text-white" : "text-[#d82298]"}`}>🔥 MARKETING COMPLETO INSTAGRAM</p>
+                      <p className={`text-lg font-black mt-1 ${bumpSeguidores ? "text-yellow-300" : "text-[#d82298]"}`}>(+ R$ 97)</p>
+                      <p className={`text-[10px] mt-1 font-bold ${bumpSeguidores ? "text-white/90" : "text-gray-500"}`}>2000 seguidores + 5 mil alcance + curtidas/comentários</p>
                     </div>
                   </label>
                   {bumpSeguidores && (
