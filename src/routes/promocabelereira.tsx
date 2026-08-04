@@ -376,7 +376,14 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   </div>
                 </label>
 
-                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition relative ${bumpCilios ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <motion.div 
+                    animate={{ x: [0, 5, 0] }} 
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    className="absolute -left-8 top-1/2 -translate-y-1/2 text-[#d82298] hidden sm:block"
+                  >
+                    <ArrowRight size={20} className="fill-[#d82298]" />
+                  </motion.div>
                   <input
                     type="checkbox"
                     checked={bumpCilios}
@@ -385,7 +392,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
-                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                    <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <br/><strong className="text-[#d82298]">+R$ 14</strong></p>
                   </div>
                 </label>
 
