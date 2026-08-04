@@ -270,14 +270,15 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     setErr(null);
     setLoading(true);
     try {
-      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "alisamento")[] = [];
+      const bumps: ("sobrancelha" | "vitalicio" | "cilios" | "alisamento" | "seguidores")[] = [];
       if (bumpAlisamento) bumps.push("alisamento");
       if (bumpCilios) bumps.push("cilios");
       if (bumpSobrancelha) bumps.push("sobrancelha");
       if (bumpVitalicio) bumps.push("vitalicio");
+      if (bumpSeguidores) bumps.push("seguidores");
 
       const r = await createCheckout({
-        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), main: "cabelereira-pro", bumps },
+        data: { name: name.trim(), email: email.trim(), phone: phone.trim(), main: "cabelereira-pro", bumps, instagram: bumpSeguidores ? instagram : undefined },
       });
       if (!r.ok) {
         setErr(r.error || "Erro ao gerar checkout");
