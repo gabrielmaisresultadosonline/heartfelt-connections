@@ -319,8 +319,8 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               </h3>
               <p className="text-xs sm:text-sm text-gray-500 mt-2">Formação Cabelereira PRO 2027</p>
             </div>
-            <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-              <div className="space-y-4 md:col-start-1 md:row-start-2">
+            <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div className="space-y-4 order-2 md:order-1">
               <div>
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Nome completo</label>
                 <input required minLength={2} value={name} onChange={(e) => setName(e.target.value)}
@@ -339,7 +339,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
               </div>
             </div>
 
-            <div className="space-y-4 md:col-start-2 md:row-start-1">
+            <div className="space-y-4 order-1 md:order-2">
 
 
               <div className="pt-2">
