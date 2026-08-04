@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, ArrowRight, Scissors, Eye, Flower2, Instagram } from "lucide-react";
+import { Sparkles, ArrowRight, Scissors, Eye, Flower2, Heart } from "lucide-react";
 import marketingSalaoAsset from "@/assets/marketing-salao.png.asset.json";
 
 const cabelereiraProCover = "/cabelereira-pro-cover.png";
@@ -77,7 +77,7 @@ const cursos: Curso[] = [
     tagline: "Mais clientes e seguidores no seu salão de beleza — público filtrado por região.",
     price: "Confira agora",
     image: marketingSalaoAsset.url,
-    icon: <Instagram size={20} />,
+    icon: <Heart size={20} />,
     gradient: "from-purple-600 to-pink-500",
     isExternal: true,
   },
