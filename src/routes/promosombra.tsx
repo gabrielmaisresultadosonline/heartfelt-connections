@@ -135,7 +135,7 @@ function Promosombra() {
               <span className="font-black block mt-4 text-white text-3xl">Certificado MEC Incluso.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
-              <PulseButton variant="yellow" className="py-6 px-12 rounded-[2.5rem] text-2xl">
+              <PulseButton variant="yellow" asCheckout className="py-6 px-12 rounded-[2.5rem] text-2xl">
                 Garantir Minha Vaga
               </PulseButton>
               <div className="bg-black/20 backdrop-blur-md px-8 py-5 rounded-3xl border border-white/20">
@@ -180,7 +180,7 @@ function Promosombra() {
           </motion.div>
         </div>
         <div className="text-center mt-16">
-          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+          <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
             QUERO APRENDER COM A ALESSANDRA →
           </PulseButton>
         </div>
@@ -228,7 +228,7 @@ function Promosombra() {
           ))}
         </div>
         <div className="text-center mt-10">
-          <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+          <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
             COMEÇAR MEU CURSO AGORA →
           </PulseButton>
         </div>
@@ -249,7 +249,7 @@ function Promosombra() {
           </div>
           <p className="text-3xl md:text-5xl font-black mt-24 uppercase italic tracking-tighter text-white">Acesso Vitalício: <span className="line-through text-white/40 text-2xl md:text-3xl">De R$ 197</span> <span className="text-[#d82298]">R$ 29,00</span></p>
           <div className="mt-10">
-            <PulseButton className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
+            <PulseButton asCheckout className="inline-block py-5 px-10 rounded-full text-lg md:text-xl">
               GARANTIR MEUS BÔNUS →
             </PulseButton>
           </div>
@@ -684,7 +684,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open]);
 
   const base = 29;
-  const extras = (bumpAlisamento ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpVitalicio ? 14 : 0) + (bumpCabelereira ? 14 : 0);
+  const extras = (bumpAlisamento ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCabelereira ? 14 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -780,7 +780,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                 <p className="text-sm sm:text-base font-black text-amber-900 uppercase tracking-tight mt-1 mb-1">
                   Turbine sua formação
                 </p>
-                <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite: Só R$ 14 cada curso extra!</p>
+                <p className="text-[11px] text-amber-800/80 mb-3 italic font-bold underline">Aproveite nossos descontos exclusivos!</p>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition ${bumpAlisamento ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
                   <input
                     type="checkbox"
@@ -814,7 +814,19 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   />
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
-                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 14</strong></p>
+                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
+                  </div>
+                </label>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpVitalicio}
+                    onChange={(e) => setBumpVitalicio(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
+                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
