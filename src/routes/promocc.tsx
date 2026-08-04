@@ -684,7 +684,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open]);
 
   const base = 10;
-  const extras = (bumpSobrancelha ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpCabelereira ? 14 : 0);
+  const extras = (bumpSobrancelha ? 14 : 0) + (bumpCilios ? 14 : 0) + (bumpVitalicio ? 9 : 0) + (bumpCabelereira ? 14 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
@@ -692,10 +692,11 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
     setErr(null);
     setLoading(true);
     try {
-      const bumps: ("sobrancelha" | "cilios" | "cabelereira-pro")[] = [];
+      const bumps: ("sobrancelha" | "cilios" | "cabelereira-pro" | "vitalicio")[] = [];
       if (bumpSobrancelha) bumps.push("sobrancelha");
       if (bumpCilios) bumps.push("cilios");
       if (bumpCabelereira) bumps.push("cabelereira-pro");
+      if (bumpVitalicio) bumps.push("vitalicio");
       const r = await createCheckout({
         data: { name: name.trim(), email: email.trim(), phone: phone.trim(), bumps },
       });
@@ -803,6 +804,18 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
                   <div className="flex-1">
                     <p className="text-sm font-black text-gray-900">Curso de Extensão de Cílios</p>
                     <p className="text-xs text-gray-600">Adicione o curso completo de extensão de cílios por apenas <strong className="text-[#d82298]">+R$ 14</strong></p>
+                  </div>
+                </label>
+                <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpVitalicio ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
+                  <input
+                    type="checkbox"
+                    checked={bumpVitalicio}
+                    onChange={(e) => setBumpVitalicio(e.target.checked)}
+                    className="mt-1 accent-[#d82298] w-4 h-4"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-gray-900">Atualizações Vitalícias</p>
+                    <p className="text-xs text-gray-600">Todas as novas aulas e atualizações para sempre por <strong className="text-[#d82298]">+R$ 9</strong></p>
                   </div>
                 </label>
                 <label className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition mt-2 ${bumpCabelereira ? "border-[#d82298] bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>

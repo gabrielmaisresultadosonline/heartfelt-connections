@@ -684,7 +684,7 @@ function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open]);
 
   const base = 29;
-  const extras = (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 14 : 0) + (bumpAlisamento ? 14 : 0) + (bumpCabelereira ? 14 : 0);
+  const extras = (bumpSobrancelha ? 14 : 0) + (bumpVitalicio ? 9 : 0) + (bumpAlisamento ? 14 : 0) + (bumpCabelereira ? 14 : 0);
   const total = base + extras;
 
   async function onSubmit(e: React.FormEvent) {
