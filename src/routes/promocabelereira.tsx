@@ -128,7 +128,7 @@ function PromoCabelereira() {
             </div>
           </motion.div>
           <motion.div className="relative hidden lg:block">
-            <img loading="eager" fetchPriority="high" src={images.hero} alt="Curso" className="rounded-[4rem] border-[12px] border-white/20 shadow-2xl w-full aspect-[4/5] object-cover" />
+            <img loading="eager" fetchPriority="high" src={images.hero} alt="Curso" className="rounded-[4rem] border-[12px] border-white/20 shadow-2xl w-full aspect-[4/5] object-cover object-[right_center]" />
           </motion.div>
         </div>
       </section>
