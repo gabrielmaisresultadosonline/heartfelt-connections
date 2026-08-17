@@ -11,7 +11,11 @@
  * Requer as variáveis de ambiente:
  *   - META_PIXEL_ID          (default: 3107330676076780 — o pixel do projeto)
  *   - META_CAPI_ACCESS_TOKEN (obrigatório; sem ele o envio é ignorado)
-...
+ *   - META_TEST_EVENT_CODE   (opcional, para "Testar eventos" no Meta)
+ */
+
+import { createHash } from "crypto";
+
 const DEFAULT_PIXEL_ID = "3107330676076780";
 
 function sha256Lower(v: string | null | undefined): string | undefined {

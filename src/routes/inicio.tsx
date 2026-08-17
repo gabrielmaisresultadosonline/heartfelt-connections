@@ -142,7 +142,7 @@ function InicioPage() {
             }
 
             return (
-              <Link key={c.slug} to={c.to} className="block">
+              <Link key={c.slug} to={c.to as any} className="block">
                 {content}
               </Link>
             );
