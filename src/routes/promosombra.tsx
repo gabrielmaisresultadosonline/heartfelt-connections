@@ -51,6 +51,9 @@ function Promosombra() {
       (window as any).fbq("track", "Lead");
     }
   };
+      (window as any).fbq("track", "Lead");
+    }
+  };
   const scrollToOferta = (e: React.MouseEvent) => {
     e.preventDefault();
     const el = document.getElementById("oferta");
