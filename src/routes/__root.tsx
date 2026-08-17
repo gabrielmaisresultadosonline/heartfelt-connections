@@ -43,7 +43,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           t.src=v;s=b.getElementsByTagName(e)[0];
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '1010499811488287');
+          fbq('init', '3107330676076780');
           fbq('track', 'PageView');
         `,
       },
@@ -63,7 +63,7 @@ function RootComponent() {
           height="1"
           width="1"
           style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=1010499811488287&ev=PageView&noscript=1"
+          src="https://www.facebook.com/tr?id=3107330676076780&ev=PageView&noscript=1"
         />
       </noscript>
       <Outlet />
